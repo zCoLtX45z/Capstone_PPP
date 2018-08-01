@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class FollowPlayer : NetworkBehaviour {
+public class FollowPlayer : MonoBehaviour
+{
 
     [SerializeField]
     private float MaxYOffset = 2;
