@@ -14,7 +14,13 @@ public class Spring : MonoBehaviour {
     [SerializeField]
     private float VerticeLength = 1;
     [SerializeField]
+    private float MaxLength = 1;
+    [SerializeField]
+    private float SpringDamper = 0.7f;
+    [SerializeField]
     private float SpringForceModulus = 1;
+    [SerializeField]
+    private bool AttachedToPlayer = false;
 
     // Active Variables
     private Vector3 displacement;
@@ -35,11 +41,18 @@ public class Spring : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        displacement = JointOne.transform.position - JointTwo.transform.position;
+        distance = displacement.magnitude;
+        if (distance > VerticeLength + MaxLength)
+            distance = VerticeLength + MaxLength;
+        force = SpringForceModulus * (distance - VerticeLength) * SpringDamper;
 
-        force = SpringForceModulus * (distance - VerticeLength);
+        if (AttachedToPlayer)
+        {
+            RB1.AddForce(force * Vector3.up, ForceMode.Force);
+        }
 
-
-        RB1.AddForce(-force * Vector3.up, ForceMode.Force);
-        RB2.AddForce(force * Vector3.up, ForceMode.Force);
+        RB2.AddForce(-force * Vector3.up, ForceMode.Force);
+        Debug.Log("Force to Player " + -force);
     }
 }
