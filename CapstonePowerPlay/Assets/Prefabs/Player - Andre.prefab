@@ -743,6 +743,7 @@ GameObject:
   - component: {fileID: 124131970710502684}
   - component: {fileID: 81176845090810310}
   - component: {fileID: 114673560244831592}
+  - component: {fileID: 114829919929251084}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -1114,6 +1115,8 @@ GameObject:
   - component: {fileID: 54480225447147954}
   - component: {fileID: 114205536940851824}
   - component: {fileID: 114983518240250054}
+  - component: {fileID: 135332825305395232}
+  - component: {fileID: 114652202075144726}
   m_Layer: 0
   m_Name: Player - Andre
   m_TagString: Untagged
@@ -3394,6 +3397,8 @@ MonoBehaviour:
     m_Bits: 257
   Feet: {fileID: 4764230957455434}
   CharacterSpring: {fileID: 114253127329550328}
+  camGurl: {fileID: 0}
+  camGurl2: {fileID: 0}
 --- !u!114 &114245170299968136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3832,6 +3837,35 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: X
+--- !u!114 &114652202075144726
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1594266346463420}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4fc167d49c6c5c48a101660dd96da0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  softLockAngle: 110
+  distanceToTarget: 0
+  listOfTeamates:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  angle: 0
+  target: {fileID: 0}
+  currentAcceptedTargets: []
 --- !u!114 &114653985356236674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3969,6 +4003,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114829919929251084
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1410903512868754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4fc167d49c6c5c48a101660dd96da0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  softLockAngle: 110
+  distanceToTarget: 0
+  listOfTeamates:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  angle: 0
+  target: {fileID: 0}
+  currentAcceptedTargets: []
 --- !u!114 &114983518240250054
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4002,6 +4065,18 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1410903512868754}
   m_Enabled: 1
+--- !u!135 &135332825305395232
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1594266346463420}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 8.19
+  m_Center: {x: 0, y: 3.49, z: 0}
 --- !u!136 &136421507342395590
 CapsuleCollider:
   m_ObjectHideFlags: 1
