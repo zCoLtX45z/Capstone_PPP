@@ -25,7 +25,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     private float angle = 0;
 
     [SerializeField]
-    private GameObject target;
+    public GameObject target;
     
     //private GameObject currentTarget;
 
@@ -35,7 +35,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		//listOfTeamates = 
+	    
 	}
 	
 	// Update is called once per frame

@@ -731,6 +731,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1409076750505436
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4448982800904048}
+  m_Layer: 0
+  m_Name: gHand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1410903512868754
 GameObject:
   m_ObjectHideFlags: 0
@@ -1116,7 +1131,7 @@ GameObject:
   - component: {fileID: 114205536940851824}
   - component: {fileID: 114983518240250054}
   - component: {fileID: 135332825305395232}
-  - component: {fileID: 114652202075144726}
+  - component: {fileID: 114734337461599452}
   m_Layer: 0
   m_Name: Player - Andre
   m_TagString: Untagged
@@ -2077,7 +2092,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1852648952637174}
-  m_LocalRotation: {x: 0.060290657, y: -0.7045318, z: 0.060290784, w: 0.7045318}
+  m_LocalRotation: {x: 0.06029064, y: -0.7045318, z: 0.060290765, w: 0.7045318}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2400,6 +2415,19 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4013905086088592}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4448982800904048
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1409076750505436}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4651786824799684}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4451045212831190
@@ -2736,7 +2764,8 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4448982800904048}
   m_Father: {fileID: 4127778541307728}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3837,35 +3866,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: X
---- !u!114 &114652202075144726
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1594266346463420}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4fc167d49c6c5c48a101660dd96da0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  softLockAngle: 110
-  distanceToTarget: 0
-  listOfTeamates:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  angle: 0
-  target: {fileID: 0}
-  currentAcceptedTargets: []
 --- !u!114 &114653985356236674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3992,6 +3992,24 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114734337461599452
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1594266346463420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b611f4471c62cef4897d3df1c9fdae0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShootForce: 30
+  PassForce: 20
+  Cam: {fileID: 20324510234479462}
+  LookPointer: {fileID: 0}
+  Hand: {fileID: 4448982800904048}
+  canHold: 0
+  canHoldTimer: 1
 --- !u!114 &114815127484671358
 MonoBehaviour:
   m_ObjectHideFlags: 1

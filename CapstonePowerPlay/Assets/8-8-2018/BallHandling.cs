@@ -15,7 +15,7 @@ public class BallHandling : MonoBehaviour {
     private Camera Cam;
     private Vector3 Direction;
     [SerializeField]
-    private Transform LookPointer;
+    private PlayerSoftlockPassSight softLockScript;
 
     // Target for passes
     private GameObject Target;
@@ -49,7 +49,7 @@ public class BallHandling : MonoBehaviour {
             {
                 // PASS
                 // Get Target from Targeting Script
-                // Target = 
+                Target = softLockScript.target;
                 Pass(Target);
 
             }
@@ -78,6 +78,9 @@ public class BallHandling : MonoBehaviour {
 
     private void Pass(GameObject Target)
     {
+        Direction = Target.transform.position - ball.transform.position;
+        Direction = Direction.normalized;
+        Direction *= PassForce;
         ball.SetPass(true, Target);
     }
 
