@@ -35,7 +35,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+		//listOfTeamates = 
 	}
 	
 	// Update is called once per frame
