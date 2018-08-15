@@ -78,10 +78,10 @@ public class BallHandling : MonoBehaviour {
 
     private void Pass(GameObject Target)
     {
-        Direction = Target.transform.position - ball.transform.position;
-        Direction = Direction.normalized;
-        Direction *= PassForce;
-        ball.SetPass(true, Target);
+        //Direction = Target.transform.position - ball.transform.position;
+        //Direction = Direction.normalized;
+        //Direction *= PassForce;
+        ball.SetPass(true, Target, PassForce);
     }
 
     private void Shoot()

@@ -18,6 +18,18 @@ public class Ball : MonoBehaviour
     public SphereCollider HardCol;
 
     private float timer = 0;
+
+    private bool isInPassing = false;
+
+
+    private GameObject passedTarget;
+
+    [SerializeField]
+    private float RotSpeed = 0.5f;
+
+    [SerializeField]
+    private float maxDegree = 50;
+   
 	// Use this for initialization
 	void Start ()
     {
@@ -33,6 +45,28 @@ public class Ball : MonoBehaviour
             timer -= Time.deltaTime;
             Held = false;
         }
+
+        if(isInPassing)
+        {
+            Vector3 forwardVector = transform.forward;
+            float lengthOfForwardV = forwardVector.magnitude;
+
+            float angle = Mathf.Acos(Vector3.Dot(transform.forward, (passedTarget.transform.position - transform.position))/(Mathf.Abs(lengthOfForwardV * (passedTarget.transform.position - transform.position).magnitude)));
+
+            angle *= 180 / Mathf.PI;
+
+            angle = Mathf.Abs(angle);
+            // float angle = Vector3.Angle(directionFromPlayer, transform.forward);
+
+            if (angle <= maxDegree)
+            {
+                Vector3 lookPos = passedTarget.transform.position - transform.position;
+
+                var rotation = Quaternion.LookRotation(lookPos);
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * RotSpeed);
+            }
+        }
+
     }
 
 
@@ -74,8 +108,19 @@ public class Ball : MonoBehaviour
         Handle.parent = null;
         RB.AddForce(power, ForceMode.Impulse);
     }
-    public void SetPass(bool Passing, GameObject Target)
+    public void SetPass(bool Passing, GameObject Target, float Force)
     {
-        
+        passedTarget = Target;
+
+        RB.isKinematic = false;
+        Handle.parent = null;
+
+
+        isInPassing = true;
+
+        transform.LookAt(Target.transform.position);
+
+        RB.AddForce(transform.forward * Force, ForceMode.Impulse);
+
     }
 }
