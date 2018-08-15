@@ -53,6 +53,6 @@ public class Spring : MonoBehaviour {
         }
 
         RB2.AddForce(-force * Vector3.up, ForceMode.Force);
-        Debug.Log("Force to Player " + -force);
+        //Debug.Log("Force to Player " + -force);
     }
 }

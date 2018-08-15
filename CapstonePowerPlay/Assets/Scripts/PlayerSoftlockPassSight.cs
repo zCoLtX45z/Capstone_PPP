@@ -25,7 +25,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     private float angle = 0;
 
     [SerializeField]
-    private GameObject target;
+    public GameObject target;
     
     //private GameObject currentTarget;
 
@@ -34,9 +34,21 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start () {
-		
-	}
+    void Awake () {
+        foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            listOfTeamates.Add(playerObj);
+        }
+
+        for (int i = listOfTeamates.Count - 1; i >= 0; --i)
+        {
+            if(listOfTeamates[i].gameObject == transform.parent.gameObject)
+            {
+                listOfTeamates.RemoveAt(i);
+                break;
+            }
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -119,7 +131,8 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
 
 
 
-        
+        currentClossestAngle = 360;
+        target = null;
 
         for (int i = 0; i < currentAcceptedTargets.Count; i++)
         {
@@ -127,26 +140,37 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             currentObjectDirection = currentAcceptedTargets[i].transform.position - transform.position;
             currentAngle = Vector3.Angle(currentObjectDirection, transform.forward);
 
-
+            /*
             if(i== 0)
             {
                 target = currentAcceptedTargets[i].gameObject;
                 currentClossestAngle = currentAngle;
 
             }
-
-            if (currentAngle <= currentClossestAngle)
-            {
-                currentClossestAngle = currentAngle;
-                target = currentAcceptedTargets[i].gameObject;
-            }
+            */
+           
+                
+                if (currentAngle <= currentClossestAngle)
+                {
+                    currentClossestAngle = currentAngle;
+                    target = currentAcceptedTargets[i].gameObject;
+                }
+            
+            //Debug.Log("cCAngle: " + currentClossestAngle);
+            //else
+            //{
+            //    target = null;
+            //}
+           
 
             
 
         }
-        Vector3 targetObjectDirection = target.transform.position - transform.position;
-        Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), targetObjectDirection, Color.yellow);
-
+        if (target != null)
+        {
+            Vector3 targetObjectDirection = target.transform.position - transform.position;
+            Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), targetObjectDirection, Color.yellow);
+        }
 
 
 
