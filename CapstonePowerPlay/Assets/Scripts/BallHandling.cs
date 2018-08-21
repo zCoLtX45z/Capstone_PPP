@@ -33,6 +33,10 @@ public class BallHandling : MonoBehaviour {
 
     // can hold timer
     public float canHoldTimer = 0;
+
+    // Layer the player can pass on
+    [SerializeField]
+    private LayerMask HitLayer;
 	// Use this for initialization
 	void Start () {
         canHold = true;
@@ -41,7 +45,7 @@ public class BallHandling : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         PassShootAxis = Input.GetAxis("PassShoot");
-        Debug.Log("Pass / Shoot Axis: " + PassShootAxis);
+        //Debug.Log("Pass / Shoot Axis: " + PassShootAxis);
 
         if (ball != null)
         {
@@ -88,7 +92,7 @@ public class BallHandling : MonoBehaviour {
     {
         RaycastHit hit;
         Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(ray, out hit);
+        Physics.Raycast(ray, out hit, HitLayer);
         Direction = hit.point;
         Direction = Direction - ball.transform.position;
         Direction = Direction.normalized;
