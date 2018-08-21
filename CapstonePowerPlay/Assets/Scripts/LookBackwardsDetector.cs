@@ -97,7 +97,7 @@ public class LookBackwardsDetector : MonoBehaviour {
             }
         } 
     */
-        Debug.Log(cameraObject.transform.localEulerAngles.y);
+        //Debug.Log(cameraObject.transform.localEulerAngles.y);
 
 
         if (cameraObject.transform.localEulerAngles.y >= 90 && cameraObject.transform.localEulerAngles.y <= 270)

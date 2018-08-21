@@ -60,6 +60,7 @@ public class ThirdPersonController : NetworkBehaviour {
     
 
     void Start () {
+        //Physics.gravity = new Vector3(0, -9.81f, 0);
         Cursor.lockState = CursorLockMode.Locked;
         RB = GetComponent<Rigidbody>();
         RB.mass = PlayerMass;
@@ -185,12 +186,12 @@ public class ThirdPersonController : NetworkBehaviour {
             if (onGround)
             {
                 CharacterSpring.enabled = true;
-                //Debug.Log("ON GROUND");
+                Debug.Log("ON GROUND");
             }
             else
             {
                 CharacterSpring.enabled = false;
-                //Debug.Log("NOT ON GROUND");
+                Debug.Log("NOT ON GROUND");
             }
 
             if (JumpAxis > 0.1f && onGround)

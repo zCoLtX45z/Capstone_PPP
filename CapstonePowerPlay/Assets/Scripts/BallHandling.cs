@@ -45,7 +45,7 @@ public class BallHandling : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         PassShootAxis = Input.GetAxis("PassShoot");
-        Debug.Log("Pass / Shoot Axis: " + PassShootAxis);
+        //Debug.Log("Pass / Shoot Axis: " + PassShootAxis);
 
         if (ball != null)
         {
