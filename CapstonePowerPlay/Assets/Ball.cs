@@ -108,6 +108,19 @@ public class Ball : MonoBehaviour
         Handle.parent = null;
         RB.AddForce(power, ForceMode.Impulse);
     }
+    public void SetPass(bool Passing, GameObject Target, float Force)
     {
+        passedTarget = Target;
+
+        RB.isKinematic = false;
+        Handle.parent = null;
+
+
+        isInPassing = true;
+
+        transform.LookAt(Target.transform.position);
+
+        RB.AddForce(transform.forward * Force, ForceMode.Impulse);
+
     }
 }
