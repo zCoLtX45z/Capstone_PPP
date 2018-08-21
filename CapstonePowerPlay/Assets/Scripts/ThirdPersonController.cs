@@ -60,7 +60,7 @@ public class ThirdPersonController : NetworkBehaviour {
     
 
     void Start () {
-
+        Cursor.lockState = CursorLockMode.Locked;
         RB = GetComponent<Rigidbody>();
         RB.mass = PlayerMass;
         //CJ = GetComponent<ConfigurableJoint>();
