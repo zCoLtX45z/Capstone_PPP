@@ -3596,11 +3596,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ffd7a7af9abe514a96514ab226cd9fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpForce: 700
-  MoveForce: 3000
-  TurnTorque: 1500
+  JumpForce: 300
+  MoveForce: 4000
+  TurnTorque: 600
   PlayerMass: 80
   FloatDistance: 0.3
+  MaxSpeed: 13
   CharacterSpring: {fileID: 114449586833330854}
   GroundLayer:
     serializedVersion: 2
@@ -3608,7 +3609,6 @@ MonoBehaviour:
   Feet: {fileID: 4908493210627178}
   camGurl: {fileID: 1380006652694180}
   camGurl2: {fileID: 1457216029164900}
-  MeshRB: {fileID: 54483419145861632}
 --- !u!114 &114219099818413074
 MonoBehaviour:
   m_ObjectHideFlags: 1

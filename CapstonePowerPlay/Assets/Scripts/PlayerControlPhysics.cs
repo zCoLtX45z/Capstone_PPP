@@ -19,6 +19,10 @@ public class PlayerControlPhysics : NetworkBehaviour
     [SerializeField]
     private float FloatDistance = 0.2f;
     [SerializeField]
+    private float MaxSpeed = 20f;
+    //[SerializeField]
+    //private float MaxSpin = 80f;
+    [SerializeField]
     private Spring CharacterSpring;
 
     // Body Parts
@@ -39,12 +43,13 @@ public class PlayerControlPhysics : NetworkBehaviour
 
     // Rigidbody
     private Rigidbody RB;
-    [SerializeField]
-    private Rigidbody MeshRB;
+    //[SerializeField]
+    //private Rigidbody MeshRB;
     private Transform Trans;
 
     // Use this for initialization
     void Start () {
+        //MaxSpin *= Mathf.PI / 180;
         Physics.gravity = new Vector3(0, -20, 0);
         Cursor.lockState = CursorLockMode.Locked;
         RB = GetComponent<Rigidbody>();
@@ -70,7 +75,7 @@ public class PlayerControlPhysics : NetworkBehaviour
         //local player control
         if (isLocalPlayer)
         {
-
+            
             // Get Axis of Movement
             MoveAxis = Input.GetAxis("Move");
             TurnAxis = Input.GetAxis("Turn");
@@ -94,7 +99,7 @@ public class PlayerControlPhysics : NetworkBehaviour
                 TurnAxis = 0;
             }
             RB.AddTorque(TurnAxis * Feet.up * TurnTorque, ForceMode.Force);
-            MeshRB.AddTorque(TurnAxis * Feet.up * TurnTorque, ForceMode.Force);
+            //MeshRB.AddTorque(TurnAxis * Feet.up * TurnTorque, ForceMode.Force);
             //Debug.Log("Turn Force: " + TurnAxis * Trans.up * TurnTorque);
             //Debug.Log("Turn Torque Quantity: " + TurnTorque);
 
@@ -118,5 +123,13 @@ public class PlayerControlPhysics : NetworkBehaviour
                 RB.AddForce(Trans.up * JumpForce, ForceMode.Impulse);
             }
         }
+        if (RB.velocity.magnitude > MaxSpeed)
+        {
+            RB.velocity = RB.velocity / (RB.velocity.magnitude - MaxSpeed + 1);
+        }
+        //if (Mathf.Abs(RB.angularVelocity.y) > MaxSpin)
+        //{
+        //    RB.angularVelocity = RB.angularVelocity / (Mathf.Abs(RB.angularVelocity.y) - MaxSpeed + 1);
+        //}
     }
 }
