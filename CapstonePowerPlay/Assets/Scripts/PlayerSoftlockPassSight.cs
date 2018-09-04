@@ -120,21 +120,34 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                         Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
                     }
                 }
+                else
+                {
+                    for (int j = 0; j < currentAcceptedTargets.Count; j++)
+                    {
+                        if (currentAcceptedTargets[j] == listOfTeamates[i])
+                        {
+                            Debug.Log("test: " + currentAcceptedTargets[j]);
+                            currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
+                        }
+                    }
+                    Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
+                }
             }
             
-
+            /*
             else
             {
                 for (int j = 0; j < currentAcceptedTargets.Count; j++)
                 {
                     if (currentAcceptedTargets[j] == listOfTeamates[i])
                     {
+                        Debug.Log("test: " + currentAcceptedTargets[j]);
                         currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
                     }
                 }
                 Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
             }
-
+            */
                 
         }
 
