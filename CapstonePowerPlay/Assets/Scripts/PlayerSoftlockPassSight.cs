@@ -162,7 +162,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
 
 
 
-        currentClossestAngle = 360;
+       // currentClossestAngle = 360;
         target = null;
 
         for (int i = 0; i < currentAcceptedTargets.Count; i++)
