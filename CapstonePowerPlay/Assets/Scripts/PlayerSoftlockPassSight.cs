@@ -65,58 +65,89 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             //Vector3 forward = transform.TransformDirection(Vector3.forward) * 10;
             //Debug.DrawRay(transform.position, forward, Color.green);
 
+            RaycastHit tempHit = new RaycastHit();
 
-
-            if (angle < softLockAngle / 2)
+            if (Physics.Raycast(transform.position, directionFromPlayer, out tempHit, Mathf.Infinity))
             {
-                int temp = 0;
-                Debug.Log("TEMP: " + temp);
-                Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), directionFromPlayer, Color.blue);
+                if (tempHit.transform.gameObject == listOfTeamates[i])
+                {
+                    if (angle < softLockAngle / 2)
+                    {
+                        int temp = 0;
+                        Debug.Log("TEMP: " + temp);
+                        Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), directionFromPlayer, Color.blue);
 
 
 
 
-                if(currentAcceptedTargets.Count > 0)
+                        if (currentAcceptedTargets.Count > 0)
+                        {
+                            for (int j = 0; j < currentAcceptedTargets.Count; j++)
+                            {
+                                if (currentAcceptedTargets[j] == listOfTeamates[i])
+                                {
+                                    Debug.Log("acceptedTargets == number of teamates");
+                                    break;
+                                }
+                                else
+                                {
+                                    Debug.Log("acceptedTargets != number of teamates!");
+
+                                    temp += 1;
+                                }
+                                if (temp >= currentAcceptedTargets.Count)
+                                {
+                                    Debug.Log("Add player to accepted targets list");
+
+                                    currentAcceptedTargets.Add(listOfTeamates[i].gameObject);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            currentAcceptedTargets.Add(listOfTeamates[i].gameObject);
+                        }
+                    }
+                    else
+                    {
+                        for (int j = 0; j < currentAcceptedTargets.Count; j++)
+                        {
+                            if (currentAcceptedTargets[j] == listOfTeamates[i])
+                            {
+                                currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
+                            }
+                        }
+                        Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
+                    }
+                }
+                else
                 {
                     for (int j = 0; j < currentAcceptedTargets.Count; j++)
                     {
                         if (currentAcceptedTargets[j] == listOfTeamates[i])
                         {
-                            Debug.Log("enteredededeeeedeedeed");
-                            break;
-                        }
-                        else
-                        {
-                            Debug.Log("wazzup!");
-
-                            temp += 1;
-                        }
-                        if (temp >= currentAcceptedTargets.Count)
-                        {
-                            Debug.Log("FISH!!!");
-
-                            currentAcceptedTargets.Add(listOfTeamates[i].gameObject);
+                            Debug.Log("test: " + currentAcceptedTargets[j]);
+                            currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
                         }
                     }
-                }
-                else
-                {
-                    currentAcceptedTargets.Add(listOfTeamates[i].gameObject);
+                    Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
                 }
             }
-
+            
+            /*
             else
             {
                 for (int j = 0; j < currentAcceptedTargets.Count; j++)
                 {
                     if (currentAcceptedTargets[j] == listOfTeamates[i])
                     {
+                        Debug.Log("test: " + currentAcceptedTargets[j]);
                         currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
                     }
                 }
                 Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
             }
-
+            */
                 
         }
 
@@ -140,14 +171,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             currentObjectDirection = currentAcceptedTargets[i].transform.position - transform.position;
             currentAngle = Vector3.Angle(currentObjectDirection, transform.forward);
 
-            /*
-            if(i== 0)
-            {
-                target = currentAcceptedTargets[i].gameObject;
-                currentClossestAngle = currentAngle;
-
-            }
-            */
+            
            
                 
                 if (currentAngle <= currentClossestAngle)
@@ -156,11 +180,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                     target = currentAcceptedTargets[i].gameObject;
                 }
             
-            //Debug.Log("cCAngle: " + currentClossestAngle);
-            //else
-            //{
-            //    target = null;
-            //}
+            
            
 
             
