@@ -87,7 +87,8 @@ public class PlayerControlPhysics : NetworkBehaviour
             {
                 MoveAxis = 0;
             }
-            RB.AddForce(MoveAxis * MoveForce * Feet.forward, ForceMode.Force);
+            //RB.AddForce(MoveAxis * MoveForce * Feet.forward, ForceMode.Force);
+            Trans.Translate(0, 0, MoveAxis * MoveForce *Time.fixedDeltaTime);
             //Vector3 temp = MoveAxis * MoveForce * Vector3.forward;
             //Debug.Log("Vector: " + temp);
             //Debug.Log("Move Force: " + MoveAxis * MoveForce * Vector3.forward);
@@ -98,8 +99,9 @@ public class PlayerControlPhysics : NetworkBehaviour
             {
                 TurnAxis = 0;
             }
-            RB.AddTorque(TurnAxis * Feet.up * TurnTorque, ForceMode.Force);
-            //MeshRB.AddTorque(TurnAxis * Feet.up * TurnTorque, ForceMode.Force);
+            //RB.AddTorque(TurnAxis * Trans.up * TurnTorque, ForceMode.Force);
+            Trans.Rotate(TurnAxis * Trans.up * TurnTorque * Time.deltaTime);
+            //MeshRB.AddTorue(TurnAxis * Feet.up * TurnTorque, ForceMode.Force);
             //Debug.Log("Turn Force: " + TurnAxis * Trans.up * TurnTorque);
             //Debug.Log("Turn Torque Quantity: " + TurnTorque);
 

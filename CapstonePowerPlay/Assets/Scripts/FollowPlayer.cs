@@ -10,7 +10,7 @@ public class FollowPlayer : MonoBehaviour
     private float MaxYOffset = 2;
 
     [SerializeField]
-    private ThirdPersonController player;
+    private PlayerControlPhysics player;
     [SerializeField]
     private Transform playerFeet;
     private Vector2 displacement;
@@ -38,7 +38,7 @@ public class FollowPlayer : MonoBehaviour
         }
 	}
 
-    public void SetPlayer(ThirdPersonController Player)
+    public void SetPlayer(PlayerControlPhysics Player)
     {
         player = Player;
     }
