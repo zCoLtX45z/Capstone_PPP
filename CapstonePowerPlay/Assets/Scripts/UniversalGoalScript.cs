@@ -11,10 +11,10 @@ public class UniversalGoalScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        // temp
-        team1Tag = "tempTag";
-        // no team 2 yet
-        team2Tag = "Player";
+        // temp team1
+        team1Tag = "Player";
+        // temp team2
+        team2Tag = "tempTag";
 
         sTracker = FindObjectOfType<ScoreTracker>();
 
