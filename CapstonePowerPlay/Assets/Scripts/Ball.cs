@@ -29,7 +29,10 @@ public class Ball : MonoBehaviour
 
     [SerializeField]
     private float maxDegree = 50;
-   
+
+    // Who threw the ball (based on tag string)
+    public string teamTag;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -50,7 +53,7 @@ public class Ball : MonoBehaviour
         {
             Vector3 forwardVector = transform.forward;
             float lengthOfForwardV = forwardVector.magnitude;
-
+            Debug.Log("passTarget: " + passedTarget);
             float angle = Mathf.Acos(Vector3.Dot(transform.forward, (passedTarget.transform.position - transform.position))/(Mathf.Abs(lengthOfForwardV * (passedTarget.transform.position - transform.position).magnitude)));
 
             angle *= 180 / Mathf.PI;
@@ -101,12 +104,14 @@ public class Ball : MonoBehaviour
         BH = null;
         HardCol.isTrigger = false;
     }
-    public void Shoot(Vector3 power)
+    public void Shoot(Vector3 power, string tag)
     {
         Debug.Log("power is " + power);
         RB.isKinematic = false;
         Handle.parent = null;
         RB.AddForce(power, ForceMode.Impulse);
+        Debug.Log("teamTag: " + tag);
+        teamTag = tag;
     }
     public void SetPass(bool Passing, GameObject Target, float Force)
     {
