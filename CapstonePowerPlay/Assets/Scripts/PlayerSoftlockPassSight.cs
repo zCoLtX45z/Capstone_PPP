@@ -32,6 +32,17 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     // team gameobject tag
     private string teamTag;
 
+    [SerializeField]
+    private List<GameObject> playerAndChildren = new List<GameObject>();
+
+    //private Vector3 playerPosition;
+
+    // player and child colliders
+    //[SerializeField]
+    //private List<GameObject> pAndCColliders = new List<GameObject>();
+
+
+    private Transform teater;
 
     // Use this for initialization
     void Awake () {
@@ -50,6 +61,26 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                 break;
             }
         }
+        playerAndChildren.Add(transform.root.gameObject);
+       
+        foreach (Transform child in transform.root)
+        {
+            playerAndChildren.Add(child.gameObject);
+            //child is your child transform
+        }
+
+        //playerPosition = transform.position;
+
+        //add player and children with colliders
+        /*
+        for (int i = playerAndChildren.Count - 1; i >= 0; --i)
+        {
+            if (playerAndChildren[i].GetComponent<Collider>() != null)
+            {
+                pAndCColliders.Add(playerAndChildren[i]);
+            }
+        }
+        */
     }
 	
 	// Update is called once per frame
@@ -60,10 +91,13 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             directionFromPlayer = listOfTeamates[i].transform.position - transform.position;
             angle = Vector3.Angle(directionFromPlayer, transform.forward);
 
+            
             RaycastHit tempHit = new RaycastHit();
+            
 
             if (Physics.Raycast(transform.position, directionFromPlayer, out tempHit, Mathf.Infinity))
             {
+                
                 if (tempHit.transform.gameObject == listOfTeamates[i])
                 {
                     if (angle < softLockAngle)
