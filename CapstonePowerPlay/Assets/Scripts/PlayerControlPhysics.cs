@@ -41,6 +41,10 @@ public class PlayerControlPhysics : NetworkBehaviour
     public GameObject camGurl;
     public GameObject camGurl2;
 
+    // Bobbers
+    [SerializeField]
+    private GameObject Bobbers;
+
     // Rigidbody
     private Rigidbody RB;
     //[SerializeField]
@@ -101,6 +105,7 @@ public class PlayerControlPhysics : NetworkBehaviour
             }
             //RB.AddTorque(TurnAxis * Trans.up * TurnTorque, ForceMode.Force);
             Trans.Rotate(TurnAxis * Trans.up * TurnTorque * Time.deltaTime);
+            Bobbers.transform.Rotate(TurnAxis * Trans.up * TurnTorque * Time.deltaTime);
             //MeshRB.AddTorue(TurnAxis * Feet.up * TurnTorque, ForceMode.Force);
             //Debug.Log("Turn Force: " + TurnAxis * Trans.up * TurnTorque);
             //Debug.Log("Turn Torque Quantity: " + TurnTorque);
