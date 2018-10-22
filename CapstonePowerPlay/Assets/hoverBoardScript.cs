@@ -19,6 +19,10 @@ public class hoverBoardScript : MonoBehaviour
     public float m_hoverHeight = 2.0f;
     public GameObject[] m_hoverPoints;
 
+    // Maximum
+    [SerializeField]
+    private float MaxSpeed = 10;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -66,7 +70,7 @@ public class hoverBoardScript : MonoBehaviour
             }
             else
             {
-                if(transform.position.y > hoverPoint.transform.position.y)
+                if (transform.position.y > hoverPoint.transform.position.y)
                 {
                     m_body.AddForceAtPosition(hoverPoint.transform.up * m_hoverForce, hoverPoint.transform.position);
                 }
@@ -79,7 +83,9 @@ public class hoverBoardScript : MonoBehaviour
         //forward
         if(Mathf.Abs(m_currThrust) > 0)
         {
-            m_body.AddForce(transform.forward * m_currThrust);
+            m_body.AddForce(transform.forward * m_currThrust, ForceMode.Acceleration);
+            if (m_body.velocity.z > MaxSpeed)
+                m_body.velocity = new Vector3(m_body.velocity.z, m_body.velocity.y, MaxSpeed);
         }
         //turn
         if(m_currTurn > 0)

@@ -1281,7 +1281,12 @@ Prefab:
     - target: {fileID: 114429538139919460, guid: ca67a9417570c7e47b183d49adb3b576,
         type: 2}
       propertyPath: m_forwardAcl
-      value: 100000
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114429538139919460, guid: ca67a9417570c7e47b183d49adb3b576,
+        type: 2}
+      propertyPath: MaxSpeed
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca67a9417570c7e47b183d49adb3b576, type: 2}
