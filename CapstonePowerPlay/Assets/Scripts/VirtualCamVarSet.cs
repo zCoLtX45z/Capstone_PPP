@@ -9,8 +9,21 @@ public class VirtualCamVarSet : MonoBehaviour {
 
     private float damping;
 
+    /*
+    [SerializeField]
+    private Transform pCameraObject;
+    */
+    [SerializeField]
+    private LayerMask lMask;
+
 	// Use this for initialization
 	void Start () {
+
+        //pCameraObject.parent = null;
+
+      
+
+
         freeLookVirtualCamera = GetComponent<CinemachineFreeLook>();
         damping = 0;
 
@@ -35,6 +48,10 @@ public class VirtualCamVarSet : MonoBehaviour {
 
         freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneHeight = 0;
         freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneWidth = 0;
+
+        // collisions
+        gameObject.AddComponent<CinemachineCollider>().m_CollideAgainst = lMask;
+        
     }
 
 

@@ -37,9 +37,14 @@ public class BallHandling : MonoBehaviour {
     // Layer the player can pass on
     [SerializeField]
     private LayerMask HitLayer;
+
+    // player's tag
+    private string playerTag;
+
 	// Use this for initialization
 	void Start () {
         canHold = true;
+        playerTag = transform.root.tag;
 	}
 	
 	// Update is called once per frame
@@ -47,6 +52,7 @@ public class BallHandling : MonoBehaviour {
         PassShootAxis = Input.GetAxis("PassShoot");
         //Debug.Log("Pass / Shoot Axis: " + PassShootAxis);
 
+        Debug.Log("ball = " + ball);
         if (ball != null)
         {
             if (PassShootAxis < -0.1)
@@ -55,12 +61,14 @@ public class BallHandling : MonoBehaviour {
                 // Get Target from Targeting Script
                 Target = softLockScript.target;
                 Pass(Target);
+                ball = null;
 
             }
             else if (PassShootAxis > 0.1)
             {
                 // SHOOT
                 Shoot();
+                ball = null;
             }
         }
 
@@ -97,7 +105,7 @@ public class BallHandling : MonoBehaviour {
         Direction = Direction - ball.transform.position;
         Direction = Direction.normalized;
         Direction *= ShootForce;
-        ball.Shoot(Direction);
+        ball.Shoot(Direction, playerTag);
     }
 
     public void SetBall(Ball b)

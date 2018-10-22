@@ -38,6 +38,10 @@ namespace Prototype.NetworkLobby
         public Text statusInfo;
         public Text hostInfo;
 
+
+        LobbyPlayer lobber;
+        public GameObject obj;
+        
         //Client numPlayers from NetworkManager is always 0, so we count (throught connect/destroy in LobbyPlayer) the number
         //of players, so that even client know how many player there is.
         [HideInInspector]
@@ -65,6 +69,8 @@ namespace Prototype.NetworkLobby
             DontDestroyOnLoad(gameObject);
 
             SetServerInfo("Offline", "None");
+
+            lobber = FindObjectOfType<LobbyPlayer>();
         }
 
         public override void OnLobbyClientSceneChanged(NetworkConnection conn)
@@ -275,7 +281,8 @@ namespace Prototype.NetworkLobby
         //But OnLobbyClientConnect isn't called on hosting player. So we override the lobbyPlayer creation
         public override GameObject OnLobbyServerCreateLobbyPlayer(NetworkConnection conn, short playerControllerId)
         {
-            GameObject obj = Instantiate(lobbyPlayerPrefab.gameObject) as GameObject;
+            //gameobject
+            obj = Instantiate(lobbyPlayerPrefab.gameObject) as GameObject;
 
             LobbyPlayer newPlayer = obj.GetComponent<LobbyPlayer>();
             newPlayer.ToggleJoinButton(numPlayers + 1 >= minPlayers);
@@ -324,7 +331,7 @@ namespace Prototype.NetworkLobby
 
         }
 
-        public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
+        public override bool OnLobbyServerSceneLoadedForPlayer( GameObject lobbyPlayer, GameObject gamePlayer)
         {
             //This hook allows you to apply state data from the lobby-player to the game-player
             //just subclass "LobbyHook" and add it to the lobby object.
@@ -332,6 +339,17 @@ namespace Prototype.NetworkLobby
             if (_lobbyHooks)
                 _lobbyHooks.OnLobbyServerSceneLoadedForPlayer(this, lobbyPlayer, gamePlayer);
 
+            
+            
+            //if(lobber.playerColor == Color.blue)
+            //{
+            //    obj.tag = "blue";
+            //}
+            //if (lobber.playerColor == Color.red)
+            //{
+            //    obj.tag = "red";
+            //}
+            
             return true;
         }
 
