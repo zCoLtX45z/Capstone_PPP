@@ -1070,7 +1070,7 @@ GameObject:
   - component: {fileID: 114811948089717750}
   m_Layer: 0
   m_Name: Player - Marc1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3533,7 +3533,7 @@ MonoBehaviour:
   ShootForce: 30
   PassForce: 20
   Cam: {fileID: 20324510234479462}
-  softLockScript: {fileID: 0}
+  softLockScript: {fileID: 114829919929251084}
   Hand: {fileID: 4448982800904048}
   canHold: 0
   canHoldTimer: 1
@@ -3566,19 +3566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   softLockAngle: 110
   distanceToTarget: 0
-  listOfTeamates:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  listOfTeamates: []
   angle: 0
   target: {fileID: 0}
   currentAcceptedTargets: []

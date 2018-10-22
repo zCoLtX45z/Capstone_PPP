@@ -83,45 +83,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-      /* 
-        List<GameObject> tempList = new List<GameObject>();
-
-        foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
-        {
-            if (playerObj != transform.gameObject)
-            {
-                tempList.Add(playerObj);
-            }
-        }
-
-
-        for (int j = tempList.Count - 1; j >= 0; j--)
-        {
-            int tempNumberOfPasses = 0;
-
-            for (int i = listOfTeamates.Count - 1; i >= 0; --i)
-            {
-
-
-                if (tempList[j] != listOfTeamates[i] || tempList[j] != transform.gameObject)
-                {
-                    tempNumberOfPasses++;
-
-                }
-
-                if (tempNumberOfPasses == listOfTeamates.Count + 1)
-                {
-
-                    listOfTeamates.Add(tempList[j]);
-                    break;
-                }
-
-                Debug.Log("i: " + i);
-            }
-            Debug.Log("Number of passes: " + tempNumberOfPasses);
-        }
-       
-        */
+      
 
 
 
