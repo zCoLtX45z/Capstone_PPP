@@ -56,4 +56,10 @@ public class PIDController : MonoBehaviour {
         min = minValue;
         max = maxValue;
     }
+
+    public void WipeErrors()
+    {
+        cumError = 0f;
+        prevError = 0f;
+    }
 }
