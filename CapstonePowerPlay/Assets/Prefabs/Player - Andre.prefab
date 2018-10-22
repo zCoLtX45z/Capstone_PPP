@@ -4110,6 +4110,7 @@ MonoBehaviour:
   angle: 0
   target: {fileID: 0}
   currentAcceptedTargets: []
+  playerAndChildren: []
 --- !u!114 &114889277747765764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4150,6 +4151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e59ff7109d97a4cb4eaca0bae42fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &114983518240250054
 MonoBehaviour:
   m_ObjectHideFlags: 1
