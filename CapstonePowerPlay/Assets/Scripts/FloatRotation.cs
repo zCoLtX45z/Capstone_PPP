@@ -10,14 +10,29 @@ public class FloatRotation : MonoBehaviour
     private BobberScript BBS;
     private Vector3 DistanceFtoB;
     private float FBStartDistance;
-    private float Y_Angle;
+    private float X_Angle;
+    private float LerpPosition = 0;
     [SerializeField]
     private BobberScript RBS;
     [SerializeField]
     private BobberScript LBS;
     private Vector3 DistanceRtoL;
     private float RLStartDistance;
-    private float X_Angle;
+    private float Z_Angle;
+
+    [SerializeField]
+    private float RotateSpeed = 50f; // Rotation Speed per Second
+    private float TickRotation; // Rotation Speed per tick
+
+
+    // Timers
+    // Back front rotation timers
+    private float BackTimer = 0;
+    private float FrontTimer = 0;
+
+    // Front rotation timers
+    private float LeftTimer = 0;
+    private float RightTimer = 0;
 
     // Use this for initialization
     void Start ()
@@ -27,51 +42,73 @@ public class FloatRotation : MonoBehaviour
         DistanceRtoL = RBS.transform.position - LBS.transform.position;
         RLStartDistance = DistanceRtoL.magnitude;
         Debug.Log("adjacents (RL: " + RLStartDistance + ", FB: " + FBStartDistance + ")");
+        TickRotation = RotateSpeed * 0.02f;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
         // Get the distance from A to B
         DistanceFtoB = FBS.transform.position - BBS.transform.position;
         DistanceRtoL = RBS.transform.position - LBS.transform.position;
-        Debug.Log("hypotenuse (RL: " + DistanceRtoL.magnitude + ", FB: " + DistanceFtoB.magnitude + ")");
+        //Debug.Log("hypotenuse (RL: " + DistanceRtoL.magnitude + ", FB: " + DistanceFtoB.magnitude + ")");
         // Find Angles
-        Y_Angle = Mathf.Acos(Mathf.Abs(FBStartDistance / DistanceFtoB.magnitude)) * 180 / Mathf.PI;
-        X_Angle = Mathf.Acos(Mathf.Abs(RLStartDistance / DistanceRtoL.magnitude)) * 180 / Mathf.PI;
-        Debug.Log("Angles (X: " + X_Angle + ", Y: " + Y_Angle + ")");
+        X_Angle = Mathf.Acos(Mathf.Abs(FBStartDistance / DistanceFtoB.magnitude)) * 180 / Mathf.PI;
+        Z_Angle = Mathf.Acos(Mathf.Abs(RLStartDistance / DistanceRtoL.magnitude)) * 180 / Mathf.PI;
+        //Debug.Log("Angles (Z: " + Z_Angle + ", X: " + X_Angle + ")");
+    }
 
+    private void FixedUpdate()
+    {
         // Set thew rotation with this new Angle
-        if (FBS.transform.position.y > BBS.transform.position.y)
+        if (FBS.transform.localPosition.y > BBS.transform.localPosition.y)
         {
-            if (RBS.transform.position.y > LBS.transform.position.y)
+            // Rotate Backwards -- X Angle
+            if (X_Angle < TickRotation)
             {
-                Debug.Log("tilting backwards and left");
-                Quaternion Rot = Quaternion.Euler(-Y_Angle, transform.localRotation.eulerAngles.y, X_Angle);
-                transform.rotation = Quaternion.Lerp(transform.localRotation, Rot, Time.deltaTime * 5);
+                transform.Rotate(-X_Angle, 0, 0);
             }
-            else if (RBS.transform.position.y < LBS.transform.position.y)
+            else if (X_Angle >= TickRotation)
             {
-                Debug.Log("tilting backwards and right");
-                Quaternion Rot = Quaternion.Euler(-Y_Angle, transform.localRotation.eulerAngles.y, -X_Angle);
-                transform.rotation = Quaternion.Lerp(transform.localRotation, Rot, Time.deltaTime * 5);
+                transform.Rotate(-TickRotation, 0, 0);
             }
         }
-        if (FBS.transform.position.y < BBS.transform.position.y)
+        else if (FBS.transform.localPosition.y < BBS.transform.localPosition.y)
         {
-            if (RBS.transform.position.y > LBS.transform.position.y)
+            // Rotate Forwards -- X Angle
+            if (X_Angle < TickRotation)
             {
-                Debug.Log("tilting forwards and left");
-                Quaternion Rot = Quaternion.Euler(Y_Angle, transform.localRotation.eulerAngles.y, X_Angle);
-                transform.rotation = Quaternion.Lerp(transform.localRotation, Rot, Time.deltaTime * 5);
+                transform.Rotate(X_Angle, 0, 0);
             }
-            else if (RBS.transform.position.y < LBS.transform.position.y)
+            else if (X_Angle >= TickRotation)
             {
-                Debug.Log("tilting forwards and right");
-                Quaternion Rot = Quaternion.Euler(Y_Angle, transform.localRotation.eulerAngles.y, -X_Angle);
-                transform.rotation = Quaternion.Lerp(transform.localRotation, Rot, Time.deltaTime * 5);
+                transform.Rotate(TickRotation, 0, 0);
             }
         }
 
+        if (RBS.transform.localPosition.y > LBS.transform.localPosition.y)
+        {
+            // Rotate Left
+            if (Z_Angle < TickRotation)
+            {
+                transform.Rotate(0, 0, -Z_Angle);
+            }
+            else if (Z_Angle >= TickRotation)
+            {
+                transform.Rotate(0, 0, -TickRotation);
+            }
+        }
+        else if (RBS.transform.localPosition.y < LBS.transform.localPosition.y)
+        {
+            // Rotate Right
+            if (Z_Angle < TickRotation)
+            {
+                transform.Rotate(0, 0, Z_Angle);
+            }
+            else if (Z_Angle >= TickRotation)
+            {
+                transform.Rotate(0, 0, TickRotation);
+            }
+        }
     }
 }
