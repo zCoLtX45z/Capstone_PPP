@@ -325,6 +325,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4462371637546900}
   - component: {fileID: 114291150312719484}
+  - component: {fileID: 114940427740990218}
   m_Layer: 0
   m_Name: ThirdPersonCameraV1
   m_TagString: Untagged
@@ -1069,7 +1070,7 @@ GameObject:
   - component: {fileID: 114811948089717750}
   m_Layer: 0
   m_Name: Player - Marc1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3532,7 +3533,7 @@ MonoBehaviour:
   ShootForce: 30
   PassForce: 20
   Cam: {fileID: 20324510234479462}
-  softLockScript: {fileID: 0}
+  softLockScript: {fileID: 114829919929251084}
   Hand: {fileID: 4448982800904048}
   canHold: 0
   canHoldTimer: 1
@@ -3565,23 +3566,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   softLockAngle: 110
   distanceToTarget: 0
-  listOfTeamates:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  listOfTeamates: []
   angle: 0
   target: {fileID: 0}
   currentAcceptedTargets: []
   playerAndChildren: []
+--- !u!114 &114940427740990218
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1241662749423906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e59ff7109d97a4cb4eaca0bae42fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &114983518240250054
 MonoBehaviour:
   m_ObjectHideFlags: 1
