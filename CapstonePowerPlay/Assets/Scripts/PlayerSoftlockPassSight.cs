@@ -42,9 +42,9 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     //private List<GameObject> pAndCColliders = new List<GameObject>();
 
 
-    private Transform teater;
+  
 
-
+    [SerializeField]
     private GameObject player;
 
     // Use this for initialization
@@ -77,6 +77,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
 
         player = transform.root.gameObject;
 
+        transform.parent = null;
 
     }
 	
