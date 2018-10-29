@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4995854612782400}
   - component: {fileID: 114102356430125064}
   m_Layer: 8
-  m_Name: center Front
+  m_Name: centerFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 4193802128854008}
   - component: {fileID: 114524743666222596}
   m_Layer: 8
-  m_Name: center Back
+  m_Name: centerBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 4166562063840438}
   - component: {fileID: 114694896394933080}
   m_Layer: 8
-  m_Name: center Right
+  m_Name: centerRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 4819234235651196}
   - component: {fileID: 114812578486476336}
   m_Layer: 8
-  m_Name: center Left
+  m_Name: centerLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -580,10 +580,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_body: {fileID: 0}
   m_deadZone: 0.1
-  m_forwardAcl: 10000
-  m_backwardAcl: 2500
+  m_forwardAcl: 12000
+  m_backwardAcl: 10000
   m_currThrust: 0
-  m_turnStrength: 3000
+  m_turnStrength: 6000
   m_currTurn: 0
   m_layerMask:
     serializedVersion: 2
@@ -605,7 +605,10 @@ MonoBehaviour:
   Kp: 1
   Ki: 0
   Kd: 9
-  MaxSpeed: 10
+  MaxSpeed: 90
+  Speed: 0
+  MaxTurnAdjustPercent: 70
+  SpeedDeadZone: 5
 --- !u!114 &114694896394933080
 MonoBehaviour:
   m_ObjectHideFlags: 1
