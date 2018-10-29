@@ -99,7 +99,7 @@ public class Ball : MonoBehaviour
             Held = true;
             BH = c.GetComponent<BallHandling>();
 
-            transform.gameObject.layer = 2;
+            //transform.gameObject.layer = 2;
             
 
             //if (BH.canHold)
@@ -126,7 +126,7 @@ public class Ball : MonoBehaviour
     }
     public void Shoot(Vector3 power, string tag)
     {
-        transform.gameObject.layer = 0;
+        //transform.gameObject.layer = 0;
 
         Debug.Log("power is " + power);
         RB.isKinematic = false;
@@ -137,7 +137,7 @@ public class Ball : MonoBehaviour
     }
     public void SetPass(bool Passing, GameObject Target, float Force)
     {
-        transform.gameObject.layer = 0;
+        //transform.gameObject.layer = 0;
 
         passedTarget = Target;
 
