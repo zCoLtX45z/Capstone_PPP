@@ -6,7 +6,7 @@ public class BallHandling : MonoBehaviour {
 
     // Set Shoot force 
     [SerializeField]
-    public float ShootForce;
+    public float ShootForce = 200;
     [SerializeField]
     public float PassForce;
 
@@ -98,6 +98,7 @@ public class BallHandling : MonoBehaviour {
 
     private void Shoot()
     {
+        /*
         RaycastHit hit;
         Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(ray, out hit, HitLayer);
@@ -106,6 +107,11 @@ public class BallHandling : MonoBehaviour {
         Direction = Direction.normalized;
         Direction *= ShootForce;
         ball.Shoot(Direction, playerTag);
+        */
+        Direction = Cam.transform.forward;
+        Direction *= ShootForce;
+        ball.Shoot(Direction, playerTag);
+
     }
 
     public void SetBall(Ball b)

@@ -10,25 +10,35 @@ public class BobberScript : MonoBehaviour
     [SerializeField]
     private float speed = 10;
 
+    private Vector3 InitialPosition;
+
 	// Use this for initialization
 	void Start ()
     {
+        InitialPosition = transform.localPosition;
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-		if (!Sinking && transform.localPosition.y > 0)
+		if (!Sinking && transform.localPosition.y > -0.1f)
         {
             Debug.Log("floating");
             // Move back to resting position
             transform.Translate(0, -speed * Time.deltaTime, 0);
         }
-        if (transform.localPosition.y < 0)
+        //if (transform.localPosition.y < 0)
+        //{
+        //    Debug.Log("floating");
+        //    transform.localPosition = new Vector3(transform.localPosition.x, 0.1f, transform.localPosition.z);
+        //}
+
+        // Check if balls go to neverland
+        if (transform.localPosition.x != InitialPosition.x || transform.localPosition.z != InitialPosition.z)
         {
-            Debug.Log("floating");
-            transform.localPosition = new Vector3(transform.localPosition.x, 0.1f, transform.localPosition.z);
+            transform.localPosition = new Vector3(InitialPosition.x, transform.localPosition.y, InitialPosition.z);
         }
+
     }
     public void OnTriggerStay(Collider c)
     {
