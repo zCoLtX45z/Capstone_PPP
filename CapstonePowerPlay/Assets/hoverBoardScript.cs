@@ -37,6 +37,13 @@ public class hoverBoardScript : MonoBehaviour
     // Maximum
     [SerializeField]
     private float MaxSpeed = 10;
+    public float Speed;
+
+    [SerializeField]
+    private float MaxTurnAdjustPercent = 50f;
+    private float CurrentAdjust = 0;
+    [SerializeField]
+    private float SpeedDeadZone = 5f;
 
 	// Use this for initialization
 	void Start ()
@@ -75,6 +82,7 @@ public class hoverBoardScript : MonoBehaviour
         {
             m_currThrust = aclAxis * m_backwardAcl;
         }
+        Speed = m_body.velocity.magnitude;
 
         //turning
         m_currTurn = 0.0f;
@@ -83,7 +91,12 @@ public class hoverBoardScript : MonoBehaviour
         {
             m_currTurn = turnAxis * 4;
         }
-	}
+        // Adjust turning height adjustment
+        CurrentAdjust = Speed < SpeedDeadZone ? 0.0f
+            : Speed < MaxSpeed ? m_hoverHeight * MaxTurnAdjustPercent * (Speed - SpeedDeadZone) / ((MaxSpeed - SpeedDeadZone) * 100f)
+            : m_hoverHeight * MaxTurnAdjustPercent / (100f);
+
+    }
 
     void FixedUpdate()
     {
@@ -138,7 +151,13 @@ public class hoverBoardScript : MonoBehaviour
                         ToggleStabilizers[i] = true;
                         temp.WipeErrors();
                     }
-                    temp.step(m_hoverHeight, hit.distance);
+                    // This changes the target hieght when turning,NOTE all left and right PID points on the controller MUST be names and changed here
+                    float TargetAdjustHeight = (temp.name == "frontLeft" || temp.name == "centerLeft" || temp.name == "backLeft") && m_currTurn < 0f ? -CurrentAdjust
+                        : (temp.name == "frontLeft" || temp.name == "centerLeft" || temp.name == "backLeft") && m_currTurn > 0f ? CurrentAdjust
+                        :(temp.name == "frontRight" || temp.name == "centerRight" || temp.name == "backRight") && m_currTurn < 0f ? CurrentAdjust
+                        : (temp.name == "frontRight" || temp.name == "centerRight" || temp.name == "backRight") && m_currTurn > 0f ? -CurrentAdjust
+                        : 0f;
+                    temp.step(m_hoverHeight + TargetAdjustHeight, hit.distance);
                     m_body.AddForceAtPosition(Vector3.up * temp.getOutput(), temp.gameObject.transform.position);
 
                     Debug.DrawRay(temp.gameObject.transform.position, -temp.gameObject.transform.up * hit.distance, Color.red);
