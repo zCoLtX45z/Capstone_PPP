@@ -52,7 +52,7 @@ public class Ball : MonoBehaviour
 
         if(isInPassing)
         {
-            RB.mass = 0.5f;
+            RB.useGravity = false;
 
             Vector3 forwardVector = transform.forward;
             float lengthOfForwardV = forwardVector.magnitude;
@@ -76,11 +76,11 @@ public class Ball : MonoBehaviour
 
         }
         // un optimized
-        if (RB.mass != 5)
+        if (RB.useGravity == false)
         { 
             if (!isInPassing)
             {
-                RB.mass = 5f;
+                RB.useGravity = true;
             }
         }
 
