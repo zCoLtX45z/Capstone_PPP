@@ -183,10 +183,6 @@ public class hoverBoardScript : MonoBehaviour
         if (Mathf.Abs(m_currThrust) > 0)
         {
             m_body.AddForce(transform.forward * m_currThrust * Time.fixedDeltaTime, ForceMode.Acceleration);
-            if (m_body.velocity.z > MaxSpeed)
-                m_body.velocity = new Vector3(m_body.velocity.x, m_body.velocity.y, MaxSpeed);
-            else if (m_body.velocity.z < -MaxSpeed)
-                m_body.velocity = new Vector3(m_body.velocity.x, m_body.velocity.y, -MaxSpeed);
         }
         //turn
         if(m_currTurn > 0)
