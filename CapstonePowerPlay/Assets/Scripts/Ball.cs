@@ -19,6 +19,7 @@ public class Ball : MonoBehaviour
 
     private float timer = 0;
 
+    [SerializeField]
     private bool isInPassing = false;
 
 
@@ -51,6 +52,8 @@ public class Ball : MonoBehaviour
 
         if(isInPassing)
         {
+            RB.mass = 0.5f;
+
             Vector3 forwardVector = transform.forward;
             float lengthOfForwardV = forwardVector.magnitude;
             Debug.Log("passTarget: " + passedTarget);
@@ -63,10 +66,21 @@ public class Ball : MonoBehaviour
 
             if (angle <= maxDegree)
             {
+                Debug.Log("Within angle");
                 Vector3 lookPos = passedTarget.transform.position - transform.position;
 
                 var rotation = Quaternion.LookRotation(lookPos);
                 transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * RotSpeed);
+            }
+            RB.AddForce(transform.forward * 3, ForceMode.Force);
+
+        }
+        // un optimized
+        if (RB.mass != 5)
+        { 
+            if (!isInPassing)
+            {
+                RB.mass = 5f;
             }
         }
 

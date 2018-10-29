@@ -775,6 +775,16 @@ Prefab:
       propertyPath: m_TagString
       value: Ball
       objectReference: {fileID: 0}
+    - target: {fileID: 54711255796768538, guid: b6e9e3063e1557a4abb49c9c4f8747f5,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 54711255796768538, guid: b6e9e3063e1557a4abb49c9c4f8747f5,
+        type: 2}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b6e9e3063e1557a4abb49c9c4f8747f5, type: 2}
   m_IsPrefabParent: 0
@@ -895,6 +905,7 @@ GameObject:
   - component: {fileID: 1472893812}
   - component: {fileID: 1472893811}
   - component: {fileID: 1472893810}
+  - component: {fileID: 1472893814}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -969,6 +980,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1472893814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1472893809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b611f4471c62cef4897d3df1c9fdae0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShootForce: 0
+  PassForce: 0
+  Cam: {fileID: 0}
+  softLockScript: {fileID: 0}
+  Hand: {fileID: 1472893813}
+  canHold: 0
+  canHoldTimer: 0
+  HitLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1678807248
 GameObject:
   m_ObjectHideFlags: 3
