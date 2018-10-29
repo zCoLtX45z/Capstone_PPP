@@ -18,6 +18,7 @@ public class VirtualCamVarSet : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+        
         pCameraObject.parent = null;
 
       
