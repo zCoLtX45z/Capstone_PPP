@@ -122,12 +122,12 @@ public class hoverBoardScript : MonoBehaviour
                         if (transform.position.y > hoverPoint.transform.position.y)
                         {
                             m_body.AddForceAtPosition(hoverPoint.transform.up * m_maxHoverForce, hoverPoint.transform.position);
-                            Debug.DrawRay(hoverPoint.transform.position, -hoverPoint.transform.up * hit.distance, Color.black);
+                           // Debug.DrawRay(hoverPoint.transform.position, -hoverPoint.transform.up * hit.distance, Color.black);
                         }
                         else
                         {
                             m_body.AddForceAtPosition(hoverPoint.transform.up * -m_maxHoverForce, hoverPoint.transform.position);
-                            Debug.DrawRay(hoverPoint.transform.position, -hoverPoint.transform.up * hit.distance, Color.blue);
+                            //Debug.DrawRay(hoverPoint.transform.position, -hoverPoint.transform.up * hit.distance, Color.blue);
                         }
                     }
                 }
@@ -161,7 +161,7 @@ public class hoverBoardScript : MonoBehaviour
                     m_body.AddForceAtPosition(Vector3.up * temp.getOutput(), temp.gameObject.transform.position);
 
                     Debug.DrawRay(temp.gameObject.transform.position, -temp.gameObject.transform.up * hit.distance, Color.red);
-                    Debug.Log(temp.gameObject.name + ", Force: " + (temp.gameObject.transform.up * m_maxHoverForce * (1.0f - (hit.distance / m_hoverHeight))).y + ", Distance: " + hit.distance);
+                  //  Debug.Log(temp.gameObject.name + ", Force: " + (temp.gameObject.transform.up * m_maxHoverForce * (1.0f - (hit.distance / m_hoverHeight))).y + ", Distance: " + hit.distance);
                 }
                 else
                 {
