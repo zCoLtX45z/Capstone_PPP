@@ -6,27 +6,29 @@ using UnityEngine.UI;
 public class TargetVisual : MonoBehaviour {
 
     [SerializeField]
-    private Text textTarget;
+    private Text textTarget = null;
 
     [SerializeField]
-    private PlayerSoftlockPassSight softLockScript;
+    private PlayerSoftlockPassSight softLockScript = null;
 
     [SerializeField]
-    private Camera thisPlayerCam;
+    private Camera thisPlayerCam = null;
 
     [SerializeField]
-    private BallHandling ballHandlingScript; 
+    private BallHandling ballHandlingScript = null; 
 
 	// Use this for initialization
 	void Start () {
-        ballHandlingScript = GetComponentInParent<BallHandling>();
+        //ballHandlingScript = GetComponentInParent<BallHandling>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         Debug.Log("ballHandle hold" + ballHandlingScript.canHold);
-        if (softLockScript.target != null || ballHandlingScript.canHold == false)
+        Debug.Log("softLockScript.target: " + softLockScript.target);
+        if (softLockScript.target != null && ballHandlingScript.ball != null)
         {
+            Debug.Log("Hoi");
             if (textTarget.enabled == false)
                 textTarget.enabled = true;
 
