@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class TargetVisual : MonoBehaviour {
 
-    [SerializeField]
-    private Text textTarget = null;
+    //[SerializeField]
+    //private Text textTarget = null;
 
-    private Image targetReticle = null;
+        [SerializeField]
+    private RawImage targetReticle = null;
 
     [SerializeField]
     private PlayerSoftlockPassSight softLockScript = null;
@@ -31,13 +32,13 @@ public class TargetVisual : MonoBehaviour {
         if (softLockScript.target != null && ballHandlingScript.ball != null)
         {
             Debug.Log("Hoi");
-            if (textTarget.enabled == false)
-                textTarget.enabled = true;
+            //if (textTarget.enabled == false)
+            //    textTarget.enabled = true;
 
-            //if(targetReticle.enabled == false)
-            //{
-            //    targetReticle.enabled = true;
-            //}
+            if(targetReticle.enabled == false)
+            {
+                targetReticle.enabled = true;
+            }
 
             
             Vector3 targetPos = thisPlayerCam.WorldToScreenPoint(new Vector3(softLockScript.target.transform.position.x, 
@@ -47,14 +48,14 @@ public class TargetVisual : MonoBehaviour {
 
 
 
-            textTarget.transform.position = targetPos;
-            //targetReticle.transform.position = targetPos;
+            //textTarget.transform.position = targetPos;
+            targetReticle.transform.position = targetPos;
         }
 
         else
         {
-            textTarget.enabled = false;
-            //targetReticle.enabled = false;
+            //textTarget.enabled = false;
+            targetReticle.enabled = false;
         }
     }
 }
