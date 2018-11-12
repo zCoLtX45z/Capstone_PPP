@@ -55,7 +55,7 @@ public class Ball : MonoBehaviour
 
         if(isInPassing)
         {
-            RB.useGravity = false;
+            
 
             Vector3 forwardVector = transform.forward;
             float lengthOfForwardV = forwardVector.magnitude;
@@ -69,16 +69,20 @@ public class Ball : MonoBehaviour
 
             if (angle <= maxDegree)
             {
+                if(RB.useGravity)
+                    RB.useGravity = false;
+
                 Debug.Log("Within angle");
                 Vector3 lookPos = passedTarget.transform.position - transform.position;
 
                 var rotation = Quaternion.LookRotation(lookPos);
                 transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * RotSpeed);
             }
+            
             RB.AddForce(transform.forward * constantForce, ForceMode.Force);
 
         }
-        // un optimized
+        
         if (RB.useGravity == false)
         { 
             if (!isInPassing)
@@ -147,9 +151,16 @@ public class Ball : MonoBehaviour
 
         isInPassing = true;
 
-        transform.LookAt(Target.transform.position);
+        float distance = (transform.position - Target.transform.position).magnitude;
+
+        //transform.LookAt(Target.transform.position);                                        Make the ball shoot higher at the start
+        transform.LookAt(new Vector3(Target.transform.position.x, Target.transform.position.y + distance, Target.transform.position.z));
 
         RB.AddForce(transform.forward * Force, ForceMode.Impulse);
+
+
+
+
 
     }
 }
