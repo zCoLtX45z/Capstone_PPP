@@ -81,6 +81,7 @@ public class Ball : MonoBehaviour
             
             RB.AddForce(transform.forward * constantForce, ForceMode.Force);
 
+            //RB.velocity = (transform.forward * constantForce);
         }
         
         if (RB.useGravity == false)
