@@ -8,6 +8,8 @@ public class TargetVisual : MonoBehaviour {
     [SerializeField]
     private Text textTarget = null;
 
+    private Image targetReticle = null;
+
     [SerializeField]
     private PlayerSoftlockPassSight softLockScript = null;
 
@@ -32,20 +34,27 @@ public class TargetVisual : MonoBehaviour {
             if (textTarget.enabled == false)
                 textTarget.enabled = true;
 
+            //if(targetReticle.enabled == false)
+            //{
+            //    targetReticle.enabled = true;
+            //}
+
             
             Vector3 targetPos = thisPlayerCam.WorldToScreenPoint(new Vector3(softLockScript.target.transform.position.x, 
                 softLockScript.target.transform.position.y + 1, softLockScript.target.transform.position.z));
-            
-          
 
-            
+
+
+
 
             textTarget.transform.position = targetPos;
+            //targetReticle.transform.position = targetPos;
         }
 
         else
         {
             textTarget.enabled = false;
+            //targetReticle.enabled = false;
         }
     }
 }
