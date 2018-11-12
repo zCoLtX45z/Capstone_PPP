@@ -48,6 +48,8 @@ public class hoverBoardScript : MonoBehaviour
     [SerializeField]
     private float FallAssistForce = 10000f; // higher means the character falls faster
     [SerializeField]
+    private float RiseAssistForce = 0f; // higher means the character rises faster
+    [SerializeField]
     private float SpeedBoostLinearPercent = 50f;
     [SerializeField]
     private float SpeedBoostTurnPercent = 25f;
@@ -189,6 +191,10 @@ public class hoverBoardScript : MonoBehaviour
                         if (!Input.GetKey(KeyCode.Space))
                         {
                             m_body.AddForceAtPosition(-temp.gameObject.transform.up * FallAssistForce, temp.gameObject.transform.position);
+                        }
+                        else
+                        {
+                            m_body.AddForceAtPosition(-temp.gameObject.transform.up * RiseAssistForce, temp.gameObject.transform.position);
                         }
                     }
                 }
