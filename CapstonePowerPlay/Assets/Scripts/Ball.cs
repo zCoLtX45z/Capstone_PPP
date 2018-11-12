@@ -34,6 +34,9 @@ public class Ball : MonoBehaviour
     // Who threw the ball (based on tag string)
     public string teamTag;
 
+    [SerializeField]
+    private float constantForce = 15.0f;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -72,7 +75,7 @@ public class Ball : MonoBehaviour
                 var rotation = Quaternion.LookRotation(lookPos);
                 transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * RotSpeed);
             }
-            RB.AddForce(transform.forward * 3, ForceMode.Force);
+            RB.AddForce(transform.forward * constantForce, ForceMode.Force);
 
         }
         // un optimized
@@ -96,9 +99,12 @@ public class Ball : MonoBehaviour
             Held = true;
             BH = c.GetComponent<BallHandling>();
 
+            //transform.gameObject.layer = 2;
+            
+
             //if (BH.canHold)
             //{
-                Hand = BH.ReturnHand();
+            Hand = BH.ReturnHand();
 
                 Handle.position = Hand.position;
                 Handle.parent = Hand.parent;
@@ -120,6 +126,8 @@ public class Ball : MonoBehaviour
     }
     public void Shoot(Vector3 power, string tag)
     {
+        //transform.gameObject.layer = 0;
+
         Debug.Log("power is " + power);
         RB.isKinematic = false;
         Handle.parent = null;
@@ -129,6 +137,8 @@ public class Ball : MonoBehaviour
     }
     public void SetPass(bool Passing, GameObject Target, float Force)
     {
+        //transform.gameObject.layer = 0;
+
         passedTarget = Target;
 
         RB.isKinematic = false;
