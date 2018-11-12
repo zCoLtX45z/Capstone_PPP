@@ -173,8 +173,11 @@ public class hoverBoardScript : MonoBehaviour
                             ToggleStabilizers[i] = false;
                             temp.WipeErrors();
                         }
-                        temp.step(transform.position.y, temp.gameObject.transform.position.y);
-                        m_body.AddForceAtPosition(temp.gameObject.transform.up * temp.getOutput(), temp.gameObject.transform.position);
+                        if (Mathf.Abs(transform.position.y - temp.gameObject.transform.position.y) > m_deadZone)
+                        {
+                            temp.step(transform.position.y, temp.gameObject.transform.position.y);
+                            m_body.AddForceAtPosition(temp.gameObject.transform.up * temp.getOutput(), temp.gameObject.transform.position);
+                        }
                     }
                 }
             }
