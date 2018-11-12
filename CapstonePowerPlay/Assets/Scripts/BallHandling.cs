@@ -24,7 +24,7 @@ public class BallHandling : MonoBehaviour {
     [SerializeField]
     private Transform Hand;
 
-    private Ball ball;
+    public Ball ball;
 
     // get from input manager
     private float PassShootAxis = 0;
