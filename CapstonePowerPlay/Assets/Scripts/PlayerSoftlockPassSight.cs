@@ -106,7 +106,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                     if (angle < softLockAngle)
                     {
                         int temp = 0;
-                        Debug.Log("TEMP: " + temp);
+                        //Debug.Log("TEMP: " + temp);
                         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), directionFromPlayer, Color.blue);
 
                         if (currentAcceptedTargets.Count > 0)
@@ -115,18 +115,18 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                             {
                                 if (currentAcceptedTargets[j] == listOfTeamates[i])
                                 {
-                                    Debug.Log("acceptedTargets == number of teamates");
+                                  //  Debug.Log("acceptedTargets == number of teamates");
                                     break;
                                 }
                                 else
                                 {
-                                    Debug.Log("acceptedTargets != number of teamates!");
+                                    //Debug.Log("acceptedTargets != number of teamates!");
 
                                     temp += 1;
                                 }
                                 if (temp >= currentAcceptedTargets.Count)
                                 {
-                                    Debug.Log("Add player to accepted targets list");
+                                    //Debug.Log("Add player to accepted targets list");
 
                                     currentAcceptedTargets.Add(listOfTeamates[i].gameObject);
                                 }
@@ -155,7 +155,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                     {
                         if (currentAcceptedTargets[j] == listOfTeamates[i])
                         {
-                            Debug.Log("test: " + currentAcceptedTargets[j]);
+                            //Debug.Log("test: " + currentAcceptedTargets[j]);
                             currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
                         }
                     }
@@ -198,11 +198,11 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             newTeamateSearch.Add(playerObj);
             tempNumberCheck++;
         }
-        Debug.Log("tempNumberCheck: " + tempNumberCheck + "  teamateNumber: " + listOfTeamates.Count);
+       // Debug.Log("tempNumberCheck: " + tempNumberCheck + "  teamateNumber: " + listOfTeamates.Count);
 
         if (tempNumberCheck > listOfTeamates.Count)
         {
-            Debug.Log("surplus!!");
+         //   Debug.Log("surplus!!");
 
             for (int i = newTeamateSearch.Count - 1; i >= 0; --i)
             {

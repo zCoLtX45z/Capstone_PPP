@@ -84,14 +84,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4735650705237646}
-  - component: {fileID: 114597795208274162}
   m_Layer: 8
   m_Name: HOVER_BOARD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1642641359310370
 GameObject:
   m_ObjectHideFlags: 1
@@ -427,38 +426,9 @@ MonoBehaviour:
   Ki: 0.5
   Kd: 0
   MaxSpeed: 10
---- !u!114 &114597795208274162
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1523527327796274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 202
-    i1: 103
-    i2: 169
-    i3: 65
-    i4: 117
-    i5: 112
-    i6: 199
-    i7: 228
-    i8: 123
-    i9: 24
-    i10: 61
-    i11: 73
-    i12: 173
-    i13: 179
-    i14: 181
-    i15: 118
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  Speed: 0
+  MaxTurnAdjustPercent: 50
+  SpeedDeadZone: 5
 --- !u!124 &124143551692163502
 Behaviour:
   m_ObjectHideFlags: 1

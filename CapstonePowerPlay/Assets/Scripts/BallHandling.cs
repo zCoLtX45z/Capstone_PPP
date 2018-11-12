@@ -24,7 +24,7 @@ public class BallHandling : MonoBehaviour {
     [SerializeField]
     private Transform Hand;
 
-    private Ball ball;
+    public Ball ball;
 
     // get from input manager
     private float PassShootAxis = 0;
@@ -93,6 +93,7 @@ public class BallHandling : MonoBehaviour {
         //Direction = Target.transform.position - ball.transform.position;
         //Direction = Direction.normalized;
         //Direction *= PassForce;
+        
         ball.SetPass(true, Target, PassForce);
     }
 
@@ -108,9 +109,11 @@ public class BallHandling : MonoBehaviour {
         Direction *= ShootForce;
         ball.Shoot(Direction, playerTag);
         */
+        
         Direction = Cam.transform.forward;
         Direction *= ShootForce;
         ball.Shoot(Direction, playerTag);
+        
 
     }
 

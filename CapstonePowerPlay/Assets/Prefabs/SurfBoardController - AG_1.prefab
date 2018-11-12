@@ -2110,7 +2110,7 @@ Transform:
 =======
   m_GameObject: {fileID: 1901606114791906}
   m_LocalRotation: {x: -0.01286191, y: 0.7069899, z: 0.012861912, w: 0.70698977}
-  m_LocalPosition: {x: -361.99677, y: 134.7, z: 0.00006422827}
+  m_LocalPosition: {x: -361.99677, y: 134.7, z: 0.000043153366}
   m_LocalScale: {x: 8.418529, y: 8.418532, z: 8.4185295}
   m_Children: []
   m_Father: {fileID: 4615438389475668}
@@ -2426,8 +2426,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1532594555631352}
-  m_LocalRotation: {x: -0.01286198, y: -0.7069901, z: -0.01286184, w: 0.7069895}
-  m_LocalPosition: {x: 0.000021750284, y: 0, z: 2.0742687e-11}
+  m_LocalRotation: {x: -0.012861977, y: -0.7069902, z: -0.012861843, w: 0.70698947}
+  m_LocalPosition: {x: 0.0000072500948, y: 0, z: 6.914229e-12}
   m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
   m_Children:
   - {fileID: 4654202109393034}
@@ -2591,8 +2591,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1781962054614874}
-  m_LocalRotation: {x: -0.025685854, y: -0.7066404, z: -0.025685377, w: 0.7066397}
-  m_LocalPosition: {x: 0.000021750284, y: 0, z: 2.0742687e-11}
+  m_LocalRotation: {x: -0.025685856, y: -0.7066404, z: -0.025685383, w: 0.7066398}
+  m_LocalPosition: {x: 0.0000072500948, y: 0, z: 6.914229e-12}
   m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
   m_Children:
   - {fileID: 4269229497517598}
@@ -3057,8 +3057,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1463763917964230}
-  m_LocalRotation: {x: -0, y: -0.7071072, z: -0, w: 0.7071065}
-  m_LocalPosition: {x: 0, y: 2.84, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.11878561, y: 0.11878555, z: 0.11878562}
   m_Children:
   - {fileID: 4330488369931504}
@@ -3067,7 +3067,7 @@ Transform:
   - {fileID: 4628939983554348}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4628939983554348
 Transform:
   m_ObjectHideFlags: 1
@@ -3075,7 +3075,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1467769982860294}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: -0.0000004768371}
-  m_LocalPosition: {x: -361.99677, y: 134.7, z: 0.00006422827}
+  m_LocalPosition: {x: -361.99677, y: 134.7, z: 0.000043153366}
   m_LocalScale: {x: 8.418532, y: 8.418532, z: 8.418531}
   m_Children:
   - {fileID: 4818330942484818}
@@ -3239,8 +3239,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1150751122360136}
-  m_LocalRotation: {x: -0.0000001369269, y: -0.7071072, z: 0.00000013692674, w: 0.7071065}
-  m_LocalPosition: {x: 0.000021750284, y: 0, z: 2.0742687e-11}
+  m_LocalRotation: {x: -0.00000013692687, y: -0.7071072, z: 0.00000013692677, w: 0.7071065}
+  m_LocalPosition: {x: 0.0000072500948, y: 0, z: 6.914229e-12}
   m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
   m_Children:
   - {fileID: 4023784824494782}
@@ -3687,8 +3687,8 @@ Rigidbody:
   m_GameObject: {fileID: 1463763917964230}
   serializedVersion: 2
   m_Mass: 100
-  m_Drag: 2
-  m_AngularDrag: 2
+  m_Drag: 3
+  m_AngularDrag: 4
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -4358,6 +4358,7 @@ MonoBehaviour:
   Cam: {fileID: 20070286115423078}
   softLockScript: {fileID: 114605984961285388}
   Hand: {fileID: 4781678131167640}
+  ball: {fileID: 0}
   canHold: 1
   canHoldTimer: 0
   HitLayer:
@@ -4536,18 +4537,18 @@ MonoBehaviour:
 --- !u!114 &114607165485034684
 =======
   m_body: {fileID: 0}
-  m_deadZone: 0.1
-  m_forwardAcl: 10000
-  m_backwardAcl: 2500
+  m_deadZone: 0.5
+  m_forwardAcl: 80000
+  m_backwardAcl: 10000
   m_currThrust: 0
-  m_turnStrength: 3000
+  m_turnStrength: 12000
   m_currTurn: 0
   m_layerMask:
     serializedVersion: 2
     m_Bits: 513
-  m_maxHoverForce: 10000
-  m_minHoverForce: -1000
-  m_hoverHeight: 4
+  m_maxHoverForce: 12000
+  m_minHoverForce: -12000
+  m_hoverHeight: 6
   m_hoverPoints: []
   PIDHoverPoints:
   - {fileID: 114381639159221116}
@@ -4562,10 +4563,15 @@ MonoBehaviour:
   Kp: 1
   Ki: 0
   Kd: 9
-  MaxSpeed: 10
+  MaxSpeed: 90
   Speed: 0
   MaxTurnAdjustPercent: 50
-  SpeedDeadZone: 5
+  SpeedDeadZone: 10
+  FallAssistForce: 5000
+  RiseAssistForce: 0
+  SpeedBoostLinearPercent: 50
+  SpeedBoostTurnPercent: 25
+  SpeedBoosted: 0
 --- !u!114 &114545981410184522
 >>>>>>> master:CapstonePowerPlay/Assets/Prefabs/SurfBoardController - AG_1.prefab
 MonoBehaviour:
