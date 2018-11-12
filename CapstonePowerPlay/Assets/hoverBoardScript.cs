@@ -45,6 +45,15 @@ public class hoverBoardScript : MonoBehaviour
     [SerializeField]
     private float SpeedDeadZone = 5f;
 
+    [SerializeField]
+    private float FallAssistForce = 10000f; // higher means the character falls faster
+    [SerializeField]
+    private float SpeedBoostLinearPercent = 50f;
+    [SerializeField]
+    private float SpeedBoostTurnPercent = 25f;
+    [HideInInspector]
+    public bool SpeedBoosted = false;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -165,7 +174,6 @@ public class hoverBoardScript : MonoBehaviour
                 }
                 else
                 {
-
                     if (Input.GetMouseButton(1) || StabalizersActive == 0) 
                     {
                         if (ToggleStabilizers[i])
@@ -173,8 +181,15 @@ public class hoverBoardScript : MonoBehaviour
                             ToggleStabilizers[i] = false;
                             temp.WipeErrors();
                         }
-                        temp.step(transform.position.y, temp.gameObject.transform.position.y);
-                        m_body.AddForceAtPosition(temp.gameObject.transform.up * temp.getOutput(), temp.gameObject.transform.position);
+                        if (Mathf.Abs(transform.position.y - temp.gameObject.transform.position.y) > m_deadZone)
+                        {
+                            temp.step(transform.position.y, temp.gameObject.transform.position.y);
+                            m_body.AddForceAtPosition(temp.gameObject.transform.up * temp.getOutput(), temp.gameObject.transform.position);
+                        } 
+                        if (!Input.GetKey(KeyCode.Space))
+                        {
+                            m_body.AddForceAtPosition(-temp.gameObject.transform.up * FallAssistForce, temp.gameObject.transform.position);
+                        }
                     }
                 }
             }
@@ -182,22 +197,30 @@ public class hoverBoardScript : MonoBehaviour
         //forward
         if (Mathf.Abs(m_currThrust) > 0)
         {
-            m_body.AddForce(transform.forward * m_currThrust * Time.fixedDeltaTime, ForceMode.Acceleration);
+            if (!SpeedBoosted)
+            {
+                m_body.AddForce(transform.forward * m_currThrust * Time.fixedDeltaTime, ForceMode.Acceleration);
+            }
+            else
+            {
+                m_body.AddForce(transform.forward * m_currThrust * Time.fixedDeltaTime * SpeedBoostLinearPercent / 100, ForceMode.Acceleration);
+            }
         }
         //turn
-        if(m_currTurn > 0)
-        {
+        if (!SpeedBoosted)
             m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength);
-        }
-        else if(m_currTurn < 0)
-        {
-            m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength);
-        }
+        else
+            m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength * SpeedBoostTurnPercent / 100);
     }
 
     void OnDrawGizmos()
     {
         
+    }
+
+    public void IsSpeedBoosted(bool b)
+    {
+        SpeedBoosted = b;
     }
 
     public void ChangeKp(float kp)
