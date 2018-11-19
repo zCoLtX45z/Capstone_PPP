@@ -27,8 +27,13 @@ public class TargetVisual : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+<<<<<<< HEAD
        // Debug.Log("ballHandle hold" + ballHandlingScript.canHold);
        // Debug.Log("softLockScript.target: " + softLockScript.target);
+=======
+        //Debug.Log("ballHandle hold" + ballHandlingScript.canHold);
+        //Debug.Log("softLockScript.target: " + softLockScript.target);
+>>>>>>> master
         if (softLockScript.target != null && ballHandlingScript.ball != null)
         {
             Debug.Log("Hoi");
