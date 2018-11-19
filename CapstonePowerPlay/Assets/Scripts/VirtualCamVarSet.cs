@@ -9,8 +9,7 @@ public class VirtualCamVarSet : MonoBehaviour {
 
     private float damping;
 
-    [SerializeField]
-    private Transform pCameraObject;
+    
 
     [SerializeField]
     private LayerMask lMask;
@@ -18,8 +17,7 @@ public class VirtualCamVarSet : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        
-        pCameraObject.parent = null;
+
 
       
 
