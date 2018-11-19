@@ -1130,7 +1130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e59ff7109d97a4cb4eaca0bae42fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pCameraObject: {fileID: 0}
   lMask:
     serializedVersion: 2
     m_Bits: 0
@@ -1258,9 +1257,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShootForce: 200
   PassForce: 0
-  Cam: {fileID: 0}
-  softLockScript: {fileID: 0}
-  Hand: {fileID: 0}
+  Cam: {fileID: 20528043820379974}
+  softLockScript: {fileID: 114929581281322604}
+  Hand: {fileID: 4721694525177274}
   ball: {fileID: 0}
   canHold: 0
   canHoldTimer: 0
