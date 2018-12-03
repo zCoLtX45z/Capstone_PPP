@@ -8,11 +8,11 @@ using Prototype.NetworkLobby;
     {
         public override void OnLobbyServerSceneLoadedForPlayer(NetworkManager manager, GameObject lobbyPlayer, GameObject gamePlayer)
         {
-            LobbyPlayer lobby = lobbyPlayer.GetComponent<LobbyPlayer>();
-            SetupLocalPlayer localplayer = gamePlayer.GetComponent<SetupLocalPlayer>();
+        //    LobbyPlayer lobby = lobbyPlayer.GetComponent<LobbyPlayer>();
+        //    SetupLocalPlayer localplayer = gamePlayer.GetComponent<SetupLocalPlayer>();
 
-        localplayer.pname = lobby.name;
-        localplayer.playerColor = lobby.playerColor;
+        //localplayer.pname = lobby.name;
+        //localplayer.playerColor = lobby.playerColor;
         
         }
 
