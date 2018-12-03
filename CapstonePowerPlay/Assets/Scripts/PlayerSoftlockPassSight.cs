@@ -93,7 +93,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
         player = transform.root.gameObject;
 
         // unchiled this gameObject
-        transform.parent = null;
+      //  transform.parent = null;
 
 
 
