@@ -597,7 +597,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1303361848930350}
-  m_LocalRotation: {x: -0.20126078, y: 0.2343362, z: 0.6664277, w: -0.6785683}
+  m_LocalRotation: {x: -0.20126083, y: 0.23433614, z: 0.6664277, w: -0.6785683}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
   m_Children:
@@ -1246,11 +1246,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b611f4471c62cef4897d3df1c9fdae0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShootForce: 1200
-  PassForce: 300
+  ShootForce: 200
+  PassForce: 100
   Cam: {fileID: 20515981470108354, guid: c9f13d862e5c10e4cbf39c2c87daa390, type: 2}
-  softLockScript: {fileID: 114772162813546960, guid: c9f13d862e5c10e4cbf39c2c87daa390,
-    type: 2}
+  softLockScript: {fileID: 114178467506169680}
   Hand: {fileID: 4936775526703770}
   ball: {fileID: 0}
   canHold: 1
