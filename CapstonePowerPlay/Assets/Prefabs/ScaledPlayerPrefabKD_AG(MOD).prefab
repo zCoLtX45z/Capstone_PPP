@@ -1100,6 +1100,8 @@ MonoBehaviour:
   SpeedBoostLinearPercent: 50
   SpeedBoostTurnPercent: 25
   SpeedBoosted: 0
+  camGurl1: {fileID: 0}
+  camGurl2: {fileID: 0}
 --- !u!114 &114178467506169680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1232,6 +1234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e59ff7109d97a4cb4eaca0bae42fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pCameraObject: {fileID: 0}
   lMask:
     serializedVersion: 2
     m_Bits: 4294967295

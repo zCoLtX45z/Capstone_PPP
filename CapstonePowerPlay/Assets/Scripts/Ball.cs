@@ -142,33 +142,15 @@ public class Ball : MonoBehaviour
     }
     public void SetPass(bool Passing, GameObject Target, float Force)
     {
-        //transform.gameObject.layer = 0;
-
-        passedTarget = Target;
-
-        RB.isKinematic = false;
-        Handle.parent = null;
-
-
-        isInPassing = true;
-
-
-
-        Debug.Log("Target: " + Target.name);
-
-        float distance = (transform.position - Target.transform.position).magnitude;
-
-        transform.LookAt(Target.transform.position);                                  
-        
-        
-        //Make the ball shoot higher at the start
-        //transform.LookAt(new Vector3(Target.transform.position.x, Target.transform.position.y + distance, Target.transform.position.z));
-
-        RB.AddForce(transform.forward * Force, ForceMode.Impulse);
-
-
-
-
-
+        if (Target != null)
+        {
+            passedTarget = Target;
+            RB.isKinematic = false;
+            Handle.parent = null;
+            isInPassing = true;
+            float distance = (transform.position - Target.transform.position).magnitude;
+            transform.LookAt(Target.transform.position);
+            RB.AddForce(transform.forward * Force, ForceMode.Impulse);
+        }
     }
 }
