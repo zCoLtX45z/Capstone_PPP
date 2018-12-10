@@ -46,7 +46,7 @@ public class TargetVisual : MonoBehaviour {
 
             
             Vector3 targetPos = thisPlayerCam.WorldToScreenPoint(new Vector3(softLockScript.target.transform.position.x, 
-                softLockScript.target.transform.position.y + 1, softLockScript.target.transform.position.z));
+                softLockScript.target.transform.position.y, softLockScript.target.transform.position.z));
 
 
 
