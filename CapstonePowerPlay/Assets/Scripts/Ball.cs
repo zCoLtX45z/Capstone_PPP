@@ -107,19 +107,19 @@ public class Ball : MonoBehaviour
             //transform.gameObject.layer = 2;
             
 
-            //if (BH.canHold)
-            //{
+            if (BH.canHold)
+            {
             Hand = BH.ReturnHand();
 
                 Handle.position = Hand.position;
                 Handle.parent = Hand.parent;
 
                 BH.SetBall(this);
-            //}
-            //else
-            //{
-            //    BH = null;
-            //}
+            }
+            else
+            { 
+                BH = null;
+            }
         }
     }
 
