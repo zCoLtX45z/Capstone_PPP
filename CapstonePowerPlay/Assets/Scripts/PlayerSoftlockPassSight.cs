@@ -41,6 +41,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     // team gameobject tag
     private string teamTag;
 
+    // list containing main player object and children
     [SerializeField]
     private List<GameObject> playerAndChildren = new List<GameObject>();
 

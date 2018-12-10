@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class hoverBoardScript : NetworkBehaviour
+public class hoverBoardScript : MonoBehaviour
 {
     public Rigidbody m_body;
     public float m_deadZone = 0.1f;
@@ -58,13 +58,13 @@ public class hoverBoardScript : NetworkBehaviour
     public bool SpeedBoosted = false;
 
     //marcstuff
-    public GameObject camGurl1;
-    public GameObject camGurl2;
+    //public GameObject camGurl1;
+    //public GameObject camGurl2;
 
 	// Use this for initialization
 	void Start ()
     {
-        if (isLocalPlayer)
+      //  if (isLocalPlayer)
         {
             Physics.gravity = new Vector3(0, -100, 0);
             if (!m_body)
@@ -87,23 +87,23 @@ public class hoverBoardScript : NetworkBehaviour
         }
 
         //playercamera
-        if (isLocalPlayer)
-        {
-            camGurl1.SetActive(true);
-            camGurl2.SetActive(true);
-        }
-        else
-        {
-            camGurl1.SetActive(false);
-            camGurl2.SetActive(false);
-        }
+        //if (isLocalPlayer)
+        //{
+        //    camGurl1.SetActive(true);
+        //    camGurl2.SetActive(true);
+        //}
+        //else
+        //{
+        //    camGurl1.SetActive(false);
+        //    camGurl2.SetActive(false);
+        //}
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
 
-        if (isLocalPlayer)
+       // if (isLocalPlayer)
         {
             //main thrust
             m_currThrust = 0.0f;
@@ -134,7 +134,7 @@ public class hoverBoardScript : NetworkBehaviour
 
     void FixedUpdate()
     {
-        if (isLocalPlayer)
+        //if (isLocalPlayer)
         {
             // Non PID Controllers
             //Hover force
