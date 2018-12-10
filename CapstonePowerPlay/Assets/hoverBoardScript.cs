@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+
 public class hoverBoardScript : NetworkBehaviour
 {
     public Rigidbody m_body;
@@ -58,14 +59,14 @@ public class hoverBoardScript : NetworkBehaviour
     public bool SpeedBoosted = false;
 
     //marcstuff
-    public GameObject camGurl1;
-    public GameObject camGurl2;
+    //public GameObject camGurl1;
+    //public GameObject camGurl2;
 
 	// Use this for initialization
 	void Start ()
     {
-        if (isLocalPlayer)
-        {
+        //if (isLocalPlayer)
+        
             Physics.gravity = new Vector3(0, -100, 0);
             if (!m_body)
                 m_body = GetComponent<Rigidbody>();
@@ -84,27 +85,27 @@ public class hoverBoardScript : NetworkBehaviour
                     //PIDHoverPoints[i].transform.localPosition = new Vector3(PIDHoverPoints[i].transform.localPosition.x, 0, PIDHoverPoints[i].transform.localPosition.z);
                 }
             }
-        }
+        
 
         //playercamera
-        if (isLocalPlayer)
-        {
-            camGurl1.SetActive(true);
-            camGurl2.SetActive(true);
-        }
-        else
-        {
-            camGurl1.SetActive(false);
-            camGurl2.SetActive(false);
-        }
+        //if (isLocalPlayer)
+        //{
+        //    camGurl1.SetActive(true);
+        //    camGurl2.SetActive(true);
+        //}
+        //else
+        //{
+        //    camGurl1.SetActive(false);
+        //    camGurl2.SetActive(false);
+        //}
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
 
-        if (isLocalPlayer)
-        {
+        //if (isLocalPlayer)
+        
             //main thrust
             m_currThrust = 0.0f;
             float aclAxis = Input.GetAxis("Vertical");
@@ -129,13 +130,13 @@ public class hoverBoardScript : NetworkBehaviour
             CurrentAdjust = Speed < SpeedDeadZone ? 0.0f
                 : Speed < MaxSpeed ? m_hoverHeight * MaxTurnAdjustPercent * (Speed - SpeedDeadZone) / ((MaxSpeed - SpeedDeadZone) * 100f)
                 : m_hoverHeight * MaxTurnAdjustPercent / (100f);
-        }
+        
     }
 
     void FixedUpdate()
     {
-        if (isLocalPlayer)
-        {
+        //if (isLocalPlayer)
+        
             // Non PID Controllers
             //Hover force
             if (m_hoverPoints.Length > 0)
@@ -241,7 +242,7 @@ public class hoverBoardScript : NetworkBehaviour
                 m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength);
             else
                 m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength * SpeedBoostTurnPercent / 100);
-        }
+        
     }
 
     void OnDrawGizmos()
