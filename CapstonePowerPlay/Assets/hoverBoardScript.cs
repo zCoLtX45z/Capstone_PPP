@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class hoverBoardScript : MonoBehaviour
+
+public class hoverBoardScript : NetworkBehaviour
 {
     public Rigidbody m_body;
     public float m_deadZone = 0.1f;
@@ -64,8 +65,8 @@ public class hoverBoardScript : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-      //  if (isLocalPlayer)
-        {
+        //if (isLocalPlayer)
+
             Physics.gravity = new Vector3(0, -100, 0);
             if (!m_body)
                 m_body = GetComponent<Rigidbody>();
@@ -84,7 +85,7 @@ public class hoverBoardScript : MonoBehaviour
                     //PIDHoverPoints[i].transform.localPosition = new Vector3(PIDHoverPoints[i].transform.localPosition.x, 0, PIDHoverPoints[i].transform.localPosition.z);
                 }
             }
-        }
+
 
         //playercamera
         //if (isLocalPlayer)
@@ -98,13 +99,13 @@ public class hoverBoardScript : MonoBehaviour
         //    camGurl2.SetActive(false);
         //}
     }
-	
+
 	// Update is called once per frame
 	void Update ()
     {
 
-       // if (isLocalPlayer)
-        {
+        //if (isLocalPlayer)
+
             //main thrust
             m_currThrust = 0.0f;
             float aclAxis = Input.GetAxis("Vertical");
@@ -129,13 +130,13 @@ public class hoverBoardScript : MonoBehaviour
             CurrentAdjust = Speed < SpeedDeadZone ? 0.0f
                 : Speed < MaxSpeed ? m_hoverHeight * MaxTurnAdjustPercent * (Speed - SpeedDeadZone) / ((MaxSpeed - SpeedDeadZone) * 100f)
                 : m_hoverHeight * MaxTurnAdjustPercent / (100f);
-        }
+
     }
 
     void FixedUpdate()
     {
         //if (isLocalPlayer)
-        {
+
             // Non PID Controllers
             //Hover force
             if (m_hoverPoints.Length > 0)
@@ -241,12 +242,12 @@ public class hoverBoardScript : MonoBehaviour
                 m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength);
             else
                 m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength * SpeedBoostTurnPercent / 100);
-        }
+
     }
 
     void OnDrawGizmos()
     {
-        
+
     }
 
     public void IsSpeedBoosted(bool b)
