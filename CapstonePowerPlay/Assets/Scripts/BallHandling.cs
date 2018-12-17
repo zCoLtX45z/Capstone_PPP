@@ -113,7 +113,8 @@ public class BallHandling : MonoBehaviour {
         Direction = Cam.transform.forward;
         Direction *= ShootForce;
         ball.Shoot(Direction, playerTag);
-        
+
+        Debug.Log("Direction: " + Direction);
 
     }
 
