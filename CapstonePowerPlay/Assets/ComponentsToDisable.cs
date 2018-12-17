@@ -17,9 +17,4 @@ public class ComponentsToDisable : NetworkBehaviour {
             }
         }
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

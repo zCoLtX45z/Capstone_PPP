@@ -88,6 +88,7 @@ public class Ball : MonoBehaviour
         { 
             if (!isInPassing)
             {
+                gameObject.layer = 10;
                 RB.useGravity = true;
             }
         }
@@ -99,6 +100,7 @@ public class Ball : MonoBehaviour
     {
         if(c.gameObject.tag == "Player" && !Held)
         {
+            gameObject.layer = 2;
             HardCol.isTrigger = true;
             RB.isKinematic = true;
             Held = true;
@@ -107,19 +109,19 @@ public class Ball : MonoBehaviour
             //transform.gameObject.layer = 2;
             
 
-            //if (BH.canHold)
-            //{
+            if (BH.canHold)
+            {
             Hand = BH.ReturnHand();
 
                 Handle.position = Hand.position;
                 Handle.parent = Hand.parent;
 
                 BH.SetBall(this);
-            //}
-            //else
-            //{
-            //    BH = null;
-            //}
+            }
+            else
+            { 
+                BH = null;
+            }
         }
     }
 
@@ -139,6 +141,7 @@ public class Ball : MonoBehaviour
         RB.AddForce(power, ForceMode.Impulse);
         Debug.Log("teamTag: " + tag);
         teamTag = tag;
+        gameObject.layer = 10;
     }
     public void SetPass(bool Passing, GameObject Target, float Force)
     {
