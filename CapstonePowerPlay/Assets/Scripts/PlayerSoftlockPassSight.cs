@@ -129,6 +129,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             // send out raycast to the current teamate being referenced
             if (Physics.Raycast(transform.position, directionFromPlayer, out tempHit, Mathf.Infinity))
             {
+                Debug.Log("tempHit has hit: " + tempHit.transform.name + " tempHit should hit: " + listOfTeamates[i]);
                 // if the raycast hits is target
                 if (tempHit.transform.gameObject == listOfTeamates[i])
                 {
@@ -181,6 +182,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                             // if it equals to the gameObject referenced in listOfTeamates
                             if (currentAcceptedTargets[j] == listOfTeamates[i])
                             {
+                                Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by target not being in view of the angle");
                                 // remove the gameObject referenced in listOfTeamates from currentAcceptedTargets
                                 currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
                                 // just added...
@@ -193,13 +195,13 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                 // if the raycast does not hit intended target
                 else
                 {
-                    Debug.Log("raycast did not hit the intended target");
                     // check every object within currentAcceptedTargets list
                     for (int j = 0; j < currentAcceptedTargets.Count; j++)
                     {
                         // if it equals to the gameObject referenced in listOfTeamates
                         if (currentAcceptedTargets[j] == listOfTeamates[i])
                         {
+                            Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by raycast not connecting");
                             // remove the gameObject referenced in listOfTeamates from currentAcceptedTargets
                             currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
                             // just added...
