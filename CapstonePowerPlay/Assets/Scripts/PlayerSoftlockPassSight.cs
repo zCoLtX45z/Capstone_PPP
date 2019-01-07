@@ -165,7 +165,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                                 }
                             }
                         }
-                        // if there is noting in currentAccpeted target liss
+                        // if there is noting in currentAccpeted target list
                         else
                         {
                             // add the teammate being referenced from listOfTeamates to currentAcceptedTargets
@@ -190,9 +190,10 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                         Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
                     }
                 }
-                // if the raycast does not hit inteded target
+                // if the raycast does not hit intended target
                 else
                 {
+                    Debug.Log("raycast did not hit the intended target");
                     // check every object within currentAcceptedTargets list
                     for (int j = 0; j < currentAcceptedTargets.Count; j++)
                     {
@@ -240,11 +241,6 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             Vector3 targetObjectDirection = target.transform.position - transform.position;
             Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), targetObjectDirection, Color.yellow);
         }
-
-        
-
-
-
 
 
         //
