@@ -129,6 +129,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             // send out raycast to the current teamate being referenced
             if (Physics.Raycast(transform.position, directionFromPlayer, out tempHit, Mathf.Infinity))
             {
+                Debug.Log("tempHit has hit: " + tempHit.transform.name + " tempHit should hit: " + listOfTeamates[i]);
                 // if the raycast hits is target
                 if (tempHit.transform.gameObject == listOfTeamates[i])
                 {
