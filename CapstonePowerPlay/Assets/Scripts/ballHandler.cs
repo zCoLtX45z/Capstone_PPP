@@ -14,8 +14,8 @@ public class ballHandler : NetworkBehaviour {
     // Use this for initialization
     void Awake ()
     {
-        Physics.gravity = new Vector3(0, -40, 0);
-        //ballSpawn = GameObject.FindGameObjectWithTag("ballSpawn").GetComponent<Transform>();
+
+        ballSpawn = GameObject.FindGameObjectWithTag("ballSpawn").GetComponent<Transform>();
     }
 	
 	// Update is called once per frame
