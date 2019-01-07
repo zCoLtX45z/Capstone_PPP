@@ -181,6 +181,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                             // if it equals to the gameObject referenced in listOfTeamates
                             if (currentAcceptedTargets[j] == listOfTeamates[i])
                             {
+                                Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by target not being in view of the angle");
                                 // remove the gameObject referenced in listOfTeamates from currentAcceptedTargets
                                 currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
                                 // just added...
@@ -193,13 +194,13 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                 // if the raycast does not hit intended target
                 else
                 {
-                    Debug.Log("raycast did not hit the intended target");
                     // check every object within currentAcceptedTargets list
                     for (int j = 0; j < currentAcceptedTargets.Count; j++)
                     {
                         // if it equals to the gameObject referenced in listOfTeamates
                         if (currentAcceptedTargets[j] == listOfTeamates[i])
                         {
+                            Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by raycast not connecting");
                             // remove the gameObject referenced in listOfTeamates from currentAcceptedTargets
                             currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
                             // just added...
