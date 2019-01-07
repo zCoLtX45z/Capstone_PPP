@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class BallHandling : MonoBehaviour {
+public class BallHandling : NetworkBehaviour {
 
     // Set Shoot force 
     [SerializeField]
@@ -62,7 +63,7 @@ public class BallHandling : MonoBehaviour {
                 Target = softLockScript.target;
                 if (Target != null)
                 {
-                    Pass(Target);
+                    CmdPass(Target);
                     Debug.Log(gameObject.name + " Passes");
                     ball = null;
                 }
@@ -70,7 +71,7 @@ public class BallHandling : MonoBehaviour {
             else if (PassShootAxis > 0.1)
             {
                 // SHOOT
-                Shoot();
+                CmdShoot();
                 Debug.Log(gameObject.name + " Shoots");
                 ball = null;
             }
@@ -92,6 +93,12 @@ public class BallHandling : MonoBehaviour {
         return Hand;
     }
 
+    [Command]
+    private void CmdPass(GameObject Target)
+    {
+        ball.SetPass(true, Target, PassForce);
+    }
+
     private void Pass(GameObject Target)
     {
         //Direction = Target.transform.position - ball.transform.position;
@@ -101,7 +108,15 @@ public class BallHandling : MonoBehaviour {
         ball.SetPass(true, Target, PassForce);
     }
 
-    private void Shoot()
+    [Command]
+    private void CmdShoot()
+    {
+        Direction = Cam.transform.forward;
+        Direction *= ShootForce;
+        ball.Shoot(Direction, playerTag);
+    }
+
+        private void Shoot()
     {
         /*
         RaycastHit hit;
@@ -118,7 +133,7 @@ public class BallHandling : MonoBehaviour {
         Direction *= ShootForce;
         ball.Shoot(Direction, playerTag);
 
-        Debug.Log("Direction: " + Direction);
+        //Debug.Log("Direction: " + Direction);
 
     }
 
