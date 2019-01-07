@@ -25,12 +25,12 @@ public class ballHandler : NetworkBehaviour {
         if(Input.GetKeyDown(KeyCode.J))
         {
             
-            SpawnBall();
+            CmdSpawnBall();
             
         }
 	}
-   
-    public void SpawnBall()
+   [Command]
+    public void CmdSpawnBall()
     {
         Debug.Log("spawning ball");
         GameObject ball1 = Instantiate(ball, ballSpawn.position, ballSpawn.rotation);
