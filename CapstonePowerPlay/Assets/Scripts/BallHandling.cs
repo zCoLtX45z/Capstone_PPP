@@ -52,7 +52,7 @@ public class BallHandling : MonoBehaviour {
         PassShootAxis = Input.GetAxis("PassShoot");
         //Debug.Log("Pass / Shoot Axis: " + PassShootAxis);
 
-        Debug.Log("ball = " + ball);
+        //Debug.Log("ball = " + ball);
         if (ball != null)
         {
             if (PassShootAxis < -0.1)
@@ -60,14 +60,18 @@ public class BallHandling : MonoBehaviour {
                 // PASS
                 // Get Target from Targeting Script
                 Target = softLockScript.target;
-                Pass(Target);
-                ball = null;
-
+                if (Target != null)
+                {
+                    Pass(Target);
+                    Debug.Log(gameObject.name + " Passes");
+                    ball = null;
+                }
             }
             else if (PassShootAxis > 0.1)
             {
                 // SHOOT
                 Shoot();
+                Debug.Log(gameObject.name + " Shoots");
                 ball = null;
             }
         }
