@@ -193,7 +193,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                 // if the raycast does not hit intended target
                 else
                 {
-                    Debug.Log("racast did not hit the intended target");
+                    Debug.Log("raycast did not hit the intended target");
                     // check every object within currentAcceptedTargets list
                     for (int j = 0; j < currentAcceptedTargets.Count; j++)
                     {
