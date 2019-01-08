@@ -11,9 +11,10 @@ namespace Prototype.NetworkLobby
     //Any LobbyHook can then grab it and pass those value to the game player prefab (see the Pong Example in the Samples Scenes)
     public class LobbyPlayer : NetworkLobbyPlayer 
     {
-        static Color[] Colors = new Color[] {Color.red, Color.blue,};
+        static Color[] Colors = new Color[] {Color.red, Color.blue};
         //used on server to avoid assigning the same color to two player
         static List<int> _colorInUse = new List<int>();
+        static List<int> _teamColor = new List<int>();
         //static List<int> _teamColor = new List<int>();
         
 
@@ -40,7 +41,7 @@ namespace Prototype.NetworkLobby
         static Color ReadyColor = new Color(0.0f, 204.0f / 255.0f, 204.0f / 255.0f, 1.0f);
         static Color TransparentColor = new Color(0, 0, 0, 0);
 
-        //public static bool Blue, Red;
+        
 
         //static Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
         //static Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
@@ -205,6 +206,7 @@ namespace Prototype.NetworkLobby
         //so that all client get the new value throught syncvar
         public void OnColorClicked()
         {
+           
             CmdColorChange();
         }
 
@@ -254,44 +256,53 @@ namespace Prototype.NetworkLobby
         public void CmdColorChange()
         {
 
+            //if (playerColor == Color.white)
+            //    playerColor = Color.blue;
 
-            //int idx = System.Array.IndexOf(Colors, playerColor);
+            //if (playerColor == Color.blue)
+            //    playerColor = Color.red;
 
-            //int inUseIdx = _colorInUse.IndexOf(idx);
-            ////int teamIdx = _teamColor.IndexOf(idx);
+            //if (playerColor == Color.red)
+            //    playerColor = Color.blue;
+           
 
-            //if (idx < 0) idx = 0;
+            int idx = System.Array.IndexOf(Colors, playerColor);
 
-            //idx = (idx + 1) % Colors.Length;
+            int inUseIdx = _colorInUse.IndexOf(idx);
+            //int teamIdx = _teamColor.IndexOf(idx);
 
-            //bool alreadyInUse = false;
+            if (idx < 0) idx = 0;
 
-            //do
-            //{
-            //    alreadyInUse = false;
-            //    //_colorinUse
-            //    for (int i = 0; i < _colorInUse.Count; ++i)
-            //    {      //_colorInUse
-            //        if (_colorInUse[i] == 1)
-            //        {//that color is already in use
-            //            alreadyInUse = true;
-            //            idx = (idx + 1) % Colors.Length;
-            //        }
-            //    }
-            //}
-            //while (alreadyInUse);
+            idx = (idx + 1) % Colors.Length;
 
-            //if (inUseIdx >= 0)
-            //{//if we already add an entry in the colorTabs, we change it
-            //    _colorInUse[inUseIdx] = idx;
-            //}
-            //else
-            //{//else we add it
-            //    _colorInUse.Add(idx);
-            //}
+            bool alreadyInUse = false;
+
+            do
+            {
+                alreadyInUse = false;
+                //_colorinUse
+            for (int i = 0; i < _colorInUse.Count; ++i)
+                {      //_colorInUse
+                    if (_colorInUse[i] == 1)
+                    {//that color is already in use
+                        alreadyInUse = true;
+                        idx = (idx + 1) % Colors.Length;
+                    }
+                }
+            }
+            while (alreadyInUse);
+
+            if (inUseIdx >= 0)
+            {//if we already add an entry in the colorTabs, we change it
+                _colorInUse[inUseIdx] = idx;
+            }
+            else
+            {//else we add it
+                _colorInUse.Add(idx);
+            }
 
 
-            playerColor = Color.blue;
+            //playerColor = Color.blue;
 
         }
         
