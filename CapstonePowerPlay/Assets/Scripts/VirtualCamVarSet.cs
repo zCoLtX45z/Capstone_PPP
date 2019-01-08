@@ -7,6 +7,7 @@ public class VirtualCamVarSet : MonoBehaviour {
 
     private CinemachineFreeLook freeLookVirtualCamera;
 
+    [SerializeField]
     private float damping;
 
     
