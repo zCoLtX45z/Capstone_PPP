@@ -33,7 +33,7 @@ public class BallHandling : NetworkBehaviour {
     public bool canHold = true;
 
     // can hold timer
-    public float canHoldTimer = 0;
+    public float canHoldTimer = 1;
 
     // Layer the player can pass on
     [SerializeField]
@@ -60,24 +60,27 @@ public class BallHandling : NetworkBehaviour {
         //Debug.Log("ball = " + ball);
         if (ball != null)
         {
-            if (PassShootAxis < -0.1)
+            if (!ball.GetThrown())
             {
-                // PASS
-                // Get Target from Targeting Script
-                Target = softLockScript.target;
-                if (Target != null)
+                if (PassShootAxis < -0.1)
                 {
-                    CmdPass(Target);
-                    Debug.Log(gameObject.name + " Passes");
+                    // PASS
+                    // Get Target from Targeting Script
+                    Target = softLockScript.target;
+                    if (Target != null)
+                    {
+                        Debug.Log(gameObject.name + " Passes");
+                        CmdPass(Target);
+                        ball = null;
+                    }
+                }
+                else if (PassShootAxis > 0.1)
+                {
+                    // SHOOT
+                    Debug.Log(gameObject.name + " Shoots");
+                    CmdShoot();
                     ball = null;
                 }
-            }
-            else if (PassShootAxis > 0.1)
-            {
-                // SHOOT
-                CmdShoot();
-                Debug.Log(gameObject.name + " Shoots");
-                ball = null;
             }
         }
 
@@ -87,6 +90,7 @@ public class BallHandling : NetworkBehaviour {
                 canHoldTimer -= Time.deltaTime;
             else if (canHoldTimer <= 0)
             {
+                canHoldTimer = 1;
                 canHold = true;
             }
         }
@@ -100,9 +104,9 @@ public class BallHandling : NetworkBehaviour {
     [Command]
     private void CmdPass(GameObject Target)
     {
-        ball.SetPass(true, Target, PassForce);
-        TurnOnFakeBall(false);
         ball.gameObject.SetActive(true);
+        ball.CmdSetPass(true, Target, PassForce);
+        TurnOnFakeBall(false);
     }
 
     //private void Pass(GameObject Target)
@@ -121,10 +125,10 @@ public class BallHandling : NetworkBehaviour {
     {
         Direction = Cam.transform.forward;
         Direction *= ShootForce;
-        ball.Shoot(Direction, playerTag);
+        ball.gameObject.SetActive(true);
+        ball.CmdShoot(Direction, playerTag);
 
         TurnOnFakeBall(false);
-        ball.gameObject.SetActive(true);
     }
 
     //    private void Shoot()

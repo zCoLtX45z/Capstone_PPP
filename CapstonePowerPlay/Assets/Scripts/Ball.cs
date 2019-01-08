@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Ball : MonoBehaviour
+public class Ball : NetworkBehaviour
 {
     [SerializeField]
     private Transform Handle;
@@ -37,6 +37,9 @@ public class Ball : MonoBehaviour
     [SerializeField]
     private float constantForce = 15.0f;
 
+    private float CanBeCaughtTimer = 1;
+    private bool Thrown = false;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -51,6 +54,16 @@ public class Ball : MonoBehaviour
         {
             timer -= Time.deltaTime;
             Held = false;
+        }
+
+        if (Thrown)
+        {
+            CanBeCaughtTimer -= Time.deltaTime;
+            if (CanBeCaughtTimer <= 0)
+            {
+                Thrown = false;
+                CanBeCaughtTimer = 1;
+            }
         }
 
         if(isInPassing)
@@ -95,21 +108,27 @@ public class Ball : MonoBehaviour
 
     }
 
-
+    private void OnCollisionEnter(Collision c)
+    {
+        if (c.gameObject.tag == "Default")
+        {
+            isInPassing = false;
+            RB.useGravity = true;
+        }
+    }
     private void OnTriggerEnter(Collider c)
     {
-        if(c.gameObject.tag == "Player" && !Held)
+        if(c.gameObject.tag == "Player" && !Held && !Thrown)
         {
             gameObject.layer = 2;
             HardCol.isTrigger = true;
-            RB.isKinematic = true;
             Held = true;
             BH = c.GetComponent<BallHandling>();
 
             //transform.gameObject.layer = 2;
             
 
-            if (BH.canHold)
+            if (BH.canHold )
             {
                 Hand = BH.ReturnHand();
 
@@ -133,12 +152,13 @@ public class Ball : MonoBehaviour
         BH = null;
         HardCol.isTrigger = false;
     }
-    public void Shoot(Vector3 power, string tag)
+    [Command]
+    public void CmdShoot(Vector3 power, string tag)
     {
         //transform.gameObject.layer = 0;
+        Thrown = true;
         Handle.position = Hand.position;
         Debug.Log("power is " + power);
-        RB.isKinematic = false;
         Handle.parent = null;
         RB.AddForce(power, ForceMode.Impulse);
         Debug.Log("teamTag: " + tag);
@@ -146,13 +166,16 @@ public class Ball : MonoBehaviour
         gameObject.layer = 10;
         Held = false;
     }
-    public void SetPass(bool Passing, GameObject Target, float Force)
+
+    [Command]
+    public void CmdSetPass(bool Passing, GameObject Target, float Force)
     {
         if (Target != null)
         {
+            Debug.Log("Ball Passed to " + Target.name);
+            Thrown = true;
             Handle.position = Hand.position;
             passedTarget = Target;
-            RB.isKinematic = false;
             Handle.parent = null;
             isInPassing = true;
             float distance = (transform.position - Target.transform.position).magnitude;
@@ -160,5 +183,10 @@ public class Ball : MonoBehaviour
             RB.AddForce(transform.forward * Force, ForceMode.Impulse);
             Held = false;
         }
+    }
+
+    public bool GetThrown()
+    {
+        return Thrown;
     }
 }
