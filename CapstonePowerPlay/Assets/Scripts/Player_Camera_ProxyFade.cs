@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Player_Camera_ProxyFade : MonoBehaviour {
 
+
+    [SerializeField]
+    private Renderer playerRenderer = null;
+
+
+
 	// Use this for initialization
 	void Start () {
 		
@@ -13,4 +19,14 @@ public class Player_Camera_ProxyFade : MonoBehaviour {
 	void Update () {
 		
 	}
+
+
+    private void FadeOut()
+    {
+        while(playerRenderer.material.color.a>0)
+        {
+            //playerRenderer.material.color -= Time.deltaTime / 2;
+        }
+    }
+
 }
