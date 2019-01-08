@@ -976,12 +976,12 @@ MonoBehaviour:
   m_BindingMode: 0
   m_SplineCurvature: 0.2
   m_Orbits:
-  - m_Height: 1.59
-    m_Radius: 4.45
+  - m_Height: 2
+    m_Radius: 0.3
   - m_Height: 0.22
-    m_Radius: 5.69
+    m_Radius: 3.25
   - m_Height: -1.38
-    m_Radius: 3.57
+    m_Radius: 0.3
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
   - {fileID: 0}
@@ -1015,6 +1015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e59ff7109d97a4cb4eaca0bae42fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damping: 0.1
   pCameraObject: {fileID: 4305917737074008}
   lMask:
     serializedVersion: 2
@@ -1184,13 +1185,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   m_MinimumDistanceFromTarget: 0.1
-  m_AvoidObstacles: 0
+  m_AvoidObstacles: 1
   m_DistanceLimit: 0
   m_MinimumOcclusionTime: 0
   m_CameraRadius: 0.1
-  m_Strategy: 1
+  m_Strategy: 0
   m_MaximumEffort: 4
-  m_SmoothingTime: 0
+  m_SmoothingTime: 0.13
   m_Damping: 0
   m_DampingWhenOccluded: 0
   m_OptimalTargetDistance: 0
