@@ -101,18 +101,20 @@ public class BallHandling : NetworkBehaviour {
     private void CmdPass(GameObject Target)
     {
         ball.SetPass(true, Target, PassForce);
-    }
-
-    private void Pass(GameObject Target)
-    {
-        //Direction = Target.transform.position - ball.transform.position;
-        //Direction = Direction.normalized;
-        //Direction *= PassForce;
-
-        ball.SetPass(true, Target, PassForce);
         TurnOnFakeBall(false);
         ball.gameObject.SetActive(true);
     }
+
+    //private void Pass(GameObject Target)
+    //{
+    //    //Direction = Target.transform.position - ball.transform.position;
+    //    //Direction = Direction.normalized;
+    //    //Direction *= PassForce;
+
+    //    ball.SetPass(true, Target, PassForce);
+    //    TurnOnFakeBall(false);
+    //    ball.gameObject.SetActive(true);
+    //}
 
     [Command]
     private void CmdShoot()
@@ -120,29 +122,32 @@ public class BallHandling : NetworkBehaviour {
         Direction = Cam.transform.forward;
         Direction *= ShootForce;
         ball.Shoot(Direction, playerTag);
-    }
 
-        private void Shoot()
-    {
-        /*
-        RaycastHit hit;
-        Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(ray, out hit, HitLayer);
-        Direction = hit.point;
-        Direction = Direction - ball.transform.position;
-        Direction = Direction.normalized;
-        Direction *= ShootForce;
-        ball.Shoot(Direction, playerTag);
-        */
-
-        Direction = Cam.transform.forward;
-        Direction *= ShootForce;
-        ball.Shoot(Direction, playerTag);
-
-        Debug.Log("Direction: " + Direction);
         TurnOnFakeBall(false);
         ball.gameObject.SetActive(true);
     }
+
+    //    private void Shoot()
+    //{
+    //    /*
+    //    RaycastHit hit;
+    //    Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
+    //    Physics.Raycast(ray, out hit, HitLayer);
+    //    Direction = hit.point;
+    //    Direction = Direction - ball.transform.position;
+    //    Direction = Direction.normalized;
+    //    Direction *= ShootForce;
+    //    ball.Shoot(Direction, playerTag);
+    //    */
+
+    //    Direction = Cam.transform.forward;
+    //    Direction *= ShootForce;
+    //    ball.Shoot(Direction, playerTag);
+
+    //    Debug.Log("Direction: " + Direction);
+    //    TurnOnFakeBall(false);
+    //    ball.gameObject.SetActive(true);
+    //}
 
     public void SetBall(Ball b)
     {
