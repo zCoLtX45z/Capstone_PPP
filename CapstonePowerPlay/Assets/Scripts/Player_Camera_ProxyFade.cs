@@ -25,7 +25,7 @@ public class Player_Camera_ProxyFade : MonoBehaviour {
     {
         while(playerRenderer.material.color.a>0)
         {
-            //playerRenderer.material.color -= Time.deltaTime / 2;
+            //playerRenderer.material.color -= playerRenderer.material Time.deltaTime / 2;
         }
     }
 
