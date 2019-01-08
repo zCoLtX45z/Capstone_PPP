@@ -111,12 +111,14 @@ public class Ball : MonoBehaviour
 
             if (BH.canHold)
             {
-            Hand = BH.ReturnHand();
+                Hand = BH.ReturnHand();
 
-                Handle.position = Hand.position;
-                Handle.parent = Hand.parent;
+                //Handle.position = Hand.position;
+                //Handle.parent = Hand.parent;
 
                 BH.SetBall(this);
+                BH.TurnOnFakeBall();
+                gameObject.SetActive(false);
             }
             else
             { 
@@ -134,7 +136,7 @@ public class Ball : MonoBehaviour
     public void Shoot(Vector3 power, string tag)
     {
         //transform.gameObject.layer = 0;
-
+        Handle.position = Hand.position;
         Debug.Log("power is " + power);
         RB.isKinematic = false;
         Handle.parent = null;
@@ -142,11 +144,13 @@ public class Ball : MonoBehaviour
         Debug.Log("teamTag: " + tag);
         teamTag = tag;
         gameObject.layer = 10;
+        Held = false;
     }
     public void SetPass(bool Passing, GameObject Target, float Force)
     {
         if (Target != null)
         {
+            Handle.position = Hand.position;
             passedTarget = Target;
             RB.isKinematic = false;
             Handle.parent = null;
@@ -154,6 +158,7 @@ public class Ball : MonoBehaviour
             float distance = (transform.position - Target.transform.position).magnitude;
             transform.LookAt(Target.transform.position);
             RB.AddForce(transform.forward * Force, ForceMode.Impulse);
+            Held = false;
         }
     }
 }

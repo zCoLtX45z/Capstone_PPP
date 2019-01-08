@@ -29,7 +29,7 @@ public class BallHandling : MonoBehaviour {
     // get from input manager
     private float PassShootAxis = 0;
 
-    public bool canHold;
+    public bool canHold = true;
 
     // can hold timer
     public float canHoldTimer = 0;
@@ -40,6 +40,10 @@ public class BallHandling : MonoBehaviour {
 
     // player's tag
     private string playerTag;
+
+    // Reference fake ball
+    [SerializeField]
+    private GameObject FakeBall;
 
 	// Use this for initialization
 	void Start () {
@@ -99,6 +103,8 @@ public class BallHandling : MonoBehaviour {
         //Direction *= PassForce;
         
         ball.SetPass(true, Target, PassForce);
+        TurnOnFakeBall(false);
+        ball.gameObject.SetActive(true);
     }
 
     private void Shoot()
@@ -119,11 +125,17 @@ public class BallHandling : MonoBehaviour {
         ball.Shoot(Direction, playerTag);
 
         Debug.Log("Direction: " + Direction);
-
+        TurnOnFakeBall(false);
+        ball.gameObject.SetActive(true);
     }
 
     public void SetBall(Ball b)
     {
         ball = b;
+    }
+
+    public void TurnOnFakeBall(bool b = true)
+    {
+        FakeBall.SetActive(b);
     }
 }
