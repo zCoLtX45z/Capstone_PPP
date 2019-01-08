@@ -129,6 +129,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             // send out raycast to the current teamate being referenced
             if (Physics.Raycast(transform.position, directionFromPlayer, out tempHit, Mathf.Infinity))
             {
+                Debug.Log("tempHit has hit: " + tempHit.transform.name + " tempHit should hit: " + listOfTeamates[i]);
                 // if the raycast hits is target
                 if (tempHit.transform.gameObject == listOfTeamates[i])
                 {
@@ -165,7 +166,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                                 }
                             }
                         }
-                        // if there is noting in currentAccpeted target liss
+                        // if there is noting in currentAccpeted target list
                         else
                         {
                             // add the teammate being referenced from listOfTeamates to currentAcceptedTargets
@@ -181,6 +182,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                             // if it equals to the gameObject referenced in listOfTeamates
                             if (currentAcceptedTargets[j] == listOfTeamates[i])
                             {
+                                Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by target not being in view of the angle");
                                 // remove the gameObject referenced in listOfTeamates from currentAcceptedTargets
                                 currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
                                 // just added...
@@ -190,7 +192,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                         Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
                     }
                 }
-                // if the raycast does not hit inteded target
+                // if the raycast does not hit intended target
                 else
                 {
                     // check every object within currentAcceptedTargets list
@@ -199,6 +201,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                         // if it equals to the gameObject referenced in listOfTeamates
                         if (currentAcceptedTargets[j] == listOfTeamates[i])
                         {
+                            Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by raycast not connecting");
                             // remove the gameObject referenced in listOfTeamates from currentAcceptedTargets
                             currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
                             // just added...
@@ -240,11 +243,6 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             Vector3 targetObjectDirection = target.transform.position - transform.position;
             Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), targetObjectDirection, Color.yellow);
         }
-
-        
-
-
-
 
 
         //

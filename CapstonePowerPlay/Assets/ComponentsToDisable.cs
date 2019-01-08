@@ -16,5 +16,12 @@ public class ComponentsToDisable : NetworkBehaviour {
                 DisabledComponents[i].enabled = false;
             }
         }
+
+
+        // added by andre.
+        else
+        {
+            gameObject.layer = 2;
+        }
 	}
 }

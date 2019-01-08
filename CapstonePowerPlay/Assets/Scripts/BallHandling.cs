@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class BallHandling : NetworkBehaviour {
 
-    // Set Shoot force 
+    // Set Shoot force
     [SerializeField]
     public float ShootForce = 200;
     [SerializeField]
@@ -30,7 +30,7 @@ public class BallHandling : NetworkBehaviour {
     // get from input manager
     private float PassShootAxis = 0;
 
-    public bool canHold;
+    public bool canHold = true;
 
     // can hold timer
     public float canHoldTimer = 0;
@@ -42,12 +42,16 @@ public class BallHandling : NetworkBehaviour {
     // player's tag
     private string playerTag;
 
+    // Reference fake ball
+    [SerializeField]
+    private GameObject FakeBall;
+
 	// Use this for initialization
 	void Start () {
         canHold = true;
         playerTag = transform.root.tag;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
         PassShootAxis = Input.GetAxis("PassShoot");
@@ -104,8 +108,10 @@ public class BallHandling : NetworkBehaviour {
         //Direction = Target.transform.position - ball.transform.position;
         //Direction = Direction.normalized;
         //Direction *= PassForce;
-        
+
         ball.SetPass(true, Target, PassForce);
+        TurnOnFakeBall(false);
+        ball.gameObject.SetActive(true);
     }
 
     [Command]
@@ -128,17 +134,23 @@ public class BallHandling : NetworkBehaviour {
         Direction *= ShootForce;
         ball.Shoot(Direction, playerTag);
         */
-        
+
         Direction = Cam.transform.forward;
         Direction *= ShootForce;
         ball.Shoot(Direction, playerTag);
 
-        //Debug.Log("Direction: " + Direction);
-
+        Debug.Log("Direction: " + Direction);
+        TurnOnFakeBall(false);
+        ball.gameObject.SetActive(true);
     }
 
     public void SetBall(Ball b)
     {
         ball = b;
+    }
+
+    public void TurnOnFakeBall(bool b = true)
+    {
+        FakeBall.SetActive(b);
     }
 }
