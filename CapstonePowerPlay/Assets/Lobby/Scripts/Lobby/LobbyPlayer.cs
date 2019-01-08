@@ -277,20 +277,20 @@ namespace Prototype.NetworkLobby
 
             bool alreadyInUse = false;
 
-            do
-            {
-                alreadyInUse = false;
-                //_colorinUse
-            for (int i = 0; i < _colorInUse.Count; ++i)
-                {      //_colorInUse
-                    if (_colorInUse[i] == 1)
-                    {//that color is already in use
-                        alreadyInUse = true;
-                        idx = (idx + 1) % Colors.Length;
-                    }
-                }
-            }
-            while (alreadyInUse);
+            //do
+            //{
+            //    alreadyInUse = false;
+            //    //_colorinUse
+            //for (int i = 0; i < _colorInUse.Count; ++i)
+            //    {      //_colorInUse
+            //        if (_colorInUse[i] == 1)
+            //        {//that color is already in use
+            //            alreadyInUse = true;
+            //            idx = (idx + 1) % Colors.Length;
+            //        }
+            //    }
+            //}
+            //while (alreadyInUse);
 
             if (inUseIdx >= 0)
             {//if we already add an entry in the colorTabs, we change it
