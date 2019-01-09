@@ -164,11 +164,23 @@ public class Ball : NetworkBehaviour
         BH = null;
         HardCol.isTrigger = false;
     }
+
+    public void ShootBall(Vector3 power, string tag)
+    {
+        //if (isClient)
+        //{
+            RpcShoot(power, tag);
+        //}
+        //else
+        //{
+            CmdShoot(power, tag);
+        //}
+}
+
     [Command]
     public void CmdShoot(Vector3 power, string tag)
     {
         //transform.gameObject.layer = 0;
-        RpcShoot(power, tag);
         Thrown = true;
         Handle.position = Hand.position;
         Debug.Log("power is " + power);
@@ -200,7 +212,6 @@ public class Ball : NetworkBehaviour
     {
         if (Target != null)
         {
-            RpcSetPass(Passing, Target, Force);
             Debug.Log("Ball Passed to " + Target.name);
             Thrown = true;
             Handle.position = Hand.position;
@@ -230,6 +241,12 @@ public class Ball : NetworkBehaviour
             RB.AddForce(transform.forward * Force, ForceMode.Impulse);
             Held = false;
         }
+    }
+
+    public void Pass(bool Passing, GameObject Target, float Force)
+    {
+        RpcSetPass(Passing, Target, Force);
+        CmdSetPass(Passing, Target, Force);
     }
 
     public bool GetThrown()
