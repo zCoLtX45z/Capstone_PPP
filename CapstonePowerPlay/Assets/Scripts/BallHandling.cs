@@ -119,26 +119,14 @@ public class BallHandling : NetworkBehaviour {
 
     private void Shoot()
     {
-        if (!isClient)
-        {
-            RpcShoot();
-        }
-        else
-        {
-            CmdShoot();
-        }
+        RpcShoot();
+        CmdShoot();
     }
 
     private void Pass(GameObject Target)
     {
-        if (!isClient)
-        {
-            RpcPass(Target);
-        }
-        else
-        {
-            CmdPass(Target);
-        }
+        RpcPass(Target);
+        CmdPass(Target);
     }
 
     //private void Pass(GameObject Target)
