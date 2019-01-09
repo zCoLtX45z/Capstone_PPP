@@ -168,6 +168,22 @@ public class Ball : NetworkBehaviour
     public void CmdShoot(Vector3 power, string tag)
     {
         //transform.gameObject.layer = 0;
+        RpcShoot(power, tag);
+        Thrown = true;
+        Handle.position = Hand.position;
+        Debug.Log("power is " + power);
+        Handle.parent = null;
+        RB.AddForce(power, ForceMode.Impulse);
+        Debug.Log("teamTag: " + tag);
+        teamTag = tag;
+        gameObject.layer = 10;
+        Held = false;
+    }
+
+    [ClientRpc]
+    public void RpcShoot(Vector3 power, string tag)
+    {
+        //transform.gameObject.layer = 0;
         Thrown = true;
         Handle.position = Hand.position;
         Debug.Log("power is " + power);
@@ -181,6 +197,25 @@ public class Ball : NetworkBehaviour
 
     [Command]
     public void CmdSetPass(bool Passing, GameObject Target, float Force)
+    {
+        if (Target != null)
+        {
+            RpcSetPass(Passing, Target, Force);
+            Debug.Log("Ball Passed to " + Target.name);
+            Thrown = true;
+            Handle.position = Hand.position;
+            passedTarget = Target;
+            Handle.parent = null;
+            isInPassing = true;
+            float distance = (transform.position - Target.transform.position).magnitude;
+            transform.LookAt(Target.transform.position);
+            RB.AddForce(transform.forward * Force, ForceMode.Impulse);
+            Held = false;
+        }
+    }
+
+    [ClientRpc]
+    public void RpcSetPass(bool Passing, GameObject Target, float Force)
     {
         if (Target != null)
         {
