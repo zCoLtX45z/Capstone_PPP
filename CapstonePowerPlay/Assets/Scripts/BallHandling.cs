@@ -70,7 +70,7 @@ public class BallHandling : NetworkBehaviour {
                     if (Target != null)
                     {
                         Debug.Log(gameObject.name + " Passes");
-                        Pass(Target);
+                        CmdPass(Target);
                         ball = null;
                     }
                 }
@@ -78,7 +78,7 @@ public class BallHandling : NetworkBehaviour {
                 {
                     // SHOOT
                     Debug.Log(gameObject.name + " Shoots");
-                    Shoot();
+                    CmdShoot();
                     ball = null;
                 }
             }
@@ -105,40 +105,9 @@ public class BallHandling : NetworkBehaviour {
     private void CmdPass(GameObject Target)
     {
         ball.gameObject.SetActive(true);
-        ball.Pass(true, Target, PassForce);
+        ball.CmdSetPass(true, Target, PassForce);
         TurnOnFakeBall(false);
     }
-
-    [ClientRpc]
-    private void RpcPass(GameObject Target)
-    {
-        //ball.gameObject.SetActive(true);
-        ball.Pass(true, Target, PassForce);
-        TurnOnFakeBall(false);
-    }
-
-    private void Shoot()
-    {
-        //RpcShoot();
-        CmdShoot();
-    }
-
-    private void Pass(GameObject Target)
-    {
-        //RpcPass(Target);
-        CmdPass(Target);
-    }
-
-    //private void Pass(GameObject Target)
-    //{
-    //    //Direction = Target.transform.position - ball.transform.position;
-    //    //Direction = Direction.normalized;
-    //    //Direction *= PassForce;
-
-    //    ball.SetPass(true, Target, PassForce);
-    //    TurnOnFakeBall(false);
-    //    ball.gameObject.SetActive(true);
-    //}
 
     [Command]
     private void CmdShoot()
@@ -146,43 +115,10 @@ public class BallHandling : NetworkBehaviour {
         Direction = Cam.transform.forward;
         Direction *= ShootForce;
         ball.gameObject.SetActive(true);
-        ball.ShootBall(Direction, playerTag);
+        ball.CmdShoot(Direction, playerTag);
 
         TurnOnFakeBall(false);
     }
-
-    [ClientRpc]
-    private void RpcShoot()
-    {
-        Direction = Cam.transform.forward;
-        Direction *= ShootForce;
-        //ball.gameObject.SetActive(true);
-        ball.ShootBall(Direction, playerTag);
-
-        TurnOnFakeBall(false);
-    }
-
-    //    private void Shoot()
-    //{
-    //    /*
-    //    RaycastHit hit;
-    //    Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
-    //    Physics.Raycast(ray, out hit, HitLayer);
-    //    Direction = hit.point;
-    //    Direction = Direction - ball.transform.position;
-    //    Direction = Direction.normalized;
-    //    Direction *= ShootForce;
-    //    ball.Shoot(Direction, playerTag);
-    //    */
-
-    //    Direction = Cam.transform.forward;
-    //    Direction *= ShootForce;
-    //    ball.Shoot(Direction, playerTag);
-
-    //    Debug.Log("Direction: " + Direction);
-    //    TurnOnFakeBall(false);
-    //    ball.gameObject.SetActive(true);
-    //}
 
     public void SetBall(Ball b)
     {

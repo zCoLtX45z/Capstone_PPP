@@ -167,20 +167,14 @@ public class Ball : NetworkBehaviour
 
     public void ShootBall(Vector3 power, string tag)
     {
-        //if (isClient)
-        //{
-            RpcShoot(power, tag);
-        //}
-        //else
-        //{
-            CmdShoot(power, tag);
-        //}
-}
+        CmdShoot(power, tag);
+    }
 
     [Command]
     public void CmdShoot(Vector3 power, string tag)
     {
         //transform.gameObject.layer = 0;
+        RpcShoot(power, tag);
         Thrown = true;
         Handle.position = Hand.position;
         Debug.Log("power is " + power);
@@ -210,6 +204,7 @@ public class Ball : NetworkBehaviour
     [Command]
     public void CmdSetPass(bool Passing, GameObject Target, float Force)
     {
+        RpcSetPass(Passing, Target, Force);
         if (Target != null)
         {
             Debug.Log("Ball Passed to " + Target.name);
