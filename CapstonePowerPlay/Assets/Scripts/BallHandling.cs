@@ -70,7 +70,7 @@ public class BallHandling : NetworkBehaviour {
                     if (Target != null)
                     {
                         Debug.Log(gameObject.name + " Passes");
-                        CmdPass(Target);
+                        CmdPass(Target.transform.position);
                         ball = null;
                     }
                 }
@@ -102,7 +102,7 @@ public class BallHandling : NetworkBehaviour {
     }
 
     [Command]
-    private void CmdPass(GameObject Target)
+    private void CmdPass(Vector3 Target)
     {
         ball.gameObject.SetActive(true);
         ball.CmdSetPass(true, Target, PassForce);

@@ -23,7 +23,7 @@ public class Ball : NetworkBehaviour
     private bool isInPassing = false;
 
 
-    private GameObject passedTarget;
+    private Vector3 passedTarget;
 
     [SerializeField]
     private float RotSpeed = 0.5f;
@@ -74,7 +74,7 @@ public class Ball : NetworkBehaviour
             Vector3 forwardVector = transform.forward;
             float lengthOfForwardV = forwardVector.magnitude;
             Debug.Log("passTarget: " + passedTarget);
-            float angle = Mathf.Acos(Vector3.Dot(transform.forward, (passedTarget.transform.position - transform.position))/(Mathf.Abs(lengthOfForwardV * (passedTarget.transform.position - transform.position).magnitude)));
+            float angle = Mathf.Acos(Vector3.Dot(transform.forward, (passedTarget - transform.position))/(Mathf.Abs(lengthOfForwardV * (passedTarget - transform.position).magnitude)));
 
             angle *= 180 / Mathf.PI;
 
@@ -86,7 +86,7 @@ public class Ball : NetworkBehaviour
                     RB.useGravity = false;
 
                 Debug.Log("Within angle");
-                Vector3 lookPos = passedTarget.transform.position - transform.position;
+                Vector3 lookPos = passedTarget - transform.position;
 
                 var rotation = Quaternion.LookRotation(lookPos);
                 SlerpRatio += Time.deltaTime * RotSpeed;
@@ -175,15 +175,6 @@ public class Ball : NetworkBehaviour
     {
         //transform.gameObject.layer = 0;
         RpcShoot(power, tag);
-        Thrown = true;
-        Handle.position = Hand.position;
-        Debug.Log("power is " + power);
-        Handle.parent = null;
-        RB.AddForce(power, ForceMode.Impulse);
-        Debug.Log("teamTag: " + tag);
-        teamTag = tag;
-        gameObject.layer = 10;
-        Held = false;
     }
 
     [ClientRpc]
@@ -193,7 +184,6 @@ public class Ball : NetworkBehaviour
         Thrown = true;
         Handle.position = Hand.position;
         Debug.Log("power is " + power);
-        Handle.parent = null;
         RB.AddForce(power, ForceMode.Impulse);
         Debug.Log("teamTag: " + tag);
         teamTag = tag;
@@ -202,46 +192,23 @@ public class Ball : NetworkBehaviour
     }
 
     [Command]
-    public void CmdSetPass(bool Passing, GameObject Target, float Force)
+    public void CmdSetPass(bool Passing, Vector3 Target, float Force)
     {
         RpcSetPass(Passing, Target, Force);
-        if (Target != null)
-        {
-            Debug.Log("Ball Passed to " + Target.name);
-            Thrown = true;
-            Handle.position = Hand.position;
-            passedTarget = Target;
-            Handle.parent = null;
-            isInPassing = true;
-            float distance = (transform.position - Target.transform.position).magnitude;
-            transform.LookAt(Target.transform.position);
-            RB.AddForce(transform.forward * Force, ForceMode.Impulse);
-            Held = false;
-        }
     }
 
     [ClientRpc]
-    public void RpcSetPass(bool Passing, GameObject Target, float Force)
+    public void RpcSetPass(bool Passing, Vector3 Target, float Force)
     {
-        if (Target != null)
-        {
-            Debug.Log("Ball Passed to " + Target.name);
-            Thrown = true;
-            Handle.position = Hand.position;
-            passedTarget = Target;
-            Handle.parent = null;
-            isInPassing = true;
-            float distance = (transform.position - Target.transform.position).magnitude;
-            transform.LookAt(Target.transform.position);
-            RB.AddForce(transform.forward * Force, ForceMode.Impulse);
-            Held = false;
-        }
-    }
-
-    public void Pass(bool Passing, GameObject Target, float Force)
-    {
-        RpcSetPass(Passing, Target, Force);
-        CmdSetPass(Passing, Target, Force);
+        Thrown = true;
+        passedTarget = Target;
+        Handle.position = Hand.position;
+        Handle.parent = null;
+        isInPassing = true;
+        float distance = (transform.position - Target).magnitude;
+        transform.LookAt(Target);
+        RB.AddForce(transform.forward * Force, ForceMode.Impulse);
+        Held = false;
     }
 
     public bool GetThrown()
