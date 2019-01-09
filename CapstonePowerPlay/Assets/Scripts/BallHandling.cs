@@ -105,7 +105,7 @@ public class BallHandling : NetworkBehaviour {
     private void CmdPass(GameObject Target)
     {
         ball.gameObject.SetActive(true);
-        ball.CmdSetPass(true, Target, PassForce);
+        ball.Pass(true, Target, PassForce);
         TurnOnFakeBall(false);
     }
 
@@ -113,19 +113,19 @@ public class BallHandling : NetworkBehaviour {
     private void RpcPass(GameObject Target)
     {
         //ball.gameObject.SetActive(true);
-        ball.RpcSetPass(true, Target, PassForce);
+        ball.Pass(true, Target, PassForce);
         TurnOnFakeBall(false);
     }
 
     private void Shoot()
     {
-        RpcShoot();
+        //RpcShoot();
         CmdShoot();
     }
 
     private void Pass(GameObject Target)
     {
-        RpcPass(Target);
+        //RpcPass(Target);
         CmdPass(Target);
     }
 
@@ -146,7 +146,7 @@ public class BallHandling : NetworkBehaviour {
         Direction = Cam.transform.forward;
         Direction *= ShootForce;
         ball.gameObject.SetActive(true);
-        ball.CmdShoot(Direction, playerTag);
+        ball.ShootBall(Direction, playerTag);
 
         TurnOnFakeBall(false);
     }
@@ -157,7 +157,7 @@ public class BallHandling : NetworkBehaviour {
         Direction = Cam.transform.forward;
         Direction *= ShootForce;
         //ball.gameObject.SetActive(true);
-        ball.RpcShoot(Direction, playerTag);
+        ball.ShootBall(Direction, playerTag);
 
         TurnOnFakeBall(false);
     }
