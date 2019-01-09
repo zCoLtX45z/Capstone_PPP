@@ -112,8 +112,8 @@ public class BallHandling : NetworkBehaviour {
     [ClientRpc]
     private void RpcPass(GameObject Target)
     {
-        ball.gameObject.SetActive(true);
-        ball.CmdSetPass(true, Target, PassForce);
+        //ball.gameObject.SetActive(true);
+        ball.RpcSetPass(true, Target, PassForce);
         TurnOnFakeBall(false);
     }
 
@@ -156,8 +156,8 @@ public class BallHandling : NetworkBehaviour {
     {
         Direction = Cam.transform.forward;
         Direction *= ShootForce;
-        ball.gameObject.SetActive(true);
-        ball.CmdShoot(Direction, playerTag);
+        //ball.gameObject.SetActive(true);
+        ball.RpcShoot(Direction, playerTag);
 
         TurnOnFakeBall(false);
     }
