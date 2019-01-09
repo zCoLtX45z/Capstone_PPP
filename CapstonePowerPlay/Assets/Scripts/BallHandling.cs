@@ -112,6 +112,12 @@ public class BallHandling : NetworkBehaviour {
     [Command]
     private void CmdShoot()
     {
+        RpcShoot();
+    }
+
+    [ClientRpc]
+    private void RpcShoot()
+    {
         Direction = Cam.transform.forward;
         Direction *= ShootForce;
         ball.gameObject.SetActive(true);
