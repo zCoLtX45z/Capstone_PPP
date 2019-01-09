@@ -62,7 +62,7 @@ public class Ball : NetworkBehaviour
             if (CanBeCaughtTimer <= 0)
             {
                 Thrown = false;
-                CanBeCaughtTimer = 1;
+                CanBeCaughtTimer = 0.3f;
             }
         }
 
