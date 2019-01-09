@@ -39,9 +39,10 @@ public class Ball : NetworkBehaviour
 
     private float CanBeCaughtTimer = 1;
     private bool Thrown = false;
+    private float SlerpRatio = 0;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         Handle = GetComponent<Transform>();
         RB = GetComponent<Rigidbody>();
@@ -79,7 +80,6 @@ public class Ball : NetworkBehaviour
 
             angle = Mathf.Abs(angle);
             // float angle = Vector3.Angle(directionFromPlayer, transform.forward);
-
             if (angle <= maxDegree)
             {
                 if(RB.useGravity)
@@ -89,7 +89,19 @@ public class Ball : NetworkBehaviour
                 Vector3 lookPos = passedTarget.transform.position - transform.position;
 
                 var rotation = Quaternion.LookRotation(lookPos);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * RotSpeed);
+                SlerpRatio += Time.deltaTime * RotSpeed;
+                if (SlerpRatio > 1)
+                {
+                    SlerpRatio = 0;
+                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1);
+                    isInPassing = false;
+                    RB.useGravity = true;
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, SlerpRatio);
+                }
+
             }
             
             RB.AddForce(transform.forward * constantForce, ForceMode.Force);
