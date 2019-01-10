@@ -35,7 +35,7 @@ public class Ball : NetworkBehaviour
     public string teamTag;
 
     [SerializeField]
-    private float constantForce = 15.0f;
+    private float constantForce = 150.0f;
 
     private float CanBeCaughtTimer = 1;
     private bool Thrown = false;
