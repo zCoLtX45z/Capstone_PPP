@@ -41,6 +41,12 @@ public class Ball : NetworkBehaviour
     private bool Thrown = false;
     private float SlerpRatio = 0;
 
+    [SerializeField]
+    private float maxTimePass = 2.0f;
+
+    private float timePassTimer = 0.0f;
+
+
     // Use this for initialization
     void Start ()
     {
@@ -69,7 +75,19 @@ public class Ball : NetworkBehaviour
 
         if(isInPassing)
         {
-            
+            if (RB.useGravity)
+                RB.useGravity = false;
+
+
+            timePassTimer += Time.deltaTime;
+
+            if(timePassTimer >= maxTimePass)
+            {
+                timePassTimer = 0;
+                isInPassing = false;
+
+                RB.useGravity = true;
+            }
 
             Vector3 forwardVector = transform.forward;
             float lengthOfForwardV = forwardVector.magnitude;
@@ -79,17 +97,19 @@ public class Ball : NetworkBehaviour
             angle *= 180 / Mathf.PI;
 
             angle = Mathf.Abs(angle);
+            Debug.Log("Within angle");
+            //
+            Vector3 lookPos = passedTarget - transform.position;
+
+            var rotation = Quaternion.LookRotation(lookPos);
+            SlerpRatio = Time.deltaTime * RotSpeed;
+            //
             // float angle = Vector3.Angle(directionFromPlayer, transform.forward);
             if (angle <= maxDegree)
             {
-                if(RB.useGravity)
-                    RB.useGravity = false;
+               
 
-                Debug.Log("Within angle");
-                Vector3 lookPos = passedTarget - transform.position;
-
-                var rotation = Quaternion.LookRotation(lookPos);
-                SlerpRatio = Time.deltaTime * RotSpeed;
+                
                 //if (SlerpRatio > 1)
                 //{
                 //    SlerpRatio = 0;
@@ -103,10 +123,15 @@ public class Ball : NetworkBehaviour
                 //}
 
                 transform.rotation = rotation;
+                RB.AddForce(transform.forward * constantForce, ForceMode.Force);
 
             }
-            
-            RB.AddForce(transform.forward * constantForce, ForceMode.Force);
+            else
+            {
+                transform.rotation = rotation;
+                RB.AddForce(transform.forward * constantForce / 2, ForceMode.Force);
+            }
+           
 
             //RB.velocity = (transform.forward * constantForce);
         }
