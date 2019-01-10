@@ -100,6 +100,7 @@ public class Ball : NetworkBehaviour
             Debug.Log("Within angle");
             //
             Vector3 lookPos = passedTarget - transform.position;
+            Vector3 direction = lookPos.normalized;
 
             var rotation = Quaternion.LookRotation(passedTarget);
             SlerpRatio = Time.deltaTime * RotSpeed;
@@ -123,15 +124,15 @@ public class Ball : NetworkBehaviour
                 //}
 
                 //transform.rotation = rotation;
-                transform.LookAt(passedTarget);
-                RB.AddForce(transform.forward * constantForce, ForceMode.Force);
+                //transform.LookAt(passedTarget);
+                RB.AddForce(direction * constantForce, ForceMode.Force);
 
             }
             else
             {
                 //transform.rotation = rotation;
-                transform.LookAt(passedTarget);
-                RB.AddForce(transform.forward * constantForce / 2, ForceMode.Force);
+                //transform.LookAt(passedTarget);
+                RB.AddForce(direction * constantForce / 2, ForceMode.Force);
             }
            
 
