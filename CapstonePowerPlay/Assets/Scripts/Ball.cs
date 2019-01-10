@@ -46,6 +46,9 @@ public class Ball : NetworkBehaviour
 
     private float timePassTimer = 0.0f;
 
+    [SerializeField]
+    private ResetBallState RBS;
+
 
     // Use this for initialization
     void Start ()
@@ -178,6 +181,7 @@ public class Ball : NetworkBehaviour
                 //Handle.parent = Hand.parent;
 
                 BH.SetBall(this);
+                RBS.CmdSetPlayerHolding(BH);
                 BH.CmdTurnOnFakeBall(true);
                 CmdTurnOnBall(false);
             }
@@ -219,6 +223,7 @@ public class Ball : NetworkBehaviour
         teamTag = tag;
         gameObject.layer = 10;
         Held = false;
+        RBS.CmdSetPlayerHolding(null);
     }
 
     [Command]
@@ -240,6 +245,7 @@ public class Ball : NetworkBehaviour
         //transform.LookAt(Target);
         //RB.AddForce(transform.forward * Force, ForceMode.Impulse);
         Held = false;
+        RBS.CmdSetPlayerHolding(null);
     }
 
     public bool GetThrown()
