@@ -151,9 +151,10 @@ MonoBehaviour:
   HardCol: {fileID: 135460024035982438}
   isInPassing: 0
   RotSpeed: 10
-  maxDegree: 120
+  maxDegree: 30
   teamTag: 
-  constantForce: 15
+  constantForce: 300
+  maxTimePass: 2
 --- !u!114 &114789085549594760
 MonoBehaviour:
   m_ObjectHideFlags: 1

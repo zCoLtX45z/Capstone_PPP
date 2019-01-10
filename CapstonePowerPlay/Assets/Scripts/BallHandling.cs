@@ -47,7 +47,7 @@ public class BallHandling : NetworkBehaviour {
 
     // Reference fake ball
     [SerializeField]
-    private GameObject FakeBall;
+    public GameObject FakeBall;
 
 	// Use this for initialization
 	void Start () {
@@ -70,11 +70,13 @@ public class BallHandling : NetworkBehaviour {
                     // PASS
                     // Get Target from Targeting Script
                     Target = softLockScript.target;
+                    Debug.Log("target: " + Target);
                     TargetPosition = softLockScript.targetPosition;
                     if (Target != null)
                     {
+                        Debug.Log("jadaadadadadadad");
                         Debug.Log(gameObject.name + " Passes");
-                        CmdPass(TargetPosition, ball.gameObject);
+                        CmdPass(Target, ball.gameObject);
                         ball = null;
                     }
                 }
@@ -106,25 +108,26 @@ public class BallHandling : NetworkBehaviour {
     }
 
     [Command]
-    private void CmdPass(Vector3 Target, GameObject ballObject)
+    private void CmdPass(GameObject Target, GameObject ballObject)
     {
         RpcPass(Target, ballObject);
     }
 
     [ClientRpc]
-    private void RpcPass(Vector3 Target, GameObject ballObject)
+    private void RpcPass(GameObject Target, GameObject ballObject)
     {
+        
         ballObject.SetActive(true);
         Ball temp = ballObject.GetComponent<Ball>();
         temp.CmdSetPass(true, Target, PassForce);
-        TurnOnFakeBall(false);
+        CmdTurnOnFakeBall(false);
     }
 
     [Command]
     private void CmdShoot(GameObject ballObject)
     {
 
-        TurnOnFakeBall(false);
+        CmdTurnOnFakeBall(false);
         Direction = Cam.transform.forward;
         Direction *= ShootForce;
         RpcShoot(Direction, ballObject);
@@ -136,7 +139,7 @@ public class BallHandling : NetworkBehaviour {
         ballObject.SetActive(true);
         Ball temp = ballObject.GetComponent<Ball>();
         temp.CmdShoot(Direction, playerTag);
-        TurnOnFakeBall(false);
+        CmdTurnOnFakeBall(false);
     }
 
     public void SetBall(Ball b)
@@ -144,8 +147,16 @@ public class BallHandling : NetworkBehaviour {
         ball = b;
     }
 
-    public void TurnOnFakeBall(bool b = true)
+    [Command]
+    public void CmdTurnOnFakeBall(bool b)
     {
-        FakeBall.SetActive(b);
+        RpcTurnOnFakeBall(gameObject, b);
+    }
+
+    [ClientRpc]
+    public void RpcTurnOnFakeBall(GameObject playerObject, bool b)
+    {
+        BallHandling bh = playerObject.GetComponent<BallHandling>();
+        bh.FakeBall.SetActive(b);
     }
 }
