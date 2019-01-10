@@ -8,11 +8,11 @@ public class Ball : NetworkBehaviour
     [SerializeField]
     private Transform Handle;
     [SerializeField]
-    private BallHandling BH;
+    public BallHandling BH;
     [SerializeField]
     private Transform Hand;
     [SyncVar]
-    private bool Held = false;
+    public bool Held = false;
     private Rigidbody RB;
 
     public SphereCollider HardCol;
