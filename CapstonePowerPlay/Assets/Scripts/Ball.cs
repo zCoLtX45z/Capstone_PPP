@@ -90,17 +90,19 @@ public class Ball : NetworkBehaviour
 
                 var rotation = Quaternion.LookRotation(lookPos);
                 SlerpRatio = Time.deltaTime * RotSpeed;
-                if (SlerpRatio > 1)
-                {
-                    SlerpRatio = 0;
-                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1);
-                    isInPassing = false;
-                    RB.useGravity = true;
-                }
-                else
-                {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, SlerpRatio);
-                }
+                //if (SlerpRatio > 1)
+                //{
+                //    SlerpRatio = 0;
+                //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1);
+                //    isInPassing = false;
+                //    RB.useGravity = true;
+                //}
+                //else
+                //{
+                //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, SlerpRatio);
+                //}
+
+                transform.rotation = rotation;
 
             }
             
