@@ -111,7 +111,8 @@ public class BallHandling : NetworkBehaviour {
     private void RpcPass(Vector3 Target, GameObject ballObject)
     {
         ballObject.SetActive(true);
-        ball.CmdSetPass(true, Target, PassForce);
+        Ball temp = ballObject.GetComponent<Ball>();
+        temp.CmdSetPass(true, Target, PassForce);
         TurnOnFakeBall(false);
     }
 
@@ -129,7 +130,8 @@ public class BallHandling : NetworkBehaviour {
     private void RpcShoot(Vector3 Direction, GameObject ballObject)
     {
         ballObject.SetActive(true);
-        ball.CmdShoot(Direction, playerTag);
+        Ball temp = ballObject.GetComponent<Ball>();
+        temp.CmdShoot(Direction, playerTag);
         TurnOnFakeBall(false);
     }
 
