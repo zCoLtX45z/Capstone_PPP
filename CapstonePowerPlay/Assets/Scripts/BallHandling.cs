@@ -21,6 +21,9 @@ public class BallHandling : NetworkBehaviour {
     // Target for passes
     private GameObject Target;
 
+    // Target position for passes
+    private Vector3 TargetPosition;
+
     // Hand to where the ball goes
     [SerializeField]
     private Transform Hand;
@@ -67,10 +70,11 @@ public class BallHandling : NetworkBehaviour {
                     // PASS
                     // Get Target from Targeting Script
                     Target = softLockScript.target;
+                    TargetPosition = softLockScript.targetPosition;
                     if (Target != null)
                     {
                         Debug.Log(gameObject.name + " Passes");
-                        CmdPass(Target);
+                        CmdPass(TargetPosition, ball.gameObject);
                         ball = null;
                     }
                 }
@@ -78,7 +82,7 @@ public class BallHandling : NetworkBehaviour {
                 {
                     // SHOOT
                     Debug.Log(gameObject.name + " Shoots");
-                    CmdShoot();
+                    CmdShoot(ball.gameObject);
                     ball = null;
                 }
             }
@@ -102,56 +106,38 @@ public class BallHandling : NetworkBehaviour {
     }
 
     [Command]
-    private void CmdPass(GameObject Target)
+    private void CmdPass(Vector3 Target, GameObject ballObject)
     {
-        ball.gameObject.SetActive(true);
-        ball.CmdSetPass(true, Target, PassForce);
-        TurnOnFakeBall(false);
+        RpcPass(Target, ballObject);
     }
 
-    //private void Pass(GameObject Target)
-    //{
-    //    //Direction = Target.transform.position - ball.transform.position;
-    //    //Direction = Direction.normalized;
-    //    //Direction *= PassForce;
-
-    //    ball.SetPass(true, Target, PassForce);
-    //    TurnOnFakeBall(false);
-    //    ball.gameObject.SetActive(true);
-    //}
+    [ClientRpc]
+    private void RpcPass(Vector3 Target, GameObject ballObject)
+    {
+        ballObject.SetActive(true);
+        Ball temp = ballObject.GetComponent<Ball>();
+        temp.CmdSetPass(true, Target, PassForce);
+        TurnOnFakeBall(false);
+    }
 
     [Command]
-    private void CmdShoot()
+    private void CmdShoot(GameObject ballObject)
     {
-        Direction = Cam.transform.forward;
-        Direction *= ShootForce;
-        ball.gameObject.SetActive(true);
-        ball.CmdShoot(Direction, playerTag);
 
         TurnOnFakeBall(false);
+        Direction = Cam.transform.forward;
+        Direction *= ShootForce;
+        RpcShoot(Direction, ballObject);
     }
 
-    //    private void Shoot()
-    //{
-    //    /*
-    //    RaycastHit hit;
-    //    Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
-    //    Physics.Raycast(ray, out hit, HitLayer);
-    //    Direction = hit.point;
-    //    Direction = Direction - ball.transform.position;
-    //    Direction = Direction.normalized;
-    //    Direction *= ShootForce;
-    //    ball.Shoot(Direction, playerTag);
-    //    */
-
-    //    Direction = Cam.transform.forward;
-    //    Direction *= ShootForce;
-    //    ball.Shoot(Direction, playerTag);
-
-    //    Debug.Log("Direction: " + Direction);
-    //    TurnOnFakeBall(false);
-    //    ball.gameObject.SetActive(true);
-    //}
+    [ClientRpc]
+    private void RpcShoot(Vector3 Direction, GameObject ballObject)
+    {
+        ballObject.SetActive(true);
+        Ball temp = ballObject.GetComponent<Ball>();
+        temp.CmdShoot(Direction, playerTag);
+        TurnOnFakeBall(false);
+    }
 
     public void SetBall(Ball b)
     {
