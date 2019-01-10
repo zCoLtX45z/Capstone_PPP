@@ -178,7 +178,7 @@ public class Ball : NetworkBehaviour
 
                 BH.SetBall(this);
                 BH.CmdTurnOnFakeBall();
-                gameObject.SetActive(false);
+                CmdTurnOnBall(false);
             }
             else
             { 
@@ -243,5 +243,17 @@ public class Ball : NetworkBehaviour
     public bool GetThrown()
     {
         return Thrown;
+    }
+
+    [Command]
+    public void CmdTurnOnBall(bool b)
+    {
+        RpcTurnOnBall(b);
+    }
+
+    [ClientRpc]
+    public void RpcTurnOnBall(bool b)
+    {
+        gameObject.SetActive(b);
     }
 }
