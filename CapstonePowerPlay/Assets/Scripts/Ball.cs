@@ -11,7 +11,7 @@ public class Ball : NetworkBehaviour
     private BallHandling BH;
     [SerializeField]
     private Transform Hand;
-    [SerializeField]
+    [SyncVar]
     private bool Held = false;
     private Rigidbody RB;
 
@@ -23,7 +23,7 @@ public class Ball : NetworkBehaviour
     private bool isInPassing = false;
 
 
-    private Vector3 passedTarget;
+    private GameObject passedTarget;
 
     [SerializeField]
     private float RotSpeed = 0.5f;
@@ -35,11 +35,17 @@ public class Ball : NetworkBehaviour
     public string teamTag;
 
     [SerializeField]
-    private float constantForce = 15.0f;
+    private float constantForce = 900.0f;
 
     private float CanBeCaughtTimer = 1;
     private bool Thrown = false;
     private float SlerpRatio = 0;
+
+    [SerializeField]
+    private float maxTimePass = 2.0f;
+
+    private float timePassTimer = 0.0f;
+
 
     // Use this for initialization
     void Start ()
@@ -69,42 +75,66 @@ public class Ball : NetworkBehaviour
 
         if(isInPassing)
         {
-            
+            if (RB.useGravity)
+                RB.useGravity = false;
+
+
+            timePassTimer += Time.deltaTime;
+
+            if(timePassTimer >= maxTimePass)
+            {
+                timePassTimer = 0;
+                isInPassing = false;
+
+                RB.useGravity = true;
+            }
 
             Vector3 forwardVector = transform.forward;
             float lengthOfForwardV = forwardVector.magnitude;
             Debug.Log("passTarget: " + passedTarget);
-            float angle = Mathf.Acos(Vector3.Dot(transform.forward, (passedTarget - transform.position))/(Mathf.Abs(lengthOfForwardV * (passedTarget - transform.position).magnitude)));
+            float angle = Mathf.Acos(Vector3.Dot(transform.forward, (passedTarget.transform.position - transform.position))/(Mathf.Abs(lengthOfForwardV * (passedTarget.transform.position - transform.position).magnitude)));
 
             angle *= 180 / Mathf.PI;
 
             angle = Mathf.Abs(angle);
+            Debug.Log("Within angle");
+            //
+            Vector3 lookPos = passedTarget.transform.position - transform.position;
+            Vector3 direction = lookPos.normalized;
+
+            var rotation = Quaternion.LookRotation(passedTarget.transform.position);
+            SlerpRatio = Time.deltaTime * RotSpeed;
+            //
             // float angle = Vector3.Angle(directionFromPlayer, transform.forward);
             if (angle <= maxDegree)
             {
-                if(RB.useGravity)
-                    RB.useGravity = false;
 
-                Debug.Log("Within angle");
-                Vector3 lookPos = passedTarget - transform.position;
 
-                var rotation = Quaternion.LookRotation(lookPos);
-                SlerpRatio = Time.deltaTime * RotSpeed;
-                if (SlerpRatio > 1)
-                {
-                    SlerpRatio = 0;
-                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1);
-                    isInPassing = false;
-                    RB.useGravity = true;
-                }
-                else
-                {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, SlerpRatio);
-                }
+
+                //if (SlerpRatio > 1)
+                //{
+                //    SlerpRatio = 0;
+                //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1);
+                //    isInPassing = false;
+                //    RB.useGravity = true;
+                //}
+                //else
+                //{
+                //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, SlerpRatio);
+                //}
+
+                //transform.rotation = rotation;
+                //transform.LookAt(passedTarget);
+                RB.AddForce(direction * constantForce, ForceMode.Force);
 
             }
-            
-            RB.AddForce(transform.forward * constantForce, ForceMode.Force);
+            else
+            {
+                //transform.rotation = rotation;
+                //transform.LookAt(passedTarget);
+                RB.AddForce(direction * constantForce / 2, ForceMode.Force);
+            }
+           
 
             //RB.velocity = (transform.forward * constantForce);
         }
@@ -148,8 +178,8 @@ public class Ball : NetworkBehaviour
                 //Handle.parent = Hand.parent;
 
                 BH.SetBall(this);
-                BH.TurnOnFakeBall();
-                gameObject.SetActive(false);
+                BH.CmdTurnOnFakeBall(true);
+                CmdTurnOnBall(false);
             }
             else
             { 
@@ -192,27 +222,40 @@ public class Ball : NetworkBehaviour
     }
 
     [Command]
-    public void CmdSetPass(bool Passing, Vector3 Target, float Force)
+    public void CmdSetPass(bool Passing, GameObject Target, float Force)
     {
         RpcSetPass(Passing, Target, Force);
     }
 
     [ClientRpc]
-    public void RpcSetPass(bool Passing, Vector3 Target, float Force)
+    public void RpcSetPass(bool Passing, GameObject Target, float Force)
     {
         Thrown = true;
         passedTarget = Target;
         Handle.position = Hand.position;
         Handle.parent = null;
         isInPassing = true;
-        float distance = (transform.position - Target).magnitude;
-        transform.LookAt(Target);
-        RB.AddForce(transform.forward * Force, ForceMode.Impulse);
+        
+        float distance = (transform.position - Target.transform.position).magnitude;
+        //transform.LookAt(Target);
+        //RB.AddForce(transform.forward * Force, ForceMode.Impulse);
         Held = false;
     }
 
     public bool GetThrown()
     {
         return Thrown;
+    }
+
+    [Command]
+    public void CmdTurnOnBall(bool b)
+    {
+        RpcTurnOnBall(b);
+    }
+
+    [ClientRpc]
+    public void RpcTurnOnBall(bool b)
+    {
+        gameObject.SetActive(b);
     }
 }
