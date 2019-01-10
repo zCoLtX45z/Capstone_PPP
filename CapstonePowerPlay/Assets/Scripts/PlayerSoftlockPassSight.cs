@@ -239,7 +239,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                 // set the target as the currently checked gameObject in the currentAcceptedTargets list 
                 target = currentAcceptedTargets[i].gameObject;
                 // set target position to center the players
-                targetPosition = new Vector3(currentAcceptedTargets[i].transform.position.x, currentAcceptedTargets[i].transform.position.y + 2, currentAcceptedTargets[i].transform.position.z);
+                targetPosition = new Vector3(currentAcceptedTargets[i].transform.position.x, currentAcceptedTargets[i].transform.position.y + 1, currentAcceptedTargets[i].transform.position.z);
             }
         }
         // if there is an elidgable target to pass too
