@@ -89,7 +89,7 @@ public class Ball : NetworkBehaviour
                 Vector3 lookPos = passedTarget - transform.position;
 
                 var rotation = Quaternion.LookRotation(lookPos);
-                SlerpRatio += Time.deltaTime * RotSpeed;
+                SlerpRatio = Time.deltaTime * RotSpeed;
                 if (SlerpRatio > 1)
                 {
                     SlerpRatio = 0;
