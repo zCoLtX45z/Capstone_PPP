@@ -101,15 +101,15 @@ public class Ball : NetworkBehaviour
             //
             Vector3 lookPos = passedTarget - transform.position;
 
-            var rotation = Quaternion.LookRotation(lookPos);
+            var rotation = Quaternion.LookRotation(passedTarget);
             SlerpRatio = Time.deltaTime * RotSpeed;
             //
             // float angle = Vector3.Angle(directionFromPlayer, transform.forward);
             if (angle <= maxDegree)
             {
-               
 
-                
+
+
                 //if (SlerpRatio > 1)
                 //{
                 //    SlerpRatio = 0;
@@ -122,13 +122,15 @@ public class Ball : NetworkBehaviour
                 //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, SlerpRatio);
                 //}
 
-                transform.rotation = rotation;
+                //transform.rotation = rotation;
+                transform.LookAt(passedTarget);
                 RB.AddForce(transform.forward * constantForce, ForceMode.Force);
 
             }
             else
             {
-                transform.rotation = rotation;
+                //transform.rotation = rotation;
+                transform.LookAt(passedTarget);
                 RB.AddForce(transform.forward * constantForce / 2, ForceMode.Force);
             }
            
@@ -234,7 +236,7 @@ public class Ball : NetworkBehaviour
         isInPassing = true;
         float distance = (transform.position - Target).magnitude;
         transform.LookAt(Target);
-        RB.AddForce(transform.forward * Force, ForceMode.Impulse);
+       // RB.AddForce(transform.forward * Force, ForceMode.Impulse);
         Held = false;
     }
 
