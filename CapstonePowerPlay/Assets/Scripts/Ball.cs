@@ -11,7 +11,7 @@ public class Ball : NetworkBehaviour
     private BallHandling BH;
     [SerializeField]
     private Transform Hand;
-    [SerializeField]
+    [SyncVar]
     private bool Held = false;
     private Rigidbody RB;
 
@@ -177,7 +177,7 @@ public class Ball : NetworkBehaviour
                 //Handle.parent = Hand.parent;
 
                 BH.SetBall(this);
-                BH.TurnOnFakeBall();
+                BH.CmdTurnOnFakeBall();
                 gameObject.SetActive(false);
             }
             else

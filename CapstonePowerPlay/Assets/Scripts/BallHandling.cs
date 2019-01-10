@@ -47,7 +47,7 @@ public class BallHandling : NetworkBehaviour {
 
     // Reference fake ball
     [SerializeField]
-    private GameObject FakeBall;
+    public GameObject FakeBall;
 
 	// Use this for initialization
 	void Start () {
@@ -117,14 +117,14 @@ public class BallHandling : NetworkBehaviour {
         ballObject.SetActive(true);
         Ball temp = ballObject.GetComponent<Ball>();
         temp.CmdSetPass(true, Target, PassForce);
-        TurnOnFakeBall(false);
+        CmdTurnOnFakeBall(false);
     }
 
     [Command]
     private void CmdShoot(GameObject ballObject)
     {
 
-        TurnOnFakeBall(false);
+        CmdTurnOnFakeBall(false);
         Direction = Cam.transform.forward;
         Direction *= ShootForce;
         RpcShoot(Direction, ballObject);
@@ -136,7 +136,7 @@ public class BallHandling : NetworkBehaviour {
         ballObject.SetActive(true);
         Ball temp = ballObject.GetComponent<Ball>();
         temp.CmdShoot(Direction, playerTag);
-        TurnOnFakeBall(false);
+        CmdTurnOnFakeBall(false);
     }
 
     public void SetBall(Ball b)
@@ -144,8 +144,16 @@ public class BallHandling : NetworkBehaviour {
         ball = b;
     }
 
-    public void TurnOnFakeBall(bool b = true)
+    [Command]
+    public void CmdTurnOnFakeBall(bool b = true)
     {
-        FakeBall.SetActive(b);
+        RpcTurnOnFakeBall(gameObject, b);
+    }
+
+    [ClientRpc]
+    public void RpcTurnOnFakeBall(GameObject playerObject, bool b = true)
+    {
+        BallHandling bh = playerObject.GetComponent<BallHandling>();
+        bh.FakeBall.SetActive(b);
     }
 }
