@@ -983,7 +983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShootForce: 1200
-  PassForce: 300
+  PassForce: 100
   Cam: {fileID: 20150258667841964}
   softLockScript: {fileID: 114919442201062138}
   Hand: {fileID: 4001765487642132}
@@ -1600,6 +1600,7 @@ MonoBehaviour:
   listOfTeamates: []
   angle: 0
   target: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
   currentAcceptedTargets: []
   playerAndChildren: []
   maxDistance: 60

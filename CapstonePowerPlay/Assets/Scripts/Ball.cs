@@ -35,7 +35,7 @@ public class Ball : NetworkBehaviour
     public string teamTag;
 
     [SerializeField]
-    private float constantForce = 150.0f;
+    private float constantForce = 900.0f;
 
     private float CanBeCaughtTimer = 1;
     private bool Thrown = false;
@@ -236,7 +236,7 @@ public class Ball : NetworkBehaviour
         isInPassing = true;
         float distance = (transform.position - Target).magnitude;
         transform.LookAt(Target);
-       // RB.AddForce(transform.forward * Force, ForceMode.Impulse);
+        RB.AddForce(transform.forward * Force, ForceMode.Impulse);
         Held = false;
     }
 
