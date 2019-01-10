@@ -178,7 +178,7 @@ public class Ball : NetworkBehaviour
                 //Handle.parent = Hand.parent;
 
                 BH.SetBall(this);
-                BH.CmdTurnOnFakeBall();
+                BH.CmdTurnOnFakeBall(true);
                 CmdTurnOnBall(false);
             }
             else

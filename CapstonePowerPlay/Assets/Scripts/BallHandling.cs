@@ -145,13 +145,13 @@ public class BallHandling : NetworkBehaviour {
     }
 
     [Command]
-    public void CmdTurnOnFakeBall(bool b = true)
+    public void CmdTurnOnFakeBall(bool b)
     {
         RpcTurnOnFakeBall(gameObject, b);
     }
 
     [ClientRpc]
-    public void RpcTurnOnFakeBall(GameObject playerObject, bool b = true)
+    public void RpcTurnOnFakeBall(GameObject playerObject, bool b)
     {
         BallHandling bh = playerObject.GetComponent<BallHandling>();
         bh.FakeBall.SetActive(b);
