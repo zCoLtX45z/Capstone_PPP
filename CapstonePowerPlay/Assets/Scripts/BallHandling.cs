@@ -34,6 +34,7 @@ public class BallHandling : NetworkBehaviour {
     // get from input manager
     private float PassShootAxis = 0;
 
+    [SyncVar]
     public bool canHold = true;
 
     // can hold timer
