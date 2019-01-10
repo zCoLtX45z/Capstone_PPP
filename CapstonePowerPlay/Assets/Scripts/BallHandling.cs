@@ -74,7 +74,7 @@ public class BallHandling : NetworkBehaviour {
                     if (Target != null)
                     {
                         Debug.Log(gameObject.name + " Passes");
-                        CmdPass(TargetPosition, ball.gameObject);
+                        CmdPass(Target, ball.gameObject);
                         ball = null;
                     }
                 }
@@ -106,13 +106,13 @@ public class BallHandling : NetworkBehaviour {
     }
 
     [Command]
-    private void CmdPass(Vector3 Target, GameObject ballObject)
+    private void CmdPass(GameObject Target, GameObject ballObject)
     {
         RpcPass(Target, ballObject);
     }
 
     [ClientRpc]
-    private void RpcPass(Vector3 Target, GameObject ballObject)
+    private void RpcPass(GameObject Target, GameObject ballObject)
     {
         ballObject.SetActive(true);
         Ball temp = ballObject.GetComponent<Ball>();

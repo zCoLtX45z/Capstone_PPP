@@ -23,7 +23,7 @@ public class Ball : NetworkBehaviour
     private bool isInPassing = false;
 
 
-    private Vector3 passedTarget;
+    private GameObject passedTarget;
 
     [SerializeField]
     private float RotSpeed = 0.5f;
@@ -92,17 +92,17 @@ public class Ball : NetworkBehaviour
             Vector3 forwardVector = transform.forward;
             float lengthOfForwardV = forwardVector.magnitude;
             Debug.Log("passTarget: " + passedTarget);
-            float angle = Mathf.Acos(Vector3.Dot(transform.forward, (passedTarget - transform.position))/(Mathf.Abs(lengthOfForwardV * (passedTarget - transform.position).magnitude)));
+            float angle = Mathf.Acos(Vector3.Dot(transform.forward, (passedTarget.transform.position - transform.position))/(Mathf.Abs(lengthOfForwardV * (passedTarget.transform.position - transform.position).magnitude)));
 
             angle *= 180 / Mathf.PI;
 
             angle = Mathf.Abs(angle);
             Debug.Log("Within angle");
             //
-            Vector3 lookPos = passedTarget - transform.position;
+            Vector3 lookPos = passedTarget.transform.position - transform.position;
             Vector3 direction = lookPos.normalized;
 
-            var rotation = Quaternion.LookRotation(passedTarget);
+            var rotation = Quaternion.LookRotation(passedTarget.transform.position);
             SlerpRatio = Time.deltaTime * RotSpeed;
             //
             // float angle = Vector3.Angle(directionFromPlayer, transform.forward);
@@ -222,21 +222,21 @@ public class Ball : NetworkBehaviour
     }
 
     [Command]
-    public void CmdSetPass(bool Passing, Vector3 Target, float Force)
+    public void CmdSetPass(bool Passing, GameObject Target, float Force)
     {
         RpcSetPass(Passing, Target, Force);
     }
 
     [ClientRpc]
-    public void RpcSetPass(bool Passing, Vector3 Target, float Force)
+    public void RpcSetPass(bool Passing, GameObject Target, float Force)
     {
         Thrown = true;
         passedTarget = Target;
         Handle.position = Hand.position;
         Handle.parent = null;
         isInPassing = true;
-        float distance = (transform.position - Target).magnitude;
-        transform.LookAt(Target);
+        float distance = (transform.position - Target.transform.position).magnitude;
+        //transform.LookAt(Target);
         //RB.AddForce(transform.forward * Force, ForceMode.Impulse);
         Held = false;
     }
