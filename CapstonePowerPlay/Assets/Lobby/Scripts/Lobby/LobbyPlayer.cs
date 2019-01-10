@@ -19,6 +19,8 @@ namespace Prototype.NetworkLobby
         
 
         public Button colorButton;
+        //public Button teamRed;
+        //public Button teamBlue;
         public InputField nameInput;
         public Button readyButton;
         public Button waitingPlayerButton;
@@ -256,53 +258,53 @@ namespace Prototype.NetworkLobby
         public void CmdColorChange()
         {
 
-            //if (playerColor == Color.white)
-            //    playerColor = Color.blue;
+            ////if (playerColor == Color.white)
+            ////    playerColor = Color.blue;
 
-            //if (playerColor == Color.blue)
-            //    playerColor = Color.red;
+            ////if (playerColor == Color.blue)
+            ////    playerColor = Color.red;
 
-            //if (playerColor == Color.red)
-            //    playerColor = Color.blue;
+            ////if (playerColor == Color.red)
+            ////    playerColor = Color.blue;
            
 
-            int idx = System.Array.IndexOf(Colors, playerColor);
+            //int idx = System.Array.IndexOf(Colors, playerColor);
 
-            int inUseIdx = _colorInUse.IndexOf(idx);
-            //int teamIdx = _teamColor.IndexOf(idx);
+            //int inUseIdx = _colorInUse.IndexOf(idx);
+            ////int teamIdx = _teamColor.IndexOf(idx);
 
-            if (idx < 0) idx = 0;
+            //if (idx < 0) idx = 0;
 
-            idx = (idx + 1) % Colors.Length;
+            //idx = (idx + 1) % Colors.Length;
 
-            bool alreadyInUse = false;
+            //bool alreadyInUse = false;
 
-            //do
-            //{
-            //    alreadyInUse = false;
-            //    //_colorinUse
-            //for (int i = 0; i < _colorInUse.Count; ++i)
-            //    {      //_colorInUse
-            //        if (_colorInUse[i] == 1)
-            //        {//that color is already in use
-            //            alreadyInUse = true;
-            //            idx = (idx + 1) % Colors.Length;
-            //        }
-            //    }
+            ////do
+            ////{
+            ////    alreadyInUse = false;
+            ////    //_colorinUse
+            ////for (int i = 0; i < _colorInUse.Count; ++i)
+            ////    {      //_colorInUse
+            ////        if (_colorInUse[i] == 1)
+            ////        {//that color is already in use
+            ////            alreadyInUse = true;
+            ////            idx = (idx + 1) % Colors.Length;
+            ////        }
+            ////    }
+            ////}
+            ////while (alreadyInUse);
+
+            //if (inUseIdx >= 0)
+            //{//if we already add an entry in the colorTabs, we change it
+            //    _colorInUse[inUseIdx] = idx;
             //}
-            //while (alreadyInUse);
-
-            if (inUseIdx >= 0)
-            {//if we already add an entry in the colorTabs, we change it
-                _colorInUse[inUseIdx] = idx;
-            }
-            else
-            {//else we add it
-                _colorInUse.Add(idx);
-            }
+            //else
+            //{//else we add it
+            //    _colorInUse.Add(idx);
+            //}
 
 
-            //playerColor = Color.blue;
+            ////playerColor = Color.blue;
 
         }
         
