@@ -70,7 +70,7 @@ public class BallHandling : NetworkBehaviour {
                     if (Target != null)
                     {
                         Debug.Log(gameObject.name + " Passes");
-                        CmdPass(Target.transform.position);
+                        CmdPass(Target.transform.position, ball.gameObject);
                         ball = null;
                     }
                 }
@@ -78,7 +78,7 @@ public class BallHandling : NetworkBehaviour {
                 {
                     // SHOOT
                     Debug.Log(gameObject.name + " Shoots");
-                    CmdShoot();
+                    CmdShoot(ball.gameObject);
                     ball = null;
                 }
             }
@@ -102,27 +102,34 @@ public class BallHandling : NetworkBehaviour {
     }
 
     [Command]
-    private void CmdPass(Vector3 Target)
+    private void CmdPass(Vector3 Target, GameObject ballObject)
     {
-        ball.gameObject.SetActive(true);
+        RpcPass(Target, ballObject);
+    }
+
+    [ClientRpc]
+    private void RpcPass(Vector3 Target, GameObject ballObject)
+    {
+        ballObject.SetActive(true);
         ball.CmdSetPass(true, Target, PassForce);
         TurnOnFakeBall(false);
     }
 
     [Command]
-    private void CmdShoot()
+    private void CmdShoot(GameObject ballObject)
     {
-        RpcShoot();
+
+        TurnOnFakeBall(false);
+        Direction = Cam.transform.forward;
+        Direction *= ShootForce;
+        RpcShoot(Direction, ballObject);
     }
 
     [ClientRpc]
-    private void RpcShoot()
+    private void RpcShoot(Vector3 Direction, GameObject ballObject)
     {
-        Direction = Cam.transform.forward;
-        Direction *= ShootForce;
-        ball.gameObject.SetActive(true);
+        ballObject.SetActive(true);
         ball.CmdShoot(Direction, playerTag);
-
         TurnOnFakeBall(false);
     }
 
