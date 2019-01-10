@@ -22,14 +22,15 @@ public class ResetBallState : NetworkBehaviour {
 	}
 
     [Command]
-    public void CmdSetPlayerHolding(BallHandling bh)
+    public void CmdSetPlayerHolding(GameObject bhObject)
     {
-        RpcSetPlayerHolding(bh);
+        RpcSetPlayerHolding(bhObject);
     }
 
     [ClientRpc]
-    public void RpcSetPlayerHolding(BallHandling bh)
+    public void RpcSetPlayerHolding(GameObject bhObject)
     {
+        BallHandling bh = bhObject.GetComponent<BallHandling>();
         PlayerHolding = bh;
     }
 }
