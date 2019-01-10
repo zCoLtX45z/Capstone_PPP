@@ -21,6 +21,9 @@ public class BallHandling : NetworkBehaviour {
     // Target for passes
     private GameObject Target;
 
+    // Target position for passes
+    private Vector3 TargetPosition;
+
     // Hand to where the ball goes
     [SerializeField]
     private Transform Hand;
@@ -66,11 +69,11 @@ public class BallHandling : NetworkBehaviour {
                 {
                     // PASS
                     // Get Target from Targeting Script
-                    Target = softLockScript.target;
+                    TargetPosition = softLockScript.targetPosition;
                     if (Target != null)
                     {
                         Debug.Log(gameObject.name + " Passes");
-                        CmdPass(Target.transform.position, ball.gameObject);
+                        CmdPass(TargetPosition, ball.gameObject);
                         ball = null;
                     }
                 }

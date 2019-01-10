@@ -27,6 +27,9 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     // target of passing
     [SerializeField]
     public GameObject target;
+
+    [SerializeField]
+    public Vector3 targetPosition;
     
     // accepted target list, the group of targets that are elligable to be targeted
     [SerializeField]
@@ -216,6 +219,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
         currentClossestAngle = 360;
         // current target reset (may change later in favour of a localy instantiated value in update)
         target = null;
+        targetPosition = Vector3.zero;
 
         // check every object in currentAcceptedTargets, (eligable targets)
         for (int i = 0; i < currentAcceptedTargets.Count; i++)
@@ -234,6 +238,8 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                 currentClossestAngle = currentAngle;
                 // set the target as the currently checked gameObject in the currentAcceptedTargets list 
                 target = currentAcceptedTargets[i].gameObject;
+                // set target position to center the players
+                targetPosition = new Vector3(currentAcceptedTargets[i].transform.position.x, currentAcceptedTargets[i].transform.position.y + 2, currentAcceptedTargets[i].transform.position.z);
             }
         }
         // if there is an elidgable target to pass too
