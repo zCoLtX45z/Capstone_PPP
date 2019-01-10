@@ -70,9 +70,11 @@ public class BallHandling : NetworkBehaviour {
                     // PASS
                     // Get Target from Targeting Script
                     Target = softLockScript.target;
+                    Debug.Log("target: " + Target);
                     TargetPosition = softLockScript.targetPosition;
                     if (Target != null)
                     {
+                        Debug.Log("jadaadadadadadad");
                         Debug.Log(gameObject.name + " Passes");
                         CmdPass(Target, ball.gameObject);
                         ball = null;
@@ -114,6 +116,7 @@ public class BallHandling : NetworkBehaviour {
     [ClientRpc]
     private void RpcPass(GameObject Target, GameObject ballObject)
     {
+        
         ballObject.SetActive(true);
         Ball temp = ballObject.GetComponent<Ball>();
         temp.CmdSetPass(true, Target, PassForce);

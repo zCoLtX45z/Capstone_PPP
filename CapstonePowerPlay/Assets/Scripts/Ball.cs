@@ -235,6 +235,7 @@ public class Ball : NetworkBehaviour
         Handle.position = Hand.position;
         Handle.parent = null;
         isInPassing = true;
+        
         float distance = (transform.position - Target.transform.position).magnitude;
         //transform.LookAt(Target);
         //RB.AddForce(transform.forward * Force, ForceMode.Impulse);
