@@ -142,8 +142,16 @@ public class BallHandling : NetworkBehaviour {
         CmdTurnOnFakeBall(false);
     }
 
-    public void SetBall(Ball b)
+    [Command]
+    public void CmdSetBall(GameObject ballObject)
     {
+        RpcSetBall(ballObject);
+    }
+
+    [ClientRpc]
+    public void RpcSetBall(GameObject ballObjectb)
+    {
+        Ball b = ballObjectb.GetComponent<Ball>();
         ball = b;
     }
 

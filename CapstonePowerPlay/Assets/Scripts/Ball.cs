@@ -180,8 +180,8 @@ public class Ball : NetworkBehaviour
                 //Handle.position = Hand.position;
                 //Handle.parent = Hand.parent;
 
-                BH.SetBall(this);
-                RBS.CmdSetPlayerHolding(BH.gameObject);
+                BH.CmdSetBall(gameObject);
+                //RBS.CmdSetPlayerHolding(BH.gameObject);
                 BH.CmdTurnOnFakeBall(true);
                 CmdTurnOnBall(false);
             }
@@ -223,7 +223,7 @@ public class Ball : NetworkBehaviour
         teamTag = tag;
         gameObject.layer = 10;
         Held = false;
-        RBS.CmdSetPlayerHolding(null);
+        //RBS.CmdSetPlayerHolding(null);
     }
 
     [Command]
@@ -245,7 +245,7 @@ public class Ball : NetworkBehaviour
         //transform.LookAt(Target);
         //RB.AddForce(transform.forward * Force, ForceMode.Impulse);
         Held = false;
-        RBS.CmdSetPlayerHolding(null);
+        //RBS.CmdSetPlayerHolding(null);
     }
 
     public bool GetThrown()
