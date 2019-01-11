@@ -29,10 +29,12 @@ public class BallHandling : NetworkBehaviour {
     private Transform Hand;
 
     public Ball ball;
+    private Ball FindBall;
 
     // get from input manager
     private float PassShootAxis = 0;
 
+    [SyncVar]
     public bool canHold = true;
 
     // can hold timer
@@ -57,48 +59,55 @@ public class BallHandling : NetworkBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        PassShootAxis = Input.GetAxis("PassShoot");
-        //Debug.Log("Pass / Shoot Axis: " + PassShootAxis);
-
-        //Debug.Log("ball = " + ball);
-        if (ball != null)
+        if (isLocalPlayer)
         {
-            if (!ball.GetThrown())
+            PassShootAxis = Input.GetAxis("PassShoot");
+            //Debug.Log("Pass / Shoot Axis: " + PassShootAxis);
+
+            //Debug.Log("ball = " + ball);
+            if (ball != null)
             {
-                if (PassShootAxis < -0.1)
+                if (!ball.GetThrown())
                 {
-                    // PASS
-                    // Get Target from Targeting Script
-                    Target = softLockScript.target;
-                    Debug.Log("target: " + Target);
-                    TargetPosition = softLockScript.targetPosition;
-                    if (Target != null)
+                    if (PassShootAxis < -0.1)
                     {
-                        Debug.Log("jadaadadadadadad");
-                        Debug.Log(gameObject.name + " Passes");
-                        CmdPass(Target, ball.gameObject);
+                        // PASS
+                        // Get Target from Targeting Script
+                        Target = softLockScript.target;
+                        Debug.Log("target: " + Target);
+                        TargetPosition = softLockScript.targetPosition;
+                        if (Target != null)
+                        {
+                            Debug.Log("jadaadadadadadad");
+                            Debug.Log(gameObject.name + " Passes");
+                            CmdPass(Target, ball.gameObject);
+                            ball = null;
+                        }
+                    }
+                    else if (PassShootAxis > 0.1)
+                    {
+                        // SHOOT
+                        Debug.Log(gameObject.name + " Shoots");
+                        CmdShoot(ball.gameObject);
                         ball = null;
                     }
                 }
-                else if (PassShootAxis > 0.1)
+            }
+
+            if (!canHold)
+            {
+                if (canHoldTimer > 0)
+                    canHoldTimer -= Time.deltaTime;
+                else if (canHoldTimer <= 0)
                 {
-                    // SHOOT
-                    Debug.Log(gameObject.name + " Shoots");
-                    CmdShoot(ball.gameObject);
-                    ball = null;
+                    canHoldTimer = 1;
+                    canHold = true;
                 }
             }
         }
-
-        if (!canHold)
+        else
         {
-            if (canHoldTimer > 0)
-                canHoldTimer -= Time.deltaTime;
-            else if (canHoldTimer <= 0)
-            {
-                canHoldTimer = 1;
-                canHold = true;
-            }
+            // nothing for now
         }
 	}
 
@@ -142,8 +151,16 @@ public class BallHandling : NetworkBehaviour {
         CmdTurnOnFakeBall(false);
     }
 
-    public void SetBall(Ball b)
+    [Command]
+    public void CmdSetBall(GameObject ballObject)
     {
+        RpcSetBall(ballObject);
+    }
+
+    [ClientRpc]
+    public void RpcSetBall(GameObject ballObjectb)
+    {
+        Ball b = ballObjectb.GetComponent<Ball>();
         ball = b;
     }
 

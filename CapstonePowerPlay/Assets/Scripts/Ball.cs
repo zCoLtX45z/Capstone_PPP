@@ -8,11 +8,11 @@ public class Ball : NetworkBehaviour
     [SerializeField]
     private Transform Handle;
     [SerializeField]
-    private BallHandling BH;
+    public BallHandling BH;
     [SerializeField]
     private Transform Hand;
     [SyncVar]
-    private bool Held = false;
+    public bool Held = false;
     private Rigidbody RB;
 
     public SphereCollider HardCol;
@@ -37,6 +37,7 @@ public class Ball : NetworkBehaviour
     [SerializeField]
     private float constantForce = 900.0f;
 
+    [SyncVar]
     private float CanBeCaughtTimer = 1;
     private bool Thrown = false;
     private float SlerpRatio = 0;
@@ -46,6 +47,8 @@ public class Ball : NetworkBehaviour
 
     private float timePassTimer = 0.0f;
 
+    [SerializeField]
+    private ResetBallState RBS;
 
     // Use this for initialization
     void Start ()
@@ -177,7 +180,8 @@ public class Ball : NetworkBehaviour
                 //Handle.position = Hand.position;
                 //Handle.parent = Hand.parent;
 
-                BH.SetBall(this);
+                BH.CmdSetBall(gameObject);
+                //RBS.CmdSetPlayerHolding(BH.gameObject);
                 BH.CmdTurnOnFakeBall(true);
                 CmdTurnOnBall(false);
             }
@@ -212,13 +216,17 @@ public class Ball : NetworkBehaviour
     {
         //transform.gameObject.layer = 0;
         Thrown = true;
+        CanBeCaughtTimer = 0.1f;
         Handle.position = Hand.position;
         Debug.Log("power is " + power);
+        RB.velocity = Vector3.zero;
+        RB.angularVelocity = Vector3.zero;
         RB.AddForce(power, ForceMode.Impulse);
         Debug.Log("teamTag: " + tag);
         teamTag = tag;
         gameObject.layer = 10;
         Held = false;
+        //RBS.CmdSetPlayerHolding(null);
     }
 
     [Command]
@@ -231,15 +239,18 @@ public class Ball : NetworkBehaviour
     public void RpcSetPass(bool Passing, GameObject Target, float Force)
     {
         Thrown = true;
+        CanBeCaughtTimer = 0.1f;
         passedTarget = Target;
         Handle.position = Hand.position;
         Handle.parent = null;
         isInPassing = true;
-        
+        RB.velocity = Vector3.zero;
+        RB.angularVelocity = Vector3.zero;
         float distance = (transform.position - Target.transform.position).magnitude;
         //transform.LookAt(Target);
-        //RB.AddForce(transform.forward * Force, ForceMode.Impulse);
+        RB.AddForce(transform.up * Force, ForceMode.Impulse);
         Held = false;
+        //RBS.CmdSetPlayerHolding(null);
     }
 
     public bool GetThrown()
