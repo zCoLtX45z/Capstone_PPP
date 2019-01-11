@@ -141,8 +141,6 @@ public class Ball : NetworkBehaviour
                 RB.velocity = Vector3.zero;
                 RB.AddForce(direction * constantForce / 2, ForceMode.Acceleration);
             }
-           
-
             //RB.velocity = (transform.forward * constantForce);
         }
         
