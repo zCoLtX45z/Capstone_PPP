@@ -130,14 +130,16 @@ public class Ball : NetworkBehaviour
 
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
-                RB.AddForce(direction * constantForce, ForceMode.Force);
+                RB.velocity = Vector3.zero;
+                RB.AddForce(direction * constantForce, ForceMode.Acceleration);
 
             }
             else
             {
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
-                RB.AddForce(direction * constantForce / 2, ForceMode.Force);
+                RB.velocity = Vector3.zero;
+                RB.AddForce(direction * constantForce / 2, ForceMode.Acceleration);
             }
            
 
