@@ -251,7 +251,7 @@ public class Ball : NetworkBehaviour
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
         float distance = (transform.position - Target.transform.position).magnitude;
-        //transform.LookAt(Target);
+        transform.LookAt(Target.transform);
         RB.AddForce(transform.up * Force, ForceMode.Impulse);
         Held = false;
         //RBS.CmdSetPlayerHolding(null);
