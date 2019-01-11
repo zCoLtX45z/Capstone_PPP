@@ -135,7 +135,6 @@ public class BallHandling : NetworkBehaviour {
     [Command]
     private void CmdShoot(GameObject ballObject)
     {
-
         CmdTurnOnFakeBall(false);
         Direction = Cam.transform.forward;
         Direction *= ShootForce;
