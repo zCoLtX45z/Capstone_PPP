@@ -48,7 +48,9 @@ public class Ball : NetworkBehaviour
     private float timePassTimer = 0.0f;
 
     [SerializeField]
-    private ResetBallState RBS;
+    private GameObject ChildObject;
+    [SerializeField]
+    private SphereCollider SoftCol;
 
     // Use this for initialization
     void Start ()
@@ -128,17 +130,17 @@ public class Ball : NetworkBehaviour
 
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
-                RB.AddForce(direction * constantForce, ForceMode.Force);
+                RB.velocity = Vector3.zero;
+                RB.AddForce(direction * constantForce, ForceMode.Acceleration);
 
             }
             else
             {
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
-                RB.AddForce(direction * constantForce / 2, ForceMode.Force);
+                RB.velocity = Vector3.zero;
+                RB.AddForce(direction * constantForce / 2, ForceMode.Acceleration);
             }
-           
-
             //RB.velocity = (transform.forward * constantForce);
         }
         
@@ -176,14 +178,14 @@ public class Ball : NetworkBehaviour
             if (BH.canHold )
             {
                 Hand = BH.ReturnHand();
-
                 //Handle.position = Hand.position;
                 //Handle.parent = Hand.parent;
 
                 BH.CmdSetBall(gameObject);
                 //RBS.CmdSetPlayerHolding(BH.gameObject);
                 BH.CmdTurnOnFakeBall(true);
-                CmdTurnOnBall(false);
+                //CmdTurnOnBall(false);
+                CmdMakeBallDisapear();
             }
             else
             { 
@@ -199,25 +201,26 @@ public class Ball : NetworkBehaviour
         HardCol.isTrigger = false;
     }
 
-    public void ShootBall(Vector3 power, string tag)
+    public void ShootBall(Vector3 power, string tag, Vector3 HandPos)
     {
-        CmdShoot(power, tag);
+        CmdShoot(power, tag, HandPos);
     }
 
     [Command]
-    public void CmdShoot(Vector3 power, string tag)
+    public void CmdShoot(Vector3 power, string tag, Vector3 HandPos)
     {
         //transform.gameObject.layer = 0;
-        RpcShoot(power, tag);
+        RpcShoot(power, tag, HandPos);
     }
 
     [ClientRpc]
-    public void RpcShoot(Vector3 power, string tag)
+    public void RpcShoot(Vector3 power, string tag, Vector3 HandPos)
     {
+        CmdMakeBallReapear();
         //transform.gameObject.layer = 0;
         Thrown = true;
         CanBeCaughtTimer = 0.1f;
-        Handle.position = Hand.position;
+        Handle.position = HandPos;
         Debug.Log("power is " + power);
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
@@ -230,24 +233,25 @@ public class Ball : NetworkBehaviour
     }
 
     [Command]
-    public void CmdSetPass(bool Passing, GameObject Target, float Force)
+    public void CmdSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos)
     {
-        RpcSetPass(Passing, Target, Force);
+        RpcSetPass(Passing, Target, Force, HandPos);
     }
 
     [ClientRpc]
-    public void RpcSetPass(bool Passing, GameObject Target, float Force)
+    public void RpcSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos)
     {
+        CmdMakeBallReapear();
         Thrown = true;
         CanBeCaughtTimer = 0.1f;
         passedTarget = Target;
-        Handle.position = Hand.position;
+        Handle.position = HandPos;
         Handle.parent = null;
         isInPassing = true;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
         float distance = (transform.position - Target.transform.position).magnitude;
-        //transform.LookAt(Target);
+        transform.LookAt(Target.transform);
         RB.AddForce(transform.up * Force, ForceMode.Impulse);
         Held = false;
         //RBS.CmdSetPlayerHolding(null);
@@ -268,5 +272,37 @@ public class Ball : NetworkBehaviour
     public void RpcTurnOnBall(bool b)
     {
         gameObject.SetActive(b);
+    }
+
+    [Command]
+    public void CmdMakeBallDisapear()
+    {
+        RpcMakeBallDisapear();
+    }
+
+    [ClientRpc]
+    public void RpcMakeBallDisapear()
+    {
+        HardCol.enabled = false;
+        SoftCol.enabled = false;
+        RB.useGravity = false;
+        RB.isKinematic = true;
+        ChildObject.SetActive(false);
+    }
+
+    [Command]
+    public void CmdMakeBallReapear()
+    {
+        RpcMakeBallReapear();
+    }
+
+    [ClientRpc]
+    public void RpcMakeBallReapear()
+    {
+        HardCol.enabled = true;
+        SoftCol.enabled = true;
+        RB.useGravity = true;
+        RB.isKinematic = false;
+        ChildObject.SetActive(true);
     }
 }
