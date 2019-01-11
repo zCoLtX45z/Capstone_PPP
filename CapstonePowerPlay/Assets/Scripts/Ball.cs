@@ -10,6 +10,7 @@ public class Ball : NetworkBehaviour
     [SerializeField]
     public BallHandling BH;
     [SerializeField]
+    [SyncVar]
     private Transform Hand;
     [SyncVar]
     public bool Held = false;
@@ -175,7 +176,7 @@ public class Ball : NetworkBehaviour
 
             if (BH.canHold )
             {
-                Hand = BH.CmdGetHand();
+                Hand = BH.ReturnHand();
 
                 //Handle.position = Hand.position;
                 //Handle.parent = Hand.parent;
