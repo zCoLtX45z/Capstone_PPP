@@ -176,4 +176,17 @@ public class BallHandling : NetworkBehaviour {
         BallHandling bh = playerObject.GetComponent<BallHandling>();
         bh.FakeBall.SetActive(b);
     }
+
+
+    [Command]
+    public Transform CmdGetHand()
+    {
+        return RpcGetHand();
+    }
+
+    [ClientRpc]
+    public Transform RpcGetHand()
+    {
+        return Hand;
+    }
 }

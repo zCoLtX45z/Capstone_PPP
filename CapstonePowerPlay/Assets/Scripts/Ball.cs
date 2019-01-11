@@ -175,7 +175,7 @@ public class Ball : NetworkBehaviour
 
             if (BH.canHold )
             {
-                Hand = BH.ReturnHand();
+                Hand = BH.CmdGetHand();
 
                 //Handle.position = Hand.position;
                 //Handle.parent = Hand.parent;
