@@ -218,6 +218,7 @@ public class Ball : NetworkBehaviour
         Thrown = true;
         Handle.position = Hand.position;
         Debug.Log("power is " + power);
+        RB.velocity = Vector3.zero;
         RB.AddForce(power, ForceMode.Impulse);
         Debug.Log("teamTag: " + tag);
         teamTag = tag;
@@ -240,7 +241,7 @@ public class Ball : NetworkBehaviour
         Handle.position = Hand.position;
         Handle.parent = null;
         isInPassing = true;
-        
+        RB.velocity = Vector3.zero;
         float distance = (transform.position - Target.transform.position).magnitude;
         //transform.LookAt(Target);
         //RB.AddForce(transform.forward * Force, ForceMode.Impulse);
