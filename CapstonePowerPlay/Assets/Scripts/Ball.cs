@@ -37,6 +37,7 @@ public class Ball : NetworkBehaviour
     [SerializeField]
     private float constantForce = 900.0f;
 
+    [SyncVar]
     private float CanBeCaughtTimer = 1;
     private bool Thrown = false;
     private float SlerpRatio = 0;
@@ -216,6 +217,7 @@ public class Ball : NetworkBehaviour
     {
         //transform.gameObject.layer = 0;
         Thrown = true;
+        CanBeCaughtTimer = 0.1f;
         Handle.position = Hand.position;
         Debug.Log("power is " + power);
         RB.velocity = Vector3.zero;
@@ -237,6 +239,7 @@ public class Ball : NetworkBehaviour
     public void RpcSetPass(bool Passing, GameObject Target, float Force)
     {
         Thrown = true;
+        CanBeCaughtTimer = 0.1f;
         passedTarget = Target;
         Handle.position = Hand.position;
         Handle.parent = null;
