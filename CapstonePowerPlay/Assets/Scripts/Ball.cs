@@ -49,7 +49,8 @@ public class Ball : NetworkBehaviour
 
     [SerializeField]
     private ResetBallState RBS;
-
+    [SyncVar]
+    private GameObject OldGameObject = null;
 
     // Use this for initialization
     void Start ()
@@ -73,7 +74,7 @@ public class Ball : NetworkBehaviour
             if (CanBeCaughtTimer <= 0)
             {
                 Thrown = false;
-                CanBeCaughtTimer = 0.1f;
+                CanBeCaughtTimer = 0.15f;
             }
         }
 
@@ -160,12 +161,14 @@ public class Ball : NetworkBehaviour
         {
             isInPassing = false;
             RB.useGravity = true;
+            OldGameObject = null;
         }
     }
     private void OnTriggerEnter(Collider c)
     {
-        if(c.gameObject.tag == "Player" && !Held && !Thrown)
+        if(c.gameObject.tag == "Player" && !Held && !Thrown && c.gameObject != OldGameObject)
         {
+            OldGameObject = c.gameObject;
             gameObject.layer = 2;
             HardCol.isTrigger = true;
             Held = true;
@@ -221,6 +224,7 @@ public class Ball : NetworkBehaviour
         Handle.position = Hand.position;
         Debug.Log("power is " + power);
         RB.velocity = Vector3.zero;
+        RB.angularVelocity = Vector3.zero;
         RB.AddForce(power, ForceMode.Impulse);
         Debug.Log("teamTag: " + tag);
         teamTag = tag;
@@ -245,9 +249,10 @@ public class Ball : NetworkBehaviour
         Handle.parent = null;
         isInPassing = true;
         RB.velocity = Vector3.zero;
+        RB.angularVelocity = Vector3.zero;
         float distance = (transform.position - Target.transform.position).magnitude;
         //transform.LookAt(Target);
-        //RB.AddForce(transform.forward * Force, ForceMode.Impulse);
+        RB.AddForce(transform.up * Force, ForceMode.Impulse);
         Held = false;
         //RBS.CmdSetPlayerHolding(null);
     }
