@@ -88,7 +88,19 @@ public class BallHandling : NetworkBehaviour {
                     {
                         // SHOOT
                         Debug.Log(gameObject.name + " Shoots");
-                        CmdShoot(ball.gameObject, Hand.position);
+                        //RaycastHit RH;
+                        Vector3 direction = Cam.transform.position + Cam.transform.forward * 100 - Hand.position;
+                        //if(Physics.Raycast(Cam.transform.position, Cam.transform.forward, out RH, 100, HitLayer))
+                        //{
+                        //    direction = RH.collider.
+                        //}
+                        //else
+                        //{
+
+                        //}
+                        //Debug.DrawLine(Cam.transform.position + Cam.transform.forward * 100, Hand.position, Color.blue, 6f);
+                        //Debug.DrawRay(Hand.position, Cam.transform.position + Cam.transform.forward * 100 - Hand.position, Color.red, 3.75f);
+                        CmdShoot(ball.gameObject, Hand.position, direction.normalized * ShootForce);
                         ball = null;
                     }
                 }
@@ -132,12 +144,10 @@ public class BallHandling : NetworkBehaviour {
     }
 
     [Command]
-    private void CmdShoot(GameObject ballObject, Vector3 HandPos)
+    private void CmdShoot(GameObject ballObject, Vector3 HandPos, Vector3 Direction)
     {
 
         CmdTurnOnFakeBall(false);
-        Direction = Cam.transform.forward;
-        Direction *= ShootForce;
         RpcShoot(Direction, ballObject, HandPos);
     }
 

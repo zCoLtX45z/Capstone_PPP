@@ -113,7 +113,7 @@ public class hoverBoardScript : NetworkBehaviour
             {
                 m_currThrust = aclAxis * m_forwardAcl;
             }
-            else if (aclAxis < m_deadZone)
+            else if (aclAxis < -m_deadZone)
             {
                 m_currThrust = aclAxis * m_backwardAcl;
             }
