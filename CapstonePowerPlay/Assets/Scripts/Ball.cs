@@ -49,8 +49,6 @@ public class Ball : NetworkBehaviour
 
     [SerializeField]
     private ResetBallState RBS;
-    [SyncVar]
-    private GameObject OldGameObject = null;
 
     // Use this for initialization
     void Start ()
@@ -74,7 +72,7 @@ public class Ball : NetworkBehaviour
             if (CanBeCaughtTimer <= 0)
             {
                 Thrown = false;
-                CanBeCaughtTimer = 0.15f;
+                CanBeCaughtTimer = 0.1f;
             }
         }
 
@@ -161,14 +159,12 @@ public class Ball : NetworkBehaviour
         {
             isInPassing = false;
             RB.useGravity = true;
-            OldGameObject = null;
         }
     }
     private void OnTriggerEnter(Collider c)
     {
-        if(c.gameObject.tag == "Player" && !Held && !Thrown && c.gameObject != OldGameObject)
+        if(c.gameObject.tag == "Player" && !Held && !Thrown)
         {
-            OldGameObject = c.gameObject;
             gameObject.layer = 2;
             HardCol.isTrigger = true;
             Held = true;
