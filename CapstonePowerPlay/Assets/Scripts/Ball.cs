@@ -48,7 +48,9 @@ public class Ball : NetworkBehaviour
     private float timePassTimer = 0.0f;
 
     [SerializeField]
-    private ResetBallState RBS;
+    private GameObject ChildObject;
+    [SerializeField]
+    private SphereCollider SoftCol;
 
     // Use this for initialization
     void Start ()
@@ -182,7 +184,8 @@ public class Ball : NetworkBehaviour
                 BH.CmdSetBall(gameObject);
                 //RBS.CmdSetPlayerHolding(BH.gameObject);
                 BH.CmdTurnOnFakeBall(true);
-                CmdTurnOnBall(false);
+                //CmdTurnOnBall(false);
+                CmdMakeBallDisapear();
             }
             else
             { 
@@ -213,6 +216,7 @@ public class Ball : NetworkBehaviour
     [ClientRpc]
     public void RpcShoot(Vector3 power, string tag, Vector3 HandPos)
     {
+        CmdMakeBallReapear();
         //transform.gameObject.layer = 0;
         Thrown = true;
         CanBeCaughtTimer = 0.1f;
@@ -237,6 +241,7 @@ public class Ball : NetworkBehaviour
     [ClientRpc]
     public void RpcSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos)
     {
+        CmdMakeBallReapear();
         Thrown = true;
         CanBeCaughtTimer = 0.1f;
         passedTarget = Target;
@@ -267,5 +272,37 @@ public class Ball : NetworkBehaviour
     public void RpcTurnOnBall(bool b)
     {
         gameObject.SetActive(b);
+    }
+
+    [Command]
+    public void CmdMakeBallDisapear()
+    {
+        RpcMakeBallDisapear();
+    }
+
+    [ClientRpc]
+    public void RpcMakeBallDisapear()
+    {
+        HardCol.enabled = false;
+        SoftCol.enabled = false;
+        RB.useGravity = false;
+        RB.isKinematic = true;
+        ChildObject.SetActive(false);
+    }
+
+    [Command]
+    public void CmdMakeBallReapear()
+    {
+        RpcMakeBallReapear();
+    }
+
+    [ClientRpc]
+    public void RpcMakeBallReapear()
+    {
+        HardCol.enabled = true;
+        SoftCol.enabled = true;
+        RB.useGravity = true;
+        RB.isKinematic = false;
+        ChildObject.SetActive(true);
     }
 }
