@@ -10,7 +10,6 @@ public class Ball : NetworkBehaviour
     [SerializeField]
     public BallHandling BH;
     [SerializeField]
-    [SyncVar]
     private Transform Hand;
     [SyncVar]
     public bool Held = false;
@@ -177,7 +176,6 @@ public class Ball : NetworkBehaviour
             if (BH.canHold )
             {
                 Hand = BH.ReturnHand();
-
                 //Handle.position = Hand.position;
                 //Handle.parent = Hand.parent;
 
@@ -200,25 +198,25 @@ public class Ball : NetworkBehaviour
         HardCol.isTrigger = false;
     }
 
-    public void ShootBall(Vector3 power, string tag)
+    public void ShootBall(Vector3 power, string tag, Vector3 HandPos)
     {
-        CmdShoot(power, tag);
+        CmdShoot(power, tag, HandPos);
     }
 
     [Command]
-    public void CmdShoot(Vector3 power, string tag)
+    public void CmdShoot(Vector3 power, string tag, Vector3 HandPos)
     {
         //transform.gameObject.layer = 0;
-        RpcShoot(power, tag);
+        RpcShoot(power, tag, HandPos);
     }
 
     [ClientRpc]
-    public void RpcShoot(Vector3 power, string tag)
+    public void RpcShoot(Vector3 power, string tag, Vector3 HandPos)
     {
         //transform.gameObject.layer = 0;
         Thrown = true;
         CanBeCaughtTimer = 0.1f;
-        Handle.position = Hand.position;
+        Handle.position = HandPos;
         Debug.Log("power is " + power);
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
@@ -231,18 +229,18 @@ public class Ball : NetworkBehaviour
     }
 
     [Command]
-    public void CmdSetPass(bool Passing, GameObject Target, float Force)
+    public void CmdSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos)
     {
-        RpcSetPass(Passing, Target, Force);
+        RpcSetPass(Passing, Target, Force, HandPos);
     }
 
     [ClientRpc]
-    public void RpcSetPass(bool Passing, GameObject Target, float Force)
+    public void RpcSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos)
     {
         Thrown = true;
         CanBeCaughtTimer = 0.1f;
         passedTarget = Target;
-        Handle.position = Hand.position;
+        Handle.position = HandPos;
         Handle.parent = null;
         isInPassing = true;
         RB.velocity = Vector3.zero;
