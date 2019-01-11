@@ -1847,7 +1847,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 513
   m_maxHoverForce: 1800
-  m_minHoverForce: -1800
+  m_minHoverForce: -2500
   m_hoverHeight: 0.75
   m_hoverPoints: []
   PIDHoverPoints:
@@ -1862,15 +1862,19 @@ MonoBehaviour:
   - {fileID: 114674874055892968}
   Kp: 1
   Ki: 0.0625
-  Kd: 9
-  MaxSpeed: 45
+  Kd: 13
+  MaxSpeed: 25
   Speed: 0
-  MaxTurnAdjustPercent: 30
+  MaxTurnAdjustPercent: 20
   SpeedDeadZone: 10
-  FallAssistForce: 625
-  RiseAssistForce: 0
+  FallAssistForce: 300
+  RiseAssistForce: 900
   SpeedBoostLinearPercent: 50
   SpeedBoostTurnPercent: 25
+  SprintBoostLinearPercent: 50
+  sprintMultiplier: 1
+  AdditiveAcceleration: 2
+  AccelerationMultiplier: 0
   SpeedBoosted: 0
 --- !u!114 &114558775653998686
 MonoBehaviour:
