@@ -5,45 +5,62 @@ using UnityEngine.UI;
 
 public class TargetVisual : MonoBehaviour {
 
-    [SerializeField]
-    private Text textTarget;
+    //[SerializeField]
+    //private Text textTarget = null;
+
+        [SerializeField]
+    private RawImage targetReticle = null;
 
     [SerializeField]
-    private PlayerSoftlockPassSight softLockScript;
+    private PlayerSoftlockPassSight softLockScript = null;
 
     [SerializeField]
-    private Camera thisPlayerCam;
+    private Camera thisPlayerCam = null;
 
     [SerializeField]
-    private BallHandling ballHandlingScript; 
+    private BallHandling ballHandlingScript = null; 
 
 	// Use this for initialization
 	void Start () {
-        ballHandlingScript = GetComponentInParent<BallHandling>();
+        //ballHandlingScript = GetComponentInParent<BallHandling>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log("ballHandle hold" + ballHandlingScript.canHold);
-        if (softLockScript.target != null || ballHandlingScript.canHold == false)
+
+       // Debug.Log("ballHandle hold" + ballHandlingScript.canHold);
+       // Debug.Log("softLockScript.target: " + softLockScript.target);
+
+      
+
+        if (softLockScript.target != null && ballHandlingScript.ball != null)
         {
-            if (textTarget.enabled == false)
-                textTarget.enabled = true;
-
-            
-            Vector3 targetPos = thisPlayerCam.WorldToScreenPoint(new Vector3(softLockScript.target.transform.position.x, 
-                softLockScript.target.transform.position.y + 1, softLockScript.target.transform.position.z));
-            
-          
+            Debug.Log("TargetReticle is active");
 
             
 
-            textTarget.transform.position = targetPos;
+            if(targetReticle.enabled == false)
+            {
+                targetReticle.enabled = true;
+            }
+
+            
+            Vector3 targetPos = thisPlayerCam.WorldToScreenPoint(new Vector3(softLockScript.targetPosition.x, 
+                softLockScript.targetPosition.y, softLockScript.targetPosition.z));
+
+
+
+
+
+            //textTarget.transform.position = targetPos;
+            targetReticle.transform.position = targetPos;
         }
 
         else
         {
-            textTarget.enabled = false;
+            Debug.Log("TargetReticle is NOT active");
+          
+            targetReticle.enabled = false;
         }
     }
 }
