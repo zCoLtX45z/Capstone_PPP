@@ -219,9 +219,11 @@ public class Ball : NetworkBehaviour
         CmdMakeBallReapear();
         //transform.gameObject.layer = 0;
         Thrown = true;
-        CanBeCaughtTimer = 0.1f;
+        CanBeCaughtTimer = 0.15f;
         Handle.position = HandPos;
         Debug.Log("power is " + power);
+        RB.useGravity = true;
+        RB.isKinematic = false;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
         RB.AddForce(power, ForceMode.Impulse);
@@ -243,7 +245,7 @@ public class Ball : NetworkBehaviour
     {
         CmdMakeBallReapear();
         Thrown = true;
-        CanBeCaughtTimer = 0.1f;
+        CanBeCaughtTimer = 0.15f;
         passedTarget = Target;
         Handle.position = HandPos;
         Handle.parent = null;
