@@ -23,13 +23,26 @@ public class InfluenceRotation : MonoBehaviour {
 
         Debug.Log("up: " + transform.up);
 
-        
 
-       // float yRotationCounter = (child.up.x + child.up.y + child.up.z);
+
+        child.up = Vector3.Cross(transform.forward, transform.right);
+
+        //child.localEulerAngles = new Vector3(child.localEulerAngles.x, -child.up.y * child.transform.root.localEulerAngles.y, child.localEulerAngles.z);
+
+
+        //child.transform.RotateAround(transform.position, transform.root.up, 0);
+
+        //child.Rotate(transform.root.up * transform.root.GetComponent<Rigidbody>().angularVelocity.y);
+
+        // cinemachine takes rotation of target and sets it as the orientation
+        //Quaternion targetOrientation = FollowTarget.rotation;
+
+
+        // float yRotationCounter = (child.up.x + child.up.y + child.up.z);
 
         //child.eulerAngles = new Vector3(child.eulerAngles.x, 0, child.eulerAngles.z);
 
-       // child.rotation = Quaternion.Euler(transform.root.rotation.x, transform.root.rotation.y, transform.root.rotation.z);
+        // child.rotation = Quaternion.Euler(transform.root.rotation.x, transform.root.rotation.y, transform.root.rotation.z);
 
         //// the smae rot
         //float x = ((transform.up.x * child.up.x) + (transform.right.x * child.right.x) + (transform.forward.x * child.forward.x) *
@@ -44,7 +57,7 @@ public class InfluenceRotation : MonoBehaviour {
         //   (transform.up.z * child.up.y) + (transform.right.z * child.right.y) + (transform.forward.z * child.forward.y) *
         //   (transform.up.z * child.up.z) + (transform.right.z * child.right.z) + (transform.forward.z * child.forward.z));
         ////
-        
+
 
         //child.localEulerAngles = new Vector3(transform.up.x, /**/(-transform.eulerAngles.y *child.up.y) + (child.localEulerAngles.z * child.up.y) + (child.localEulerAngles.x * child.up.y)/**/, transform.up.z);
         // child.up.y

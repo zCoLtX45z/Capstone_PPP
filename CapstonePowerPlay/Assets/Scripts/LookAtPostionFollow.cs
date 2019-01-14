@@ -19,8 +19,6 @@ public class LookAtPostionFollow : MonoBehaviour {
 
         transform.position = lookatPoint.position;
 
-        transform.rotation = Quaternion.Euler(lookatPoint.root.eulerAngles.x, lookatPoint.root.eulerAngles.y, lookatPoint.root.eulerAngles.z);
-
-
+        transform.up = Vector3.Cross(lookatPoint.forward, lookatPoint.right);
     }
 }
