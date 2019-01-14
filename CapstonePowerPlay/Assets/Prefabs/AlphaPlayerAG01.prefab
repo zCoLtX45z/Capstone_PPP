@@ -255,6 +255,7 @@ GameObject:
   - component: {fileID: 114652685368228906}
   - component: {fileID: 114600128993523188}
   - component: {fileID: 114638206669373088}
+  - component: {fileID: 114906787938508178}
   - component: {fileID: 114252251474358368}
   - component: {fileID: 114645326015825748}
   - component: {fileID: 65424735430859558}
@@ -1590,8 +1591,11 @@ MonoBehaviour:
   SpeedDeadZone: 10
   FallAssistForce: 625
   RiseAssistForce: 0
+  JumpForce: 400
   SpeedBoostLinearPercent: 50
   SpeedBoostTurnPercent: 25
+  SprintBoostLinearPercent: 50
+  AdditiveAcceleration: 5
   SpeedBoosted: 0
 --- !u!114 &114484167766191732
 MonoBehaviour:
@@ -2148,6 +2152,18 @@ MonoBehaviour:
   isClamp: 1
   min: -12000
   max: 12000
+--- !u!114 &114906787938508178
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1514484356419648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e015dad1ba8db6e4ebd23d0afe41b061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerBoard: {fileID: 114460662078480906}
 --- !u!114 &114919039730377462
 MonoBehaviour:
   m_ObjectHideFlags: 1
