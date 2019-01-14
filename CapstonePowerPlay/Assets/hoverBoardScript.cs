@@ -52,15 +52,17 @@ public class hoverBoardScript : NetworkBehaviour
     [SerializeField]
     private float RiseAssistForce = 0f; // higher means the character rises faster
     [SerializeField]
+    private float JumpForce = 400;
+    [SerializeField]
     private float SpeedBoostLinearPercent = 50f;
     [SerializeField]
     private float SpeedBoostTurnPercent = 25f;
     [SerializeField]
     private float SprintBoostLinearPercent = 50f;
-    public float sprintMultiplier = 1;
+    private float sprintMultiplier = 1;
     [SerializeField]
     private float AdditiveAcceleration = 5;
-    public float AccelerationMultiplier = 1;
+    private float AccelerationMultiplier = 1;
     [HideInInspector]
     public bool SpeedBoosted = false;
 
@@ -292,10 +294,16 @@ public class hoverBoardScript : NetworkBehaviour
         }
 
         //turn
+        float SpeedTurnAdjust = Speed < .25f * MaxSpeed ? 1
+            : Speed < 0.6f * MaxSpeed ? 1 - Speed / MaxSpeed
+            : Speed <= MaxSpeed ? .4f
+            : Speed > MaxSpeed && Speed / MaxSpeed - 1 > 0.2f ? Speed / MaxSpeed - 1
+            : 0.2f;
+
         if (!SpeedBoosted)
-            m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength);
+            m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength * SpeedTurnAdjust);
         else
-            m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength * SpeedBoostTurnPercent / 100);
+            m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength * SpeedTurnAdjust * SpeedBoostTurnPercent / 100);
     }
 
     void OnDrawGizmos()
@@ -351,38 +359,78 @@ public class hoverBoardScript : NetworkBehaviour
         {
             PIDController temp = PIDHoverPoints[i];
             // error is based on angle
-            float Angle = transform.eulerAngles.z;
-            if (Angle < 0)
+            float ZAngle = transform.eulerAngles.z;
+            if (ZAngle < 0)
             {
-                Angle += 360;
+                ZAngle += 360;
             }
-            if (Angle < 180)
+            if (ZAngle < 180)
             {
-                Angle = 360 - Angle;
+                ZAngle = 360 - ZAngle;
             }
-            temp.step(360, transform.eulerAngles.z);
-            float TargetAdjustHeight = (temp.name == "frontLeft" || temp.name == "centerLeft" || temp.name == "backLeft")  && transform.eulerAngles.z > 180 ? -temp.getOutput()
-            : TargetAdjustHeight = (temp.name == "frontLeft" || temp.name == "centerLeft" || temp.name == "backLeft") && transform.eulerAngles.z <= 180 ? temp.getOutput()
-            : (temp.name == "frontRight" || temp.name == "centerRight" || temp.name == "backRight") && transform.eulerAngles.z > 180 ? temp.getOutput()
-            : (temp.name == "frontRight" || temp.name == "centerRight" || temp.name == "backRight") && transform.eulerAngles.z <= 180 ? -temp.getOutput()
-            : 0f;
-            if (transform.eulerAngles.z < 300)
-                m_body.AddForceAtPosition(temp.gameObject.transform.up * TargetAdjustHeight, temp.gameObject.transform.position);
+            float XAngle = transform.eulerAngles.x;
+            if (XAngle < 0)
+            {
+                XAngle += 360;
+            }
+            if (XAngle < 180)
+            {
+                XAngle = 360 - XAngle;
+            }
+            if (temp.name == "frontLeft" || temp.name == "centerLeft" || temp.name == "backLeft" || temp.name == "frontRight" || temp.name == "centerRight" || temp.name == "backRight")
+            {
+                temp.step(360, ZAngle);
+            }
 
+            if (temp.name == "frontCenter" || temp.name == "backCenter")
+            {
+                temp.step(360, XAngle);
+            }
+            float TargetAdjustHeight = (temp.name == "frontLeft" || temp.name == "centerLeft" || temp.name == "backLeft") && transform.eulerAngles.z < 180 ? temp.getOutput()
+            : (temp.name == "frontLeft" || temp.name == "centerLeft" || temp.name == "backLeft") && transform.eulerAngles.z >= 180 ? -temp.getOutput()
+            : (temp.name == "frontRight" || temp.name == "centerRight" || temp.name == "backRight") && transform.eulerAngles.z < 180 ? -temp.getOutput()
+            : (temp.name == "frontRight" || temp.name == "centerRight" || temp.name == "backRight") && transform.eulerAngles.z >= 180 ? temp.getOutput()
+            : (temp.name == "frontCenter") && transform.eulerAngles.x < 180 ? -temp.getOutput()
+            : (temp.name == "frontCenter") && transform.eulerAngles.x < 180 ? temp.getOutput()
+            : (temp.name == "backCenter") && transform.eulerAngles.x < 180 ? temp.getOutput()
+            : (temp.name == "backCenter") && transform.eulerAngles.x < 180 ? -temp.getOutput()
+            : 0f;
+            if (ZAngle < 300)
+            {
+                if (temp.name == "frontLeft" || temp.name == "centerLeft" || temp.name == "backLeft" || temp.name == "frontRight" || temp.name == "centerRight" || temp.name == "backRight")
+                    m_body.AddForceAtPosition(temp.gameObject.transform.up * TargetAdjustHeight, temp.gameObject.transform.position);
+            }
+
+            if (XAngle < 300)
+            {
+                if (temp.name == "frontCenter" || temp.name == "backCenter")
+                    m_body.AddForceAtPosition(temp.gameObject.transform.up * TargetAdjustHeight, temp.gameObject.transform.position);
+            }
             //Debug.DrawRay(temp.gameObject.transform.position, -temp.gameObject.transform.up * TargetAdjustForce, Color.red);
+        }
+
+        if (Physics.Raycast(transform.position, transform.up, 1, m_layerMask))
+        {
+            m_body.AddForce(-transform.up * 8000);
         }
     }
 
     public void Jump()
     {
+        float XAngle = transform.eulerAngles.x * Mathf.PI / 180;
+        float YAngle = transform.eulerAngles.y * Mathf.PI / 180;
+        float ZAngle = transform.eulerAngles.z * Mathf.PI / 180;
+        float TargetAdjustForceX = -JumpForce * Mathf.Sin(XAngle);
+        float TargetAdjustForceY = JumpForce * Mathf.Cos(XAngle);
+        float TargetAdjustForceZ = JumpForce * Mathf.Sin(ZAngle);
+        Debug.Log("Forces(Right, Up, Forward): " + TargetAdjustForceZ + " / " + TargetAdjustForceY + " / " + TargetAdjustForceX);
         Debug.Log("Trying to jump character");
         for (int i = 0; i < PIDHoverPoints.Length; i++)
         {
             PIDController temp = PIDHoverPoints[i];
-            float TargetAdjustForce = 400;
-            m_body.AddForceAtPosition(Vector3.up * TargetAdjustForce, temp.gameObject.transform.position, ForceMode.Impulse);
-
-            Debug.DrawRay(temp.gameObject.transform.position, Vector3.up * TargetAdjustForce, Color.red);
+            m_body.AddForceAtPosition(temp.transform.up * TargetAdjustForceY, temp.gameObject.transform.position, ForceMode.Impulse);
+            m_body.AddForceAtPosition(temp.transform.forward * TargetAdjustForceX, temp.gameObject.transform.position, ForceMode.Impulse);
+            m_body.AddForceAtPosition(temp.transform.right * TargetAdjustForceZ, temp.gameObject.transform.position, ForceMode.Impulse);
         }
     }
 }
