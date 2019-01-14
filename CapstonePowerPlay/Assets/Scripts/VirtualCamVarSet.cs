@@ -7,6 +7,8 @@ public class VirtualCamVarSet : MonoBehaviour {
 
     private CinemachineFreeLook freeLookVirtualCamera;
 
+    
+
     [SerializeField]
     private float damping;
 
@@ -17,18 +19,20 @@ public class VirtualCamVarSet : MonoBehaviour {
     [SerializeField]
     private LayerMask lMask;
 
+    [SerializeField]
+    private Transform lookAtTransform;
+
 	// Use this for initialization
 	void Start () {
-        
+
+
+       // freeLookVirtualCamera.m_Orbits.SyncRoot
+
+        freeLookVirtualCamera = transform.GetComponent<CinemachineFreeLook>();
+
         pCameraObject.parent = null;
 
-        //pCameraObject.parent = null;
-
-
-      
-
-
-        freeLookVirtualCamera = GetComponent<CinemachineFreeLook>();
+       
         damping = 0;
 
         // Top Rig

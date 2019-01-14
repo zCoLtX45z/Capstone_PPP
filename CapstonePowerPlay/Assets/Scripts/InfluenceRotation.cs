@@ -5,9 +5,8 @@ using UnityEngine;
 public class InfluenceRotation : MonoBehaviour {
 
     
-
-    [SerializeField]
-    private Transform child; 
+    // restricts rotation of child y axis
+    private Transform child;
 
 	// Use this for initialization
 	void Start () {
@@ -16,12 +15,54 @@ public class InfluenceRotation : MonoBehaviour {
             child = transform.GetChild(0);
         }
 	}
-	
+
+    RaycastHit hit;
+    
 	// Update is called once per frame
 	void Update () {
-        
-        child.localEulerAngles = new Vector3(child.localEulerAngles.x, -transform.root.eulerAngles.y, child.localEulerAngles.z);
-        
 
+        Debug.Log("up: " + transform.up);
+
+
+
+        child.up = Vector3.Cross(transform.forward, transform.right);
+
+        //child.localEulerAngles = new Vector3(child.localEulerAngles.x, -child.up.y * child.transform.root.localEulerAngles.y, child.localEulerAngles.z);
+
+
+        //child.transform.RotateAround(transform.position, transform.root.up, 0);
+
+        //child.Rotate(transform.root.up * transform.root.GetComponent<Rigidbody>().angularVelocity.y);
+
+        // cinemachine takes rotation of target and sets it as the orientation
+        //Quaternion targetOrientation = FollowTarget.rotation;
+
+
+        // float yRotationCounter = (child.up.x + child.up.y + child.up.z);
+
+        //child.eulerAngles = new Vector3(child.eulerAngles.x, 0, child.eulerAngles.z);
+
+        // child.rotation = Quaternion.Euler(transform.root.rotation.x, transform.root.rotation.y, transform.root.rotation.z);
+
+        //// the smae rot
+        //float x = ((transform.up.x * child.up.x) + (transform.right.x * child.right.x) + (transform.forward.x * child.forward.x) *
+        //    (transform.up.x * child.up.y) + (transform.right.x * child.right.y) + (transform.forward.x * child.forward.y) *
+        //    (transform.up.x * child.up.z) + (transform.right.x * child.right.z) + (transform.forward.x * child.forward.z));
+
+        //float y = ((transform.up.y * child.up.x) + (transform.right.y * child.right.x) + (transform.forward.y * child.forward.x) *
+        //    (transform.up.y * child.up.y) + (transform.right.y * child.right.y) + (transform.forward.y * child.forward.y) *
+        //    (transform.up.y* child.up.z) + (transform.right.y * child.right.z) + (transform.forward.y * child.forward.z));
+
+        //float z = ((transform.up.z * child.up.x) + (transform.right.z * child.right.x) + (transform.forward.z * child.forward.x) *
+        //   (transform.up.z * child.up.y) + (transform.right.z * child.right.y) + (transform.forward.z * child.forward.y) *
+        //   (transform.up.z * child.up.z) + (transform.right.z * child.right.z) + (transform.forward.z * child.forward.z));
+        ////
+
+
+        //child.localEulerAngles = new Vector3(transform.up.x, /**/(-transform.eulerAngles.y *child.up.y) + (child.localEulerAngles.z * child.up.y) + (child.localEulerAngles.x * child.up.y)/**/, transform.up.z);
+        // child.up.y
+        //child.localEulerAngles = new Vector3(child.localEulerAngles.x, -transform.root.eulerAngles.y, child.localEulerAngles.z);
+
+        //child.localEulerAngles = new Vector3(child.localEulerAngles.x * transform.root.eulerAngles.x, -transform.root.eulerAngles.y * child.up.y, child.localEulerAngles.z * -transform.root.eulerAngles.z);
     }
 }
