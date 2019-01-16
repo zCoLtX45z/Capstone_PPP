@@ -42,7 +42,8 @@ public class PlayerColor : NetworkBehaviour {
     {
         ParentPlayer = GetComponentInParent<NetPlayer>();
         LocalPlayer = ParentPlayer.LocalPlayer;
-        SetTeamNum(LocalPlayer.GetTeamNum());
+        TeamNum = ParentPlayer.GetTeamNum();
+        SetTeamNum(TeamNum);
     }
 
     public void SetTeamNum(int team)
