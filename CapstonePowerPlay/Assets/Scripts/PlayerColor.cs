@@ -21,22 +21,21 @@ public class PlayerColor : NetworkBehaviour {
     private GameObject BlueFakeBall;
 
     public int TeamNum = 0;
-    private NetPlayer LocalPlayer;
+    public NetPlayer LocalPlayer;
 
     [SerializeField]
     private ComponentsToDisable CD;
 
     [Command]
-    public void CmdSetUpPlayer(int teamNum, GameObject localPlayer, string NAME)
+    public void CmdSetUpPlayer(int teamNum, GameObject localObject)
     {
-        RpcSetUpPlayer(teamNum, localPlayer, NAME);
+        RpcSetUpPlayer(teamNum, localObject);
     }
 
     [ClientRpc]
-    public void RpcSetUpPlayer(int teamNum, GameObject localPlayer, string NAME)
+    public void RpcSetUpPlayer(int teamNum, GameObject localObject)
     {
-        LocalPlayer = localPlayer.GetComponent<NetPlayer>();
-        gameObject.name = NAME;
+        LocalPlayer = localObject.GetComponent<NetPlayer>();
         SetTeamNum(teamNum);
     }
 

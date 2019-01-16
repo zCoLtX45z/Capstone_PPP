@@ -64,21 +64,19 @@ public class NetPlayer : NetworkBehaviour {
     public void CmdSpawnPlayer()
     {
         SetPlayerList();
-        if (TeamNum != 0)
-        {
-            int randNum = Random.Range(1000, 99999);
-            PlayerCode = gameObject.name + "#" + randNum;
-            GameObject GO = Instantiate(PlayerObject, transform);
-            NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
-            RpcSpawnPlayer(GO, TeamNum, PlayerCode);
-        }
+        int randNum = Random.Range(1000, 99999);
+        PlayerCode = gameObject.name + "#" + randNum;
+        GameObject GO = Instantiate(PlayerObject, transform);
+        GO.name = PlayerCode;
+        NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
+        RpcSpawnPlayer(GO);
     }
 
     [ClientRpc]
-    private void RpcSpawnPlayer(GameObject spawningObject,int teamNum, string NAME)
+    private void RpcSpawnPlayer(GameObject spawningObject)
     {
         PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
-        PC.CmdSetUpPlayer(teamNum, LocalPlayer.gameObject, NAME);
+        PC.CmdSetUpPlayer(TeamNum, LocalPlayer.gameObject);
     }
 
     public void SetPlayerList()
