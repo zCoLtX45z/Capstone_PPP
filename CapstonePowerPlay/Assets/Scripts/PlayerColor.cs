@@ -22,28 +22,35 @@ public class PlayerColor : NetworkBehaviour {
 
     public int TeamNum = 0;
     public NetPlayer LocalPlayer;
+    public NetPlayer ParentPlayer;
 
     [SerializeField]
     private ComponentsToDisable CD;
 
-    [Command]
-    public void CmdSetUpPlayer(int teamNum, GameObject localObject)
+    void Start()
     {
-        RpcSetUpPlayer(teamNum, localObject);
+    }
+
+    [Command]
+    public void CmdSetUpPlayer()
+    {
+        RpcSetUpPlayer();
     }
 
     [ClientRpc]
-    public void RpcSetUpPlayer(int teamNum, GameObject localObject)
+    public void RpcSetUpPlayer()
     {
-        LocalPlayer = localObject.GetComponent<NetPlayer>();
-        SetTeamNum(teamNum);
+        ParentPlayer = GetComponentInParent<NetPlayer>();
+        LocalPlayer = ParentPlayer.LocalPlayer;
+        SetTeamNum(LocalPlayer.GetTeamNum());
     }
 
     public void SetTeamNum(int team)
     {
         CD.LocalPlayer = LocalPlayer;
+        CD.ParentPlayer = ParentPlayer;
         TeamNum = team;
-        if (LocalPlayer.PlayerCode == gameObject.name)
+        if (LocalPlayer.PlayerCode == ParentPlayer.PlayerCode)
         {
             SetBlueActive();
         }

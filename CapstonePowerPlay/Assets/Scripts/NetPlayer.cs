@@ -28,6 +28,9 @@ public class NetPlayer : NetworkBehaviour {
 
     // Use this for initialization
     void Start () {
+        int randNum = Random.Range(1000, 99999);
+        PlayerCode = gameObject.name + "#" + randNum;
+        SetPlayerList();
         if (isLocalPlayer)
         {
             StartingCanvas.gameObject.SetActive(true);
@@ -64,8 +67,6 @@ public class NetPlayer : NetworkBehaviour {
     public void CmdSpawnPlayer()
     {
         SetPlayerList();
-        int randNum = Random.Range(1000, 99999);
-        PlayerCode = gameObject.name + "#" + randNum;
         GameObject GO = Instantiate(PlayerObject, transform);
         GO.name = PlayerCode;
         NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
@@ -76,7 +77,7 @@ public class NetPlayer : NetworkBehaviour {
     private void RpcSpawnPlayer(GameObject spawningObject)
     {
         PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
-        PC.CmdSetUpPlayer(TeamNum, LocalPlayer.gameObject);
+        PC.CmdSetUpPlayer();
     }
 
     public void SetPlayerList()

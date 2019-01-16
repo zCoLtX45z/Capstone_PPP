@@ -8,6 +8,7 @@ public class ComponentsToDisable : NetworkBehaviour {
     public Behaviour[] DisabledComponents;
     //[HideInInspector]
     public NetPlayer LocalPlayer;
+    public NetPlayer ParentPlayer;
 
     // Use this for initialization
     [Command]
@@ -36,7 +37,7 @@ public class ComponentsToDisable : NetworkBehaviour {
 
     public void ForcedStart()
     {
-        if (LocalPlayer.PlayerCode != gameObject.name)
+        if (LocalPlayer.PlayerCode != ParentPlayer.PlayerCode)
         {
             for (int i = 0; i < DisabledComponents.Length; i++)
             {
