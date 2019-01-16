@@ -1584,18 +1584,18 @@ MonoBehaviour:
   - {fileID: 114594083804765944}
   Kp: 1
   Ki: 0.0625
-  Kd: 9
-  MaxSpeed: 45
+  Kd: 13
+  MaxSpeed: 25
   Speed: 0
-  MaxTurnAdjustPercent: 30
+  MaxTurnAdjustPercent: 12
   SpeedDeadZone: 10
-  FallAssistForce: 625
-  RiseAssistForce: 0
+  FallAssistForce: 300
+  RiseAssistForce: 900
   JumpForce: 400
   SpeedBoostLinearPercent: 50
   SpeedBoostTurnPercent: 25
   SprintBoostLinearPercent: 50
-  AdditiveAcceleration: 5
+  AdditiveAcceleration: 2
   SpeedBoosted: 0
 --- !u!114 &114484167766191732
 MonoBehaviour:

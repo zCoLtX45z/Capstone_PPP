@@ -6,20 +6,36 @@ public class InfluenceRotation : MonoBehaviour {
 
     
     // restricts rotation of child y axis
-    private Transform child;
+    private Transform lookatPoint;
+
 
 	// Use this for initialization
 	void Start () {
-		if(child == null)
+		if(lookatPoint == null)
         {
-            child = transform.GetChild(0);
+            lookatPoint = transform.GetChild(0);
         }
-	}
+    }
 
-    RaycastHit hit;
-    
-	// Update is called once per frame
-	void Update () {
-        child.up = Vector3.Cross(transform.forward, transform.right);
+    // Update is called once per frame
+    void Update () {
+
+        //Vector3 dir =child.position - (child.position + child.up);
+        //child.up = Vector3.Cross(dir, child.up);
+
+        //if (lookatPoint != null)
+         lookatPoint.up = Vector3.Normalize(Vector3.Cross(transform.forward, transform.right));
+
+
+        //float x = ((transform.forward.y * transform.right.z) - (transform.forward.z * transform.right.y));
+        //float y = ((transform.forward.z * transform.right.x) - (transform.forward.x * transform.right.z));
+        //float z = ((transform.forward.x * transform.right.y) - (transform.forward.y * transform.right.x));
+
+        //lookatPoint.up = new Vector3(Mathf.Clamp(x, -1, 1), Mathf.Clamp(y, -1, 1), Mathf.Clamp(z, -1, 1)).normalized;
+        //Debug.Log("lookatPoint.up: " + lookatPoint.up);
+
+
+        //if (lookatPoint.up.y <= -0.8f)
+        //    lookatPoint.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0, transform.rotation.eulerAngles.z);
     }
 }
