@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114968203636264096}
   - component: {fileID: 114485310922976210}
   m_Layer: 0
-  m_Name: Choose Tteam Button
+  m_Name: Choose Team Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 114559191501871104}
   - component: {fileID: 114226549840921216}
   m_Layer: 0
-  m_Name: Choose Tteam Button
+  m_Name: Choose Team Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -571,7 +571,7 @@ GameObject:
   - component: {fileID: 114735612849852164}
   - component: {fileID: 114826735508973874}
   m_Layer: 0
-  m_Name: Choose Tteam Button
+  m_Name: Choose Team Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -876,7 +876,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1611709263385198}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 419.17618, y: 643.1881, z: 540.0121}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224855845141956748}
@@ -1180,7 +1180,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114396907402319422}
-        m_MethodName: set_NetworkTeamNum
+        m_MethodName: CallCmdChangeTeam
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1642,7 +1642,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerObject: {fileID: 1432563592442964, guid: 0335fa7aa3b867b4ea20b60bae0b2dc7,
     type: 2}
-  TeamNum: 0
   LocalPlayer: {fileID: 0}
   PlayerList: []
   StartingCanvas: {fileID: 223736866260710530}
@@ -1980,7 +1979,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114396907402319422}
-        m_MethodName: set_NetworkTeamNum
+        m_MethodName: CallCmdChangeTeam
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2524,7 +2523,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114396907402319422}
-        m_MethodName: set_NetworkTeamNum
+        m_MethodName: CallCmdChangeTeam
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

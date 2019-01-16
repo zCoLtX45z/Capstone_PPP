@@ -10,8 +10,7 @@ public class NetPlayer : NetworkBehaviour {
     [SerializeField]
     private GameObject PlayerObject;
 
-    [SyncVar]
-    public int TeamNum = 0;
+    private int TeamNum = 0;
 
     [HideInInspector]
     public NetPlayer LocalPlayer;
@@ -68,7 +67,7 @@ public class NetPlayer : NetworkBehaviour {
             PlayerColor PC = GO.GetComponent<PlayerColor>();
             PC.SetUpPlayer(TeamNum, LocalPlayer);
             GO.gameObject.name = name;
-            NetworkServer.Spawn(GO);
+            NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
         }
     }
 
@@ -88,5 +87,22 @@ public class NetPlayer : NetworkBehaviour {
     public void ConfirmTeamPlacement()
     {
         ConfirmTeam = true;
+    }
+
+    [Command]
+    public void CmdChangeTeam(int i)
+    {
+        RpcChangeTeam(i);
+    }
+
+    [ClientRpc]
+    public void RpcChangeTeam(int i)
+    {
+        TeamNum = i;
+    }
+
+    public int GetTeamNum()
+    {
+        return TeamNum;
     }
 }

@@ -44,7 +44,7 @@ public class PlayerInTeamUI : MonoBehaviour {
         {
             foreach (NetPlayer p in PlayerList)
             {
-                if (p.TeamNum == TeamNum && !PlayersOnTeam.Contains(p))
+                if (p.GetTeamNum() == TeamNum && !PlayersOnTeam.Contains(p))
                 {
                     if (PlayersOnTeam.Count < MaxPlayers)
                     {
@@ -52,10 +52,10 @@ public class PlayerInTeamUI : MonoBehaviour {
                     }
                     else
                     {
-                        p.TeamNum = 0;
+                        p.CmdChangeTeam(0);
                     }
                 }
-                if (p.TeamNum != TeamNum && PlayersOnTeam.Contains(p))
+                if (p.GetTeamNum() != TeamNum && PlayersOnTeam.Contains(p))
                 {
                     PlayersOnTeam.Remove(p);
                 }

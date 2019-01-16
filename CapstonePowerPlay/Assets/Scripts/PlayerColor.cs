@@ -37,7 +37,7 @@ public class PlayerColor : NetworkBehaviour {
         }
         else
         {
-            if (LocalPlayer.TeamNum == TeamNum)
+            if (LocalPlayer.GetTeamNum() == TeamNum)
             {
                 SetBlueActive();
             }
