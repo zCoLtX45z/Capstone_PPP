@@ -64,9 +64,8 @@ public class NetPlayer : NetworkBehaviour {
         if (TeamNum != 0)
         {
             GameObject GO = Instantiate(PlayerObject, transform);
-            NetworkIdentity NI = GO.GetComponent<NetworkIdentity>();
-            PlayerColor PC = GO.GetComponent<PlayerColor>();
             NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
+            PlayerColor PC = GO.GetComponent<PlayerColor>();
             PC.CmdSetUpPlayer(TeamNum, LocalPlayer.gameObject, name);
             ComponentsToDisable CD = GO.GetComponent<ComponentsToDisable>();
             CD.CmdForcedStart();
