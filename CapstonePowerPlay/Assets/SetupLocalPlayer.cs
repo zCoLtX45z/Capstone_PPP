@@ -23,8 +23,12 @@ public class SetupLocalPlayer : NetworkBehaviour {
     [Command]
     public void CmdChangeName(string newName)
     {
-        pname = newName;
-        this.GetComponentInChildren<TextMesh>().text = pname;
+        RpcChangeName(newName);
+    }
+    [ClientRpc]
+    public void RpcChangeName(string newName)
+    {
+        gameObject.name = pname;
     }
     private void Start()
     {
@@ -41,5 +45,6 @@ public class SetupLocalPlayer : NetworkBehaviour {
     {
         pname = newName;
         gameObject.name = pname;
+        CmdChangeName(pname);
     }
 }
