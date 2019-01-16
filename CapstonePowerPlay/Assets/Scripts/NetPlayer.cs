@@ -65,8 +65,7 @@ public class NetPlayer : NetworkBehaviour {
         {
             GameObject GO = Instantiate(PlayerObject);
             PlayerColor PC = GO.GetComponent<PlayerColor>();
-            PC.SetUpPlayer(TeamNum, LocalPlayer);
-            GO.gameObject.name = name;
+            PC.CmdSetUpPlayer(TeamNum, LocalPlayer.gameObject, name);
             NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
         }
     }

@@ -20,14 +20,23 @@ public class PlayerColor : NetworkBehaviour {
     [SerializeField]
     private GameObject BlueFakeBall;
 
-    private int TeamNum = 0;
+    public int TeamNum = 0;
     private NetPlayer LocalPlayer;
 
-    public void SetUpPlayer(int teamNum, NetPlayer localPlayer)
+    [Command]
+    public void CmdSetUpPlayer(int teamNum, GameObject localPlayer, string NAME)
     {
-        LocalPlayer = localPlayer;
-        SetTeamNum(teamNum);
+        RpcSetUpPlayer(teamNum, localPlayer, NAME);
     }
+
+    [ClientRpc]
+    public void RpcSetUpPlayer(int teamNum, GameObject localPlayer, string NAME)
+    {
+        LocalPlayer = localPlayer.GetComponent<NetPlayer>();
+        SetTeamNum(teamNum);
+        gameObject.name = NAME;
+    }
+
     public void SetTeamNum(int team)
     {
         TeamNum = team;
