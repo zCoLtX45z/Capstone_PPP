@@ -31,4 +31,22 @@ public class ComponentsToDisable : NetworkBehaviour {
             gameObject.layer = 2;
         }
 	}
+
+    public void ForcedStart()
+    {
+        if (!isLocalPlayer)
+        {
+            for (int i = 0; i < DisabledComponents.Length; i++)
+            {
+                DisabledComponents[i].enabled = false;
+            }
+        }
+
+
+        // added by andre.
+        else
+        {
+            gameObject.layer = 2;
+        }
+    }
 }

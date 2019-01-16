@@ -65,11 +65,17 @@ public class NetPlayer : NetworkBehaviour {
         {
             GameObject GO = Instantiate(PlayerObject, transform);
             NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
-            PlayerColor PC = GO.GetComponent<PlayerColor>();
-            PC.CmdSetUpPlayer(TeamNum, LocalPlayer.gameObject, name);
-            ComponentsToDisable CD = GO.GetComponent<ComponentsToDisable>();
-            CD.CmdForcedStart();
+            RpcSpawnPlayer(GO, TeamNum, name, LocalPlayer.gameObject);
         }
+    }
+
+    [ClientRpc]
+    private void RpcSpawnPlayer(GameObject spawningObject,int teamNum, string NAME, GameObject localPlayerObject)
+    {
+        PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
+        PC.CmdSetUpPlayer(teamNum, localPlayerObject, NAME);
+        ComponentsToDisable CD = spawningObject.GetComponent<ComponentsToDisable>();
+        CD.ForcedStart();
     }
 
     public void SetPlayerList()
