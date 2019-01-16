@@ -70,6 +70,7 @@ public class NetPlayer : NetworkBehaviour {
         GameObject GO = Instantiate(PlayerObject, transform);
         GO.name = PlayerCode;
         NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
+        CmdParentChild(GO);
         RpcSpawnPlayer(GO);
     }
 
@@ -91,6 +92,18 @@ public class NetPlayer : NetworkBehaviour {
                 p.LocalPlayer = this;
             }
         }
+    }
+
+    [Command]
+    private void CmdParentChild(GameObject child)
+    {
+        RpcParentChild(child);
+    }
+
+    [ClientRpc]
+    private void RpcParentChild(GameObject child)
+    {
+        child.transform.parent = this.transform;
     }
 
     public void ConfirmTeamPlacement()
