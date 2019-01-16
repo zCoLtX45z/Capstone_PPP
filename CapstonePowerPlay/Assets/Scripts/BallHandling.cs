@@ -123,6 +123,11 @@ public class BallHandling : NetworkBehaviour {
         }
 	}
 
+    public void SetHand(Transform T)
+    {
+        Hand = T;
+    }
+
     public Transform ReturnHand()
     {
         return Hand;
