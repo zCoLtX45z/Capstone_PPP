@@ -24,7 +24,7 @@ public class InfluenceRotation : MonoBehaviour {
         //child.up = Vector3.Cross(dir, child.up);
 
         //if (lookatPoint != null)
-         lookatPoint.up = Vector3.Normalize(Vector3.Cross(transform.forward, transform.right));
+        //lookatPoint.up = Vector3.Normalize(Vector3.Cross(transform.forward, transform.right));
 
 
         //float x = ((transform.forward.y * transform.right.z) - (transform.forward.z * transform.right.y));
@@ -37,5 +37,20 @@ public class InfluenceRotation : MonoBehaviour {
 
         //if (lookatPoint.up.y <= -0.8f)
         //    lookatPoint.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0, transform.rotation.eulerAngles.z);
+
+        lookatPoint.up = Vector3.Cross(transform.forward, transform.right);
+
+        //lookatPoint.localEulerAngles = new Vector3(lookatPoint.localEulerAngles.x, Vector3.Dot(transform.forward, transform.right), lookatPoint.localEulerAngles.z);
+
+
+        //lookatPoint.up = new Vector3(Mathf.Clamp(lookatPoint.up.x, -1, 1), Mathf.Clamp(lookatPoint.up.y, -1, 1), Mathf.Clamp(lookatPoint.up.z, -1, 1));
+        //lookatPoint.right = new Vector3(Mathf.Clamp(lookatPoint.right.x, -1, 1), Mathf.Clamp(lookatPoint.right.y, -1, 1), Mathf.Clamp(lookatPoint.right.z, -1, 1));
+        //lookatPoint.forward = new Vector3(Mathf.Clamp(lookatPoint.forward.x, -1, 1), Mathf.Clamp(lookatPoint.forward.y, -1, 1), Mathf.Clamp(lookatPoint.forward.z, -1, 1));
+        //lookatPoint.localRotation = Quaternion.Euler(lookatPoint.localulerAngles)
+
+        //lookatPoint.rotation = Quaternion.LookRotation(transform.forward);
+
+        //lookatPoint.up = Vector3.ProjectOnPlane(transform.forward, transform.right).normalized;
+
     }
 }
