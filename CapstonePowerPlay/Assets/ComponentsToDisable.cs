@@ -7,8 +7,15 @@ public class ComponentsToDisable : NetworkBehaviour {
 
    public Behaviour[] DisabledComponents;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    [Command]
+    public void CmdForcedStart()
+    {
+        RPCForcedStart();
+    }
+
+    [ClientRpc]
+	public void RPCForcedStart () {
 		if(!isLocalPlayer)
         {
             for(int i = 0; i < DisabledComponents.Length; i++)
