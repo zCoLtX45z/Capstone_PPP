@@ -44,7 +44,7 @@ public class NetPlayer : NetworkBehaviour {
         {
             if (isLocalPlayer)
             {
-                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 if (PlayerList == null)
                     SetPlayerList();
