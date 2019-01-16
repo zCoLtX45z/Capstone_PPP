@@ -484,6 +484,7 @@ GameObject:
   - component: {fileID: 4331268207953118}
   - component: {fileID: 114005058569448876}
   - component: {fileID: 114396907402319422}
+  - component: {fileID: 114810287173700582}
   m_Layer: 0
   m_Name: NetPlayer
   m_TagString: Untagged
@@ -2548,6 +2549,19 @@ MonoBehaviour:
   m_Text: 'Player 7 Name
 
 '
+--- !u!114 &114810287173700582
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1611709263385198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8b601f9ce1434d4995478bf6015ee15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pname: player
+  playerColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &114826735508973874
 MonoBehaviour:
   m_ObjectHideFlags: 1

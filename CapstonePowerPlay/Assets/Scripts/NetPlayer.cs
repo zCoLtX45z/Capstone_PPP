@@ -23,6 +23,9 @@ public class NetPlayer : NetworkBehaviour {
     [HideInInspector]
     public bool ConfirmTeam = false;
 
+    //[HideInInspector]
+    public string PlayerCode = "";
+
     // Use this for initialization
     void Start () {
         if (isLocalPlayer)
@@ -49,7 +52,7 @@ public class NetPlayer : NetworkBehaviour {
                     }
                     else
                     {
-                        CmdSpawnPlayer();
+                        CmdSpawnPlayer(this.gameObject);
                         StartingCanvas.gameObject.SetActive(false);
                     }
                 }
@@ -58,14 +61,16 @@ public class NetPlayer : NetworkBehaviour {
     }
 
     [Command]
-    public void CmdSpawnPlayer()
+    public void CmdSpawnPlayer(GameObject LocalPlayerObject)
     {
         SetPlayerList();
         if (TeamNum != 0)
         {
+            int randNum = Random.Range(1000, 99999);
+            PlayerCode = gameObject.name + "#" + randNum;
             GameObject GO = Instantiate(PlayerObject, transform);
             NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
-            RpcSpawnPlayer(GO, TeamNum, name, LocalPlayer.gameObject);
+            RpcSpawnPlayer(GO, TeamNum, PlayerCode, LocalPlayerObject);
         }
     }
 
@@ -74,8 +79,6 @@ public class NetPlayer : NetworkBehaviour {
     {
         PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
         PC.CmdSetUpPlayer(teamNum, localPlayerObject, NAME);
-        ComponentsToDisable CD = spawningObject.GetComponent<ComponentsToDisable>();
-        CD.ForcedStart();
     }
 
     public void SetPlayerList()

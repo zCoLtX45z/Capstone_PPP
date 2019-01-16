@@ -5,17 +5,19 @@ using UnityEngine.Networking;
 
 public class ComponentsToDisable : NetworkBehaviour {
 
-   public Behaviour[] DisabledComponents;
+    public Behaviour[] DisabledComponents;
+    [HideInInspector]
+    public NetPlayer LocalPlayer;
 
     // Use this for initialization
     [Command]
     public void CmdForcedStart()
     {
-        RPCForcedStart();
+        RpcForcedStart();
     }
 
     [ClientRpc]
-	public void RPCForcedStart () {
+	public void RpcForcedStart () {
 		if(!isLocalPlayer)
         {
             for(int i = 0; i < DisabledComponents.Length; i++)
@@ -34,7 +36,7 @@ public class ComponentsToDisable : NetworkBehaviour {
 
     public void ForcedStart()
     {
-        if (!isLocalPlayer)
+        if (LocalPlayer.PlayerCode != gameObject.name)
         {
             for (int i = 0; i < DisabledComponents.Length; i++)
             {

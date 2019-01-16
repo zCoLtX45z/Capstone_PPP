@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class SetupLocalPlayer : NetworkBehaviour {
 
-    [SyncVar]
+    [SyncVar(hook = "OnChangeName")]
     public string pname = "player";
     [SyncVar]
     public Color playerColor = Color.white;
@@ -35,5 +35,11 @@ public class SetupLocalPlayer : NetworkBehaviour {
                 r.material.color = playerColor;
         }
         
+    }
+
+    private void OnChangeName(string newName)
+    {
+        pname = newName;
+        gameObject.name = pname;
     }
 }
