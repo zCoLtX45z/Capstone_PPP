@@ -46,21 +46,18 @@ public class NetPlayer : NetworkBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (PlayerList != null)
+        if (StartingCanvas.gameObject.activeSelf)
         {
-            if (!ChangedNames && isServer)
+            if (PlayerList == null)
+                SetPlayerList();
+
+            if (isServer)
             {
-                ChangedNames = true;
                 foreach (NetPlayer p in PlayerList)
                 {
                     p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
                 }
             }
-        }
-        else if (StartingCanvas.gameObject.activeSelf)
-        {
-            if (PlayerList == null)
-                SetPlayerList();
 
             if (isLocalPlayer)
             {
