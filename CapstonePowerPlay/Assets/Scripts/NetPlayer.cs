@@ -69,7 +69,7 @@ public class NetPlayer : NetworkBehaviour {
             NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
             PC.CmdSetUpPlayer(TeamNum, LocalPlayer.gameObject, name);
             ComponentsToDisable CD = GO.GetComponent<ComponentsToDisable>();
-            //CD.CmdForcedStart();
+            CD.CmdForcedStart();
         }
     }
 
