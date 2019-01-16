@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class ComponentsToDisable : NetworkBehaviour {
 
     public Behaviour[] DisabledComponents;
-    [HideInInspector]
+    //[HideInInspector]
     public NetPlayer LocalPlayer;
 
     // Use this for initialization
