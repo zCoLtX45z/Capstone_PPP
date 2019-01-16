@@ -24,12 +24,18 @@ public class NetPlayer : NetworkBehaviour {
     public bool ConfirmTeam = false;
 
     //[HideInInspector]
+    [SyncVar]
+    public string CodeNumbers = "";
+    [SyncVar]
     public string PlayerCode = "";
+
+    private bool ChangedNames = false;
 
     // Use this for initialization
     void Start () {
         int randNum = Random.Range(1000, 99999);
-        PlayerCode = gameObject.name + "#" + randNum;
+        CodeNumbers = "#" + randNum;
+        PlayerCode = gameObject.name + CodeNumbers;
         SetPlayerList();
         if (isLocalPlayer)
         {
@@ -40,14 +46,26 @@ public class NetPlayer : NetworkBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (StartingCanvas.gameObject.activeSelf)
+        if (PlayerList != null)
         {
+            if (!ChangedNames && isServer)
+            {
+                ChangedNames = true;
+                foreach (NetPlayer p in PlayerList)
+                {
+                    p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
+                }
+            }
+        }
+        else if (StartingCanvas.gameObject.activeSelf)
+        {
+            if (PlayerList == null)
+                SetPlayerList();
+
             if (isLocalPlayer)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                if (PlayerList == null)
-                    SetPlayerList();
 
                 if (ConfirmTeam)
                 {
@@ -128,5 +146,18 @@ public class NetPlayer : NetworkBehaviour {
     public int GetTeamNum()
     {
         return TeamNum;
+    }
+
+    [Command]
+    private void CmdChangeName(string name, string code)
+    {
+        RpcChangeName(name, code);
+    }
+
+    [ClientRpc]
+    private void RpcChangeName(string name, string code)
+    {
+        gameObject.name = name;
+        CodeNumbers = code;
     }
 }
