@@ -14,10 +14,10 @@ public class Scoring : MonoBehaviour
     private int redScore = 0;
     private bool scored = false;
 	
-	void Start ()
-    {
-        scoreDisplay = GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
-	}
+	//void Start ()
+ //   {
+ //       scoreDisplay = GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
+	//}
 	
 	// Update is called once per frame
 	void Update ()
