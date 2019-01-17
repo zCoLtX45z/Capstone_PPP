@@ -217,7 +217,6 @@ public class hoverBoardScript : NetworkBehaviour
         // PID controllers
         if (PIDHoverPoints.Length > 0)
         {
-
             RaycastHit hit;
             for (int i = 0; i < PIDHoverPoints.Length; i++)
             {
@@ -268,6 +267,15 @@ public class hoverBoardScript : NetworkBehaviour
                         }
                     }
                 }
+            }
+
+            if (StabalizersActive == PIDHoverPoints.Length)
+            {
+                m_body.useGravity = false;
+            }
+            else
+            {
+                m_body.useGravity = true;
             }
         }
 
