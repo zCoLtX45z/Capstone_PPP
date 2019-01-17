@@ -21,19 +21,24 @@ public class BallHandling : NetworkBehaviour {
     // Target for passes
     private GameObject Target;
 
+    // Target position for passes
+    private Vector3 TargetPosition;
+
     // Hand to where the ball goes
     [SerializeField]
     private Transform Hand;
 
     public Ball ball;
+    private Ball FindBall;
 
     // get from input manager
     private float PassShootAxis = 0;
 
+    [SyncVar]
     public bool canHold = true;
 
     // can hold timer
-    public float canHoldTimer = 0;
+    public float canHoldTimer = 1;
 
     // Layer the player can pass on
     [SerializeField]
@@ -44,7 +49,7 @@ public class BallHandling : NetworkBehaviour {
 
     // Reference fake ball
     [SerializeField]
-    private GameObject FakeBall;
+    public GameObject FakeBall;
 
 	// Use this for initialization
 	void Start () {
@@ -54,43 +59,74 @@ public class BallHandling : NetworkBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        PassShootAxis = Input.GetAxis("PassShoot");
-        //Debug.Log("Pass / Shoot Axis: " + PassShootAxis);
-
-        //Debug.Log("ball = " + ball);
-        if (ball != null)
+        if (isLocalPlayer)
         {
-            if (PassShootAxis < -0.1)
+            PassShootAxis = Input.GetAxis("PassShoot");
+            //Debug.Log("Pass / Shoot Axis: " + PassShootAxis);
+
+            //Debug.Log("ball = " + ball);
+            if (ball != null)
             {
-                // PASS
-                // Get Target from Targeting Script
-                Target = softLockScript.target;
-                if (Target != null)
+                if (!ball.GetThrown())
                 {
-                    CmdPass(Target);
-                    Debug.Log(gameObject.name + " Passes");
-                    ball = null;
+                    if (PassShootAxis < -0.1)
+                    {
+                        // PASS
+                        // Get Target from Targeting Script
+                        Target = softLockScript.target;
+                        Debug.Log("target: " + Target);
+                        TargetPosition = softLockScript.targetPosition;
+                        if (Target != null)
+                        {
+                            Debug.Log("jadaadadadadadad");
+                            Debug.Log(gameObject.name + " Passes");
+                            CmdPass(Target, ball.gameObject, Hand.position, this.gameObject);
+                            ball = null;
+                        }
+                    }
+                    else if (PassShootAxis > 0.1)
+                    {
+                        // SHOOT
+                        Debug.Log(gameObject.name + " Shoots");
+                        //RaycastHit RH;
+                        Vector3 direction = Cam.transform.position + Cam.transform.forward * 100 - Hand.position;
+                        //if(Physics.Raycast(Cam.transform.position, Cam.transform.forward, out RH, 100, HitLayer))
+                        //{
+                        //    direction = RH.collider.
+                        //}
+                        //else
+                        //{
+
+                        //}
+                        //Debug.DrawLine(Cam.transform.position + Cam.transform.forward * 100, Hand.position, Color.blue, 6f);
+                        //Debug.DrawRay(Hand.position, Cam.transform.position + Cam.transform.forward * 100 - Hand.position, Color.red, 3.75f);
+                        CmdShoot(ball.gameObject, Hand.position, direction.normalized * ShootForce, this.gameObject);
+                        ball = null;
+                    }
                 }
             }
-            else if (PassShootAxis > 0.1)
+
+            if (!canHold)
             {
-                // SHOOT
-                CmdShoot();
-                Debug.Log(gameObject.name + " Shoots");
-                ball = null;
+                if (canHoldTimer > 0)
+                    canHoldTimer -= Time.deltaTime;
+                else if (canHoldTimer <= 0)
+                {
+                    canHoldTimer = 1;
+                    canHold = true;
+                }
             }
         }
-
-        if (!canHold)
+        else
         {
-            if (canHoldTimer > 0)
-                canHoldTimer -= Time.deltaTime;
-            else if (canHoldTimer <= 0)
-            {
-                canHold = true;
-            }
+            // nothing for now
         }
 	}
+
+    public void SetHand(Transform T)
+    {
+        Hand = T;
+    }
 
     public Transform ReturnHand()
     {
@@ -98,59 +134,59 @@ public class BallHandling : NetworkBehaviour {
     }
 
     [Command]
-    private void CmdPass(GameObject Target)
+    private void CmdPass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
-        ball.SetPass(true, Target, PassForce);
+        RpcPass(Target, ballObject, HandPos, WhoThrew);
     }
 
-    private void Pass(GameObject Target)
+    [ClientRpc]
+    private void RpcPass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
-        //Direction = Target.transform.position - ball.transform.position;
-        //Direction = Direction.normalized;
-        //Direction *= PassForce;
-
-        ball.SetPass(true, Target, PassForce);
-        TurnOnFakeBall(false);
-        ball.gameObject.SetActive(true);
+        
+        Ball temp = ballObject.GetComponent<Ball>();
+        temp.CmdSetPass(true, Target, PassForce, HandPos, WhoThrew);
+        CmdTurnOnFakeBall(false);
     }
 
     [Command]
-    private void CmdShoot()
+    private void CmdShoot(GameObject ballObject, Vector3 HandPos, Vector3 Direction, GameObject WhoThrew)
     {
-        Direction = Cam.transform.forward;
-        Direction *= ShootForce;
-        ball.Shoot(Direction, playerTag);
+
+        CmdTurnOnFakeBall(false);
+        RpcShoot(Direction, ballObject, HandPos, WhoThrew);
     }
 
-        private void Shoot()
+    [ClientRpc]
+    private void RpcShoot(Vector3 Direction, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
-        /*
-        RaycastHit hit;
-        Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(ray, out hit, HitLayer);
-        Direction = hit.point;
-        Direction = Direction - ball.transform.position;
-        Direction = Direction.normalized;
-        Direction *= ShootForce;
-        ball.Shoot(Direction, playerTag);
-        */
-
-        Direction = Cam.transform.forward;
-        Direction *= ShootForce;
-        ball.Shoot(Direction, playerTag);
-
-        Debug.Log("Direction: " + Direction);
-        TurnOnFakeBall(false);
-        ball.gameObject.SetActive(true);
+        Ball temp = ballObject.GetComponent<Ball>();
+        temp.CmdShoot(Direction, playerTag, HandPos, WhoThrew);
+        CmdTurnOnFakeBall(false);
     }
 
-    public void SetBall(Ball b)
+    [Command]
+    public void CmdSetBall(GameObject ballObject)
     {
+        RpcSetBall(ballObject);
+    }
+
+    [ClientRpc]
+    public void RpcSetBall(GameObject ballObjectb)
+    {
+        Ball b = ballObjectb.GetComponent<Ball>();
         ball = b;
     }
 
-    public void TurnOnFakeBall(bool b = true)
+    [Command]
+    public void CmdTurnOnFakeBall(bool b)
     {
-        FakeBall.SetActive(b);
+        RpcTurnOnFakeBall(gameObject, b);
+    }
+
+    [ClientRpc]
+    public void RpcTurnOnFakeBall(GameObject playerObject, bool b)
+    {
+        BallHandling bh = playerObject.GetComponent<BallHandling>();
+        bh.FakeBall.SetActive(b);
     }
 }

@@ -1160,7 +1160,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0
-  m_Text: Power Play
+  m_Text: TOTC
 --- !u!114 &11403610
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3204,7 +3204,8 @@ MonoBehaviour:
   m_OfflineScene: NetworkLobby
   m_OnlineScene: 
   m_SpawnPrefabs:
-  - {fileID: 0}
+  - {fileID: 1156062789518638, guid: 790ddd97173dd224ab5ca0948ccfd290, type: 2}
+  - {fileID: 1432563592442964, guid: 0335fa7aa3b867b4ea20b60bae0b2dc7, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -3266,7 +3267,7 @@ MonoBehaviour:
   m_MinPlayers: 1
   m_LobbyPlayerPrefab: {fileID: 11487034, guid: ad727d7e1462ecc4f83c898ecc501997,
     type: 2}
-  m_GamePlayerPrefab: {fileID: 1583064696871950, guid: cd980fbc2a139ea4482b95d4367a2fea,
+  m_GamePlayerPrefab: {fileID: 1611709263385198, guid: 2f20e97926e8c7a40b14c6ddd14e8016,
     type: 2}
   m_LobbyScene: NetworkLobby
   m_PlayScene: Marcscene
@@ -3284,6 +3285,7 @@ MonoBehaviour:
   obj: {fileID: 0}
   _playerNumber: 0
   _isMatchmaking: 0
+  _lobbyHooks: {fileID: 114769240270947236}
 --- !u!114 &11476426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4828,8 +4830,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1039.3477, y: -50}
-  m_SizeDelta: {x: 2078.6953, y: 100}
+  m_AnchoredPosition: {x: 1035.9529, y: -50}
+  m_SizeDelta: {x: 2071.9058, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22434328
 RectTransform:
