@@ -60,6 +60,8 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     // play team int
     private int teamInt;
 
+  
+
 
     // Use this for initialization
     void Awake () {
@@ -80,7 +82,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             PlayerColor pColor = nPlayer.GetComponentInChildren<PlayerColor>();
 
 
-            if (pColor.gameObject != transform.parent.gameObject && pColor.TeamNum == teamInt)
+            if (pColor.gameObject != player.transform.gameObject && pColor.TeamNum == teamInt)
             {
                 listOfTeamates.Add(pColor.gameObject);
             }
@@ -100,14 +102,14 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
         playerAndChildren.Add(transform.root.gameObject);
        
         // add all children to main player gameObject to this list
-        foreach (Transform child in transform.parent)
+        foreach (Transform child in player.transform)
         {
             playerAndChildren.Add(child.gameObject);
             //child is your child transform
         }
 
         //set player object (root object that this script is attached to)
-        player = transform.parent.gameObject;
+       // player = transform.parent.gameObject;
 
         // unchiled this gameObject
       //  transform.parent = null;
