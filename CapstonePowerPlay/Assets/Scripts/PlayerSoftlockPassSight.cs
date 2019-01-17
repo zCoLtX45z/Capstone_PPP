@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSoftlockPassSight : MonoBehaviour {
+public class PlayerSoftlockPassSight : MonoBehaviour
+{
 
     // the max angle that a teamate must be in between, in order to be an eligable target for passing
     [SerializeField]
@@ -30,7 +31,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
 
     [SerializeField]
     public Vector3 targetPosition;
-    
+
     // accepted target list, the group of targets that are elligable to be targeted
     [SerializeField]
     private List<GameObject> currentAcceptedTargets = new List<GameObject>();
@@ -42,7 +43,8 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     private float currentAngle;
 
     // team gameobject tag
-    private string teamTag;
+    [SerializeField]
+    public string teamTag;
 
     // list containing main player object and children
     [SerializeField]
@@ -52,15 +54,20 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     // the max distance for a teamate must be within, in order to be an eligable target for passing
     [SerializeField]
     private float maxDistance = 0.0f;
-  
+
     // player gameObject
     [SerializeField]
-    private GameObject player;
+    public GameObject player;
 
     // Use this for initialization
-    void Awake () {
+    void Awake()
+    {
+
+        //set player object (parent object that this script is attached to)
+        player = transform.parent.gameObject;
+
         // get the tag of the player
-        teamTag = transform.root.tag;
+        teamTag = player.tag;
 
         // set soft lock angle (to be removed)
         softLockAngle = 20f;
@@ -77,27 +84,26 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
         // find the player's gameObject and remove it from teamate list.
         for (int i = listOfTeamates.Count - 1; i >= 0; --i)
         {
-            if(listOfTeamates[i].gameObject == transform.root.gameObject)
+            if (listOfTeamates[i].gameObject == player.transform.gameObject)
             {
                 listOfTeamates.RemoveAt(i);
                 break;
             }
         }
         // add player gameObject to the list
-        playerAndChildren.Add(transform.root.gameObject);
-       
+        playerAndChildren.Add(player.transform.gameObject);
+
         // add all children to main player gameObject to this list
-        foreach (Transform child in transform.root)
+        foreach (Transform child in player.transform)
         {
             playerAndChildren.Add(child.gameObject);
             //child is your child transform
         }
 
-        //set player object (root object that this script is attached to)
-        player = transform.root.gameObject;
+        
 
         // unchiled this gameObject
-      //  transform.parent = null;
+        //  transform.parent = null;
 
 
 
@@ -109,7 +115,8 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
 
         // problem the host sees itself as a teamate
 
@@ -336,7 +343,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
 
             }
         }
-    
+
     }
 }
 
