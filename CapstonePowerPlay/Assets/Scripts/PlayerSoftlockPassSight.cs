@@ -42,7 +42,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     private float currentAngle;
 
     // team gameobject tag
-    private string teamTag;
+   // private string teamTag;
 
     // list containing main player object and children
     [SerializeField]
@@ -57,20 +57,28 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     [SerializeField]
     private GameObject player;
 
+    // play team int
+    private int teamInt;
+
+
     // Use this for initialization
     void Awake () {
         // get the tag of the player
-        teamTag = transform.root.tag;
+        //teamTag = transform.root.tag;
+
+        // get the team int of player
+        teamInt = transform.GetComponent<PlayerColor>().TeamNum;
 
         // set soft lock angle (to be removed)
         softLockAngle = 20f;
 
         // find all objects with the same tag as the player (used to see which is a temate, may change in future)
-        foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
+        //foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
+        foreach (PlayerColor pColor in GameObject.FindObjectsOfType<PlayerColor>())
         {
-            if (playerObj != transform.gameObject)
+            if (pColor.gameObject != transform.gameObject)
             {
-                listOfTeamates.Add(playerObj);
+                listOfTeamates.Add(pColor.gameObject);
             }
         }
 
@@ -118,11 +126,11 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
         {
             Debug.Log("no teamates");
             // find all objects with the same tag as the player (used to see which is a temate, may change in future)
-            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
+            foreach (PlayerColor pColor in GameObject.FindObjectsOfType<PlayerColor>())
             {
-                if (playerObj != transform.gameObject)
+                if (pColor.gameObject != transform.gameObject)
                 {
-                    listOfTeamates.Add(playerObj);
+                    listOfTeamates.Add(pColor.gameObject);
                 }
             }
 
@@ -288,10 +296,10 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             List<GameObject> newTeamateSearch = new List<GameObject>();
 
             // check if a new teamate has entered the game
-            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
+            foreach (PlayerColor pColor in GameObject.FindObjectsOfType<PlayerColor>())
             {
                 // add current playerObj into the newTeamateSearch list
-                newTeamateSearch.Add(playerObj);
+                newTeamateSearch.Add(pColor.gameObject);
                 // add one to tempNumberCheck
                 tempNumberCheck++;
             }
