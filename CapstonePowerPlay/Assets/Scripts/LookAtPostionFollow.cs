@@ -18,22 +18,22 @@ public class LookAtPostionFollow : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //RaycastHit hit;
-        //// Does the ray intersect any objects excluding the player layer
-        //if (Physics.Raycast(transform.position, transform.TransformDirection(-transform.up), out hit, Mathf.Infinity, layerMask))
-        //{
-        //    Debug.Log("Hit: " + hit.transform.name);
-        //    Debug.DrawRay(transform.position, -transform.up, Color.magenta, Mathf.Infinity);
-        //    transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal);  
-        //}
+        RaycastHit hit;
+        // Does the ray intersect any objects excluding the player layer
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, layerMask))
+        {
+            Debug.Log("Hit: " + hit.transform.name);
+            Debug.DrawRay(transform.position, -transform.up, Color.magenta, Mathf.Infinity);
+            transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+        }
 
         transform.position = lookatPoint.position;
 
-        //transform.up = lookatPoint.up;
+        //transform.rotation = Quaternion.FromToRotation(Vector3.up, transform.);
 
 
 
-        transform.rotation = Quaternion.FromToRotation(Vector3.up, lookatPoint.up);
+        //transform.rotation = Quaternion.FromToRotation(Vector3.up, lookatPoint.up);
 
 
 
