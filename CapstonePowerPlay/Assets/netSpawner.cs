@@ -11,12 +11,12 @@ public class netSpawner : NetworkBehaviour
 	// Use this for initialization
 	void Awake ()
     {
-        SpawnNet();
+        CmdSpawnNet();
 
     }
 	
-    
-    public void SpawnNet()
+    [Command]
+    public void CmdSpawnNet()
     {
         GameObject TempNet;
         TempNet = Instantiate(netPrefab, netSpawn.position, netSpawn.rotation);
