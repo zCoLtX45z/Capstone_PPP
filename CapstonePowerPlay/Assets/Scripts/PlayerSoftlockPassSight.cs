@@ -133,11 +133,17 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             // find all objects with the same tag as the player (used to see which is a temate, may change in future)
             foreach (NetPlayer nPlayer in GameObject.FindObjectsOfType<NetPlayer>())
             {
+                Debug.Log("nPlayer Found");
                 PlayerColor pColor = nPlayer.GetComponentInChildren<PlayerColor>();
                 if (pColor.gameObject != player.gameObject && pColor.TeamNum == teamInt)
                 {
+                    Debug.Log("set");
                     listOfTeamates.Add(pColor.gameObject);
                 }
+
+
+
+
                 
             }
 
@@ -314,6 +320,10 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
                     // add one to tempNumberCheck
                     tempNumberCheck++;
                 }
+
+
+
+
             }
 
             // if there is more gameObejcts with the same tag as the player that is not in the listOfTeamates list
