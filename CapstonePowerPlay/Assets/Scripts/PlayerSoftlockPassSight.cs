@@ -74,12 +74,16 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
 
         // find all objects with the same tag as the player (used to see which is a temate, may change in future)
         //foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
-        foreach (PlayerColor pColor in GameObject.FindObjectsOfType<PlayerColor>())
+        foreach (NetPlayer nPlayer in GameObject.FindObjectsOfType<NetPlayer>())
         {
-            if (pColor.gameObject != transform.gameObject)
-            {
-                listOfTeamates.Add(pColor.gameObject);
-            }
+            PlayerColor pColor = nPlayer.GetComponentInChildren<PlayerColor>();
+
+           
+                if (pColor.gameObject != transform.gameObject && pColor.TeamNum == teamInt)
+                {
+                    listOfTeamates.Add(pColor.gameObject);
+                }
+            
         }
 
         // find the player's gameObject and remove it from teamate list.
@@ -126,12 +130,14 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
         {
             Debug.Log("no teamates");
             // find all objects with the same tag as the player (used to see which is a temate, may change in future)
-            foreach (PlayerColor pColor in GameObject.FindObjectsOfType<PlayerColor>())
+            foreach (NetPlayer nPlayer in GameObject.FindObjectsOfType<NetPlayer>())
             {
-                if (pColor.gameObject != transform.gameObject)
+                PlayerColor pColor = nPlayer.GetComponentInChildren<PlayerColor>();
+                if (pColor.gameObject != transform.gameObject && pColor.TeamNum == teamInt)
                 {
                     listOfTeamates.Add(pColor.gameObject);
                 }
+                
             }
 
             // find the player's gameObject and remove it from teamate list.
@@ -296,12 +302,17 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             List<GameObject> newTeamateSearch = new List<GameObject>();
 
             // check if a new teamate has entered the game
-            foreach (PlayerColor pColor in GameObject.FindObjectsOfType<PlayerColor>())
+            foreach (NetPlayer nPlayer in GameObject.FindObjectsOfType<NetPlayer>())
             {
+                PlayerColor pColor = nPlayer.GetComponentInChildren<PlayerColor>();
+
                 // add current playerObj into the newTeamateSearch list
-                newTeamateSearch.Add(pColor.gameObject);
-                // add one to tempNumberCheck
-                tempNumberCheck++;
+                if (pColor.TeamNum == teamInt)
+                {
+                    newTeamateSearch.Add(pColor.gameObject);
+                    // add one to tempNumberCheck
+                    tempNumberCheck++;
+                }
             }
 
             // if there is more gameObejcts with the same tag as the player that is not in the listOfTeamates list
