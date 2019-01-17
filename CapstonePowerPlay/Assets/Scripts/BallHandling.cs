@@ -83,6 +83,7 @@ public class BallHandling : NetworkBehaviour {
                         {
                             //Debug.Log("jadaadadadadadad");
                             //Debug.Log(gameObject.name + " Passes");
+                            Debug.Log("target: " + Target.name);
                             CmdPass(Target, ball.gameObject, Hand.position, this.gameObject);
                             ball = null;
                         }
