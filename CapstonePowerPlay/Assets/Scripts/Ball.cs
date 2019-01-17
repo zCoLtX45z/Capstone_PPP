@@ -9,6 +9,8 @@ public class Ball : NetworkBehaviour
     private Transform Handle;
     [SerializeField]
     public BallHandling BH;
+    [SyncVar]
+    public GameObject WhoTossedTheBall = null;
     [SerializeField]
     private Transform Hand;
     [SyncVar]
@@ -165,13 +167,15 @@ public class Ball : NetworkBehaviour
     }
     private void OnTriggerEnter(Collider c)
     {
-        Debug.Log("triged: " + c.name + " tag: " + c.tag);
+        //Debug.Log("triged: " + c.name + " tag: " + c.tag);
         if((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
         {
-            Debug.Log("PLAYER HAS ENTERED THE AREA!!!1");
+            //Debug.Log("PLAYER HAS ENTERED THE AREA!!!1");
             gameObject.layer = 2;
             HardCol.isTrigger = true;
             Held = true;
+
+            // Set who has the player
             BH = c.GetComponent<BallHandling>();
 
             //transform.gameObject.layer = 2;
@@ -203,47 +207,49 @@ public class Ball : NetworkBehaviour
         HardCol.isTrigger = false;
     }
 
-    public void ShootBall(Vector3 power, string tag, Vector3 HandPos)
+    public void ShootBall(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
     {
-        CmdShoot(power, tag, HandPos);
+        CmdShoot(power, tag, HandPos, WhoThrew);
     }
 
     [Command]
-    public void CmdShoot(Vector3 power, string tag, Vector3 HandPos)
+    public void CmdShoot(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
     {
         //transform.gameObject.layer = 0;
-        RpcShoot(power, tag, HandPos);
+        RpcShoot(power, tag, HandPos, WhoThrew);
     }
 
     [ClientRpc]
-    public void RpcShoot(Vector3 power, string tag, Vector3 HandPos)
+    public void RpcShoot(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
     {
         CmdMakeBallReapear();
         //transform.gameObject.layer = 0;
         Thrown = true;
         CanBeCaughtTimer = 0.15f;
         Handle.position = HandPos;
-        Debug.Log("power is " + power);
+        //Debug.Log("power is " + power);
         RB.useGravity = true;
         RB.isKinematic = false;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
         RB.AddForce(power, ForceMode.Impulse);
-        Debug.Log("teamTag: " + tag);
+        //Debug.Log("teamTag: " + tag);
         teamTag = tag;
         gameObject.layer = 10;
         Held = false;
+        WhoTossedTheBall = WhoThrew;
+        BH = null;
         //RBS.CmdSetPlayerHolding(null);
     }
 
     [Command]
-    public void CmdSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos)
+    public void CmdSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
-        RpcSetPass(Passing, Target, Force, HandPos);
+        RpcSetPass(Passing, Target, Force, HandPos, WhoThrew);
     }
 
     [ClientRpc]
-    public void RpcSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos)
+    public void RpcSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
         CmdMakeBallReapear();
         Thrown = true;
@@ -258,8 +264,12 @@ public class Ball : NetworkBehaviour
         transform.LookAt(Target.transform);
         RB.AddForce(transform.up * Force, ForceMode.Impulse);
         Held = false;
+        WhoTossedTheBall = WhoThrew;
+        BH = null;
         //RBS.CmdSetPlayerHolding(null);
     }
+
+
 
     public bool GetThrown()
     {

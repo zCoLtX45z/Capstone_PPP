@@ -35,7 +35,7 @@ public class TargetVisual : MonoBehaviour {
 
         if (softLockScript.target != null && ballHandlingScript.ball != null)
         {
-            Debug.Log("TargetReticle is active");
+            //Debug.Log("TargetReticle is active");
 
             
 
@@ -58,7 +58,7 @@ public class TargetVisual : MonoBehaviour {
 
         else
         {
-            Debug.Log("TargetReticle is NOT active");
+            //Debug.Log("TargetReticle is NOT active");
           
             targetReticle.enabled = false;
         }
