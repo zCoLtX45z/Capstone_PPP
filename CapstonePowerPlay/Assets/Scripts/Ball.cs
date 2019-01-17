@@ -165,8 +165,10 @@ public class Ball : NetworkBehaviour
     }
     private void OnTriggerEnter(Collider c)
     {
-        if(c.gameObject.tag == "Player" && !Held && !Thrown)
+        Debug.Log("triged: " + c.name + " tag: " + c.tag);
+        if((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
         {
+            Debug.Log("PLAYER HAS ENTERED THE AREA!!!1");
             gameObject.layer = 2;
             HardCol.isTrigger = true;
             Held = true;
