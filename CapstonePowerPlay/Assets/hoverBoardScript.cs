@@ -69,6 +69,7 @@ public class hoverBoardScript : NetworkBehaviour
     // Can stick to walls
     private bool CanStick = true;
     private bool Flipping = false;
+    private bool OnGround = true;
 
     //marcstuff
     //public GameObject camGurl1;
@@ -155,8 +156,11 @@ public class hoverBoardScript : NetworkBehaviour
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.Space))
         {
             CanStick = false;
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && OnGround)
+            {
                 Jump();
+                OnGround = false;
+            }
 
             if (Input.GetKey(KeyCode.LeftControl))
             {
@@ -220,6 +224,7 @@ public class hoverBoardScript : NetworkBehaviour
                 PIDController temp = PIDHoverPoints[i];
                 if (Physics.Raycast(temp.gameObject.transform.position, -transform.up, out hit, m_hoverHeight + 1.3f, m_layerMask) && CanStick && !Flipping)
                 {
+                    OnGround = true;
                     StabalizersActive++;
                     if (!ToggleStabilizers[i])
                     {
@@ -423,14 +428,16 @@ public class hoverBoardScript : NetworkBehaviour
         float TargetAdjustForceX = -JumpForce * Mathf.Sin(XAngle);
         float TargetAdjustForceY = JumpForce * Mathf.Cos(XAngle);
         float TargetAdjustForceZ = JumpForce * Mathf.Sin(ZAngle);
-        Debug.Log("Forces(Right, Up, Forward): " + TargetAdjustForceZ + " / " + TargetAdjustForceY + " / " + TargetAdjustForceX);
+        float ForwardJumpMultiplier = Speed < 0.1f * MaxSpeed ? 0
+            : 1f;
+        Debug.Log("Forces(Right, Up, Forward): " + TargetAdjustForceZ + " / " + TargetAdjustForceY + " / " + TargetAdjustForceX * ForwardJumpMultiplier);
         Debug.Log("Trying to jump character");
         for (int i = 0; i < PIDHoverPoints.Length; i++)
         {
             PIDController temp = PIDHoverPoints[i];
             m_body.AddForceAtPosition(temp.transform.up * TargetAdjustForceY, temp.gameObject.transform.position, ForceMode.Impulse);
-            m_body.AddForceAtPosition(temp.transform.forward * TargetAdjustForceX, temp.gameObject.transform.position, ForceMode.Impulse);
-            m_body.AddForceAtPosition(temp.transform.right * TargetAdjustForceZ, temp.gameObject.transform.position, ForceMode.Impulse);
+            m_body.AddForceAtPosition(-temp.transform.right * TargetAdjustForceX * ForwardJumpMultiplier, temp.gameObject.transform.position, ForceMode.Impulse);
+            m_body.AddForceAtPosition(temp.transform.forward * TargetAdjustForceZ, temp.gameObject.transform.position, ForceMode.Impulse);
         }
     }
 }
