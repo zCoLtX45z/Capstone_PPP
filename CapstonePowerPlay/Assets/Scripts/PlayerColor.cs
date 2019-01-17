@@ -27,6 +27,10 @@ public class PlayerColor : NetworkBehaviour {
     [SerializeField]
     private ComponentsToDisable CD;
 
+    [SerializeField]
+    private PlayerSoftlockPassSight pSLPS;
+
+
     void Start()
     {
     }
@@ -51,11 +55,27 @@ public class PlayerColor : NetworkBehaviour {
         CD.LocalPlayer = LocalPlayer;
         CD.ParentPlayer = ParentPlayer;
         TeamNum = team;
-     
+
+        // 
+        if (TeamNum == 1)
+        {
+            transform.tag = "Team 1";
+        }
+        else if (TeamNum == 2)
+        {
+            transform.tag = "Team 2";
+        }
         //
+
+
+
         if (LocalPlayer.PlayerCode == ParentPlayer.PlayerCode)
         {
             SetBlueActive();
+            //
+            pSLPS.enabled = true;
+            pSLPS.teamTag = pSLPS.player.tag;
+            //
         }
         else
         {

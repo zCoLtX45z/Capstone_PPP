@@ -1952,6 +1952,7 @@ MonoBehaviour:
   LocalPlayer: {fileID: 0}
   ParentPlayer: {fileID: 0}
   CD: {fileID: 114307809305330136}
+  pSLPS: {fileID: 114897002361437170}
 --- !u!114 &114493984856607648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2314,6 +2315,7 @@ MonoBehaviour:
   target: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   currentAcceptedTargets: []
+  teamTag: 
   playerAndChildren: []
   maxDistance: 60
   player: {fileID: 1432563592442964}

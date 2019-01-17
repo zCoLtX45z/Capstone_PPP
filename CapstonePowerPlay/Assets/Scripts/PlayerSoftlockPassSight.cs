@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSoftlockPassSight : MonoBehaviour {
+public class PlayerSoftlockPassSight : MonoBehaviour
+{
 
     // the max angle that a teamate must be in between, in order to be an eligable target for passing
     [SerializeField]
@@ -30,7 +31,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
 
     [SerializeField]
     public Vector3 targetPosition;
-    
+
     // accepted target list, the group of targets that are elligable to be targeted
     [SerializeField]
     private List<GameObject> currentAcceptedTargets = new List<GameObject>();
@@ -42,7 +43,8 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     private float currentAngle;
 
     // team gameobject tag
-   // private string teamTag;
+    [SerializeField]
+    public string teamTag;
 
     // list containing main player object and children
     [SerializeField]
@@ -52,55 +54,45 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     // the max distance for a teamate must be within, in order to be an eligable target for passing
     [SerializeField]
     private float maxDistance = 0.0f;
-  
+
     // player gameObject
     [SerializeField]
-    private GameObject player;
-
-    // play team int
-    private int teamInt;
-
-  
-
+    public GameObject player;
 
     // Use this for initialization
-    void Awake () {
-        // get the tag of the player
-        //teamTag = transform.root.tag;
+    void Awake()
+    {
 
-        // get the team int of player
-        teamInt = transform.parent.GetComponent<PlayerColor>().TeamNum;
+        //set player object (parent object that this script is attached to)
+        player = transform.parent.gameObject;
+
+        // get the tag of the player
+        teamTag = player.tag;
 
         // set soft lock angle (to be removed)
         softLockAngle = 20f;
 
         // find all objects with the same tag as the player (used to see which is a temate, may change in future)
-        //foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
-        foreach (NetPlayer nPlayer in GameObject.FindObjectsOfType<NetPlayer>())
+        foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
         {
-            Debug.Log("nPlayer detected 1");
-            PlayerColor pColor = nPlayer.GetComponentInChildren<PlayerColor>();
-
-
-            if (pColor.gameObject != player.transform.gameObject && pColor.TeamNum == teamInt)
+            if (playerObj != transform.gameObject)
             {
-                listOfTeamates.Add(pColor.gameObject);
+                listOfTeamates.Add(playerObj);
             }
-            
         }
 
         // find the player's gameObject and remove it from teamate list.
         for (int i = listOfTeamates.Count - 1; i >= 0; --i)
         {
-            if(listOfTeamates[i].gameObject == transform.root.gameObject)
+            if (listOfTeamates[i].gameObject == player.transform.gameObject)
             {
                 listOfTeamates.RemoveAt(i);
                 break;
             }
         }
         // add player gameObject to the list
-        playerAndChildren.Add(transform.root.gameObject);
-       
+        playerAndChildren.Add(player.transform.gameObject);
+
         // add all children to main player gameObject to this list
         foreach (Transform child in player.transform)
         {
@@ -108,11 +100,10 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             //child is your child transform
         }
 
-        //set player object (root object that this script is attached to)
-       // player = transform.parent.gameObject;
+        
 
         // unchiled this gameObject
-      //  transform.parent = null;
+        //  transform.parent = null;
 
 
 
@@ -124,7 +115,8 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
 
         // problem the host sees itself as a teamate
 
@@ -133,20 +125,12 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
         {
             Debug.Log("no teamates");
             // find all objects with the same tag as the player (used to see which is a temate, may change in future)
-            foreach (NetPlayer nPlayer in GameObject.FindObjectsOfType<NetPlayer>())
+            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
             {
-                Debug.Log("nPlayer Found");
-                PlayerColor pColor = nPlayer.GetComponentInChildren<PlayerColor>();
-                if (pColor.gameObject != player.gameObject && pColor.TeamNum == teamInt)
+                if (playerObj != transform.gameObject)
                 {
-                    Debug.Log("set");
-                    listOfTeamates.Add(pColor.gameObject);
+                    listOfTeamates.Add(playerObj);
                 }
-
-
-
-
-                
             }
 
             // find the player's gameObject and remove it from teamate list.
@@ -311,21 +295,12 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             List<GameObject> newTeamateSearch = new List<GameObject>();
 
             // check if a new teamate has entered the game
-            foreach (NetPlayer nPlayer in GameObject.FindObjectsOfType<NetPlayer>())
+            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
             {
-                PlayerColor pColor = nPlayer.GetComponentInChildren<PlayerColor>();
-
                 // add current playerObj into the newTeamateSearch list
-                if (pColor.TeamNum == teamInt)
-                {
-                    newTeamateSearch.Add(pColor.gameObject);
-                    // add one to tempNumberCheck
-                    tempNumberCheck++;
-                }
-
-
-
-
+                newTeamateSearch.Add(playerObj);
+                // add one to tempNumberCheck
+                tempNumberCheck++;
             }
 
             // if there is more gameObejcts with the same tag as the player that is not in the listOfTeamates list
@@ -368,7 +343,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
 
             }
         }
-    
+
     }
 }
 
