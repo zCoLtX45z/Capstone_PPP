@@ -79,11 +79,11 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             Debug.Log("nPlayer detected 1");
             PlayerColor pColor = nPlayer.GetComponentInChildren<PlayerColor>();
 
-           
-                if (pColor.gameObject != transform.gameObject && pColor.TeamNum == teamInt)
-                {
-                    listOfTeamates.Add(pColor.gameObject);
-                }
+
+            if (pColor.gameObject != transform.parent.gameObject && pColor.TeamNum == teamInt)
+            {
+                listOfTeamates.Add(pColor.gameObject);
+            }
             
         }
 
@@ -100,14 +100,14 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
         playerAndChildren.Add(transform.root.gameObject);
        
         // add all children to main player gameObject to this list
-        foreach (Transform child in transform.root)
+        foreach (Transform child in transform.parent)
         {
             playerAndChildren.Add(child.gameObject);
             //child is your child transform
         }
 
         //set player object (root object that this script is attached to)
-        player = transform.root.gameObject;
+        player = transform.parent.gameObject;
 
         // unchiled this gameObject
       //  transform.parent = null;
@@ -134,7 +134,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
             foreach (NetPlayer nPlayer in GameObject.FindObjectsOfType<NetPlayer>())
             {
                 PlayerColor pColor = nPlayer.GetComponentInChildren<PlayerColor>();
-                if (pColor.gameObject != transform.gameObject && pColor.TeamNum == teamInt)
+                if (pColor.gameObject != player.gameObject && pColor.TeamNum == teamInt)
                 {
                     listOfTeamates.Add(pColor.gameObject);
                 }
