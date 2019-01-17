@@ -8497,6 +8497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookatPoint: {fileID: 4146068226263168}
+  board: {fileID: 4735878536382936}
   layerMask:
     serializedVersion: 2
     m_Bits: 512
@@ -8670,13 +8671,13 @@ MonoBehaviour:
     m_RecenteringTime: 2
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
-  m_BindingMode: 0
+  m_BindingMode: 3
   m_SplineCurvature: 0.2
   m_Orbits:
-  - m_Height: 2
-    m_Radius: 0.3
+  - m_Height: 2.86
+    m_Radius: 1.15
   - m_Height: 0.22
-    m_Radius: 3.25
+    m_Radius: 6
   - m_Height: -1.38
     m_Radius: 0.3
   m_LegacyHeadingBias: 3.4028235e+38
