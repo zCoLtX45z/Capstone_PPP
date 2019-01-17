@@ -167,10 +167,10 @@ public class Ball : NetworkBehaviour
     }
     private void OnTriggerEnter(Collider c)
     {
-        Debug.Log("triged: " + c.name + " tag: " + c.tag);
+        //Debug.Log("triged: " + c.name + " tag: " + c.tag);
         if((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
         {
-            Debug.Log("PLAYER HAS ENTERED THE AREA!!!1");
+            //Debug.Log("PLAYER HAS ENTERED THE AREA!!!1");
             gameObject.layer = 2;
             HardCol.isTrigger = true;
             Held = true;
@@ -227,13 +227,13 @@ public class Ball : NetworkBehaviour
         Thrown = true;
         CanBeCaughtTimer = 0.15f;
         Handle.position = HandPos;
-        Debug.Log("power is " + power);
+        //Debug.Log("power is " + power);
         RB.useGravity = true;
         RB.isKinematic = false;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
         RB.AddForce(power, ForceMode.Impulse);
-        Debug.Log("teamTag: " + tag);
+        //Debug.Log("teamTag: " + tag);
         teamTag = tag;
         gameObject.layer = 10;
         Held = false;

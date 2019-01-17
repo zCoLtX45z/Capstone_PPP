@@ -51,6 +51,9 @@ public class BallHandling : NetworkBehaviour {
     [SerializeField]
     public GameObject FakeBall;
 
+    [SerializeField]
+    private PlayerColor PC;
+
 	// Use this for initialization
 	void Start () {
         canHold = true;
@@ -59,7 +62,7 @@ public class BallHandling : NetworkBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (isLocalPlayer)
+        if (PC.LocalPlayer == PC.ParentPlayer)
         {
             PassShootAxis = Input.GetAxis("PassShoot");
             //Debug.Log("Pass / Shoot Axis: " + PassShootAxis);
@@ -74,12 +77,13 @@ public class BallHandling : NetworkBehaviour {
                         // PASS
                         // Get Target from Targeting Script
                         Target = softLockScript.target;
-                        Debug.Log("target: " + Target);
+                        //Debug.Log("target: " + Target);
                         TargetPosition = softLockScript.targetPosition;
                         if (Target != null)
                         {
-                            Debug.Log("jadaadadadadadad");
-                            Debug.Log(gameObject.name + " Passes");
+                            //Debug.Log("jadaadadadadadad");
+                            //Debug.Log(gameObject.name + " Passes");
+                            Debug.Log("target: " + Target.name);
                             CmdPass(Target, ball.gameObject, Hand.position, this.gameObject);
                             ball = null;
                         }
@@ -87,7 +91,7 @@ public class BallHandling : NetworkBehaviour {
                     else if (PassShootAxis > 0.1)
                     {
                         // SHOOT
-                        Debug.Log(gameObject.name + " Shoots");
+                        //Debug.Log(gameObject.name + " Shoots");
                         //RaycastHit RH;
                         Vector3 direction = Cam.transform.position + Cam.transform.forward * 100 - Hand.position;
                         //if(Physics.Raycast(Cam.transform.position, Cam.transform.forward, out RH, 100, HitLayer))
