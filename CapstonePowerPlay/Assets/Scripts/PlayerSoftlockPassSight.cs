@@ -67,7 +67,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
         //teamTag = transform.root.tag;
 
         // get the team int of player
-        teamInt = transform.GetComponent<PlayerColor>().TeamNum;
+        teamInt = transform.parent.GetComponent<PlayerColor>().TeamNum;
 
         // set soft lock angle (to be removed)
         softLockAngle = 20f;
@@ -76,6 +76,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour {
         //foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
         foreach (NetPlayer nPlayer in GameObject.FindObjectsOfType<NetPlayer>())
         {
+            Debug.Log("nPlayer detected 1");
             PlayerColor pColor = nPlayer.GetComponentInChildren<PlayerColor>();
 
            
