@@ -9,6 +9,8 @@ public class Ball : NetworkBehaviour
     private Transform Handle;
     [SerializeField]
     public BallHandling BH;
+    [SyncVar]
+    public GameObject WhoTossedTheBall = null;
     [SerializeField]
     private Transform Hand;
     [SyncVar]
@@ -172,6 +174,8 @@ public class Ball : NetworkBehaviour
             gameObject.layer = 2;
             HardCol.isTrigger = true;
             Held = true;
+
+            // Set who has the player
             BH = c.GetComponent<BallHandling>();
 
             //transform.gameObject.layer = 2;
@@ -203,20 +207,20 @@ public class Ball : NetworkBehaviour
         HardCol.isTrigger = false;
     }
 
-    public void ShootBall(Vector3 power, string tag, Vector3 HandPos)
+    public void ShootBall(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
     {
-        CmdShoot(power, tag, HandPos);
+        CmdShoot(power, tag, HandPos, WhoThrew);
     }
 
     [Command]
-    public void CmdShoot(Vector3 power, string tag, Vector3 HandPos)
+    public void CmdShoot(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
     {
         //transform.gameObject.layer = 0;
-        RpcShoot(power, tag, HandPos);
+        RpcShoot(power, tag, HandPos, WhoThrew);
     }
 
     [ClientRpc]
-    public void RpcShoot(Vector3 power, string tag, Vector3 HandPos)
+    public void RpcShoot(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
     {
         CmdMakeBallReapear();
         //transform.gameObject.layer = 0;
@@ -233,17 +237,19 @@ public class Ball : NetworkBehaviour
         teamTag = tag;
         gameObject.layer = 10;
         Held = false;
+        WhoTossedTheBall = WhoThrew;
+        BH = null;
         //RBS.CmdSetPlayerHolding(null);
     }
 
     [Command]
-    public void CmdSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos)
+    public void CmdSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
-        RpcSetPass(Passing, Target, Force, HandPos);
+        RpcSetPass(Passing, Target, Force, HandPos, WhoThrew);
     }
 
     [ClientRpc]
-    public void RpcSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos)
+    public void RpcSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
         CmdMakeBallReapear();
         Thrown = true;
@@ -258,8 +264,12 @@ public class Ball : NetworkBehaviour
         transform.LookAt(Target.transform);
         RB.AddForce(transform.up * Force, ForceMode.Impulse);
         Held = false;
+        WhoTossedTheBall = WhoThrew;
+        BH = null;
         //RBS.CmdSetPlayerHolding(null);
     }
+
+
 
     public bool GetThrown()
     {

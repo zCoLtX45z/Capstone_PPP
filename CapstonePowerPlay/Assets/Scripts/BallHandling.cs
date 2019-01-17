@@ -80,7 +80,7 @@ public class BallHandling : NetworkBehaviour {
                         {
                             Debug.Log("jadaadadadadadad");
                             Debug.Log(gameObject.name + " Passes");
-                            CmdPass(Target, ball.gameObject, Hand.position);
+                            CmdPass(Target, ball.gameObject, Hand.position, this.gameObject);
                             ball = null;
                         }
                     }
@@ -100,7 +100,7 @@ public class BallHandling : NetworkBehaviour {
                         //}
                         //Debug.DrawLine(Cam.transform.position + Cam.transform.forward * 100, Hand.position, Color.blue, 6f);
                         //Debug.DrawRay(Hand.position, Cam.transform.position + Cam.transform.forward * 100 - Hand.position, Color.red, 3.75f);
-                        CmdShoot(ball.gameObject, Hand.position, direction.normalized * ShootForce);
+                        CmdShoot(ball.gameObject, Hand.position, direction.normalized * ShootForce, this.gameObject);
                         ball = null;
                     }
                 }
@@ -134,33 +134,33 @@ public class BallHandling : NetworkBehaviour {
     }
 
     [Command]
-    private void CmdPass(GameObject Target, GameObject ballObject, Vector3 HandPos)
+    private void CmdPass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
-        RpcPass(Target, ballObject, HandPos);
+        RpcPass(Target, ballObject, HandPos, WhoThrew);
     }
 
     [ClientRpc]
-    private void RpcPass(GameObject Target, GameObject ballObject, Vector3 HandPos)
+    private void RpcPass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
         
         Ball temp = ballObject.GetComponent<Ball>();
-        temp.CmdSetPass(true, Target, PassForce, HandPos);
+        temp.CmdSetPass(true, Target, PassForce, HandPos, WhoThrew);
         CmdTurnOnFakeBall(false);
     }
 
     [Command]
-    private void CmdShoot(GameObject ballObject, Vector3 HandPos, Vector3 Direction)
+    private void CmdShoot(GameObject ballObject, Vector3 HandPos, Vector3 Direction, GameObject WhoThrew)
     {
 
         CmdTurnOnFakeBall(false);
-        RpcShoot(Direction, ballObject, HandPos);
+        RpcShoot(Direction, ballObject, HandPos, WhoThrew);
     }
 
     [ClientRpc]
-    private void RpcShoot(Vector3 Direction, GameObject ballObject, Vector3 HandPos)
+    private void RpcShoot(Vector3 Direction, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
         Ball temp = ballObject.GetComponent<Ball>();
-        temp.CmdShoot(Direction, playerTag, HandPos);
+        temp.CmdShoot(Direction, playerTag, HandPos, WhoThrew);
         CmdTurnOnFakeBall(false);
     }
 
