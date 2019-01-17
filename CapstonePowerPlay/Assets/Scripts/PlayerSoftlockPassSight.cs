@@ -120,10 +120,10 @@ public class PlayerSoftlockPassSight : MonoBehaviour
 
         // problem the host sees itself as a teamate
 
-        Debug.Log("listofteamates count: " + listOfTeamates.Count);
+        //Debug.Log("listofteamates count: " + listOfTeamates.Count);
         if (listOfTeamates.Count <= 0)
         {
-            Debug.Log("no teamates");
+            //Debug.Log("no teamates");
             // find all objects with the same tag as the player (used to see which is a temate, may change in future)
             foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
             {
@@ -163,7 +163,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                 // send out raycast to the current teamate being referenced
                 if (Physics.Raycast(transform.position, directionFromPlayer, out tempHit, Mathf.Infinity))
                 {
-                    Debug.Log("tempHit has hit: " + tempHit.transform.name + " tempHit should hit: " + listOfTeamates[i]);
+                    //Debug.Log("tempHit has hit: " + tempHit.transform.name + " tempHit should hit: " + listOfTeamates[i]);
                     // if the raycast hits is target
                     if (tempHit.transform.gameObject == listOfTeamates[i])
                     {
@@ -268,9 +268,9 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                     // set currentClossestAngle as the  currentAngle;
                     currentClossestAngle = currentAngle;
                     // set the target as the currently checked gameObject in the currentAcceptedTargets list 
-                    target = currentAcceptedTargets[i].transform.GetChild(currentAcceptedTargets[i].transform.childCount - 1).gameObject; /* <---- IF NO LONGER WORK TARGET CHANGE   (ORIGINAL:  target = currentAcceptedTargets[i].gameObject;)  */
+                    target = currentAcceptedTargets[i].gameObject; /* <---- IF NO LONGER WORK TARGET CHANGE   (ORIGINAL:  target = currentAcceptedTargets[i].gameObject;)  */
                     // set target position to center the players
-                    targetPosition = new Vector3(currentAcceptedTargets[i].transform.position.x, currentAcceptedTargets[i].transform.position.y + 1, currentAcceptedTargets[i].transform.position.z);
+                    targetPosition = new Vector3(currentAcceptedTargets[i].transform.position.x, currentAcceptedTargets[i].transform.position.y, currentAcceptedTargets[i].transform.position.z);
                 }
             }
             // if there is an elidgable target to pass too

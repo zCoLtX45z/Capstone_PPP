@@ -367,7 +367,7 @@ public class hoverBoardScript : NetworkBehaviour
 
     public void FlipCharacter()
     {
-        Debug.Log("Trying to flip character");
+        //Debug.Log("Trying to flip character");
         for (int i = 0; i < PIDHoverPoints.Length; i++)
         {
             PIDController temp = PIDHoverPoints[i];
@@ -439,7 +439,7 @@ public class hoverBoardScript : NetworkBehaviour
         float ForwardJumpMultiplier = Speed < 0.1f * MaxSpeed ? 0
             : 1f;
         Debug.Log("Forces(Right, Up, Forward): " + TargetAdjustForceZ + " / " + TargetAdjustForceY + " / " + TargetAdjustForceX * ForwardJumpMultiplier);
-        Debug.Log("Trying to jump character");
+        //Debug.Log("Trying to jump character");
         for (int i = 0; i < PIDHoverPoints.Length; i++)
         {
             PIDController temp = PIDHoverPoints[i];
