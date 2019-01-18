@@ -4171,7 +4171,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1017673199592140}
-  m_LocalRotation: {x: -0.66203105, y: 0.29295263, z: 0.27903417, w: 0.6308991}
+  m_LocalRotation: {x: -0.6620311, y: 0.29295257, z: 0.2790341, w: 0.6308991}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
   m_Children:
@@ -4198,7 +4198,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1911523607258254}
-  m_LocalRotation: {x: -0.67336756, y: 0.28784227, z: 0.28430274, w: 0.6187851}
+  m_LocalRotation: {x: -0.6733676, y: 0.28784224, z: 0.28430274, w: 0.618785}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
   m_Children:
@@ -6131,7 +6131,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1932611937181100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.9225292, y: 26.179798, z: -5.4645205}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4735878536382936}
@@ -6473,7 +6473,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1860871301388242}
   m_LocalRotation: {x: 0.662116, y: -0.29291508, z: -0.2790736, w: 0.63080996}
-  m_LocalPosition: {x: -0.12500006, y: 1.7120197, z: -5.9589844}
+  m_LocalPosition: {x: -0.125, y: 1.712019, z: -5.9589844}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4390705676044938}
@@ -6684,8 +6684,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1898113101277640}
-  m_LocalRotation: {x: 0.00013463633, y: 0.00000003507321, z: -4.722132e-12, w: 1}
-  m_LocalPosition: {x: -0.12500006, y: 1.7120197, z: -5.9589844}
+  m_LocalRotation: {x: 0.000134573, y: -0.00000003116562, z: 4.194048e-12, w: 1}
+  m_LocalPosition: {x: -0.125, y: 1.712019, z: -5.9589844}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4752758314433848}
@@ -8050,7 +8050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positionDamping: 0
-  rotationDamping: 0.8
+  rotationDamping: 2
   pCameraObject: {fileID: 4933723661952466}
   lMask:
     serializedVersion: 2
@@ -8596,6 +8596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookatPoint: {fileID: 4146068226263168}
+  player: {fileID: 4752758314433848}
   layerMask:
     serializedVersion: 2
     m_Bits: 512
