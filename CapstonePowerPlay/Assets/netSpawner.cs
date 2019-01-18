@@ -9,7 +9,7 @@ public class netSpawner : NetworkBehaviour
     [SerializeField]
     private GameObject netPrefab;
 	// Use this for initialization
-	void Awake ()
+	void Start ()
     {
         CmdSpawnNet();
 
