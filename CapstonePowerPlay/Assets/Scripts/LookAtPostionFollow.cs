@@ -8,8 +8,8 @@ public class LookAtPostionFollow : MonoBehaviour {
     [SerializeField]
     private Transform lookatPoint;
 
-    [SerializeField]
-    private Transform board;
+    //[SerializeField]
+    //private Transform board;
 
     [SerializeField]
     private LayerMask layerMask;
