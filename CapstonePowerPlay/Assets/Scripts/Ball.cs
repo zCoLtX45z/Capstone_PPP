@@ -9,6 +9,8 @@ public class Ball : NetworkBehaviour
     private Transform Handle;
     [SerializeField]
     public BallHandling BH;
+    [SyncVar]
+    public GameObject WhoTossedTheBall = null;
     [SerializeField]
     private Transform Hand;
     [SyncVar]
@@ -48,7 +50,9 @@ public class Ball : NetworkBehaviour
     private float timePassTimer = 0.0f;
 
     [SerializeField]
-    private ResetBallState RBS;
+    private GameObject ChildObject;
+    [SerializeField]
+    private SphereCollider SoftCol;
 
     // Use this for initialization
     void Start ()
@@ -128,17 +132,17 @@ public class Ball : NetworkBehaviour
 
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
-                RB.AddForce(direction * constantForce, ForceMode.Force);
+                RB.velocity = Vector3.zero;
+                RB.AddForce(direction * constantForce, ForceMode.Acceleration);
 
             }
             else
             {
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
-                RB.AddForce(direction * constantForce / 2, ForceMode.Force);
+                RB.velocity = Vector3.zero;
+                RB.AddForce(direction * constantForce / 2, ForceMode.Acceleration);
             }
-           
-
             //RB.velocity = (transform.forward * constantForce);
         }
         
@@ -163,11 +167,15 @@ public class Ball : NetworkBehaviour
     }
     private void OnTriggerEnter(Collider c)
     {
-        if(c.gameObject.tag == "Player" && !Held && !Thrown)
+        //Debug.Log("triged: " + c.name + " tag: " + c.tag);
+        if((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
         {
+            //Debug.Log("PLAYER HAS ENTERED THE AREA!!!1");
             gameObject.layer = 2;
             HardCol.isTrigger = true;
             Held = true;
+
+            // Set who has the player
             BH = c.GetComponent<BallHandling>();
 
             //transform.gameObject.layer = 2;
@@ -176,14 +184,14 @@ public class Ball : NetworkBehaviour
             if (BH.canHold )
             {
                 Hand = BH.ReturnHand();
-
                 //Handle.position = Hand.position;
                 //Handle.parent = Hand.parent;
 
                 BH.CmdSetBall(gameObject);
                 //RBS.CmdSetPlayerHolding(BH.gameObject);
                 BH.CmdTurnOnFakeBall(true);
-                CmdTurnOnBall(false);
+                //CmdTurnOnBall(false);
+                CmdMakeBallDisapear();
             }
             else
             { 
@@ -199,59 +207,69 @@ public class Ball : NetworkBehaviour
         HardCol.isTrigger = false;
     }
 
-    public void ShootBall(Vector3 power, string tag)
+    public void ShootBall(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
     {
-        CmdShoot(power, tag);
+        CmdShoot(power, tag, HandPos, WhoThrew);
     }
 
     [Command]
-    public void CmdShoot(Vector3 power, string tag)
+    public void CmdShoot(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
     {
         //transform.gameObject.layer = 0;
-        RpcShoot(power, tag);
+        RpcShoot(power, tag, HandPos, WhoThrew);
     }
 
     [ClientRpc]
-    public void RpcShoot(Vector3 power, string tag)
+    public void RpcShoot(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
     {
+        CmdMakeBallReapear();
         //transform.gameObject.layer = 0;
         Thrown = true;
-        CanBeCaughtTimer = 0.1f;
-        Handle.position = Hand.position;
-        Debug.Log("power is " + power);
+        CanBeCaughtTimer = 0.15f;
+        Handle.position = HandPos;
+        //Debug.Log("power is " + power);
+        RB.useGravity = true;
+        RB.isKinematic = false;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
         RB.AddForce(power, ForceMode.Impulse);
-        Debug.Log("teamTag: " + tag);
+        //Debug.Log("teamTag: " + tag);
         teamTag = tag;
         gameObject.layer = 10;
         Held = false;
+        WhoTossedTheBall = WhoThrew;
+        BH = null;
         //RBS.CmdSetPlayerHolding(null);
     }
 
     [Command]
-    public void CmdSetPass(bool Passing, GameObject Target, float Force)
+    public void CmdSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
-        RpcSetPass(Passing, Target, Force);
+        RpcSetPass(Passing, Target, Force, HandPos, WhoThrew);
     }
 
     [ClientRpc]
-    public void RpcSetPass(bool Passing, GameObject Target, float Force)
+    public void RpcSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
+        CmdMakeBallReapear();
         Thrown = true;
-        CanBeCaughtTimer = 0.1f;
+        CanBeCaughtTimer = 0.15f;
         passedTarget = Target;
-        Handle.position = Hand.position;
+        Handle.position = HandPos;
         Handle.parent = null;
         isInPassing = true;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
         float distance = (transform.position - Target.transform.position).magnitude;
-        //transform.LookAt(Target);
+        transform.LookAt(Target.transform);
         RB.AddForce(transform.up * Force, ForceMode.Impulse);
         Held = false;
+        WhoTossedTheBall = WhoThrew;
+        BH = null;
         //RBS.CmdSetPlayerHolding(null);
     }
+
+
 
     public bool GetThrown()
     {
@@ -268,5 +286,37 @@ public class Ball : NetworkBehaviour
     public void RpcTurnOnBall(bool b)
     {
         gameObject.SetActive(b);
+    }
+
+    [Command]
+    public void CmdMakeBallDisapear()
+    {
+        RpcMakeBallDisapear();
+    }
+
+    [ClientRpc]
+    public void RpcMakeBallDisapear()
+    {
+        HardCol.enabled = false;
+        SoftCol.enabled = false;
+        RB.useGravity = false;
+        RB.isKinematic = true;
+        ChildObject.SetActive(false);
+    }
+
+    [Command]
+    public void CmdMakeBallReapear()
+    {
+        RpcMakeBallReapear();
+    }
+
+    [ClientRpc]
+    public void RpcMakeBallReapear()
+    {
+        HardCol.enabled = true;
+        SoftCol.enabled = true;
+        RB.useGravity = true;
+        RB.isKinematic = false;
+        ChildObject.SetActive(true);
     }
 }

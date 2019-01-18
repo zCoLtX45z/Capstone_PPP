@@ -55,12 +55,13 @@ namespace Prototype.NetworkLobby
         
         protected ulong _currentMatchID;
 
-        protected LobbyHook _lobbyHooks;
+        public LobbyHook _lobbyHooks;
 
         void Start()
         {
             s_Singleton = this;
-            _lobbyHooks = GetComponent<Prototype.NetworkLobby.LobbyHook>();
+            if (!_lobbyHooks)
+                _lobbyHooks = GetComponent<Prototype.NetworkLobby.LobbyHook>();
             currentPanel = mainMenuPanel;
 
             backButton.gameObject.SetActive(false);
