@@ -54,8 +54,12 @@ public class BallHandling : NetworkBehaviour {
     [SerializeField]
     private PlayerColor PC;
 
-	// Use this for initialization
-	void Start () {
+    // Animator
+    [SerializeField]
+    private AnimationController AnimationControl;
+
+    // Use this for initialization
+    void Start () {
         canHold = true;
         playerTag = transform.root.tag;
 	}
@@ -85,6 +89,7 @@ public class BallHandling : NetworkBehaviour {
                             //Debug.Log(gameObject.name + " Passes");
                             Debug.Log("target: " + Target.name);
                             CmdPass(Target, ball.gameObject, Hand.position, this.gameObject);
+                            AnimationControl.CmdPassAnimation();
                             ball = null;
                         }
                     }
@@ -105,6 +110,7 @@ public class BallHandling : NetworkBehaviour {
                         //Debug.DrawLine(Cam.transform.position + Cam.transform.forward * 100, Hand.position, Color.blue, 6f);
                         //Debug.DrawRay(Hand.position, Cam.transform.position + Cam.transform.forward * 100 - Hand.position, Color.red, 3.75f);
                         CmdShoot(ball.gameObject, Hand.position, direction.normalized * ShootForce, this.gameObject);
+                        AnimationControl.CmdPassAnimation();
                         ball = null;
                     }
                 }
@@ -155,7 +161,6 @@ public class BallHandling : NetworkBehaviour {
     [Command]
     private void CmdShoot(GameObject ballObject, Vector3 HandPos, Vector3 Direction, GameObject WhoThrew)
     {
-
         CmdTurnOnFakeBall(false);
         RpcShoot(Direction, ballObject, HandPos, WhoThrew);
     }

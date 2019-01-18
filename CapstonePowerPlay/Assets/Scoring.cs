@@ -13,19 +13,19 @@ public class Scoring : MonoBehaviour
     [SerializeField]
     private int redScore = 0;
     private bool scored = false;
-	
+
 	//void Start ()
  //   {
  //       scoreDisplay = GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
 	//}
-	
+
 	// Update is called once per frame
 	void Update ()
     {
         HandleScoreCanvas();
 
     }
-    
+
     public void HandleScoreCanvas()
     {
         scoreDisplay.text = "team#1: " + redScore + "Team#2: " + blueScore;
