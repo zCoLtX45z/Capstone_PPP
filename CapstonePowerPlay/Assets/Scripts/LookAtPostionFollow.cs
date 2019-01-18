@@ -8,8 +8,8 @@ public class LookAtPostionFollow : MonoBehaviour {
     [SerializeField]
     private Transform lookatPoint;
 
-    [SerializeField]
-    private Transform board;
+    //[SerializeField]
+    //private Transform board;
 
     [SerializeField]
     private LayerMask layerMask;
@@ -23,7 +23,7 @@ public class LookAtPostionFollow : MonoBehaviour {
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(board.position, board.TransformDirection(Vector3.down), out hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, layerMask))
         {
             //Debug.Log("Hit: " + hit.transform.name);
            // Debug.DrawRay(transform.position, -transform.up, Color.magenta, Mathf.Infinity);
