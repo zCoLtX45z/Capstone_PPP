@@ -161,7 +161,6 @@ public class BallHandling : NetworkBehaviour {
     [Command]
     private void CmdShoot(GameObject ballObject, Vector3 HandPos, Vector3 Direction, GameObject WhoThrew)
     {
-
         CmdTurnOnFakeBall(false);
         RpcShoot(Direction, ballObject, HandPos, WhoThrew);
     }
