@@ -5,13 +5,11 @@ using Cinemachine;
 
 public class VirtualCamVarSet : MonoBehaviour {
 
-    private CinemachineFreeLook freeLookVirtualCamera;
-
-    
+    [SerializeField]
+    private float positionDamping;
 
     [SerializeField]
-    private float damping;
-
+    private float rotationDamping;
     
     [SerializeField]
     private Transform pCameraObject;
@@ -25,39 +23,74 @@ public class VirtualCamVarSet : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-
-       // freeLookVirtualCamera.m_Orbits.SyncRoot
-
+        // set freeLookVirtualCamera
+        CinemachineFreeLook freeLookVirtualCamera;
         freeLookVirtualCamera = transform.GetComponent<CinemachineFreeLook>();
 
+
+        // rig transposer 0
+        CinemachineTransposer transposerVirtualCamera_Rig0;
+        transposerVirtualCamera_Rig0 = freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineTransposer>();
+
+        // rig transposer 1
+        CinemachineTransposer transposerVirtualCamera_Rig1;
+        transposerVirtualCamera_Rig1 = freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineTransposer>();
+
+        // rig transposer 2
+        CinemachineTransposer transposerVirtualCamera_Rig2;
+        transposerVirtualCamera_Rig2 = freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineTransposer>();
+
+        // un child pCamera
         pCameraObject.parent = null;
 
-       
-        damping = 0;
 
-        // Top Rig
-        freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineTransposer>().m_XDamping = damping;
-        freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineTransposer>().m_YDamping = damping;
-        freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = damping;
 
+        //// Top Rig
+        // position damping
+        transposerVirtualCamera_Rig0.m_XDamping = positionDamping;
+        transposerVirtualCamera_Rig0.m_YDamping = positionDamping;
+        transposerVirtualCamera_Rig0.m_ZDamping = positionDamping;
+
+        //rotation damping
+        transposerVirtualCamera_Rig0.m_PitchDamping = rotationDamping;
+        transposerVirtualCamera_Rig0.m_YawDamping = rotationDamping;
+        transposerVirtualCamera_Rig0.m_RollDamping = rotationDamping;
+
+        // look at damping
         freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneHeight = 0;
         freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneWidth = 0;
-        // Middle Rig
-        freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineTransposer>().m_XDamping = damping;
-        freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineTransposer>().m_YDamping = damping;
-        freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = damping;
 
+        //// Middle Rig
+        //position damping
+        transposerVirtualCamera_Rig1.m_XDamping = positionDamping;
+        transposerVirtualCamera_Rig1.m_YDamping = positionDamping;
+        transposerVirtualCamera_Rig1.m_ZDamping = positionDamping;
+
+        //rotation damping
+        transposerVirtualCamera_Rig1.m_PitchDamping = rotationDamping;
+        transposerVirtualCamera_Rig1.m_YawDamping = rotationDamping;
+        transposerVirtualCamera_Rig1.m_RollDamping = rotationDamping;
+
+        // look at damping
         freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneHeight = 0;
         freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneWidth = 0;
-        // Bottom Rig
-        freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineTransposer>().m_XDamping = damping;
-        freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineTransposer>().m_YDamping = damping;
-        freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = damping;
 
+        //// Bottom Rig
+        // position damping
+        transposerVirtualCamera_Rig2.m_XDamping = positionDamping;
+        transposerVirtualCamera_Rig2.m_YDamping = positionDamping;
+        transposerVirtualCamera_Rig2.m_ZDamping = positionDamping;
+
+        //rotation damping
+        transposerVirtualCamera_Rig2.m_PitchDamping = rotationDamping;
+        transposerVirtualCamera_Rig2.m_YawDamping = rotationDamping;
+        transposerVirtualCamera_Rig2.m_RollDamping = rotationDamping;
+
+        // look at damping
         freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneHeight = 0;
         freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneWidth = 0;
 
-        // collisions
+        //// collisions
         gameObject.AddComponent<CinemachineCollider>().m_CollideAgainst = lMask;
         
     }

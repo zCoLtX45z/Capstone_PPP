@@ -71,6 +71,10 @@ public class hoverBoardScript : NetworkBehaviour
     private bool Flipping = false;
     private bool OnGround = true;
 
+    // Animator
+    [SerializeField]
+    private AnimationController AnimationControl;
+
     //marcstuff
     //public GameObject camGurl1;
     //public GameObject camGurl2;
@@ -173,6 +177,10 @@ public class hoverBoardScript : NetworkBehaviour
             CanStick = true;
             Flipping = false;
         }
+
+        // Update animator
+        AnimationControl.UpdateSpeedRatio(Mathf.Abs(Speed / MaxSpeed));
+        AnimationControl.CmdUpdateGrounded(OnGround);
     }
 
     void FixedUpdate()
@@ -367,7 +375,7 @@ public class hoverBoardScript : NetworkBehaviour
 
     public void FlipCharacter()
     {
-        Debug.Log("Trying to flip character");
+        //Debug.Log("Trying to flip character");
         for (int i = 0; i < PIDHoverPoints.Length; i++)
         {
             PIDController temp = PIDHoverPoints[i];
@@ -439,7 +447,7 @@ public class hoverBoardScript : NetworkBehaviour
         float ForwardJumpMultiplier = Speed < 0.1f * MaxSpeed ? 0
             : 1f;
         Debug.Log("Forces(Right, Up, Forward): " + TargetAdjustForceZ + " / " + TargetAdjustForceY + " / " + TargetAdjustForceX * ForwardJumpMultiplier);
-        Debug.Log("Trying to jump character");
+        //Debug.Log("Trying to jump character");
         for (int i = 0; i < PIDHoverPoints.Length; i++)
         {
             PIDController temp = PIDHoverPoints[i];
@@ -447,5 +455,6 @@ public class hoverBoardScript : NetworkBehaviour
             m_body.AddForceAtPosition(-temp.transform.right * TargetAdjustForceX * ForwardJumpMultiplier, temp.gameObject.transform.position, ForceMode.Impulse);
             m_body.AddForceAtPosition(temp.transform.forward * TargetAdjustForceZ, temp.gameObject.transform.position, ForceMode.Impulse);
         }
+        AnimationControl.CmdJumpAnimation();
     }
 }
