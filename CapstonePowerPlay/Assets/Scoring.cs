@@ -16,7 +16,7 @@ public class Scoring : MonoBehaviour
 	
 	void Start ()
     {
-        scoreDisplay = GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
+        //scoreDisplay = GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
 	}
 	
 	// Update is called once per frame
