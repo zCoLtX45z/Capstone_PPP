@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 4995962855927224}
   - component: {fileID: 33018915875656362}
   - component: {fileID: 23494502761807366}
+  - component: {fileID: 95949375181477626}
   m_Layer: 0
   m_Name: Plane001
   m_TagString: Untagged
@@ -181,7 +182,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1451706153193724}
   m_LocalRotation: {x: -0, y: 0.00000046193594, z: -0, w: 1}
-  m_LocalPosition: {x: -21.75, y: 0, z: 31.6}
+  m_LocalPosition: {x: -19.62421, y: 1.9412287, z: 28.474083}
   m_LocalScale: {x: 0.04515161, y: 0.045151602, z: 0.045151602}
   m_Children:
   - {fileID: 4844749163671392}
@@ -225,7 +226,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1979656606006798}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 2.8840237, y: 24.917484, z: -0.06967966}
+  m_LocalPosition: {x: 2.8840237, y: 24.91748, z: -0.06967966}
   m_LocalScale: {x: 0.340715, y: 0.340715, z: 0.340715}
   m_Children: []
   m_Father: {fileID: 4844749163671392}
@@ -332,6 +333,24 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 93214abb0e5a4d14fb5b1f87a7eff880, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!95 &95949375181477626
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1979656606006798}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7f94d0deee198b84888640b47a55267d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
