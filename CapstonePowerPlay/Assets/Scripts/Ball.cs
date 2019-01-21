@@ -228,7 +228,7 @@ public class Ball : NetworkBehaviour
         CanBeCaughtTimer = 0.15f;
         Handle.position = HandPos;
         //Debug.Log("power is " + power);
-        RB.useGravity = true;
+        RB.useGravity = false;
         RB.isKinematic = false;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
