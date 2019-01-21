@@ -156,5 +156,8 @@ public class NetPlayer : NetworkBehaviour {
     {
         gameObject.name = name;
         CodeNumbers = code;
+        // this.GetComponentInChildren<TextMesh>().text = name;
     }
+
+
 }
