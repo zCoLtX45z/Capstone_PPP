@@ -21,35 +21,21 @@ public class LookAtPostionFollow : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        RaycastHit hit;
-        // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(player.position, player.TransformDirection(Vector3.down), out hit, Mathf.Infinity, layerMask))
-        {
-            //Debug.Log("Hit: " + hit.transform.name);
-           // Debug.DrawRay(transform.position, -transform.up, Color.magenta, Mathf.Infinity);
-            transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
-        }
-
         transform.position = lookatPoint.position;
 
-        //transform.rotation = Quaternion.FromToRotation(Vector3.up, transform.);
+        RaycastHit hit;
 
+        if (Physics.Raycast(player.position, player.TransformDirection(Vector3.down), out hit, Mathf.Infinity, layerMask))
+        {
+            Vector3 inverseTPoint = transform.InverseTransformPoint(transform.position + hit.normal);
+            float angleX = Mathf.Atan2(inverseTPoint.z, inverseTPoint.y) * Mathf.Rad2Deg;
+            transform.Rotate(angleX, 0, 0);
 
+            inverseTPoint = transform.InverseTransformPoint(transform.position + hit.normal);
 
-        //transform.rotation = Quaternion.FromToRotation(Vector3.up, lookatPoint.up);
+            float angleZ = -Mathf.Atan2(inverseTPoint.x, inverseTPoint.y) * Mathf.Rad2Deg;
+            transform.Rotate(0, 0, angleZ);
 
-
-
-
-        //transform.rotation = Quaternion.FromToRotation(Vector3.up, lookatPoint.up);
-
-        //transform.up = Vector3.Cross(lookatPoint.forward, lookatPoint.right).normalized;
-
-        //if(transform.up.x == 0 || transform.up.z == 0)
-        //{
-        //    transform.rotation = Quaternion.Euler(transform.rotation.x, 0, 0);
-        //}
-
-        //transform.rotation = Quaternion.AngleAxis(0, lookatPoint.up);
+        }
     }
 }
