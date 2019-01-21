@@ -4171,7 +4171,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1017673199592140}
-  m_LocalRotation: {x: -0.66203105, y: 0.29295263, z: 0.27903417, w: 0.6308991}
+  m_LocalRotation: {x: -0.6620312, y: 0.2929524, z: 0.2790339, w: 0.63089925}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
   m_Children:
@@ -6684,7 +6684,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1898113101277640}
-  m_LocalRotation: {x: 0.00013463633, y: 0.00000003507321, z: -4.722132e-12, w: 1}
+  m_LocalRotation: {x: 0.0001346326, y: 0.000000035049823, z: -4.7188685e-12, w: 1}
   m_LocalPosition: {x: -0.12500006, y: 1.7120197, z: -5.9589844}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -7600,7 +7600,7 @@ MonoBehaviour:
     m_Bits: 769
   FakeBall: {fileID: 1295020874554176}
   PC: {fileID: 114784702546287668}
-  AnimationControl: {fileID: 0}
+  AnimationControl: {fileID: 114809226058955976}
 --- !u!114 &114134451567773954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7639,7 +7639,7 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 2
+    m_MaxSpeed: 1.3333334
     m_AccelTime: 0
     m_DecelTime: 0
     m_InputAxisName: Mouse Y
@@ -7656,7 +7656,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 200
     m_AccelTime: 0
     m_DecelTime: 0
     m_InputAxisName: Mouse X
@@ -7839,7 +7839,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 200
     m_AccelTime: 0
     m_DecelTime: 0
     m_InputAxisName: Mouse X
@@ -7865,7 +7865,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisabledComponents:
   - {fileID: 20956135230079638}
-  - {fileID: 0}
+  - {fileID: 114134451567773954}
   - {fileID: 114838964503711298}
   - {fileID: 114571701765524204}
   - {fileID: 114211463835677376}
@@ -8050,7 +8050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positionDamping: 0
-  rotationDamping: 0.8
+  rotationDamping: 2
   pCameraObject: {fileID: 4933723661952466}
   lMask:
     serializedVersion: 2
@@ -8087,7 +8087,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 200
     m_AccelTime: 0
     m_DecelTime: 0
     m_InputAxisName: Mouse X
@@ -8457,7 +8457,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 200
     m_AccelTime: 0
     m_DecelTime: 0
     m_InputAxisName: Mouse X
@@ -8596,6 +8596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookatPoint: {fileID: 4146068226263168}
+  player: {fileID: 4752758314433848}
   layerMask:
     serializedVersion: 2
     m_Bits: 512

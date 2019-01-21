@@ -38,7 +38,7 @@ public class VirtualCamVarSet : MonoBehaviour {
 
         // rig transposer 2
         CinemachineTransposer transposerVirtualCamera_Rig2;
-        transposerVirtualCamera_Rig2 = freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineTransposer>();
+        transposerVirtualCamera_Rig2 = freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineTransposer>();
 
         // un child pCamera
         pCameraObject.parent = null;
