@@ -18,8 +18,11 @@ public class Scoring : NetworkBehaviour
     private float maxTimeUntilScoreReset;
     private float timeUntilScoreReset;
 
+    [SerializeField]
     private GameObject scoreUICanvas;
+    [SerializeField]
     private Text textUiTeam1;
+    [SerializeField]
     private Text textUiTeam2;
 
     [SerializeField]
@@ -28,15 +31,15 @@ public class Scoring : NetworkBehaviour
 
     private void Start()
     {
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team1"))
-        {
-            players.Add(player.transform);
-        }
+        //foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team1"))
+        //{
+        //    players.Add(player.transform);
+        //}
 
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team2"))
-        {
-            players.Add(player.transform);
-        }
+        //foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team2"))
+        //{
+        //    players.Add(player.transform);
+        //}
 
         scoreUICanvas = GameObject.FindGameObjectWithTag("ScoreUI");
         textUiTeam1 = scoreUICanvas.transform.GetChild(0).GetComponent<Text>();
@@ -50,8 +53,8 @@ public class Scoring : NetworkBehaviour
     public void HandleScoreCanvas()
     {
         scoreDisplay.text = "team#1: " + team1Score + " | Team#2: " + team2Score;
-        textUiTeam1.text = "Team1: " + team1Score;
-        textUiTeam2.text = "Team2: " + team2Score;
+        textUiTeam1.text = team1Score.ToString();
+        textUiTeam2.text = team2Score.ToString();
     }
 
     [Command]
