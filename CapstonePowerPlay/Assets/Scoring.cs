@@ -14,11 +14,17 @@ public class Scoring : NetworkBehaviour
     private int team2Score = 0;
     private bool scored = false;
 
+  
+
+    private void Start()
+    {
+        HandleScoreCanvas();
+    }
+
     public void HandleScoreCanvas()
     {
         scoreDisplay.text = "team#1: " + team1Score + " | Team#2: " + team2Score;
     }
-
 
     [Command]
     public void CmdTeam1Score()
