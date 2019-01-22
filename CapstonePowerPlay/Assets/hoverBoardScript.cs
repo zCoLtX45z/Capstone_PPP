@@ -446,7 +446,7 @@ public class hoverBoardScript : NetworkBehaviour
         float TargetAdjustForceZ = JumpForce * Mathf.Sin(ZAngle);
         float ForwardJumpMultiplier = Speed < 0.1f * MaxSpeed ? 0
             : 1f;
-        Debug.Log("Forces(Right, Up, Forward): " + TargetAdjustForceZ + " / " + TargetAdjustForceY + " / " + TargetAdjustForceX * ForwardJumpMultiplier);
+        //Debug.Log("Forces(Right, Up, Forward): " + TargetAdjustForceZ + " / " + TargetAdjustForceY + " / " + TargetAdjustForceX * ForwardJumpMultiplier);
         //Debug.Log("Trying to jump character");
         for (int i = 0; i < PIDHoverPoints.Length; i++)
         {
