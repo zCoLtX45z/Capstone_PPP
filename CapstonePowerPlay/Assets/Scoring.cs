@@ -26,20 +26,56 @@ public class Scoring : NetworkBehaviour
     private Text textUiTeam2;
 
     [SerializeField]
-    private List<Transform> players = new List<Transform>();
+    private Transform localPlayer;
 
 
     private void Start()
     {
-        //foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team1"))
-        //{
-        //    players.Add(player.transform);
-        //}
+        if (!localPlayer)
+        {
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 1"))
+            {
+                if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
+                {
+                    Debug.Log(player.name + " is the local player");
+                    localPlayer = player.transform;
 
-        //foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team2"))
-        //{
-        //    players.Add(player.transform);
-        //}
+                    if (player.GetComponent<PlayerColor>().TeamNum == 1)
+                    {
+                        textUiTeam1.color = Color.blue;
+                        textUiTeam2.color = Color.red;
+                    }
+                    else if (player.GetComponent<PlayerColor>().TeamNum == 2)
+                    {
+                        textUiTeam1.color = Color.red;
+                        textUiTeam2.color = Color.blue;
+                    }
+
+                }
+            }
+
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 2"))
+            {
+                if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
+                {
+                    Debug.Log(player.name + " is the local player");
+                    localPlayer = player.transform;
+
+                    if (player.GetComponent<PlayerColor>().TeamNum == 1)
+                    {
+                        textUiTeam1.color = Color.blue;
+                        textUiTeam2.color = Color.red;
+                    }
+                    else if (player.GetComponent<PlayerColor>().TeamNum == 2)
+                    {
+                        textUiTeam1.color = Color.red;
+                        textUiTeam2.color = Color.blue;
+                    }
+                }
+            }
+        }
+
+
 
         scoreUICanvas = GameObject.FindGameObjectWithTag("ScoreUI");
         textUiTeam1 = scoreUICanvas.transform.GetChild(0).GetComponent<Text>();
@@ -99,31 +135,54 @@ public class Scoring : NetworkBehaviour
             }
         }
 
+        if (!localPlayer)
+        {
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 1"))
+            {
+                Debug.Log("Olla");
+                if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
+                {
+                    Debug.Log(player.name + " is the local player");
+                    localPlayer = player.transform;
 
-        //foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team1"))
-        //{
-        //    for (int i = 0; i < players.Count; i++)
-        //    {
-        //        if(players[i] == player)
-        //        {
-        //            break;
-        //        }
-        //    }
-        //    players.Add(player.transform);
-        //}
+                    if(player.GetComponent<PlayerColor>().TeamNum == 1)
+                    {
+                        textUiTeam1.color = Color.blue;
+                        textUiTeam2.color = Color.red;
+                    }
+                    else if (player.GetComponent<PlayerColor>().TeamNum == 2)
+                    {
+                        textUiTeam1.color = Color.red;
+                        textUiTeam2.color = Color.blue;
+                    }
 
-        //foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team2"))
-        //{
-        //    for (int i = 0; i < players.Count; i++)
-        //    {
-        //        if (players[i] == player)
-        //        {
-        //            break;
-        //        }
-        //    }
-        //    players.Add(player.transform);
-        //}
 
+                }
+            }
+
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 2"))
+            {
+                if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
+                {
+                    Debug.Log(player.name + " is the local player");
+                    localPlayer = player.transform;
+
+
+                    if (player.GetComponent<PlayerColor>().TeamNum == 1)
+                    {
+                        textUiTeam1.color = Color.blue;
+                        textUiTeam2.color = Color.red;
+                    }
+                    else if (player.GetComponent<PlayerColor>().TeamNum == 2)
+                    {
+                        textUiTeam1.color = Color.red;
+                        textUiTeam2.color = Color.blue;
+                    }
+
+
+                }
+            }
+        }
     }
 
     public void OnTriggerEnter(Collider c)
