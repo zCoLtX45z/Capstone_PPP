@@ -56,7 +56,7 @@ public class UI_TrackAndScale : MonoBehaviour {
             int cnt = 0;
             while (cnt < Targets.Length || Target != null)
             {
-                if (Targets[cnt].ParentPlayer == Targets[cnt].LocalPlayer)
+                if (cnt < Targets.Length && Targets[cnt].ParentPlayer == Targets[cnt].LocalPlayer)
                 {
                     Target = Targets[cnt];
                 }
