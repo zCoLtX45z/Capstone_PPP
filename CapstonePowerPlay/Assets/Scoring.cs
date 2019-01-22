@@ -102,7 +102,7 @@ public class Scoring : NetworkBehaviour
 
     public void HandleScoreCanvas()
     {
-        scoreDisplay.text = "team#1: " + team1Score + " | Team#2: " + team2Score;
+        //scoreDisplay.text = "Team1: " + team1Score + " | Team#2: " + team2Score;
         textUiTeam1.text = team1Score.ToString();
         textUiTeam2.text = team2Score.ToString();
     }
@@ -153,7 +153,6 @@ public class Scoring : NetworkBehaviour
         {
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 1"))
             {
-                Debug.Log("Olla");
                 if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
                 {
                     Debug.Log(player.name + " is the local player");
