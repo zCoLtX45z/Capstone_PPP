@@ -49,10 +49,15 @@ public class Ball : NetworkBehaviour
 
     private float timePassTimer = 0.0f;
 
+    // Physical Components
     [SerializeField]
     private GameObject ChildObject;
     [SerializeField]
     private SphereCollider SoftCol;
+
+    //UI Elements
+    [SerializeField]
+    private GameObject UiCanvas;
 
     // Use this for initialization
     void Start ()
@@ -153,6 +158,11 @@ public class Ball : NetworkBehaviour
                 gameObject.layer = 10;
                 RB.useGravity = true;
             }
+        }
+
+        if (Held)
+        {
+            UiCanvas.transform.position = Hand.transform.position;
         }
 
     }
