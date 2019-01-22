@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class Ball : NetworkBehaviour
 {
@@ -57,7 +58,7 @@ public class Ball : NetworkBehaviour
 
     //UI Elements
     [SerializeField]
-    private GameObject UiCanvas;
+    private RectTransform UiCanvas;
 
     // Use this for initialization
     void Start ()
@@ -162,11 +163,11 @@ public class Ball : NetworkBehaviour
 
         if (Held)
         {
-            UiCanvas.transform.position = Hand.transform.position;
+            UiCanvas.position = Hand.transform.position;
         }
-        else if (UiCanvas.transform.localPosition != Vector3.zero)
+        else if (UiCanvas.localPosition != Vector3.zero)
         {
-            UiCanvas.transform.localPosition = Vector3.zero;
+            UiCanvas.localPosition = Vector3.zero;
         }
 
     }
@@ -198,7 +199,7 @@ public class Ball : NetworkBehaviour
             if (BH.canHold )
             {
                 Hand = BH.ReturnHand();
-                CmdUpdateHandTransform(Hand);
+                CmdUpdateHandTransform(BH.gameObject);
                 //Handle.position = Hand.position;
                 //Handle.parent = Hand.parent;
 
@@ -336,14 +337,15 @@ public class Ball : NetworkBehaviour
     }
 
     [Command]
-    private void CmdUpdateHandTransform(Transform t)
+    private void CmdUpdateHandTransform(GameObject HandParent)
     {
-        RpcUpdateHandTransform(t);
+        RpcUpdateHandTransform(HandParent);
     }
 
     [ClientRpc]
-    private void RpcUpdateHandTransform(Transform t)
+    private void RpcUpdateHandTransform(GameObject HandParent)
     {
-        Hand = t;
+        BallHandling bh = HandParent.GetComponent<BallHandling>();
+        Hand = bh.ReturnHand();
     }
 }
