@@ -8,18 +8,22 @@ public class UI_TrackAndScale : MonoBehaviour {
     [SerializeField]
     private RectTransform RT;
 
-    private PlayerColor Target;
-    private PlayerColor[] Targets;
+    private PlayerColor Target = null;
+    private PlayerColor[] Targets = null;
 
     [SerializeField]
     private float ReferenceDistance = 5;
     private Vector3 Direction;
-    private Vector3 DefaultScale;
-    private Vector3 NewScale;
+    private Vector3 DefaultScale = Vector3.one;
+    private Vector3 NewScale = Vector3.one;
 	// Use this for initialization
 	void Start () {
         FindTarget();
         DefaultScale = RT.localScale;
+        if (DefaultScale == Vector3.zero)
+        {
+            DefaultScale = Vector3.one;
+        }
     }
 	
 	// Update is called once per frame
@@ -47,7 +51,7 @@ public class UI_TrackAndScale : MonoBehaviour {
     private void FindTarget()
     {
         Targets = FindObjectsOfType<PlayerColor>();
-        if (Targets != null)
+        if (Targets[0] != null)
         {
             int cnt = 0;
             while (cnt < Targets.Length || Target != null)
