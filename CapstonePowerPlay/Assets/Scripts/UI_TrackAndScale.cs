@@ -47,19 +47,22 @@ public class UI_TrackAndScale : MonoBehaviour {
     private void FindTarget()
     {
         Targets = FindObjectsOfType<PlayerColor>();
-        int cnt = 0;
-        while (cnt < Targets.Length || Target != null)
+        if (Targets != null)
         {
-            if (Targets[cnt].ParentPlayer == Targets[cnt].LocalPlayer)
+            int cnt = 0;
+            while (cnt < Targets.Length || Target != null)
             {
-                Target = Targets[cnt];
+                if (Targets[cnt].ParentPlayer == Targets[cnt].LocalPlayer)
+                {
+                    Target = Targets[cnt];
+                }
+                cnt++;
             }
-            cnt++;
-        }
 
-        if (Target == null)
-        {
-            Debug.Log("No Target Found");
+            if (Target == null)
+            {
+                Debug.Log("No Target Found");
+            }
         }
     }
 }
