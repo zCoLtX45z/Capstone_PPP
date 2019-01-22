@@ -164,6 +164,10 @@ public class Ball : NetworkBehaviour
         {
             UiCanvas.transform.position = Hand.transform.position;
         }
+        else if (UiCanvas.transform.position != Vector3.zero)
+        {
+            UiCanvas.transform.position = Vector3.zero;
+        }
 
     }
 
@@ -194,6 +198,7 @@ public class Ball : NetworkBehaviour
             if (BH.canHold )
             {
                 Hand = BH.ReturnHand();
+                CmdUpdateHandTransform(Hand);
                 //Handle.position = Hand.position;
                 //Handle.parent = Hand.parent;
 
@@ -328,5 +333,17 @@ public class Ball : NetworkBehaviour
         RB.useGravity = true;
         RB.isKinematic = false;
         ChildObject.SetActive(true);
+    }
+
+    [Command]
+    private void CmdUpdateHandTransform(Transform t)
+    {
+        RpcUpdateHandTransform(t);
+    }
+
+    [ClientRpc]
+    private void RpcUpdateHandTransform(Transform t)
+    {
+        Hand = t;
     }
 }
