@@ -14,6 +14,9 @@ public class Scoring : NetworkBehaviour
     private int team2Score = 0;
     private bool scored = false;
 
+    [SerializeField]
+    private float maxTimeUntilScoreReset;
+    private float timeUntilScoreReset;
   
 
     private void Start()
@@ -57,7 +60,17 @@ public class Scoring : NetworkBehaviour
         HandleScoreCanvas();
     }
 
-
+    private void Update()
+    {
+        if(scored)
+        {
+            timeUntilScoreReset -= Time.deltaTime;
+            if(timeUntilScoreReset <= 0)
+            {
+                scored = false;
+            }
+        }
+    }
 
     public void OnTriggerEnter(Collider c)
     {
@@ -70,12 +83,14 @@ public class Scoring : NetworkBehaviour
             {
                 Debug.Log("Team1 Scored!");
                 CmdTeam1Score();
+                timeUntilScoreReset = maxTimeUntilScoreReset;
                 scored = true;
             }
             if (c.gameObject.GetComponent<Ball>().WhoTossedTheBall.GetComponent<PlayerColor>().TeamNum == 2)
             {
                 Debug.Log("Team2 Scored!");
                 CmdTeam2Score();
+                timeUntilScoreReset = maxTimeUntilScoreReset;
                 scored = true;
             }
         }

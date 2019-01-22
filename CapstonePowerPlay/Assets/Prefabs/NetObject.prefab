@@ -391,6 +391,7 @@ MonoBehaviour:
   scoreDisplay: {fileID: 114457444741890594}
   team1Score: 0
   team2Score: 0
+  maxTimeUntilScoreReset: 3
 --- !u!114 &114233508140658180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -469,11 +470,11 @@ MonoBehaviour:
   m_SendInterval: 0.033333335
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
-  m_SyncSpin: 0
+  m_SyncSpin: 1
   m_MovementTheshold: 0.001
   m_VelocityThreshold: 0.0001
   m_SnapThreshold: 5
-  m_InterpolateRotation: 1
+  m_InterpolateRotation: 50
   m_InterpolateMovement: 1
 --- !u!114 &114562984727307894
 MonoBehaviour:
