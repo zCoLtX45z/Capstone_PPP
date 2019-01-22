@@ -20,9 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4861879626427058}
   - component: {fileID: 33832344277254596}
-  - component: {fileID: 136791871799348324}
-  - component: {fileID: 114768025912836294}
-  - component: {fileID: 114129620793328700}
   m_Layer: 0
   m_Name: innerNet
   m_TagString: Untagged
@@ -56,6 +53,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4706732524007636}
   - component: {fileID: 95912271136707844}
+  - component: {fileID: 136527267763482086}
+  - component: {fileID: 114190763996177678}
   - component: {fileID: 114562984727307894}
   - component: {fileID: 114558178292394752}
   m_Layer: 0
@@ -360,38 +359,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114129620793328700
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1215770767299436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 176
-    i1: 157
-    i2: 237
-    i3: 24
-    i4: 3
-    i5: 47
-    i6: 227
-    i7: 228
-    i8: 169
-    i9: 26
-    i10: 28
-    i11: 155
-    i12: 93
-    i13: 63
-    i14: 108
-    i15: 110
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114151424139496010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -410,6 +377,21 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
+--- !u!114 &114190763996177678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1451706153193724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e04b6dd292ff93949bab5570ab9254a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreDisplay: {fileID: 114457444741890594}
+  team1Score: 0
+  team2Score: 0
+  maxTimeUntilScoreReset: 3
 --- !u!114 &114233508140658180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -488,11 +470,11 @@ MonoBehaviour:
   m_SendInterval: 0.033333335
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
-  m_SyncSpin: 0
+  m_SyncSpin: 1
   m_MovementTheshold: 0.001
   m_VelocityThreshold: 0.0001
   m_SnapThreshold: 5
-  m_InterpolateRotation: 1
+  m_InterpolateRotation: 50
   m_InterpolateMovement: 1
 --- !u!114 &114562984727307894
 MonoBehaviour:
@@ -525,21 +507,7 @@ MonoBehaviour:
     i14: 108
     i15: 110
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &114768025912836294
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1215770767299436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e04b6dd292ff93949bab5570ab9254a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreDisplay: {fileID: 114457444741890594}
-  team1Score: 0
-  team2Score: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114963585950990700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -561,19 +529,19 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!136 &136791871799348324
+--- !u!136 &136527267763482086
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1215770767299436}
+  m_GameObject: {fileID: 1451706153193724}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Radius: 26.42
+  m_Height: 69.8
+  m_Direction: 0
+  m_Center: {x: 14.18, y: 130.95, z: 0}
 --- !u!222 &222916569331113218
 CanvasRenderer:
   m_ObjectHideFlags: 1
