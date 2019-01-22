@@ -14,15 +14,6 @@ public class Scoring : NetworkBehaviour
     private int team2Score = 0;
     private bool scored = false;
 
-
-
-	// Update is called once per frame
-	void Update ()
-    {
-        HandleScoreCanvas();
-
-    }
-
     public void HandleScoreCanvas()
     {
         scoreDisplay.text = "team#1: " + team1Score + " | Team#2: " + team2Score;
@@ -40,6 +31,7 @@ public class Scoring : NetworkBehaviour
     {
         Debug.Log("add point to team 1");
         team1Score++;
+        HandleScoreCanvas();
     }
 
 
@@ -56,6 +48,7 @@ public class Scoring : NetworkBehaviour
     {
         Debug.Log("add point to team 2");
         team2Score++;
+        HandleScoreCanvas();
     }
 
 
