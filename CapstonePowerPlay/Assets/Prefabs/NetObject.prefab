@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33832344277254596}
   - component: {fileID: 136791871799348324}
   - component: {fileID: 114768025912836294}
+  - component: {fileID: 114129620793328700}
   m_Layer: 0
   m_Name: innerNet
   m_TagString: Untagged
@@ -182,7 +183,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1451706153193724}
   m_LocalRotation: {x: -0, y: 0.00000046193594, z: -0, w: 1}
-  m_LocalPosition: {x: -19.62421, y: 1.9412287, z: 28.474083}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.04515161, y: 0.045151602, z: 0.045151602}
   m_Children:
   - {fileID: 4844749163671392}
@@ -359,6 +360,38 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114129620793328700
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1215770767299436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 176
+    i1: 157
+    i2: 237
+    i3: 24
+    i4: 3
+    i5: 47
+    i6: 227
+    i7: 228
+    i8: 169
+    i9: 26
+    i10: 28
+    i11: 155
+    i12: 93
+    i13: 63
+    i14: 108
+    i15: 110
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114151424139496010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -505,8 +538,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreDisplay: {fileID: 114457444741890594}
-  blueScore: 0
-  redScore: 0
+  team1Score: 0
+  team2Score: 0
 --- !u!114 &114963585950990700
 MonoBehaviour:
   m_ObjectHideFlags: 1
