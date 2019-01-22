@@ -10,9 +10,16 @@ public class UI_TrackAndScale : MonoBehaviour {
 
     private PlayerColor Target;
     private PlayerColor[] Targets;
+
+    [SerializeField]
+    private float ReferenceDistance = 5;
+    private Vector3 Direction;
+    private Vector3 DefaultScale;
+    private Vector3 NewScale;
 	// Use this for initialization
 	void Start () {
         FindTarget();
+        DefaultScale = RT.localScale;
     }
 	
 	// Update is called once per frame
@@ -23,7 +30,17 @@ public class UI_TrackAndScale : MonoBehaviour {
         }
         else
         {
+            Direction = Target.transform.position - transform.position;
             RT.LookAt(Target.transform);
+            if (Direction.magnitude > ReferenceDistance)
+            {
+                NewScale = DefaultScale * Direction.magnitude / ReferenceDistance;
+            }
+            else
+            {
+                NewScale = DefaultScale;
+            }
+            RT.localScale = NewScale;
         }
 	}
 
