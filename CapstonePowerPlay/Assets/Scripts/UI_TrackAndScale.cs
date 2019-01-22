@@ -13,6 +13,10 @@ public class UI_TrackAndScale : MonoBehaviour {
 
     [SerializeField]
     private float ReferenceDistance = 5;
+    [SerializeField]
+    private float MaxScale = 10;
+    [SerializeField]
+    private bool UseMaxScale = false;
     private Vector3 Direction;
     private Vector3 DefaultScale = Vector3.one;
     private Vector3 NewScale = Vector3.one;
@@ -38,7 +42,21 @@ public class UI_TrackAndScale : MonoBehaviour {
             RT.LookAt(Target.transform);
             if (Direction.magnitude > ReferenceDistance)
             {
-                NewScale = DefaultScale * Direction.magnitude / ReferenceDistance;
+                if (!UseMaxScale)
+                {
+                    NewScale = DefaultScale * Direction.magnitude / ReferenceDistance;
+                }
+                else
+                {
+                    if (Direction.magnitude / ReferenceDistance > MaxScale)
+                    {
+                        NewScale = DefaultScale * MaxScale;
+                    }
+                    else
+                    {
+                        NewScale = DefaultScale * Direction.magnitude / ReferenceDistance;
+                    }
+                }
             }
             else
             {
@@ -51,17 +69,17 @@ public class UI_TrackAndScale : MonoBehaviour {
     private void FindTarget()
     {
         Targets = FindObjectsOfType<PlayerColor>();
-        if (Targets[0] != null)
+        if (Targets != null)
         {
-            int cnt = 0;
-            while (cnt < Targets.Length || Target != null)
+            foreach (PlayerColor pc in Targets)
             {
-                if (Targets[cnt].ParentPlayer == Targets[cnt].LocalPlayer)
+                if (pc.ParentPlayer == pc.LocalPlayer)
                 {
-                    Target = Targets[cnt];
+                    Target = pc;
+                    break;
                 }
-                cnt++;
             }
+
 
             if (Target == null)
             {

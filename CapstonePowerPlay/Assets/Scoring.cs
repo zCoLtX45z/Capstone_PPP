@@ -48,7 +48,14 @@ public class Scoring : NetworkBehaviour
                     else if (player.GetComponent<PlayerColor>().TeamNum == 2)
                     {
                         textUiTeam1.color = Color.red;
+
+                        float tempX = textUiTeam1.rectTransform.position.x;
+
+                        textUiTeam1.rectTransform.position = textUiTeam2.rectTransform.position;
+
                         textUiTeam2.color = Color.blue;
+
+                        textUiTeam2.rectTransform.position = new Vector3(tempX, textUiTeam1.rectTransform.position.y, textUiTeam1.rectTransform.position.z);
                     }
 
                 }
@@ -69,7 +76,14 @@ public class Scoring : NetworkBehaviour
                     else if (player.GetComponent<PlayerColor>().TeamNum == 2)
                     {
                         textUiTeam1.color = Color.red;
+
+                        float tempX = textUiTeam1.rectTransform.position.x;
+
+                        textUiTeam1.rectTransform.position = textUiTeam2.rectTransform.position;
+
                         textUiTeam2.color = Color.blue;
+
+                        textUiTeam2.rectTransform.position = new Vector3(tempX, textUiTeam1.rectTransform.position.y, textUiTeam1.rectTransform.position.z);
                     }
                 }
             }
@@ -88,7 +102,7 @@ public class Scoring : NetworkBehaviour
 
     public void HandleScoreCanvas()
     {
-        scoreDisplay.text = "team#1: " + team1Score + " | Team#2: " + team2Score;
+        //scoreDisplay.text = "Team1: " + team1Score + " | Team#2: " + team2Score;
         textUiTeam1.text = team1Score.ToString();
         textUiTeam2.text = team2Score.ToString();
     }
@@ -139,7 +153,6 @@ public class Scoring : NetworkBehaviour
         {
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 1"))
             {
-                Debug.Log("Olla");
                 if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
                 {
                     Debug.Log(player.name + " is the local player");
@@ -153,7 +166,14 @@ public class Scoring : NetworkBehaviour
                     else if (player.GetComponent<PlayerColor>().TeamNum == 2)
                     {
                         textUiTeam1.color = Color.red;
+
+                        float tempX = textUiTeam1.rectTransform.position.x;
+
+                        textUiTeam1.rectTransform.position = textUiTeam2.rectTransform.position;
+
                         textUiTeam2.color = Color.blue;
+
+                        textUiTeam2.rectTransform.position = new Vector3(tempX, textUiTeam1.rectTransform.position.y, textUiTeam1.rectTransform.position.z);
                     }
 
 
@@ -176,7 +196,14 @@ public class Scoring : NetworkBehaviour
                     else if (player.GetComponent<PlayerColor>().TeamNum == 2)
                     {
                         textUiTeam1.color = Color.red;
+
+                        float tempX = textUiTeam1.rectTransform.position.x;
+
+                        textUiTeam1.rectTransform.position = textUiTeam2.rectTransform.position;
+
                         textUiTeam2.color = Color.blue;
+
+                        textUiTeam2.rectTransform.position = new Vector3(tempX, textUiTeam1.rectTransform.position.y, textUiTeam1.rectTransform.position.z);
                     }
 
 
