@@ -211,9 +211,11 @@ public class Scoring : NetworkBehaviour
             }
         }
     }
-
-    public void OnTriggerEnter(Collider c)
+    // not working
+    // 
+    private void OnCollisionEnter(Collision c)
     {
+
         Debug.Log("Net Triggered");
 
         if(c.gameObject.tag == "Ball" && !scored)
