@@ -12,7 +12,7 @@ public class ThirdPersonController : NetworkBehaviour {
     [SerializeField]
     private float AccerationForce = 100000;
     [SerializeField]
-    private float MaxVelocity = 20;
+    public float MaxVelocity = 20;
     [SerializeField]
     private float TurningForce = 10000;
     [SerializeField]

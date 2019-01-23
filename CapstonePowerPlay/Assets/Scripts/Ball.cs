@@ -13,7 +13,7 @@ public class Ball : NetworkBehaviour
     [SyncVar]
     public GameObject WhoTossedTheBall = null;
     [SerializeField]
-    private Transform Hand;
+    public Transform Hand;
     [SyncVar]
     public bool Held = false;
     private Rigidbody RB;
@@ -192,9 +192,9 @@ public class Ball : NetworkBehaviour
 
             // Set who has the player
             BH = c.GetComponent<BallHandling>();
-
+            CmdSetBallHandling(BH.gameObject);
             //transform.gameObject.layer = 2;
-            
+
 
             if (BH.canHold )
             {
@@ -254,6 +254,7 @@ public class Ball : NetworkBehaviour
         gameObject.layer = 10;
         Held = false;
         WhoTossedTheBall = WhoThrew;
+        Hand = null;
         BH = null;
         //RBS.CmdSetPlayerHolding(null);
     }
@@ -281,6 +282,7 @@ public class Ball : NetworkBehaviour
         RB.AddForce(transform.up * Force, ForceMode.Impulse);
         Held = false;
         WhoTossedTheBall = WhoThrew;
+        Hand = null;
         BH = null;
         //RBS.CmdSetPlayerHolding(null);
     }
@@ -348,4 +350,19 @@ public class Ball : NetworkBehaviour
         BallHandling bh = HandParent.GetComponent<BallHandling>();
         Hand = bh.ReturnHand();
     }
+
+
+
+    [Command]
+    private void CmdSetBallHandling(GameObject bhObject)
+    {
+        RpcSetBallHandling(bhObject);
+    }
+
+    [ClientRpc]
+    private void RpcSetBallHandling(GameObject bhObject)
+    {
+        BH = bhObject.GetComponent<BallHandling>();
+    }
+
 }
