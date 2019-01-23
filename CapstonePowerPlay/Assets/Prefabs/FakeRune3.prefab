@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114316316529636812}
   m_Layer: 0
   m_Name: FakeRune3
-  m_TagString: Untagged
+  m_TagString: RedRune
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,7 +93,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1111440962559610}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -128,7 +128,7 @@ MonoBehaviour:
     i13: 182
     i14: 72
     i15: 181
-  m_ServerOnly: 1
+  m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &114316316529636812
 MonoBehaviour:

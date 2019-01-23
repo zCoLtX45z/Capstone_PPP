@@ -29,17 +29,18 @@ public class RuneSpawn : NetworkBehaviour {
     [Command]
     void CmdSpawnRune()
     {
-        RpcSpawner();
-    }
-
-    [ClientRpc]
-    void RpcSpawner()
-    {
         Vector3 center = transform.position;
         Vector3 pos = RandomCircle(center, 5.0f);
         Quaternion rot = Quaternion.FromToRotation(Vector3.forward, center - pos);
         myInstantiatedObject = Instantiate(Runes[Random.Range(0, 3)], pos, rot);
         NetworkServer.Spawn(myInstantiatedObject);
+        //RpcSpawner();
+    }
+
+    [ClientRpc]
+    void RpcSpawner()
+    {
+        
     }
         
 }

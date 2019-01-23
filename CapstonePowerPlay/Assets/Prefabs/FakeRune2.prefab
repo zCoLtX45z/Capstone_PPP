@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114312810157226344}
   m_Layer: 0
   m_Name: FakeRune2
-  m_TagString: Untagged
+  m_TagString: GreenRune
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,7 +93,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1036102240882684}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -149,5 +149,5 @@ MonoBehaviour:
     i13: 250
     i14: 115
     i15: 69
-  m_ServerOnly: 1
+  m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
