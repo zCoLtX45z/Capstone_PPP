@@ -12,7 +12,7 @@ public class ballHandler : NetworkBehaviour {
     private Transform ballSpawn;
     
     // Use this for initialization
-    void Awake ()
+    void Start ()
     {
 
         ballSpawn = GameObject.FindGameObjectWithTag("ballSpawn").GetComponent<Transform>();

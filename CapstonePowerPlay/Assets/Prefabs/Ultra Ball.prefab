@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224619032826560828}
   - component: {fileID: 222610496483234574}
   - component: {fileID: 114523374424508816}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RawImage (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,9 +38,25 @@ GameObject:
   - component: {fileID: 224907532544287930}
   - component: {fileID: 222047367404999780}
   - component: {fileID: 114927257189813678}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RawImage
   m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1326540436468926
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4202542930684880}
+  - component: {fileID: 135941713350358684}
+  m_Layer: 2
+  m_Name: BallScoreTrigger
+  m_TagString: Ball_Score_Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,7 +71,7 @@ GameObject:
   - component: {fileID: 224957934985187672}
   - component: {fileID: 222541931129525708}
   - component: {fileID: 114541482577828810}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RawImage (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +88,7 @@ GameObject:
   - component: {fileID: 224241458730154628}
   - component: {fileID: 222415905550271986}
   - component: {fileID: 114903602473200794}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RawImage (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +108,7 @@ GameObject:
   - component: {fileID: 114572916986978946}
   - component: {fileID: 54686814617626606}
   - component: {fileID: 114117465994004942}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Ultra Ball
   m_TagString: Ball
   m_Icon: {fileID: 0}
@@ -109,7 +125,7 @@ GameObject:
   - component: {fileID: 224403803383916648}
   - component: {fileID: 222717921910790320}
   - component: {fileID: 114786254367679462}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RawImage (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +142,7 @@ GameObject:
   - component: {fileID: 224771836587190734}
   - component: {fileID: 222061369844566414}
   - component: {fileID: 114199431288428054}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RawImage (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +160,7 @@ GameObject:
   - component: {fileID: 33283649024971878}
   - component: {fileID: 23636088608595700}
   - component: {fileID: 135518710293854448}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,13 +179,26 @@ GameObject:
   - component: {fileID: 114124908968306304}
   - component: {fileID: 114593611477746698}
   - component: {fileID: 114836044886983916}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Ball Marker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4202542930684880
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1326540436468926}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0000136, y: 1.0000136, z: 1.0000136}
+  m_Children: []
+  m_Father: {fileID: 4905000802469154}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4765351740101646
 Transform:
   m_ObjectHideFlags: 1
@@ -190,11 +219,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1434841718529576}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.33}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.368805, y: 0.368805, z: 0.368805}
   m_Children:
   - {fileID: 4765351740101646}
   - {fileID: 224882637250804296}
+  - {fileID: 4202542930684880}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -566,6 +596,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 9
   m_Center: {x: 0, y: -0.49, z: 0}
+--- !u!135 &135941713350358684
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1326540436468926}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!222 &222047367404999780
 CanvasRenderer:
   m_ObjectHideFlags: 1

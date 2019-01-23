@@ -68,6 +68,15 @@ public class BallHandling : NetworkBehaviour {
 	void Update () {
         if (PC.LocalPlayer == PC.ParentPlayer)
         {
+            if(ball != null)
+            {
+                ball.CmdMakeBallDisapear();
+                ball.BH = this;
+                ball.Hand = Hand;
+                ball.Held = true;
+            }
+
+
             PassShootAxis = Input.GetAxis("PassShoot");
             //Debug.Log("Pass / Shoot Axis: " + PassShootAxis);
 
@@ -198,4 +207,29 @@ public class BallHandling : NetworkBehaviour {
         BallHandling bh = playerObject.GetComponent<BallHandling>();
         bh.FakeBall.SetActive(b);
     }
+
+
+
+
+
+
+    [Command]
+    public void CmdSteal(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    {
+        RpcSteal(Target, ballObject, HandPos, WhoThrew);
+    }
+
+    [ClientRpc]
+    private void RpcSteal(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    {
+
+        Ball temp = ballObject.GetComponent<Ball>();
+        temp.CmdSetPass(true, Target, PassForce, HandPos, WhoThrew);
+        CmdTurnOnFakeBall(false);
+    }
+
+
+
+
+
 }

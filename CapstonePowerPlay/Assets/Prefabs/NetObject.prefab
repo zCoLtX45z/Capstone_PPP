@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4389168762494846}
   - component: {fileID: 33661607835014422}
   - component: {fileID: 23813303476118884}
+  - component: {fileID: 64109889225629878}
   m_Layer: 0
   m_Name: Cylinder001
   m_TagString: Untagged
@@ -469,6 +470,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1215770767299436}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &64109889225629878
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1449029006740956}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 93a9de263a7f24d4f81e715479f4d803, type: 3}
 --- !u!95 &95912271136707844
 Animator:
   serializedVersion: 3
@@ -538,7 +553,10 @@ MonoBehaviour:
   team1Score: 0
   team2Score: 0
   maxTimeUntilScoreReset: 3
-  players: []
+  scoreUICanvas: {fileID: 0}
+  textUiTeam1: {fileID: 0}
+  textUiTeam2: {fileID: 0}
+  localPlayer: {fileID: 0}
 --- !u!114 &114233508140658180
 MonoBehaviour:
   m_ObjectHideFlags: 1
