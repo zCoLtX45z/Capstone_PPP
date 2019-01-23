@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class Ball : NetworkBehaviour
 {
@@ -49,10 +50,15 @@ public class Ball : NetworkBehaviour
 
     private float timePassTimer = 0.0f;
 
+    // Physical Components
     [SerializeField]
     private GameObject ChildObject;
     [SerializeField]
     private SphereCollider SoftCol;
+
+    //UI Elements
+    [SerializeField]
+    private RectTransform UiCanvas;
 
     // Use this for initialization
     void Start ()
@@ -155,6 +161,15 @@ public class Ball : NetworkBehaviour
             }
         }
 
+        if (Held)
+        {
+            UiCanvas.position = Hand.transform.position;
+        }
+        else if (UiCanvas.localPosition != Vector3.zero)
+        {
+            UiCanvas.localPosition = Vector3.zero;
+        }
+
     }
 
     private void OnCollisionEnter(Collision c)
@@ -184,6 +199,7 @@ public class Ball : NetworkBehaviour
             if (BH.canHold )
             {
                 Hand = BH.ReturnHand();
+                CmdUpdateHandTransform(BH.gameObject);
                 //Handle.position = Hand.position;
                 //Handle.parent = Hand.parent;
 
@@ -318,5 +334,18 @@ public class Ball : NetworkBehaviour
         RB.useGravity = true;
         RB.isKinematic = false;
         ChildObject.SetActive(true);
+    }
+
+    [Command]
+    private void CmdUpdateHandTransform(GameObject HandParent)
+    {
+        RpcUpdateHandTransform(HandParent);
+    }
+
+    [ClientRpc]
+    private void RpcUpdateHandTransform(GameObject HandParent)
+    {
+        BallHandling bh = HandParent.GetComponent<BallHandling>();
+        Hand = bh.ReturnHand();
     }
 }

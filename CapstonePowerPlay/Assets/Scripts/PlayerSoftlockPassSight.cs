@@ -145,7 +145,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
         }
         else
         {
-            Debug.Log("has teamates");
+           // Debug.Log("has teamates");
             // check every teamates within the list
             for (int i = 0; i < listOfTeamates.Count; i++)
             {
