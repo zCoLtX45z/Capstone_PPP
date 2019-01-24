@@ -17,6 +17,12 @@ public class LookAtPostionFollow : MonoBehaviour {
     [SerializeField]
     private float speed;
 
+    [SerializeField]
+    private Transform lookAtCamera;
+
+    [SerializeField]
+    private bool lockCameraToTarget;
+
 	void Start () {
         transform.parent = null;	
 	}
@@ -43,5 +49,12 @@ public class LookAtPostionFollow : MonoBehaviour {
             transform.Rotate(0, 0, angleZ);
 
         }
+
+        if(lockCameraToTarget)
+        {
+            lookAtCamera.LookAt(transform.position);
+        }
+
+
     }
 }
