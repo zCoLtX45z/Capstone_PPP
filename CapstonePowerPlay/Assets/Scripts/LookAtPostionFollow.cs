@@ -12,7 +12,10 @@ public class LookAtPostionFollow : MonoBehaviour {
     private Transform player;
 
     [SerializeField]
-    private LayerMask layerMask;
+    private LayerMask colMask;
+
+    [SerializeField]
+    private float speed;
 
 	void Start () {
         transform.parent = null;	
@@ -21,11 +24,14 @@ public class LookAtPostionFollow : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        transform.position = lookatPoint.position;
+        float distance = (lookatPoint.position - transform.position).magnitude;
+
+        transform.position = Vector3.MoveTowards(transform.position, lookatPoint.position, Time.deltaTime * speed * distance);
+        //transform.position = lookatPoint.position;
 
         RaycastHit hit;
 
-        if (Physics.Raycast(player.position, player.TransformDirection(Vector3.down), out hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(player.position, player.TransformDirection(Vector3.down), out hit, Mathf.Infinity, colMask))
         {
             Vector3 inverseTPoint = transform.InverseTransformPoint(transform.position + hit.normal);
             float angleX = Mathf.Atan2(inverseTPoint.z, inverseTPoint.y) * Mathf.Rad2Deg;
