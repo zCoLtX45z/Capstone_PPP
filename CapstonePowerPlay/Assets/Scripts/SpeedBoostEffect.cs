@@ -4,57 +4,59 @@ using UnityEngine;
 
 public class SpeedBoostEffect : MonoBehaviour {
 
- //   private hoverBoardScript tpControler;
 
 
-    
- //   private float playerBaseMaxVelocity;
-    
+
+    private hoverBoardScript hBS;
+
+    [SerializeField]
+    private float speedBoost;
+
+    private float maxTime;
+
+    private float timeLeft;
+
+    private bool boosting;
+
+    private void Start()
+    {
+        hBS = transform.GetComponent<hoverBoardScript>();
+    }
 
 
- //   [SerializeField]
- //   private float maxTimeOfBoost;
 
- //   private float timeLeftOfBoost;
-
- //   [SerializeField]
- //   private float speedBoost;
-
- //   private bool boosted;
-
- //   // Use this for initialization
- //   void Start () {
- //       tpControler = transform.GetComponent<hoverBoardScript>();
- //       playerBaseMaxVelocity = tpControler.max;
- //   }
-	
-	//// Update is called once per frame
-	//void Update () {
-
- //       if (boosted)
- //       {
- //           if (timeLeftOfBoost > 0)
- //           {
- //               timeLeftOfBoost -= Time.deltaTime;
- //           }
- //           else
- //           {
- //               boosted = false;
- //               tpControler.MaxVelocity = playerBaseMaxVelocity;
- //           }
- //       }
-	//}
+    // create boost pad linear percentage in hover board script 
 
 
- //   private void OnTriggerEnter(Collider other)
- //   {
- //       if(other.gameObject.tag == "BoostPad")
- //       {
- //           if(tpControler != null)
- //           {
- //               tpControler.MaxVelocity = speedBoost;
- //           }
- //       }
- //   }
+
+
+
+    //   private hoverBoardScript tpControler;
+
+    private void Update()
+    {
+        if(timeLeft > 0 && boosting)
+        {
+            timeLeft -= Time.deltaTime;
+        }
+        else if(timeLeft <= 0 && boosting)
+        {
+            boosting = false;
+            // hbs boost is set to 0
+        }
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "BoostPad")
+        {
+            timeLeft = maxTime;
+            boosting = true;
+
+            // hbs boost is set to speedBoost
+
+        }
+    }
 
 }
