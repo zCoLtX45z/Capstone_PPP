@@ -463,4 +463,8 @@ public class hoverBoardScript : NetworkBehaviour
         }
         AnimationControl.CmdJumpAnimation();
     }
+    public float GetMaxSpeed()
+    {
+        return MaxSpeed;
+    }
 }

@@ -228,8 +228,15 @@ public class BallHandling : NetworkBehaviour {
         CmdTurnOnFakeBall(false);
     }
 
-
-
-
-
+    [Command]
+    public void CmdDropBall()
+    {
+        if (ball != null)
+        {
+            float randomX = Random.Range(-1f, 1f);
+            float randomZ = Random.Range(-1f, 1f);
+            Vector3 DropPower = new Vector3(randomX, 1, randomZ) * ShootForce * 0.1f;
+            CmdShoot(ball.gameObject, Hand.position, DropPower, this.gameObject);
+        }
+    }
 }
