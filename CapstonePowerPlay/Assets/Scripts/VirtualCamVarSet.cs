@@ -72,12 +72,12 @@ public class VirtualCamVarSet : MonoBehaviour {
         transposerVirtualCamera_Rig0.m_YawDamping = rotationDamping;
         transposerVirtualCamera_Rig0.m_RollDamping = rotationDamping;
 
-        // look at damping
-        freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneHeight = lookAtSoftDampingHeight;
-        freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneWidth = lookAtSoftDampingWidth;
+        //// look at damping
+        //freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneHeight = lookAtSoftDampingHeight;
+        //freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneWidth = lookAtSoftDampingWidth;
 
-        freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>().m_DeadZoneHeight = lookAtHardDampingHeight;
-        freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>().m_DeadZoneWidth = lookAtHardDampingWidth;
+        //freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>().m_DeadZoneHeight = lookAtHardDampingHeight;
+        //freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>().m_DeadZoneWidth = lookAtHardDampingWidth;
 
         //// Middle Rig
         //position damping
@@ -90,12 +90,12 @@ public class VirtualCamVarSet : MonoBehaviour {
         transposerVirtualCamera_Rig1.m_YawDamping = rotationDamping;
         transposerVirtualCamera_Rig1.m_RollDamping = rotationDamping;
 
-        // look at damping
-        freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneHeight = lookAtSoftDampingHeight;
-        freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneWidth = lookAtSoftDampingWidth;
+        //// look at damping
+        //freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneHeight = lookAtSoftDampingHeight;
+        //freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneWidth = lookAtSoftDampingWidth;
 
-        freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>().m_DeadZoneHeight = lookAtHardDampingHeight;
-        freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>().m_DeadZoneWidth = lookAtHardDampingWidth;
+        //freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>().m_DeadZoneHeight = lookAtHardDampingHeight;
+        //freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>().m_DeadZoneWidth = lookAtHardDampingWidth;
 
         //// Bottom Rig
         // position damping
@@ -108,12 +108,12 @@ public class VirtualCamVarSet : MonoBehaviour {
         transposerVirtualCamera_Rig2.m_YawDamping = rotationDamping;
         transposerVirtualCamera_Rig2.m_RollDamping = rotationDamping;
 
-        // look at damping
-        freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneHeight = lookAtSoftDampingHeight;
-        freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneWidth = lookAtSoftDampingWidth;
+        //// look at damping
+        //freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneHeight = lookAtSoftDampingHeight;
+        //freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_SoftZoneWidth = lookAtSoftDampingWidth;
 
-        freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_DeadZoneHeight = lookAtHardDampingHeight;
-        freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_DeadZoneWidth = lookAtHardDampingWidth;
+        //freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_DeadZoneHeight = lookAtHardDampingHeight;
+        //freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_DeadZoneWidth = lookAtHardDampingWidth;
 
         //freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_DeadZoneWidth = 0.1f;
 
