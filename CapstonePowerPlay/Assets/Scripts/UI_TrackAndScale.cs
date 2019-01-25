@@ -83,7 +83,7 @@ public class UI_TrackAndScale : MonoBehaviour {
 
             if (Target == null)
             {
-                Debug.Log("No Target Found");
+               // Debug.Log("No Target Found");
             }
         }
     }
