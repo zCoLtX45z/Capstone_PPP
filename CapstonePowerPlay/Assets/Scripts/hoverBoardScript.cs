@@ -63,6 +63,10 @@ public class hoverBoardScript : NetworkBehaviour
     [SerializeField]
     private float AdditiveAcceleration = 5;
     private float AccelerationMultiplier = 1;
+    //
+    [HideInInspector]
+    public float BoostPaddBosstLinearPercent = 0f;
+    //
     [HideInInspector]
     public bool SpeedBoosted = false;
 
@@ -150,11 +154,11 @@ public class hoverBoardScript : NetworkBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            sprintMultiplier = 1 + SprintBoostLinearPercent / 100;
+            sprintMultiplier = 1 + (SprintBoostLinearPercent / 100) + BoostPaddBosstLinearPercent;
         }
         else
         {
-            sprintMultiplier = 1;
+            sprintMultiplier = 1 + BoostPaddBosstLinearPercent;
         }
 
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.Space))

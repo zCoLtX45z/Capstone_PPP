@@ -1606,9 +1606,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookatPoint: {fileID: 4877792194510692}
-  layerMask:
+  player: {fileID: 0}
+  colMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
+  speed: 0
+  lookAtCamera: {fileID: 0}
+  lockCameraToTarget: 0
 --- !u!114 &114129493463804346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1700,7 +1704,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e59ff7109d97a4cb4eaca0bae42fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damping: 0
+  positionDamping: 0
+  rotationDamping: 0
+  lookAtSoftDampingHeight: 0
+  lookAtSoftDampingWidth: 0
+  lookAtHardDampingHeight: 0
+  lookAtHardDampingWidth: 0
   pCameraObject: {fileID: 4298218467443350}
   lMask:
     serializedVersion: 2
@@ -1820,6 +1829,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 769
   FakeBall: {fileID: 1689308805465132}
+  PC: {fileID: 0}
+  AnimationControl: {fileID: 0}
 --- !u!114 &114371469278024374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1834,22 +1845,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 3
-    i1: 53
-    i2: 250
-    i3: 122
-    i4: 163
-    i5: 184
-    i6: 103
-    i7: 180
-    i8: 234
-    i9: 32
-    i10: 182
-    i11: 11
-    i12: 174
-    i13: 11
-    i14: 45
-    i15: 199
+    i0: 187
+    i1: 74
+    i2: 61
+    i3: 180
+    i4: 217
+    i5: 220
+    i6: 77
+    i7: 84
+    i8: 11
+    i9: 26
+    i10: 13
+    i11: 176
+    i12: 152
+    i13: 159
+    i14: 62
+    i15: 103
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &114374640603930550
@@ -2033,6 +2044,7 @@ MonoBehaviour:
   BlueHand: {fileID: 4113094560104270}
   RedFakeBall: {fileID: 1580415086827344}
   BlueFakeBall: {fileID: 1689308805465132}
+  TextName: {fileID: 0}
   TeamNum: 0
   LocalPlayer: {fileID: 0}
   ParentPlayer: {fileID: 0}
@@ -2052,22 +2064,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 3
-    i1: 53
-    i2: 250
-    i3: 122
-    i4: 163
-    i5: 184
-    i6: 103
-    i7: 180
-    i8: 234
-    i9: 32
-    i10: 182
-    i11: 11
-    i12: 174
-    i13: 11
-    i14: 45
-    i15: 199
+    i0: 187
+    i1: 74
+    i2: 61
+    i3: 180
+    i4: 217
+    i5: 220
+    i6: 77
+    i7: 84
+    i8: 11
+    i9: 26
+    i10: 13
+    i11: 176
+    i12: 152
+    i13: 159
+    i14: 62
+    i15: 103
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
 --- !u!114 &114498341676571594
@@ -2267,8 +2279,10 @@ MonoBehaviour:
   SpeedBoostLinearPercent: 50
   SpeedBoostTurnPercent: 25
   SprintBoostLinearPercent: 50
+  SpeedBoostPadLinearPercent: 50
   AdditiveAcceleration: 2
   SpeedBoosted: 0
+  AnimationControl: {fileID: 0}
 --- !u!114 &114737883643832056
 MonoBehaviour:
   m_ObjectHideFlags: 1
