@@ -44,7 +44,7 @@ public class Shove : NetworkBehaviour {
         if (PC.LocalPlayer == PC.ParentPlayer)
         {
             CurrentSpeed = Hoverboard.Speed;
-            float opacity = MaxShieldOpacity - Mathf.Abs((MaxSpeed - CurrentSpeed) * MaxShieldOpacity / MaxSpeed;
+            float opacity = MaxShieldOpacity - Mathf.Abs(MaxSpeed - CurrentSpeed) * MaxShieldOpacity / MaxSpeed;
             if (opacity > MaxShieldOpacity)
             {
                 opacity = MaxShieldOpacity;
