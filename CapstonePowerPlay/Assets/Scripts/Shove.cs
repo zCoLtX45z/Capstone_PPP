@@ -7,7 +7,9 @@ public class Shove : NetworkBehaviour {
 
     // Player Components
     [SerializeField]
-    private MeshRenderer Shield;
+    private MeshRenderer ShieldBlue;
+    [SerializeField]
+    private MeshRenderer ShieldRed;
     [SerializeField]
     private hoverBoardScript Hoverboard;
     private float CurrentSpeed = 0;
@@ -86,7 +88,8 @@ public class Shove : NetworkBehaviour {
 
     private void ChangeOpacity(float Opacity)
     {
-        Shield.material.SetFloat("Vector1_2C301F3A", 1 - Opacity);
+        ShieldBlue.material.SetFloat("Vector1_2C301F3A", 1 - Opacity);
+        ShieldRed.material.SetFloat("Vector1_2C301F3A", 1 - Opacity);
     }
 
     private void ChangeShielding(float Strength)
