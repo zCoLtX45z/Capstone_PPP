@@ -44,9 +44,13 @@ public class Shove : NetworkBehaviour {
         if (PC.LocalPlayer == PC.ParentPlayer)
         {
             CurrentSpeed = Hoverboard.Speed;
-            float opacity = MaxShieldOpacity - (MaxSpeed - CurrentSpeed) * MaxShieldOpacity / MaxSpeed;
+            float opacity = MaxShieldOpacity - Mathf.Abs((MaxSpeed - CurrentSpeed) * MaxShieldOpacity / MaxSpeed;
+            if (opacity > MaxShieldOpacity)
+            {
+                opacity = MaxShieldOpacity;
+            }
             float shieldStrenth = CurrentSpeed > MaxSpeed ? 1
-                : 1 - MaxSpeed - CurrentSpeed / MaxSpeed;
+                : 1 - (MaxSpeed - CurrentSpeed) / MaxSpeed;
             if (shieldStrenth > 1)
             {
                 StrengthTimer += Time.deltaTime;
@@ -58,14 +62,14 @@ public class Shove : NetworkBehaviour {
                 }
                 float extraOpacity = (1 - MaxShieldOpacity) * (MaxShieldStrength - shieldStrenth) / MaxShieldStrength;
                 opacity += extraOpacity;
-                if (opacity > 1)
-                {
-                    opacity = 1;
-                }
             }
             else
             {
                 StrengthTimer = 0;
+            }
+            if (opacity > 1)
+            {
+                opacity = 1;
             }
 
             CmdUpdateShield(opacity, shieldStrenth);
