@@ -4,53 +4,57 @@ using UnityEngine;
 
 public class SpeedBoostEffect : MonoBehaviour {
 
-
-    [SerializeField]
-    private float maxTime;
-
-    private float timeLeft;
-
-    private hoverBoardScript hBS;
+ //   private hoverBoardScript tpControler;
 
 
-    [SerializeField]
-    private float speedBoostPercentage;
-
-    private bool boosting = false;
-    // Use this for initialization
-    void Start()
-    {
-        hBS = transform.GetComponent<hoverBoardScript>();
-        hBS.SpeedBoostPadLinearPercent = 0;
-        boosting = false;
-    }
+    
+ //   private float playerBaseMaxVelocity;
+    
 
 
-    private void Update()
-    {
-        // Debug.Log("velo: " + rb.velocity.magnitude);
-        if (timeLeft > 0 && boosting)
-        {
-            Debug.Log("Time ticks");
-            timeLeft -= Time.deltaTime;
-        }
-        else if (timeLeft <= 0 && boosting)
-        {
-            Debug.Log("End boost");
-            boosting = false;
-            hBS.SpeedBoostPadLinearPercent = 0;
-        }
-    }
+ //   [SerializeField]
+ //   private float maxTimeOfBoost;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "BoostPad")
-        {
-            Debug.Log("Boosting");
-            hBS.SpeedBoostPadLinearPercent = speedBoostPercentage;
-            timeLeft = maxTime;
-            boosting = true;
-        }
-    }
+ //   private float timeLeftOfBoost;
+
+ //   [SerializeField]
+ //   private float speedBoost;
+
+ //   private bool boosted;
+
+ //   // Use this for initialization
+ //   void Start () {
+ //       tpControler = transform.GetComponent<hoverBoardScript>();
+ //       playerBaseMaxVelocity = tpControler.max;
+ //   }
+	
+	//// Update is called once per frame
+	//void Update () {
+
+ //       if (boosted)
+ //       {
+ //           if (timeLeftOfBoost > 0)
+ //           {
+ //               timeLeftOfBoost -= Time.deltaTime;
+ //           }
+ //           else
+ //           {
+ //               boosted = false;
+ //               tpControler.MaxVelocity = playerBaseMaxVelocity;
+ //           }
+ //       }
+	//}
+
+
+ //   private void OnTriggerEnter(Collider other)
+ //   {
+ //       if(other.gameObject.tag == "BoostPad")
+ //       {
+ //           if(tpControler != null)
+ //           {
+ //               tpControler.MaxVelocity = speedBoost;
+ //           }
+ //       }
+ //   }
 
 }
