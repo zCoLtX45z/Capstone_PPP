@@ -59,12 +59,6 @@ public class hoverBoardScript : NetworkBehaviour
     private float SpeedBoostTurnPercent = 25f;
     [SerializeField]
     private float SprintBoostLinearPercent = 50f;
-
-    //
-    [SerializeField]
-    public float SpeedBoostPadLinearPercent = 50;
-    //public bool Boost = false;
-    //
     private float sprintMultiplier = 1;
     [SerializeField]
     private float AdditiveAcceleration = 5;
@@ -156,11 +150,11 @@ public class hoverBoardScript : NetworkBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            sprintMultiplier = 1 + (SprintBoostLinearPercent / 100) + (SpeedBoostPadLinearPercent / 100);
+            sprintMultiplier = 1 + SprintBoostLinearPercent / 100;
         }
         else
         {
-            sprintMultiplier = 1 + (SpeedBoostPadLinearPercent / 100);
+            sprintMultiplier = 1;
         }
 
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.Space))
