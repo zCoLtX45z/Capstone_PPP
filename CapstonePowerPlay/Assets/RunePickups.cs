@@ -11,9 +11,14 @@ public class RunePickups : NetworkBehaviour {
     public bool insureOneType = true;
     float pickupTimer = 0.5f;
 
+    DoorScript Door;
+
+    
+    public bool Opendoor = false;
+
 	// Use this for initialization
 	void Start () {
-		
+        Door = FindObjectOfType<DoorScript>();
 	}
 
     // Update is called once per frame
@@ -25,11 +30,15 @@ public class RunePickups : NetworkBehaviour {
         {
             if(gameObject.tag == "Team 1")
             {
-                //opendoor team 1
+                Debug.Log("team1door");
+                Opendoor = true;
+                Door.CmdOpenDoor();
             }
             if(gameObject.tag == "Team 2")
             {
-                //opendoor team 2
+                Debug.Log("team2door");
+                Opendoor = true;
+                Door.CmdOpenDoor();
             }
         }
 	}
