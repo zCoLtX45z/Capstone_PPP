@@ -99,8 +99,10 @@ public class Shove : NetworkBehaviour {
 
     public void ShovePlayer(Shove OtherPlayer, Vector3 Direction)
     {
+        Debug.Log("Shove with player");
         if (PC.LocalPlayer == PC.ParentPlayer)
         {
+            Debug.Log("PC.LocalPlayer == PC.ParentPlayer = " + (PC.LocalPlayer == PC.ParentPlayer));
             CmdShovePlayer(OtherPlayer.gameObject, Direction);
         }
     }
@@ -133,15 +135,24 @@ public class Shove : NetworkBehaviour {
     [Command]
     private void CmdShovePlayer(GameObject player, Vector3 Direction)
     {
+        Debug.Log("CmdShovePlayer Called");
+        RpcShovePlayer(player, Direction);
+    }
+
+    [ClientRpc]
+    private void RpcShovePlayer(GameObject player, Vector3 Direction)
+    {
+        Debug.Log("RpcShovePlayer Called");
         Shove shove = player.GetComponent<Shove>();
         shove.LaunchPlayer(MaxShoveForce, Direction);
         BallHandling bh = player.GetComponent<BallHandling>();
         bh.CmdDropBall();
-
     }
+
 
     public void LaunchPlayer(float Force, Vector3 Direction)
     {
+        Debug.Log("Launch Player called");
         PlayerRigidBody.AddForce(Force * Direction, ForceMode.Impulse);
     }
 }
