@@ -116,7 +116,7 @@ public class BallSteal : NetworkBehaviour
 
                     if(distanceToTarget < maxDistance && angle < stealMaxAngle)
                     {
-                        Debug.Log("In range and in view");
+                        //Debug.Log("In range and in view");
 
                         //steal
                         if(Input.GetMouseButtonDown(2))
@@ -124,19 +124,19 @@ public class BallSteal : NetworkBehaviour
                         
 
                     }
-                    if (distanceToTarget > maxDistance)
-                    {
-                        Debug.Log("out of range");
-                    }
-                    if(angle > stealMaxAngle)
-                    {
-                        Debug.Log("out of view");
-                    }
+                    //if (distanceToTarget > maxDistance)
+                    //{
+                    //    Debug.Log("out of range");
+                    //}
+                    //if(angle > stealMaxAngle)
+                    //{
+                    //    Debug.Log("out of view");
+                    //}
 
 
                 }
 
-                Debug.Log("target: " + target);
+                //Debug.Log("target: " + target);
 
             }
         }

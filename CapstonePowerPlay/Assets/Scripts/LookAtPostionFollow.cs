@@ -14,6 +14,9 @@ public class LookAtPostionFollow : MonoBehaviour {
     [SerializeField]
     private LayerMask layerMask;
 
+    [SerializeField]
+    private float speedTransation;
+
 	void Start () {
         transform.parent = null;	
 	}
@@ -21,7 +24,12 @@ public class LookAtPostionFollow : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        transform.position = lookatPoint.position;
+        float distance = (lookatPoint.position - transform.position).magnitude;
+
+
+        //transform.position = lookatPoint.position;
+
+        transform.position = Vector3.MoveTowards(transform.position, lookatPoint.position, speedTransation * distance);
 
         RaycastHit hit;
 

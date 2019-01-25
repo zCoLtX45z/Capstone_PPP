@@ -12,6 +12,7 @@ public class SpeedBoostEffect : MonoBehaviour {
     [SerializeField]
     private float speedBoost;
 
+    [SerializeField]
     private float maxTime;
 
     private float timeLeft;
@@ -21,6 +22,7 @@ public class SpeedBoostEffect : MonoBehaviour {
     private void Start()
     {
         hBS = transform.GetComponent<hoverBoardScript>();
+        hBS.BoostPaddBosstLinearPercent = 0;
     }
 
 
@@ -43,6 +45,7 @@ public class SpeedBoostEffect : MonoBehaviour {
         {
             boosting = false;
             // hbs boost is set to 0
+            hBS.BoostPaddBosstLinearPercent = 0;
         }
 
     }
@@ -51,11 +54,12 @@ public class SpeedBoostEffect : MonoBehaviour {
     {
         if(other.tag == "BoostPad")
         {
+            //Debug.Log("Boosting");
             timeLeft = maxTime;
             boosting = true;
 
             // hbs boost is set to speedBoost
-
+            hBS.BoostPaddBosstLinearPercent = speedBoost;
         }
     }
 

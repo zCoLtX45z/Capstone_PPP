@@ -173,7 +173,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                             // number of passes without succes of finding the current teammate being referenced from listOfTeamates
                             int tempNumberOfCurrentAcceptedTargetPasses = 0;
 
-                            Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), directionFromPlayer, Color.blue);
+                            //Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), directionFromPlayer, Color.blue);
 
                             // if the currentAcceptedTargets list have anyting in the list
                             if (currentAcceptedTargets.Count > 0)
@@ -216,14 +216,14 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                                 // if it equals to the gameObject referenced in listOfTeamates
                                 if (currentAcceptedTargets[j] == listOfTeamates[i])
                                 {
-                                    Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by target not being in view of the angle");
+                                    //Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by target not being in view of the angle");
                                     // remove the gameObject referenced in listOfTeamates from currentAcceptedTargets
                                     currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
                                     // just added...
                                     break;
                                 }
                             }
-                            Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
+                           // Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
                         }
                     }
                     // if the raycast does not hit intended target
@@ -278,7 +278,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
             {
                 // draw ray
                 Vector3 targetObjectDirection = target.transform.position - transform.position;
-                Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), targetObjectDirection, Color.yellow);
+              //  Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), targetObjectDirection, Color.yellow);
             }
 
 
@@ -306,7 +306,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
             // if there is more gameObejcts with the same tag as the player that is not in the listOfTeamates list
             if (tempNumberCheck > listOfTeamates.Count)
             {
-                Debug.Log("tempNumberCheck > listOfTeamates");
+                //Debug.Log("tempNumberCheck > listOfTeamates");
                 // for every object in newTeamateSearch
                 for (int i = newTeamateSearch.Count - 1; i >= 0; --i)
                 {
@@ -333,12 +333,12 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                         // the new teamate has been found
                         if (numberOfPasses >= listOfTeamates.Count && newTeamateSearch[i] != player)
                         {
-                            Debug.Log("added: " + newTeamateSearch[i].name);
+                           // Debug.Log("added: " + newTeamateSearch[i].name);
                             // add the newly discoverd teamate into the listOfTeamates list variable
                             listOfTeamates.Add(newTeamateSearch[i]);
                         }
                     }
-                    Debug.Log("number of passes: " + numberOfPasses);
+                   // Debug.Log("number of passes: " + numberOfPasses);
                 }
 
             }
