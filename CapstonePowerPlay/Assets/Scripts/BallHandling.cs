@@ -58,6 +58,10 @@ public class BallHandling : NetworkBehaviour {
     [SerializeField]
     private AnimationController AnimationControl;
 
+    // Player has control
+    [HideInInspector]
+    public bool HasControl = true;
+
     // Use this for initialization
     void Start () {
         canHold = true;
@@ -66,7 +70,7 @@ public class BallHandling : NetworkBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (PC.LocalPlayer == PC.ParentPlayer)
+        if (PC.LocalPlayer == PC.ParentPlayer && HasControl)
         {
             if(ball != null)
             {
