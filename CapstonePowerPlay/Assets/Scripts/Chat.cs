@@ -79,11 +79,6 @@ public class Chat : NetworkBehaviour
     [SerializeField]
     private bool IgnoreCopies = true;
 
-    void OnEnable()
-    {
-
-    }
-
     void Start()
     {
         AllChatName.text = gameObject.name;
@@ -117,6 +112,7 @@ public class Chat : NetworkBehaviour
                 DisableTimer += Time.deltaTime;
                 if (DisableTimer > TimeToDiableElements)
                 {
+                    DisableTimer = 0;
                     DisableComponents();
                 }
             }
@@ -217,6 +213,7 @@ public class Chat : NetworkBehaviour
             {
                 EveryEntry.Enqueue(Entry);
                 GlobalChatEntries.Enqueue(Entry);
+                CmdRefreshUi();
             }
         }
         else if (Entry.EntryType == "Team1")
@@ -227,6 +224,7 @@ public class Chat : NetworkBehaviour
                 {
                     EveryEntry.Enqueue(Entry);
                     TeamChatEntries.Enqueue(Entry);
+                    CmdRefreshUi();
                 }
             }
         }
@@ -238,6 +236,7 @@ public class Chat : NetworkBehaviour
                 {
                     EveryEntry.Enqueue(Entry);
                     TeamChatEntries.Enqueue(Entry);
+                    CmdRefreshUi();
                 }
             }
         }
@@ -250,6 +249,22 @@ public class Chat : NetworkBehaviour
         foreach (Chat c in ChatList)
         {
             c.EnterEntry(Entry);
+        }
+    }
+
+    [Command]
+    public void CmdRefreshUi()
+    {
+        RpcRefreshUi();
+    }
+
+    [ClientRpc]
+    public void RpcRefreshUi()
+    {
+        ChatParent.SetActive(true);
+        foreach (Behaviour b in UiObjectsToDisableAfterTime)
+        {
+            b.enabled = true;
         }
     }
 
@@ -427,6 +442,7 @@ public class Chat : NetworkBehaviour
     private void DisableComponents()
     {
         timerActive = false;
+        ChatParent.SetActive(false);
         foreach (Behaviour b in UiObjectsToDisableAfterTime)
         {
             b.enabled = false;
