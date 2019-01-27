@@ -79,11 +79,17 @@ public class Chat : NetworkBehaviour
     [SerializeField]
     private bool IgnoreCopies = true;
 
+    void Awake()
+    {
+        Application.logMessageReceived += LogCall;
+    }
+
     void Start()
     {
         AllChatName.text = gameObject.name;
         TeamChatName.text = gameObject.name;
         ConsoleChatName.text = gameObject.name;
+        Application.logMessageReceived += LogCall;
     }
 	// Update is called once per frame
 	void Update () {
@@ -416,6 +422,7 @@ public class Chat : NetworkBehaviour
 
     public void ToggleChat()
     {
+        UpdateDisplay();
         if (EnabledChat == false)
         {
             EnableUI();
@@ -433,6 +440,7 @@ public class Chat : NetworkBehaviour
         DisableTimer = 0;
         timerActive = true;
         PlayerNameBackground.gameObject.SetActive(true);
+        ChatParent.SetActive(true);
         foreach (Behaviour b in UiObjectsToDisableAfterTime)
         {
             b.enabled = true;
