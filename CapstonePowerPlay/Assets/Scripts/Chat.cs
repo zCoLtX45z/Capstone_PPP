@@ -219,7 +219,7 @@ public class Chat : NetworkBehaviour
             {
                 EveryEntry.Enqueue(Entry);
                 GlobalChatEntries.Enqueue(Entry);
-                CmdRefreshUi();
+                RefreshUi();
             }
         }
         else if (Entry.EntryType == "Team1")
@@ -230,7 +230,7 @@ public class Chat : NetworkBehaviour
                 {
                     EveryEntry.Enqueue(Entry);
                     TeamChatEntries.Enqueue(Entry);
-                    CmdRefreshUi();
+                    RefreshUi();
                 }
             }
         }
@@ -242,7 +242,7 @@ public class Chat : NetworkBehaviour
                 {
                     EveryEntry.Enqueue(Entry);
                     TeamChatEntries.Enqueue(Entry);
-                    CmdRefreshUi();
+                    RefreshUi();
                 }
             }
         }
@@ -258,14 +258,7 @@ public class Chat : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdRefreshUi()
-    {
-        RpcRefreshUi();
-    }
-
-    [ClientRpc]
-    public void RpcRefreshUi()
+    public void RefreshUi()
     {
         ChatParent.SetActive(true);
         foreach (Behaviour b in UiObjectsToDisableAfterTime)
