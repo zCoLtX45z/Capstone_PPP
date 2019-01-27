@@ -15,10 +15,10 @@ public class Chat : NetworkBehaviour
     private Color ConsoleColor;
 
     // Chat Queues
-    private Queue<ChatEntry> EveryEntryEntries;
-    private Queue<ChatEntry> GlobalChatEntries;
-    private Queue<ChatEntry> TeamChatEntries;
-    private Queue<ChatEntry> ConsoleEntries;
+    private Queue<ChatEntry> EveryEntry = new Queue<ChatEntry>(); // Entry List 0 - Does not include console logs
+    private Queue<ChatEntry> GlobalChatEntries = new Queue<ChatEntry>(); // Entry List 1
+    private Queue<ChatEntry> TeamChatEntries = new Queue<ChatEntry>(); // Entry List 2
+    private Queue<ChatEntry> ConsoleEntries = new Queue<ChatEntry>(); // Entry List 3
 
     // Ui Elements
     [SerializeField]
@@ -26,9 +26,15 @@ public class Chat : NetworkBehaviour
     [SerializeField]
     private GameObject AllChatInput;
     [SerializeField]
+    private Text AllChatName;
+    [SerializeField]
     private GameObject TeamChatInput;
     [SerializeField]
+    private Text TeamChatName;
+    [SerializeField]
     private GameObject ConsoleInput;
+    [SerializeField]
+    private Text ConsoleChatName;
     [SerializeField]
     private RawImage PlayerNameBackground;
     [SerializeField]
@@ -37,13 +43,15 @@ public class Chat : NetworkBehaviour
     private List<Behaviour> UiObjectsToDisableAfterTime = new List<Behaviour>();
     [SerializeField]
     private List<Behaviour> UiObjectsToDisableOnExit = new List<Behaviour>();
+    [SerializeField]
+    private GameObject ChatParent;
 
     // Player Elements
     [SerializeField]
     private NetPlayer NP;
 
     // Other Player Chats
-    private List<Chat> ChatList = new List<Chat>();
+    private Chat[] ChatList;
 
     // Bool Checks
     private bool EnabledChat = false;
@@ -54,50 +62,136 @@ public class Chat : NetworkBehaviour
     private float DisableTimer = 0;
     private bool timerActive = false;
     [SerializeField]
-    private float ContentSpacinng = 3;
+    private float ContentSpacing = 3;
     [SerializeField]
     private int MaxEntries = 15;
     [SerializeField]
     private bool EraseConsoleEntries = false;
-    
+    private int EntryList = 0; // The entry that will be shown in the text box
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
+    //ConsoleVariables
+    [SerializeField]
+    private bool IgnoreLogs = true;
+    [SerializeField]
+    private bool IgnoreWarnings = false;
+    [SerializeField]
+    private bool IgnoreErrors = false;
+    [SerializeField]
+    private bool IgnoreCopies = true;
+
+    void OnEnable()
+    {
+
+    }
+
+    void Start()
+    {
+        AllChatName.text = gameObject.name;
+        TeamChatName.text = gameObject.name;
+        ConsoleChatName.text = gameObject.name;
+    }
 	// Update is called once per frame
 	void Update () {
-		if (EnabledChat)
+        if (isLocalPlayer)
         {
-        }
-        else if (timerActive)
-        {
-            DisableTimer += Time.deltaTime;
-            if (DisableTimer > TimeToDiableElements)
+            if (EnabledChat)
             {
-                DisableComponents();
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    ToggleChat();
+                }
+                if (Input.GetKeyDown(KeyCode.Tab) && !Input.GetKey(KeyCode.LeftShift))
+                {
+                    ToggleMessege();
+                }
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    if (Input.GetKeyDown(KeyCode.Tab))
+                    {
+                        ToggleEntries();
+                    }
+                }
             }
+            else if (timerActive)
+            {
+                DisableTimer += Time.deltaTime;
+                if (DisableTimer > TimeToDiableElements)
+                {
+                    DisableComponents();
+                }
+            }
+
+            Application.logMessageReceived += LogCall;
         }
-        if (EveryEntryEntries.Count > MaxEntries)
+
+        // Limit the number of entries
+        if (EveryEntry.Count > MaxEntries)
         {
-            EveryEntryEntries.Dequeue();
+            ChatEntry temp = EveryEntry.Dequeue();
+            if (!GlobalChatEntries.Contains(temp) && !TeamChatEntries.Contains(temp) && !ConsoleEntries.Contains(temp))
+            {
+                Destroy(temp.gameObject);
+            }
         }
         if (GlobalChatEntries.Count > MaxEntries)
         {
-            GlobalChatEntries.Dequeue();
+            ChatEntry temp = GlobalChatEntries.Dequeue();
+            if (!EveryEntry.Contains(temp) && !TeamChatEntries.Contains(temp) && !ConsoleEntries.Contains(temp))
+            {
+                Destroy(temp.gameObject);
+            }
+
         }
         if (TeamChatEntries.Count > MaxEntries)
         {
-            GlobalChatEntries.Dequeue();
+            ChatEntry temp = TeamChatEntries.Dequeue();
+            if (!GlobalChatEntries.Contains(temp) && !EveryEntry.Contains(temp) && !ConsoleEntries.Contains(temp))
+            {
+                Destroy(temp.gameObject);
+            }
         }
         if (EraseConsoleEntries)
         {
             if (ConsoleEntries.Count > MaxEntries)
             {
-                ConsoleEntries.Dequeue();
+                ChatEntry temp = ConsoleEntries.Dequeue();
+                if (!GlobalChatEntries.Contains(temp) && !TeamChatEntries.Contains(temp) && !EveryEntry.Contains(temp))
+                {
+                    Destroy(temp.gameObject);
+                }
             }
         }
+    }
+
+    private void LogCall(string logString, string stackTrace, LogType type)
+    {
+        if (type == LogType.Error)
+        {
+            if(!IgnoreErrors)
+                CmdCreateEntry("Error", " -LogString- " + logString + " -StackTrace- ", "Console");
+        }
+        else if (type == LogType.Log)
+        {
+            if(!IgnoreLogs)
+                CmdCreateEntry("Log", " -LogString- " + logString + " -StackTrace- ", "Console");
+        }
+        else if (type == LogType.Warning)
+        {
+            if (!IgnoreLogs)
+                CmdCreateEntry("Warning", " -LogString- " + logString + " -StackTrace- ", "Console");
+        }
+        else if (type == LogType.Assert)
+        {
+            CmdCreateEntry("Assert", " -LogString- " + logString + " -StackTrace- ", "Console");
+        }
+        else if (type == LogType.Exception)
+        {
+            CmdCreateEntry("Exception", " -LogString- " + logString + " -StackTrace- ", "Console");
+        }
+    }
+    public bool GetEnabled()
+    {
+        return EnabledChat;
     }
 
     public void CreateGlobalEntry(string text)
@@ -115,10 +209,128 @@ public class Chat : NetworkBehaviour
         CmdCreateEntry(gameObject.name, text, "Console");
     }
 
+    public void EnterEntry(ChatEntry Entry)
+    {
+        if (Entry.EntryType == "All")
+        {
+            if (!GlobalChatEntries.Contains(Entry))
+            {
+                EveryEntry.Enqueue(Entry);
+                GlobalChatEntries.Enqueue(Entry);
+            }
+        }
+        else if (Entry.EntryType == "Team1")
+        {
+            if (NP.GetTeamNum() == 1)
+            {
+                if (!TeamChatEntries.Contains(Entry))
+                {
+                    EveryEntry.Enqueue(Entry);
+                    TeamChatEntries.Enqueue(Entry);
+                }
+            }
+        }
+        else if (Entry.EntryType == "Team2")
+        {
+            if (NP.GetTeamNum() == 2)
+            {
+                if (!TeamChatEntries.Contains(Entry))
+                {
+                    EveryEntry.Enqueue(Entry);
+                    TeamChatEntries.Enqueue(Entry);
+                }
+            }
+        }
+
+        UpdateDisplay();
+    }
+    public void BroadcastEntry(ChatEntry Entry)
+    {
+        ChatList = FindObjectsOfType<Chat>();
+        foreach (Chat c in ChatList)
+        {
+            c.EnterEntry(Entry);
+        }
+    }
+
+    public void UpdateDisplay()
+    {
+        int count = 0;
+        if (EntryList == 0)
+        {
+            count = EveryEntry.Count;
+            foreach (ChatEntry c in EveryEntry)
+            {
+                count--;
+                RectTransform rt = c.GetComponent<RectTransform>();
+                rt.localPosition = new Vector3(rt.localPosition.x, -count * (ContentSpacing), 0);
+                c.gameObject.SetActive(true);
+            }
+        }
+        else if (EntryList == 1)
+        {
+            count = GlobalChatEntries.Count;
+            foreach (ChatEntry c in GlobalChatEntries)
+            {
+                count--;
+                RectTransform rt = c.GetComponent<RectTransform>();
+                rt.localPosition = new Vector3(rt.localPosition.x, -count * (ContentSpacing), 0);
+                c.gameObject.SetActive(true);
+            }
+        }
+        else if (EntryList == 2)
+        {
+            count = TeamChatEntries.Count;
+            foreach (ChatEntry c in TeamChatEntries)
+            {
+                count--;
+                RectTransform rt = c.GetComponent<RectTransform>();
+                rt.localPosition = new Vector3(rt.localPosition.x, -count * (ContentSpacing), 0);
+                c.gameObject.SetActive(true);
+            }
+        }
+        else if (EntryList == 3)
+        {
+            count = ConsoleEntries.Count;
+            foreach (ChatEntry c in ConsoleEntries)
+            {
+                count--;
+                RectTransform rt = c.GetComponent<RectTransform>();
+                rt.localPosition = new Vector3(rt.localPosition.x, -count * (ContentSpacing + 30 * 2), 0);
+                c.gameObject.SetActive(true);
+            }
+        }
+    }
+
     [Command]
     public void CmdCreateEntry(string name, string text, string entryType)
     {
-        RpcCreateEntry(name, text, entryType);
+        if (text != "")
+        {
+            if (entryType != "Console" || !IgnoreCopies)
+            {
+                RpcCreateEntry(name, text, entryType);
+            }
+            else
+            {
+                if (IgnoreCopies)
+                {
+                    bool CompleteCommand = true;
+                    foreach (ChatEntry c in ConsoleEntries)
+                    {
+                        if (c.EntryText == name + ": " + text)
+                        {
+                            CompleteCommand = false;
+                            break;
+                        }
+                    }
+                    if (CompleteCommand)
+                    {
+                        RpcCreateEntry(name, text, entryType);
+                    }
+                }
+            }
+        }
     }
 
     [ClientRpc]
@@ -127,34 +339,51 @@ public class Chat : NetworkBehaviour
         ChatEntry temp = Instantiate(ChatEntryPrefab, ScrollContentStartingPoint);
         if (entryType == "All")
         {
-            temp.CreateMessege(name + ": " + text, AllChatColor);
+            temp.CreateMessege(name + ": " + text, AllChatColor, entryType);
             GlobalChatEntries.Enqueue(temp);
-            EveryEntryEntries.Enqueue(temp);
+            EveryEntry.Enqueue(temp);
+            if (EntryList != 0)
+            {
+                temp.gameObject.SetActive(false);
+            }
         }
         else if (entryType == "Team1")
         {
             if (NP.GetTeamNum() == 1)
             {
-                temp.CreateMessege(name + ": " + text, TeamChatColor);
+                temp.CreateMessege(name + ": " + text, TeamChatColor, entryType);
                 TeamChatEntries.Enqueue(temp);
-                EveryEntryEntries.Enqueue(temp);
+                EveryEntry.Enqueue(temp);
+                if (EntryList != 1)
+                {
+                    temp.gameObject.SetActive(false);
+                }
             }
         }
         else if (entryType == "Team2")
         {
             if (NP.GetTeamNum() == 2)
             {
-                temp.CreateMessege(name + ": " + text, TeamChatColor);
+                temp.CreateMessege(name + ": " + text, TeamChatColor, entryType);
                 TeamChatEntries.Enqueue(temp);
-                EveryEntryEntries.Enqueue(temp);
+                EveryEntry.Enqueue(temp);
+                if (EntryList != 2)
+                {
+                    temp.gameObject.SetActive(false);
+                }
             }
         }
         else if (entryType == "Console")
         {
-            temp.CreateMessege(name + ": " + text, ConsoleColor);
+            temp.CreateMessege(name + ": " + text, ConsoleColor, entryType);
             ConsoleEntries.Enqueue(temp);
-            EveryEntryEntries.Enqueue(temp);
+            if (EntryList != 3)
+            {
+                temp.gameObject.SetActive(false);
+            }
+ 
         }
+        BroadcastEntry(temp);
     }
 
     public void EnterChat(bool b = true)
@@ -222,5 +451,87 @@ public class Chat : NetworkBehaviour
         AllChatInput.SetActive(false);
         TeamChatInput.SetActive(false);
         ConsoleInput.SetActive(false);
+    }
+
+    public void ToggleEntries()
+    {
+        EntryList++;
+        if (EntryList == 4)
+        {
+            EntryList = 0;
+        }
+
+        if (EntryList == 0)
+        {
+            foreach (ChatEntry CE in ConsoleEntries)
+            {
+                CE.gameObject.SetActive(false);
+            }
+
+            foreach (ChatEntry CE in EveryEntry)
+            {
+                CE.gameObject.SetActive(true);
+            }
+        }
+
+        if (EntryList == 1)
+        {
+            foreach (ChatEntry CE in EveryEntry)
+            {
+                CE.gameObject.SetActive(false);
+            }
+
+            foreach (ChatEntry CE in GlobalChatEntries)
+            {
+                CE.gameObject.SetActive(true);
+            }
+        }
+
+        if (EntryList == 2)
+        {
+            foreach (ChatEntry CE in GlobalChatEntries)
+            {
+                CE.gameObject.SetActive(false);
+            }
+
+            foreach (ChatEntry CE in TeamChatEntries)
+            {
+                CE.gameObject.SetActive(true);
+            }
+        }
+
+        if (EntryList == 3)
+        {
+            foreach (ChatEntry CE in TeamChatEntries)
+            {
+                CE.gameObject.SetActive(false);
+            }
+
+            foreach (ChatEntry CE in ConsoleEntries)
+            {
+                CE.gameObject.SetActive(true);
+            }
+        }
+        UpdateDisplay();
+    }
+
+    // Toggle type of messege you are writing
+    private void ToggleMessege()
+    {
+        if (AllChatInput.activeSelf)
+        {
+            AllChatInput.SetActive(false);
+            TeamChatInput.SetActive(true);
+        }
+        else if (TeamChatInput.activeSelf)
+        {
+            ConsoleInput.SetActive(true);
+            TeamChatInput.SetActive(false);
+        }
+        else if (ConsoleInput.activeSelf)
+        {
+            ConsoleInput.SetActive(false);
+            AllChatInput.SetActive(true);
+        }
     }
 }

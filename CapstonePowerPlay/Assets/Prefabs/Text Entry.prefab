@@ -81,6 +81,8 @@ MonoBehaviour:
   MessegeRectTransfrom: {fileID: 224660100391748050}
   CSF: {fileID: 114588908505927606}
   TextHeight: 0
+  TimeOfEntry: 0
+  EntryType: 
 --- !u!114 &114588908505927606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -149,7 +151,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 112.5, y: 0}
-  m_SizeDelta: {x: 236.7, y: 0}
+  m_SizeDelta: {x: 236.7, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224822038168575408
 RectTransform:

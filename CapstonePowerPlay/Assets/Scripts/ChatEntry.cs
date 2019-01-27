@@ -17,12 +17,19 @@ public class ChatEntry : MonoBehaviour {
     public float TextHeight;
     [HideInInspector]
     public float TimeOfEntry;
+    [HideInInspector]
+    public string EntryType;
+    [HideInInspector]
+    public string EntryText;
 
-    public void CreateMessege(string text, Color TextColor)
+
+    public void CreateMessege(string text, Color TextColor, string type)
     {
+        EntryText = text;
         MessegeText.text = text;
         MessegeText.color = TextColor;
         TextHeight = MessegeRectTransfrom.rect.height;
         TimeOfEntry = Time.time;
+        EntryType = type;
     }
 }

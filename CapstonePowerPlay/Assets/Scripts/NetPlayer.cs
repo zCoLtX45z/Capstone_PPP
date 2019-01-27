@@ -39,7 +39,8 @@ public class NetPlayer : NetworkBehaviour {
     public string PlayerCode = "";
 
     // Player Child Components
-    private hoverBoardScript HB;
+    private hoverBoardScript HBS;
+    private BallHandling BH;
 
     // Use this for initialization
     void Start () {
@@ -92,9 +93,30 @@ public class NetPlayer : NetworkBehaviour {
         {
             if (isLocalPlayer)
             {
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.RightShift))
+                if (Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.RightShift))
                 {
-                    ChatSystem.ToggleChat();
+                    if (!ChatSystem.GetEnabled())
+                        ChatSystem.ToggleChat();
+                }
+                if (ChatSystem.GetEnabled() && HBS != null)
+                {
+                    HBS.BoardHasControl = false;
+                }
+                else if (!ChatSystem.GetEnabled() && HBS != null)
+                {
+                    HBS.BoardHasControl = true;
+                }
+
+                // If the curser should be active or not
+                if (ChatSystem.GetEnabled())
+                {
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+                }
+                else
+                {
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
                 }
             }
         }
@@ -117,7 +139,8 @@ public class NetPlayer : NetworkBehaviour {
     {
         PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
         PC.CmdSetUpPlayer();
-        HB = spawningObject.GetComponent<hoverBoardScript>();
+        HBS = spawningObject.GetComponent<hoverBoardScript>();
+        BH = spawningObject.GetComponent<BallHandling>();
     }
 
     public void SetPlayerList()
