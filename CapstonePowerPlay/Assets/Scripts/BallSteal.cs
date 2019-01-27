@@ -100,7 +100,10 @@ public class BallSteal : NetworkBehaviour
             {
                 if (ballScript.Hand && target == null)
                 {
-                    if (ballScript.BH.gameObject.GetComponent<PlayerColor>().TeamNum != teamNum)
+                    if (ballScript.BH != null)
+                        if (ballScript.BH.gameObject != null)
+                        if (ballScript.BH.gameObject.GetComponent<PlayerColor>() != null)
+                        if (ballScript.BH.gameObject.GetComponent<PlayerColor>().TeamNum != teamNum)
                         target = ballScript.BH.gameObject;
                 }
                 if (ballScript.Hand == false)
