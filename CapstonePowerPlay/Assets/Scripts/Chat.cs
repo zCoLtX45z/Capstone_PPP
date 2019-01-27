@@ -79,9 +79,9 @@ public class Chat : NetworkBehaviour
     [SerializeField]
     private bool IgnoreCopies = true;
 
-    void OnEnable()
+    void Awake()
     {
-
+        Application.logMessageReceived += LogCall;
     }
 
     void Start()
@@ -89,6 +89,7 @@ public class Chat : NetworkBehaviour
         AllChatName.text = gameObject.name;
         TeamChatName.text = gameObject.name;
         ConsoleChatName.text = gameObject.name;
+        Application.logMessageReceived += LogCall;
     }
 	// Update is called once per frame
 	void Update () {
@@ -117,6 +118,7 @@ public class Chat : NetworkBehaviour
                 DisableTimer += Time.deltaTime;
                 if (DisableTimer > TimeToDiableElements)
                 {
+                    DisableTimer = 0;
                     DisableComponents();
                 }
             }
@@ -217,6 +219,7 @@ public class Chat : NetworkBehaviour
             {
                 EveryEntry.Enqueue(Entry);
                 GlobalChatEntries.Enqueue(Entry);
+                CmdRefreshUi();
             }
         }
         else if (Entry.EntryType == "Team1")
@@ -227,6 +230,7 @@ public class Chat : NetworkBehaviour
                 {
                     EveryEntry.Enqueue(Entry);
                     TeamChatEntries.Enqueue(Entry);
+                    CmdRefreshUi();
                 }
             }
         }
@@ -238,6 +242,7 @@ public class Chat : NetworkBehaviour
                 {
                     EveryEntry.Enqueue(Entry);
                     TeamChatEntries.Enqueue(Entry);
+                    CmdRefreshUi();
                 }
             }
         }
@@ -250,6 +255,22 @@ public class Chat : NetworkBehaviour
         foreach (Chat c in ChatList)
         {
             c.EnterEntry(Entry);
+        }
+    }
+
+    [Command]
+    public void CmdRefreshUi()
+    {
+        RpcRefreshUi();
+    }
+
+    [ClientRpc]
+    public void RpcRefreshUi()
+    {
+        ChatParent.SetActive(true);
+        foreach (Behaviour b in UiObjectsToDisableAfterTime)
+        {
+            b.enabled = true;
         }
     }
 
@@ -401,6 +422,7 @@ public class Chat : NetworkBehaviour
 
     public void ToggleChat()
     {
+        UpdateDisplay();
         if (EnabledChat == false)
         {
             EnableUI();
@@ -418,6 +440,7 @@ public class Chat : NetworkBehaviour
         DisableTimer = 0;
         timerActive = true;
         PlayerNameBackground.gameObject.SetActive(true);
+        ChatParent.SetActive(true);
         foreach (Behaviour b in UiObjectsToDisableAfterTime)
         {
             b.enabled = true;
@@ -427,6 +450,7 @@ public class Chat : NetworkBehaviour
     private void DisableComponents()
     {
         timerActive = false;
+        ChatParent.SetActive(false);
         foreach (Behaviour b in UiObjectsToDisableAfterTime)
         {
             b.enabled = false;
