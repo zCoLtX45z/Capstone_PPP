@@ -100,8 +100,23 @@ public class BallSteal : NetworkBehaviour
             {
                 if (ballScript.Hand && target == null)
                 {
-                    if (ballScript.BH.gameObject.GetComponent<PlayerColor>().TeamNum != teamNum)
-                        target = ballScript.BH.gameObject;
+                    if (ballScript.BH != null)
+                    {
+                        Debug.Log("BH");
+                        if (ballScript.BH.gameObject != null)
+                        {
+                            Debug.Log("BH.gameObject");
+                            if (ballScript.BH.gameObject.GetComponent<PlayerColor>() != null)
+                            {
+                                Debug.Log("BH.gameObject.GET<PlayerColor>");
+                                if (ballScript.BH.gameObject.GetComponent<PlayerColor>().TeamNum != teamNum)
+                                {
+                                    Debug.Log("BH.gameObject.GET<PlayerColor>(). teamNum");
+                                    target = ballScript.BH.gameObject;
+                                }
+                            }
+                        }
+                    }
                 }
                 if (ballScript.Hand == false)
                 {
