@@ -18,7 +18,7 @@ public class BallSteal : NetworkBehaviour
     [SerializeField]
     private float distanceToTarget;
 
-   
+
     // direction from the player
     private Vector3 directionFromPlayer;
 
@@ -58,7 +58,7 @@ public class BallSteal : NetworkBehaviour
 
         teamNum = player.GetComponent<PlayerColor>().TeamNum;
 
-        
+
        if(ballTransform == null)
        {
             ballTransform = GameObject.FindGameObjectWithTag("Ball").transform;
@@ -67,7 +67,7 @@ public class BallSteal : NetworkBehaviour
                 ballScript = ballTransform.GetComponent<Ball>();
             }
        }
-        
+
 
 
     }
@@ -124,7 +124,7 @@ public class BallSteal : NetworkBehaviour
                 }
 
                 if(target != null)
-                {                    
+                {
                     directionFromPlayer = target.transform.position - transform.position;
                     distanceToTarget = directionFromPlayer.magnitude;
                     angle = Vector3.Angle(directionFromPlayer, transform.forward);
@@ -134,9 +134,14 @@ public class BallSteal : NetworkBehaviour
                         //Debug.Log("In range and in view");
 
                         //steal
-                        if(Input.GetMouseButtonDown(2))
-                            target.GetComponent<BallHandling>().CmdSteal(player, ballTransform.gameObject, playerHandTransform.position, target);
-                        
+                        if (Input.GetMouseButtonDown(2))
+                        {
+                            Debug.Log("playerHandTransform: " + playerHandTransform);
+                            Debug.Log("ballTransform: " + ballTransform);
+                            Debug.Log("target: " + target);
+                            target.GetComponent<BallHandling>().CmdSteal(target.gameObject, ballTransform.gameObject, playerHandTransform.position, player);
+                        }
+
 
                     }
                     //if (distanceToTarget > maxDistance)
@@ -157,5 +162,3 @@ public class BallSteal : NetworkBehaviour
         }
     }
 }
-
-
