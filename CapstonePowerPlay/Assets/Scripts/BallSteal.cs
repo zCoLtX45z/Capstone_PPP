@@ -18,7 +18,7 @@ public class BallSteal : NetworkBehaviour
     [SerializeField]
     private float distanceToTarget;
 
-   
+
     // direction from the player
     private Vector3 directionFromPlayer;
 
@@ -58,7 +58,7 @@ public class BallSteal : NetworkBehaviour
 
         teamNum = player.GetComponent<PlayerColor>().TeamNum;
 
-        
+
        if(ballTransform == null)
        {
             ballTransform = GameObject.FindGameObjectWithTag("Ball").transform;
@@ -67,7 +67,7 @@ public class BallSteal : NetworkBehaviour
                 ballScript = ballTransform.GetComponent<Ball>();
             }
        }
-        
+
 
 
     }
@@ -101,10 +101,22 @@ public class BallSteal : NetworkBehaviour
                 if (ballScript.Hand && target == null)
                 {
                     if (ballScript.BH != null)
+                    {
+                        Debug.Log("BH");
                         if (ballScript.BH.gameObject != null)
-                        if (ballScript.BH.gameObject.GetComponent<PlayerColor>() != null)
-                        if (ballScript.BH.gameObject.GetComponent<PlayerColor>().TeamNum != teamNum)
-                        target = ballScript.BH.gameObject;
+                        {
+                            Debug.Log("BH.gameObject");
+                            if (ballScript.BH.gameObject.GetComponent<PlayerColor>() != null)
+                            {
+                                Debug.Log("BH.gameObject.GET<PlayerColor>");
+                                if (ballScript.BH.gameObject.GetComponent<PlayerColor>().TeamNum != teamNum)
+                                {
+                                    Debug.Log("BH.gameObject.GET<PlayerColor>(). teamNum");
+                                    target = ballScript.BH.gameObject;
+                                }
+                            }
+                        }
+                    }
                 }
                 if (ballScript.Hand == false)
                 {
@@ -112,7 +124,7 @@ public class BallSteal : NetworkBehaviour
                 }
 
                 if(target != null)
-                {                    
+                {
                     directionFromPlayer = target.transform.position - transform.position;
                     distanceToTarget = directionFromPlayer.magnitude;
                     angle = Vector3.Angle(directionFromPlayer, transform.forward);
@@ -129,7 +141,7 @@ public class BallSteal : NetworkBehaviour
                             Debug.Log("target: " + target);
                             target.GetComponent<BallHandling>().CmdSteal(target.gameObject, ballTransform.gameObject, playerHandTransform.position, player);
                         }
-                        
+
 
                     }
                     //if (distanceToTarget > maxDistance)
@@ -150,5 +162,3 @@ public class BallSteal : NetworkBehaviour
         }
     }
 }
-
-

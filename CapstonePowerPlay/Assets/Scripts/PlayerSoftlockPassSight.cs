@@ -277,7 +277,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
             if (target != null)
             {
                 // draw ray
-                Vector3 targetObjectDirection = target.transform.position - transform.position;
+                //Vector3 targetObjectDirection = target.transform.position - transform.position;
               //  Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), targetObjectDirection, Color.yellow);
             }
 
