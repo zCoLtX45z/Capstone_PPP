@@ -79,6 +79,10 @@ public class hoverBoardScript : NetworkBehaviour
     [SerializeField]
     private AnimationController AnimationControl;
 
+    // Player has control or not
+    [HideInInspector]
+    public bool BoardHasControl = true;
+
     //marcstuff
     //public GameObject camGurl1;
     //public GameObject camGurl2;
@@ -126,7 +130,8 @@ public class hoverBoardScript : NetworkBehaviour
     {
 
         //if (isLocalPlayer)
-
+        if (BoardHasControl)
+        {
             //main thrust
             m_currThrust = 0.0f;
             float aclAxis = Input.GetAxis("Vertical");
@@ -151,6 +156,12 @@ public class hoverBoardScript : NetworkBehaviour
             CurrentAdjust = Speed < SpeedDeadZone ? 0.0f
                 : Speed < MaxSpeed ? m_hoverHeight * MaxTurnAdjustPercent * (Speed - SpeedDeadZone) / ((MaxSpeed - SpeedDeadZone) * 100f)
                 : m_hoverHeight * MaxTurnAdjustPercent / (100f);
+        }
+        else
+        {
+            m_currTurn = 0;
+            m_currThrust = 0;
+        }
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -161,25 +172,28 @@ public class hoverBoardScript : NetworkBehaviour
             sprintMultiplier = 1 + BoostPaddBosstLinearPercent;
         }
 
-        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.Space))
+        if (BoardHasControl)
         {
-            CanStick = false;
-            if (Input.GetKeyDown(KeyCode.Space) && OnGround)
+            if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.Space))
             {
-                Jump();
-                OnGround = false;
-            }
+                CanStick = false;
+                if (Input.GetKeyDown(KeyCode.Space) && OnGround)
+                {
+                    Jump();
+                    OnGround = false;
+                }
 
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                Flipping = true;
-                FlipCharacter();
+                if (Input.GetKey(KeyCode.LeftControl))
+                {
+                    Flipping = true;
+                    FlipCharacter();
+                }
             }
-        }
-        else
-        {
-            CanStick = true;
-            Flipping = false;
+            else
+            {
+                CanStick = true;
+                Flipping = false;
+            }
         }
 
         // Update animator
