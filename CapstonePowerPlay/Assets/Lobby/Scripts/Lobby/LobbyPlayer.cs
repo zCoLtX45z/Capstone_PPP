@@ -14,7 +14,7 @@ namespace Prototype.NetworkLobby
         static Color[] Colors = new Color[] {Color.red, Color.blue};
         //used on server to avoid assigning the same color to two player
         static List<int> _colorInUse = new List<int>();
-        static List<int> _teamColor = new List<int>();
+        //static List<int> _teamColor = new List<int>();
         //static List<int> _teamColor = new List<int>();
         
 

@@ -28,8 +28,8 @@ public class Ball : NetworkBehaviour
 
     private GameObject passedTarget;
 
-    [SerializeField]
-    private float RotSpeed = 0.5f;
+    //[SerializeField]
+    //private float RotSpeed = 0.5f;
 
     [SerializeField]
     private float maxDegree = 50;
@@ -38,12 +38,12 @@ public class Ball : NetworkBehaviour
     public string teamTag;
 
     [SerializeField]
-    private float constantForce = 900.0f;
+    private float KonstantForce = 900.0f;
 
     [SyncVar]
     private float CanBeCaughtTimer = 1;
     private bool Thrown = false;
-    private float SlerpRatio = 0;
+    //private float SlerpRatio = 0;
 
     [SerializeField]
     private float maxTimePass = 2.0f;
@@ -115,8 +115,8 @@ public class Ball : NetworkBehaviour
             Vector3 lookPos = passedTarget.transform.position - transform.position;
             Vector3 direction = lookPos.normalized;
 
-            var rotation = Quaternion.LookRotation(passedTarget.transform.position);
-            SlerpRatio = Time.deltaTime * RotSpeed;
+            //var rotation = Quaternion.LookRotation(passedTarget.transform.position);
+            //SlerpRatio = Time.deltaTime * RotSpeed;
             //
             // float angle = Vector3.Angle(directionFromPlayer, transform.forward);
             if (angle <= maxDegree)
@@ -139,7 +139,7 @@ public class Ball : NetworkBehaviour
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
                 RB.velocity = Vector3.zero;
-                RB.AddForce(direction * constantForce, ForceMode.Acceleration);
+                RB.AddForce(direction * KonstantForce, ForceMode.Acceleration);
 
             }
             else
@@ -147,7 +147,7 @@ public class Ball : NetworkBehaviour
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
                 RB.velocity = Vector3.zero;
-                RB.AddForce(direction * constantForce / 2, ForceMode.Acceleration);
+                RB.AddForce(direction * KonstantForce / 2, ForceMode.Acceleration);
             }
             //RB.velocity = (transform.forward * constantForce);
         }

@@ -97,6 +97,7 @@ public class Chat : NetworkBehaviour
         {
             if (EnabledChat)
             {
+                UpdateDisplay();
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     ToggleChat();
@@ -179,7 +180,7 @@ public class Chat : NetworkBehaviour
         }
         else if (type == LogType.Warning)
         {
-            if (!IgnoreLogs)
+            if (!IgnoreWarnings)
                 CmdCreateEntry("Warning", " -LogString- " + logString + " -StackTrace- ", "Console");
         }
         else if (type == LogType.Assert)
@@ -213,36 +214,43 @@ public class Chat : NetworkBehaviour
 
     public void EnterEntry(ChatEntry Entry)
     {
+        //Debug.Log("Enter Entry");
         if (Entry.EntryType == "All")
         {
+            //Debug.Log("Enter Entry ALL");
             if (!GlobalChatEntries.Contains(Entry))
             {
+                //Debug.Log("Enter Entry ALL in");
                 EveryEntry.Enqueue(Entry);
                 GlobalChatEntries.Enqueue(Entry);
-                CmdRefreshUi();
+                RefreshUi();
             }
         }
         else if (Entry.EntryType == "Team1")
         {
+            //Debug.Log("Enter Entry Team1");
             if (NP.GetTeamNum() == 1)
             {
                 if (!TeamChatEntries.Contains(Entry))
                 {
+                    //Debug.Log("Enter Entry Team1 in");
                     EveryEntry.Enqueue(Entry);
                     TeamChatEntries.Enqueue(Entry);
-                    CmdRefreshUi();
+                    RefreshUi();
                 }
             }
         }
         else if (Entry.EntryType == "Team2")
         {
+            //Debug.Log("Enter Entry Team2");
             if (NP.GetTeamNum() == 2)
             {
                 if (!TeamChatEntries.Contains(Entry))
                 {
+                    //Debug.Log("Enter Entry Team2 in");
                     EveryEntry.Enqueue(Entry);
                     TeamChatEntries.Enqueue(Entry);
-                    CmdRefreshUi();
+                    RefreshUi();
                 }
             }
         }
@@ -251,6 +259,7 @@ public class Chat : NetworkBehaviour
     }
     public void BroadcastEntry(ChatEntry Entry)
     {
+        //Debug.Log("Broadcast Entry");
         ChatList = FindObjectsOfType<Chat>();
         foreach (Chat c in ChatList)
         {
@@ -258,14 +267,7 @@ public class Chat : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdRefreshUi()
-    {
-        RpcRefreshUi();
-    }
-
-    [ClientRpc]
-    public void RpcRefreshUi()
+    public void RefreshUi()
     {
         ChatParent.SetActive(true);
         foreach (Behaviour b in UiObjectsToDisableAfterTime)
@@ -284,6 +286,11 @@ public class Chat : NetworkBehaviour
             {
                 count--;
                 RectTransform rt = c.GetComponent<RectTransform>();
+                if (rt.transform.parent != ScrollContentStartingPoint)
+                {
+                    rt.parent = ScrollContentStartingPoint;
+                    RefreshUi();
+                }
                 rt.localPosition = new Vector3(rt.localPosition.x, -count * (ContentSpacing), 0);
                 c.gameObject.SetActive(true);
             }
@@ -295,6 +302,11 @@ public class Chat : NetworkBehaviour
             {
                 count--;
                 RectTransform rt = c.GetComponent<RectTransform>();
+                if (rt.transform.parent != ScrollContentStartingPoint)
+                {
+                    rt.parent = ScrollContentStartingPoint;
+                    RefreshUi();
+                }
                 rt.localPosition = new Vector3(rt.localPosition.x, -count * (ContentSpacing), 0);
                 c.gameObject.SetActive(true);
             }
@@ -306,6 +318,11 @@ public class Chat : NetworkBehaviour
             {
                 count--;
                 RectTransform rt = c.GetComponent<RectTransform>();
+                if (rt.transform.parent != ScrollContentStartingPoint)
+                {
+                    rt.parent = ScrollContentStartingPoint;
+                    RefreshUi();
+                }
                 rt.localPosition = new Vector3(rt.localPosition.x, -count * (ContentSpacing), 0);
                 c.gameObject.SetActive(true);
             }
@@ -317,6 +334,11 @@ public class Chat : NetworkBehaviour
             {
                 count--;
                 RectTransform rt = c.GetComponent<RectTransform>();
+                if (rt.transform.parent != ScrollContentStartingPoint)
+                {
+                    rt.parent = ScrollContentStartingPoint;
+                    RefreshUi();
+                }
                 rt.localPosition = new Vector3(rt.localPosition.x, -count * (ContentSpacing + 30 * 2), 0);
                 c.gameObject.SetActive(true);
             }
