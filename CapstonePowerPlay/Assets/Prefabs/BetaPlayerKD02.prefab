@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 64328304164971716}
   - component: {fileID: 54633363082778744}
   - component: {fileID: 114687538464528480}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ShieldBlue
   m_TagString: Shield
   m_Icon: {fileID: 0}
@@ -2839,7 +2839,7 @@ GameObject:
   - component: {fileID: 64833986002608196}
   - component: {fileID: 54284934596563848}
   - component: {fileID: 114781556094523432}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ShieldRed
   m_TagString: Shield
   m_Icon: {fileID: 0}
@@ -8142,7 +8142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stealMaxAngle: 200
-  maxDistance: 5
+  maxDistance: 10
   distanceToTarget: 0
   angle: 0
   target: {fileID: 0}
