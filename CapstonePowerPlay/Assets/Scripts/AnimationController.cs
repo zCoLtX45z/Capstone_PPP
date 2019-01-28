@@ -36,8 +36,8 @@ public class AnimationController : NetworkBehaviour {
     }
     private void PassAnimation(bool pass)
     {
-        Pass = false;
-        if (pass == true)
+        Pass = pass;
+        if (Pass == true)
         {
             if (RedAvatar.activeSelf)
             {
@@ -48,6 +48,7 @@ public class AnimationController : NetworkBehaviour {
                 BlueAnimator.SetTrigger("Pass");
             }
         }
+        Pass = false;
     }
 
     [Command]
@@ -57,8 +58,8 @@ public class AnimationController : NetworkBehaviour {
     }
     private void JumpAnimation(bool jump)
     {
-        Jump = false;
-        if (jump == true)
+        Jump = jump;
+        if (Jump == true)
         {
             if (RedAvatar.activeSelf)
             {
@@ -69,6 +70,7 @@ public class AnimationController : NetworkBehaviour {
                 BlueAnimator.SetTrigger("Jump");
             }
         }
+        Jump = false;
     }
 
     [Command]

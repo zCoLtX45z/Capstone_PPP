@@ -180,7 +180,7 @@ public class Chat : NetworkBehaviour
         }
         else if (type == LogType.Warning)
         {
-            if (!IgnoreLogs)
+            if (!IgnoreWarnings)
                 CmdCreateEntry("Warning", " -LogString- " + logString + " -StackTrace- ", "Console");
         }
         else if (type == LogType.Assert)

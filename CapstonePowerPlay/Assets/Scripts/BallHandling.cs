@@ -22,7 +22,7 @@ public class BallHandling : NetworkBehaviour {
     private GameObject Target;
 
     // Target position for passes
-    private Vector3 TargetPosition;
+    //private Vector3 TargetPosition;
 
     // Hand to where the ball goes
     [SerializeField]
@@ -95,7 +95,7 @@ public class BallHandling : NetworkBehaviour {
                         // Get Target from Targeting Script
                         Target = softLockScript.target;
                         //Debug.Log("target: " + Target);
-                        TargetPosition = softLockScript.targetPosition;
+                        //TargetPosition = softLockScript.targetPosition;
                         if (Target != null)
                         {
                             //Debug.Log("jadaadadadadadad");

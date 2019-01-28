@@ -34,7 +34,7 @@ public class hoverBoardScript : NetworkBehaviour
     private float Kd = 0.0f;
     private bool[] ToggleStabilizers;
     private int StabalizersActive = 0;
-    private bool AutoStabalize = true;
+    //private bool AutoStabalize = true;
 
     // Maximum
     [SerializeField]
@@ -457,7 +457,7 @@ public class hoverBoardScript : NetworkBehaviour
     public void Jump()
     {
         float XAngle = transform.eulerAngles.x * Mathf.PI / 180;
-        float YAngle = transform.eulerAngles.y * Mathf.PI / 180;
+        //float YAngle = transform.eulerAngles.y * Mathf.PI / 180;
         float ZAngle = transform.eulerAngles.z * Mathf.PI / 180;
         float TargetAdjustForceX = -JumpForce * Mathf.Sin(XAngle);
         float TargetAdjustForceY = JumpForce * Mathf.Cos(XAngle);
