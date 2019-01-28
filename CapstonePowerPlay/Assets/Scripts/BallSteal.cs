@@ -122,8 +122,13 @@ public class BallSteal : NetworkBehaviour
                         //Debug.Log("In range and in view");
 
                         //steal
-                        if(Input.GetMouseButtonDown(2))
-                            target.GetComponent<BallHandling>().CmdSteal(player, ballTransform.gameObject, playerHandTransform.position, target);
+                        if (Input.GetMouseButtonDown(2))
+                        {
+                            Debug.Log("playerHandTransform: " + playerHandTransform);
+                            Debug.Log("ballTransform: " + ballTransform);
+                            Debug.Log("target: " + target);
+                            target.GetComponent<BallHandling>().CmdSteal(target.gameObject, ballTransform.gameObject, playerHandTransform.position, player);
+                        }
                         
 
                     }
