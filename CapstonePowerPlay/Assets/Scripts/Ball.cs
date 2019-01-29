@@ -215,7 +215,7 @@ public class Ball : NetworkBehaviour
         {
             BH = null;
         }
-        Debug.Log("End of catch thief");
+       // Debug.Log("End of catch thief");
         stolenInProgress = false;
         thiefTransform = null;
     }
@@ -370,7 +370,6 @@ public class Ball : NetworkBehaviour
         WhoTossedTheBall = WhoThrew;
         Hand = null;
         BH = null;
-        //RBS.CmdSetPlayerHolding(null);
     }
 
 

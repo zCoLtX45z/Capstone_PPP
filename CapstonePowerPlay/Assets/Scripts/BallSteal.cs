@@ -102,16 +102,16 @@ public class BallSteal : NetworkBehaviour
                 {
                     if (ballScript.BH != null)
                     {
-                        Debug.Log("BH");
+                        //Debug.Log("BH");
                         if (ballScript.BH.gameObject != null)
                         {
-                            Debug.Log("BH.gameObject");
+                           // Debug.Log("BH.gameObject");
                             if (ballScript.BH.gameObject.GetComponent<PlayerColor>() != null)
                             {
-                                Debug.Log("BH.gameObject.GET<PlayerColor>");
+                              //  Debug.Log("BH.gameObject.GET<PlayerColor>");
                                 if (ballScript.BH.gameObject.GetComponent<PlayerColor>().TeamNum != teamNum)
                                 {
-                                    Debug.Log("BH.gameObject.GET<PlayerColor>(). teamNum");
+                                   // Debug.Log("BH.gameObject.GET<PlayerColor>(). teamNum");
                                     target = ballScript.BH.gameObject;
                                 }
                             }
@@ -125,21 +125,22 @@ public class BallSteal : NetworkBehaviour
 
                 if(target != null)
                 {
-                    Debug.Log("Target has been selected");
+                   // Debug.Log("Target has been selected");
                     directionFromPlayer = target.transform.position - transform.position;
                     distanceToTarget = directionFromPlayer.magnitude;
                     angle = Vector3.Angle(directionFromPlayer, transform.forward);
 
                     if(distanceToTarget < maxDistance && angle < stealMaxAngle)
                     {
-                        Debug.Log("In range and in view");
+                        //Debug.Log("In range and in view");
 
                         //steal
                         if (Input.GetMouseButtonDown(2))
                         {
                             Debug.Log("playerHandTransform: " + playerHandTransform);
-                            Debug.Log("ballTransform: " + ballTransform);
-                            Debug.Log("target: " + target);
+                            Debug.Log("playerHandTransform.gameObject: " + playerHandTransform.gameObject);
+                            //Debug.Log("ballTransform: " + ballTransform);
+                            //Debug.Log("target: " + target);
                             target.GetComponent<BallHandling>().CmdSteal(player.gameObject, ballTransform.gameObject, playerHandTransform.position, target);
                         }
 
