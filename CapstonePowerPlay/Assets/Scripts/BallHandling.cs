@@ -126,6 +126,8 @@ public class BallHandling : NetworkBehaviour {
                         AnimationControl.CmdPassAnimation();
                         ball = null;
                     }
+                   
+
                 }
             }
 
@@ -220,15 +222,18 @@ public class BallHandling : NetworkBehaviour {
     [Command]
     public void CmdSteal(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
+        Debug.Log("CmdSteal");
         RpcSteal(Target, ballObject, HandPos, WhoThrew);
     }
 
     [ClientRpc]
     private void RpcSteal(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
-
+        Debug.Log("RpcSteal");
         Ball temp = ballObject.GetComponent<Ball>();
-        temp.CmdSetPass(true, Target, PassForce, HandPos, WhoThrew);
+        temp.thiefTransform = Target.transform;
+        temp.stolenInProgress = true;
+        temp.CmdSetSteal(true, Target, PassForce, HandPos, WhoThrew);
         CmdTurnOnFakeBall(false);
     }
 

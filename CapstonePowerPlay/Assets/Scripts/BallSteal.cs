@@ -125,13 +125,14 @@ public class BallSteal : NetworkBehaviour
 
                 if(target != null)
                 {
+                    Debug.Log("Target has been selected");
                     directionFromPlayer = target.transform.position - transform.position;
                     distanceToTarget = directionFromPlayer.magnitude;
                     angle = Vector3.Angle(directionFromPlayer, transform.forward);
 
                     if(distanceToTarget < maxDistance && angle < stealMaxAngle)
                     {
-                        //Debug.Log("In range and in view");
+                        Debug.Log("In range and in view");
 
                         //steal
                         if (Input.GetMouseButtonDown(2))
@@ -139,7 +140,7 @@ public class BallSteal : NetworkBehaviour
                             Debug.Log("playerHandTransform: " + playerHandTransform);
                             Debug.Log("ballTransform: " + ballTransform);
                             Debug.Log("target: " + target);
-                            target.GetComponent<BallHandling>().CmdSteal(target.gameObject, ballTransform.gameObject, playerHandTransform.position, player);
+                            target.GetComponent<BallHandling>().CmdSteal(player.gameObject, ballTransform.gameObject, playerHandTransform.position, target);
                         }
 
 

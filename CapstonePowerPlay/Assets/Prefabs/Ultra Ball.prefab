@@ -455,14 +455,16 @@ MonoBehaviour:
   Held: 0
   HardCol: {fileID: 135518710293854448}
   isInPassing: 0
-  RotSpeed: 10
   maxDegree: 30
   teamTag: 
-  constantForce: 4500
+  KonstantForce: 900
   maxTimePass: 4
   ChildObject: {fileID: 1911494930807168}
   SoftCol: {fileID: 135669702163476002}
   UiCanvas: {fileID: 224882637250804296}
+  stolenInProgress: 0
+  thiefTransform: {fileID: 0}
+  thiefCatchDistance: 0.5
 --- !u!114 &114593611477746698
 MonoBehaviour:
   m_ObjectHideFlags: 1

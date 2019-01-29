@@ -170,7 +170,58 @@ public class Ball : NetworkBehaviour
             UiCanvas.localPosition = Vector3.zero;
         }
 
+
+        if(stolenInProgress)
+        {
+            Debug.Log("stolenInProgress");
+            if((thiefTransform.position - transform.position).magnitude <= thiefCatchDistance)
+            {
+                Debug.Log("witin range");
+                CatchThief();
+            }
+
+        }
+
+
+
     }
+
+    public bool stolenInProgress;
+    public Transform thiefTransform;
+
+    [SerializeField]
+    private float thiefCatchDistance;
+
+
+    private void CatchThief()
+    {
+        gameObject.layer = 2;
+        HardCol.isTrigger = true;
+        Held = true;
+
+        // Set who has the the ball
+        BH = thiefTransform.GetComponent<BallHandling>();
+        CmdSetBallHandling(BH.gameObject);
+
+        if (BH.canHold)
+        {
+            Hand = BH.ReturnHand();
+            CmdUpdateHandTransform(BH.gameObject);
+            BH.CmdSetBall(gameObject);
+            BH.CmdTurnOnFakeBall(true);
+            CmdMakeBallDisapear();
+        }
+        else
+        {
+            BH = null;
+        }
+        Debug.Log("End of catch thief");
+        stolenInProgress = false;
+        thiefTransform = null;
+    }
+
+
+
 
     private void OnCollisionEnter(Collision c)
     {
@@ -190,7 +241,7 @@ public class Ball : NetworkBehaviour
             HardCol.isTrigger = true;
             Held = true;
 
-            // Set who has the player
+            // Set who has the the ball
             BH = c.GetComponent<BallHandling>();
             CmdSetBallHandling(BH.gameObject);
             //transform.gameObject.layer = 2;
@@ -218,9 +269,12 @@ public class Ball : NetworkBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        timer = 1;
-        BH = null;
-        HardCol.isTrigger = false;
+        if (!stolenInProgress)
+        {
+            timer = 1;
+            BH = null;
+            HardCol.isTrigger = false;
+        }
     }
 
     public void ShootBall(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
@@ -270,6 +324,7 @@ public class Ball : NetworkBehaviour
     {
         CmdMakeBallReapear();
         Thrown = true;
+
         CanBeCaughtTimer = 0.15f;
         passedTarget = Target;
         Handle.position = HandPos;
@@ -286,6 +341,38 @@ public class Ball : NetworkBehaviour
         BH = null;
         //RBS.CmdSetPlayerHolding(null);
     }
+
+
+
+
+    [Command]
+    public void CmdSetSteal(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
+    {
+        RpcSetPass(Passing, Target, Force, HandPos, WhoThrew);
+    }
+
+    [ClientRpc]
+    public void RpcSetSteal(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
+    {
+        CmdMakeBallReapear();
+        Thrown = true;
+
+        passedTarget = Target;
+        Handle.position = HandPos;
+        Handle.parent = null;
+        isInPassing = true;
+        RB.velocity = Vector3.zero;
+        RB.angularVelocity = Vector3.zero;
+        float distance = (transform.position - Target.transform.position).magnitude;
+        transform.LookAt(Target.transform);
+        RB.AddForce(transform.up * Force, ForceMode.Impulse);
+        Held = false;
+        WhoTossedTheBall = WhoThrew;
+        Hand = null;
+        BH = null;
+        //RBS.CmdSetPlayerHolding(null);
+    }
+
 
 
 
