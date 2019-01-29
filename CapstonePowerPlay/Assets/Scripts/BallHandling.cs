@@ -93,14 +93,14 @@ public class BallHandling : NetworkBehaviour {
                     {
                         // PASS
                         // Get Target from Targeting Script
-                        Target = softLockScript.target;
+                        Target = softLockScript.target.gameObject;
                         //Debug.Log("target: " + Target);
                         //TargetPosition = softLockScript.targetPosition;
                         if (Target != null)
                         {
                             //Debug.Log("jadaadadadadadad");
                             //Debug.Log(gameObject.name + " Passes");
-                            Debug.Log("target: " + Target.name);
+                          //  Debug.Log("target: " + Target.name);
                             CmdPass(Target, ball.gameObject, Hand.position, this.gameObject);
                             AnimationControl.CmdPassAnimation();
                             ball = null;
@@ -126,6 +126,8 @@ public class BallHandling : NetworkBehaviour {
                         AnimationControl.CmdPassAnimation();
                         ball = null;
                     }
+                   
+
                 }
             }
 
@@ -218,17 +220,20 @@ public class BallHandling : NetworkBehaviour {
 
 
     [Command]
-    public void CmdSteal(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    public void CmdSteal(GameObject TargetHand, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
-        RpcSteal(Target, ballObject, HandPos, WhoThrew);
+        //Debug.Log("CmdSteal");
+        RpcSteal(TargetHand, ballObject, HandPos, WhoThrew);
     }
 
     [ClientRpc]
-    private void RpcSteal(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    private void RpcSteal(GameObject TargetHand, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
-
+        //Debug.Log("RpcSteal");
         Ball temp = ballObject.GetComponent<Ball>();
-        temp.CmdSetPass(true, Target, PassForce, HandPos, WhoThrew);
+        temp.thiefTransform = TargetHand.transform;
+        temp.stolenInProgress = true;
+        temp.CmdSetSteal(true, TargetHand, PassForce, HandPos, WhoThrew);
         CmdTurnOnFakeBall(false);
     }
 

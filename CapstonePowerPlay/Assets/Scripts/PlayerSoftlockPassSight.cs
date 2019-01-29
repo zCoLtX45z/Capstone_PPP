@@ -27,7 +27,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
 
     // target of passing
     [SerializeField]
-    public GameObject target;
+    public Transform target;
 
     [SerializeField]
     public Vector3 targetPosition;
@@ -150,7 +150,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
             for (int i = 0; i < listOfTeamates.Count; i++)
             {
                 // find direction from player
-                directionFromPlayer = listOfTeamates[i].transform.position - transform.position;
+                directionFromPlayer = (listOfTeamates[i].transform.position +((new Vector3(listOfTeamates[i].transform.up.x, listOfTeamates[i].transform.up.y, listOfTeamates[i].transform.up.z) / 4) * 3)) - transform.position;
                 // get current angle between the current teamate and the player
                 angle = Vector3.Angle(directionFromPlayer, transform.forward);
 
@@ -268,9 +268,9 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                     // set currentClossestAngle as the  currentAngle;
                     currentClossestAngle = currentAngle;
                     // set the target as the currently checked gameObject in the currentAcceptedTargets list 
-                    target = currentAcceptedTargets[i].gameObject; /* <---- IF NO LONGER WORK TARGET CHANGE   (ORIGINAL:  target = currentAcceptedTargets[i].gameObject;)  */
+                    target = currentAcceptedTargets[i].transform; 
                     // set target position to center the players
-                    targetPosition = new Vector3(currentAcceptedTargets[i].transform.position.x, currentAcceptedTargets[i].transform.position.y, currentAcceptedTargets[i].transform.position.z);
+                    targetPosition = target.position + ((new Vector3(target.up.x, target.up.y, target.up.z) / 4) * 3);
                 }
             }
             // if there is an elidgable target to pass too
