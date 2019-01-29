@@ -105,14 +105,19 @@ public class Ball : NetworkBehaviour
             Vector3 forwardVector = transform.forward;
             float lengthOfForwardV = forwardVector.magnitude;
             Debug.Log("passTarget: " + passedTarget);
-            float angle = Mathf.Acos(Vector3.Dot(transform.forward, (passedTarget.transform.position - transform.position))/(Mathf.Abs(lengthOfForwardV * (passedTarget.transform.position - transform.position).magnitude)));
+
+            //
+            Vector3 posOffset = (new Vector3(passedTarget.transform.up.x, passedTarget.transform.up.y, passedTarget.transform.up.z) / 4) * 3;
+            //
+
+            float angle = Mathf.Acos(Vector3.Dot(transform.forward, ((passedTarget.transform.position + posOffset) - transform.position))/(Mathf.Abs(lengthOfForwardV * ((passedTarget.transform.position + posOffset) - transform.position).magnitude)));
 
             angle *= 180 / Mathf.PI;
 
             angle = Mathf.Abs(angle);
             Debug.Log("Within angle");
             //
-            Vector3 lookPos = passedTarget.transform.position - transform.position;
+            Vector3 lookPos = (passedTarget.transform.position + posOffset) - transform.position;
             Vector3 direction = lookPos.normalized;
 
             //var rotation = Quaternion.LookRotation(passedTarget.transform.position);
