@@ -1898,7 +1898,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224268714045459548}
   m_Direction: 0
   m_Value: 1
-  m_Size: 0.99999976
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2277,8 +2277,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 114642887382955858}
-        m_MethodName: ToggleChat
-        m_Mode: 1
+        m_MethodName: ReEnterChat
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3017,8 +3017,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114064092200871722}
   m_HandleRect: {fileID: 224925717713716708}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.31919995
+  m_Value: 0.9999998
+  m_Size: 0.31919998
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3244,8 +3244,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 114642887382955858}
-        m_MethodName: ToggleChat
-        m_Mode: 1
+        m_MethodName: ReEnterChat
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3386,8 +3386,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 114642887382955858}
-        m_MethodName: ToggleChat
-        m_Mode: 1
+        m_MethodName: ReEnterChat
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3763,10 +3763,13 @@ MonoBehaviour:
   ChatEntryPrefab: {fileID: 114137888501494816, guid: c6b799306ee855a47bc4f73a46831623,
     type: 2}
   AllChatInput: {fileID: 1853869982481050}
+  AllChatInputText: {fileID: 114497379017482426}
   AllChatName: {fileID: 114617829472712550}
   TeamChatInput: {fileID: 1181525948966268}
+  TeamChatInputText: {fileID: 114514060466858904}
   TeamChatName: {fileID: 114623414844858114}
   ConsoleInput: {fileID: 1234734031265124}
+  ConsoleInputText: {fileID: 114235940673870878}
   ConsoleChatName: {fileID: 114457476703334098}
   PlayerNameBackground: {fileID: 114588578771782612}
   ScrollContentStartingPoint: {fileID: 224404440028109488}
@@ -6343,7 +6346,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 160.8, y: 83.1}
+  m_AnchoredPosition: {x: 160.80002, y: 83.1001}
   m_SizeDelta: {x: 280.3, y: 143}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224730111993414976
