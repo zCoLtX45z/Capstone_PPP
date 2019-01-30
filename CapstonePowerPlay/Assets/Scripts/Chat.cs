@@ -175,25 +175,25 @@ public class Chat : NetworkBehaviour
         if (type == LogType.Error)
         {
             if(!IgnoreErrors)
-                CmdCreateEntry("Error", " -LogString- " + logString + " -StackTrace- ", "Console");
+                CreateConsoleEntry("Error", " -LogString- " + logString + " -StackTrace- ");
         }
         else if (type == LogType.Log)
         {
             if(!IgnoreLogs)
-                CmdCreateEntry("Log", " -LogString- " + logString + " -StackTrace- ", "Console");
+                CreateConsoleEntry("Log", " -LogString- " + logString + " -StackTrace- ");
         }
         else if (type == LogType.Warning)
         {
             if (!IgnoreWarnings)
-                CmdCreateEntry("Warning", " -LogString- " + logString + " -StackTrace- ", "Console");
+                CreateConsoleEntry("Warning", " -LogString- " + logString + " -StackTrace- ");
         }
         else if (type == LogType.Assert)
         {
-            CmdCreateEntry("Assert", " -LogString- " + logString + " -StackTrace- ", "Console");
+            CreateConsoleEntry("Assert", " -LogString- " + logString + " -StackTrace- ");
         }
         else if (type == LogType.Exception)
         {
-            CmdCreateEntry("Exception", " -LogString- " + logString + " -StackTrace- ", "Console");
+            CreateConsoleEntry("Exception", " -LogString- " + logString + " -StackTrace- ");
         }
     }
     public bool GetEnabled()
@@ -213,7 +213,7 @@ public class Chat : NetworkBehaviour
 
     public void CreateConsoleEntry(string text)
     {
-        CmdCreateEntry(gameObject.name, text, "Console");
+        CreateConsoleEntry(gameObject.name, text);
     }
 
     public void EnterEntry(ChatEntry Entry)
@@ -305,7 +305,6 @@ public class Chat : NetworkBehaviour
                 if (rt.transform.parent != ScrollContentStartingPoint)
                 {
                     rt.parent = ScrollContentStartingPoint;
-                    RefreshUi();
                 }
                 rt.localPosition = new Vector3(rt.localPosition.x, -count * (ContentSpacing), 0);
                 c.gameObject.SetActive(true);
@@ -321,7 +320,6 @@ public class Chat : NetworkBehaviour
                 if (rt.transform.parent != ScrollContentStartingPoint)
                 {
                     rt.parent = ScrollContentStartingPoint;
-                    RefreshUi();
                 }
                 rt.localPosition = new Vector3(rt.localPosition.x, -count * (ContentSpacing), 0);
                 c.gameObject.SetActive(true);
@@ -337,7 +335,6 @@ public class Chat : NetworkBehaviour
                 if (rt.transform.parent != ScrollContentStartingPoint)
                 {
                     rt.parent = ScrollContentStartingPoint;
-                    RefreshUi();
                 }
                 rt.localPosition = new Vector3(rt.localPosition.x, -count * (ContentSpacing), 0);
                 c.gameObject.SetActive(true);
@@ -353,7 +350,6 @@ public class Chat : NetworkBehaviour
                 if (rt.transform.parent != ScrollContentStartingPoint)
                 {
                     rt.parent = ScrollContentStartingPoint;
-                    RefreshUi();
                 }
                 rt.localPosition = new Vector3(rt.localPosition.x, -count * (ContentSpacing + 30 * 2), 0);
                 c.gameObject.SetActive(true);
@@ -361,33 +357,39 @@ public class Chat : NetworkBehaviour
         }
     }
 
+    public void CreateConsoleEntry(string name, string text)
+    {
+        if (IgnoreCopies)
+        {
+            bool CompleteCommand = true;
+            foreach (ChatEntry c in ConsoleEntries)
+            {
+                if (c.EntryText == name + ": " + text)
+                {
+                    CompleteCommand = false;
+                    break;
+                }
+            }
+            if (CompleteCommand)
+            {
+                ChatEntry temp = Instantiate(ChatEntryPrefab, ScrollContentStartingPoint);
+                temp.CreateMessege(name + ": " + text, ConsoleColor, "Console");
+                ConsoleEntries.Enqueue(temp);
+                if (EntryList != 3)
+                {
+                    temp.gameObject.SetActive(false);
+                }
+            }
+        }
+    }
     [Command]
     public void CmdCreateEntry(string name, string text, string entryType)
     {
         if (text != "")
         {
-            if (entryType != "Console" || !IgnoreCopies)
+            if (entryType != "Console")
             {
                 RpcCreateEntry(name, text, entryType);
-            }
-            else
-            {
-                if (IgnoreCopies)
-                {
-                    bool CompleteCommand = true;
-                    foreach (ChatEntry c in ConsoleEntries)
-                    {
-                        if (c.EntryText == name + ": " + text)
-                        {
-                            CompleteCommand = false;
-                            break;
-                        }
-                    }
-                    if (CompleteCommand)
-                    {
-                        RpcCreateEntry(name, text, entryType);
-                    }
-                }
             }
         }
     }
@@ -405,6 +407,7 @@ public class Chat : NetworkBehaviour
             {
                 temp.gameObject.SetActive(false);
             }
+            BroadcastEntry(temp);
         }
         else if (entryType == "Team1")
         {
@@ -417,6 +420,7 @@ public class Chat : NetworkBehaviour
                 {
                     temp.gameObject.SetActive(false);
                 }
+                BroadcastEntry(temp);
             }
         }
         else if (entryType == "Team2")
@@ -430,6 +434,7 @@ public class Chat : NetworkBehaviour
                 {
                     temp.gameObject.SetActive(false);
                 }
+                BroadcastEntry(temp);
             }
         }
         else if (entryType == "Console")
@@ -442,7 +447,6 @@ public class Chat : NetworkBehaviour
             }
  
         }
-        BroadcastEntry(temp);
     }
 
     public void EnterChat(bool b = true)
@@ -460,11 +464,11 @@ public class Chat : NetworkBehaviour
 
     public void ToggleChat()
     {
-        UpdateDisplay();
         if (EnabledChat == false)
         {
             EnableUI();
             EnableComponents();
+            UpdateDisplay();
             TeamChatInputText.ActivateInputField();
         }
         else

@@ -11,7 +11,8 @@ public class netSpawner : NetworkBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        CmdSpawnNet();
+       if (isServer)
+            CmdSpawnNet();
 
     }
 	

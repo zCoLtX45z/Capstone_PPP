@@ -29,7 +29,8 @@ public class KeepNetRotation : NetworkBehaviour {
                 {
                     if (NetPlayerList.Length == HoverboardList.Length)
                     {
-                        CmdUpdateRotation(true);
+                        if (isServer)
+                            CmdUpdateRotation(true);
                     }
                 }
             }
