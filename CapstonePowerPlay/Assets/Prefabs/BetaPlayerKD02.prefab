@@ -1262,6 +1262,7 @@ GameObject:
   - component: {fileID: 114185119899754398}
   - component: {fileID: 114350165958490342}
   - component: {fileID: 114393875245464268}
+  - component: {fileID: 114299975020780832}
   m_Layer: 8
   m_Name: ThirdPersonCameraV1
   m_TagString: Untagged
@@ -8152,6 +8153,19 @@ MonoBehaviour:
   ballScript: {fileID: 0}
   player: {fileID: 0}
   playerHandTransform: {fileID: 4853891910267540}
+--- !u!114 &114299975020780832
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1317038387393846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a955cb2580809c8459e4c63402b1934e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freeLookCamera: {fileID: 114350165958490342}
+  hbs: {fileID: 114944545778426298}
 --- !u!114 &114350165958490342
 MonoBehaviour:
   m_ObjectHideFlags: 1
