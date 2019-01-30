@@ -218,46 +218,64 @@ public class Chat : NetworkBehaviour
 
     public void EnterEntry(ChatEntry Entry)
     {
+        ChatEntry temp = Instantiate(Entry, ScrollContentStartingPoint);
         //Debug.Log("Enter Entry");
-        if (Entry.EntryType == "All")
+        if (temp.EntryType == "All")
         {
             //Debug.Log("Enter Entry ALL");
-            if (!GlobalChatEntries.Contains(Entry))
+            if (!GlobalChatEntries.Contains(temp))
             {
                 //Debug.Log("Enter Entry ALL in");
-                EveryEntry.Enqueue(Entry);
-                GlobalChatEntries.Enqueue(Entry);
+                EveryEntry.Enqueue(temp);
+                GlobalChatEntries.Enqueue(temp);
                 RefreshUi();
             }
+            else
+            {
+                Destroy(temp);
+            }
         }
-        else if (Entry.EntryType == "Team1")
+        else if (temp.EntryType == "Team1")
         {
             //Debug.Log("Enter Entry Team1");
             if (NP.GetTeamNum() == 1)
             {
-                if (!TeamChatEntries.Contains(Entry))
+                if (!TeamChatEntries.Contains(temp))
                 {
                     //Debug.Log("Enter Entry Team1 in");
-                    EveryEntry.Enqueue(Entry);
-                    TeamChatEntries.Enqueue(Entry);
+                    EveryEntry.Enqueue(temp);
+                    TeamChatEntries.Enqueue(temp);
                     RefreshUi();
+                }
+                else
+                {
+                    Destroy(temp);
                 }
             }
         }
-        else if (Entry.EntryType == "Team2")
+        else if (temp.EntryType == "Team2")
         {
             //Debug.Log("Enter Entry Team2");
             if (NP.GetTeamNum() == 2)
             {
-                if (!TeamChatEntries.Contains(Entry))
+                if (!TeamChatEntries.Contains(temp))
                 {
                     //Debug.Log("Enter Entry Team2 in");
-                    EveryEntry.Enqueue(Entry);
-                    TeamChatEntries.Enqueue(Entry);
+                    EveryEntry.Enqueue(temp);
+                    TeamChatEntries.Enqueue(temp);
                     RefreshUi();
+                }
+                else
+                {
+                    Destroy(temp);
                 }
             }
         }
+        else
+        {
+            Destroy(temp);
+        }
+
 
         UpdateDisplay();
     }
