@@ -27,9 +27,9 @@ public class LookAtPostionFollow : MonoBehaviour {
         float distance = (lookatPoint.position - transform.position).magnitude;
 
 
-        //transform.position = lookatPoint.position;
+        transform.position = lookatPoint.position;
 
-        transform.position = Vector3.MoveTowards(transform.position, lookatPoint.position, speedTransation * distance);
+        //transform.position = Vector3.MoveTowards(transform.position, lookatPoint.position, speedTransation * distance);
 
         RaycastHit hit;
 
