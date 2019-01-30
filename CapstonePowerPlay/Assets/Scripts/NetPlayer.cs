@@ -7,29 +7,40 @@ using UnityEngine.UI;
 [RequireComponent(typeof(NetworkIdentity))]
 public class NetPlayer : NetworkBehaviour {
 
+    // Player Components
+    [SerializeField]
+    private Chat ChatSystem;
+
+    // Spawninng Player Object
     [SerializeField]
     private GameObject PlayerObject;
 
+    // Player Team
     private int TeamNum = 0;
 
+    // Player and Other Player 
     [HideInInspector]
     public NetPlayer LocalPlayer;
     [HideInInspector]
     public NetPlayer[] PlayerList = null;
 
+    // Team Select Canvas
     [SerializeField]
     private Canvas StartingCanvas;
 
     [HideInInspector]
     public bool ConfirmTeam = false;
 
+    // Player Indetifiers
     //[HideInInspector]
     [SyncVar]
     public string CodeNumbers = "";
     [SyncVar]
     public string PlayerCode = "";
 
-    private bool ChangedNames = false;
+    // Player Child Components
+    private hoverBoardScript HBS;
+    private BallHandling BH;
 
     // Use this for initialization
     void Start () {
@@ -78,6 +89,38 @@ public class NetPlayer : NetworkBehaviour {
                 }
             }
         }
+        else
+        {
+            if (isLocalPlayer)
+            {
+                if (Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.RightShift))
+                {
+                    if (!ChatSystem.GetEnabled())
+                        ChatSystem.ToggleChat();
+                }
+                if (ChatSystem.GetEnabled() && HBS != null)
+                {
+                    HBS.BoardHasControl = false;
+                }
+                else if (!ChatSystem.GetEnabled() && HBS != null)
+                {
+                    HBS.BoardHasControl = true;
+                }
+
+                // If the curser should be active or not
+                if (ChatSystem.GetEnabled())
+                {
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+                }
+                else
+                {
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
+            }
+        }
+
     }
 
     [Command]
@@ -96,6 +139,8 @@ public class NetPlayer : NetworkBehaviour {
     {
         PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
         PC.CmdSetUpPlayer();
+        HBS = spawningObject.GetComponent<hoverBoardScript>();
+        BH = spawningObject.GetComponent<BallHandling>();
     }
 
     public void SetPlayerList()

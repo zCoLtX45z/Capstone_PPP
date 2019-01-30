@@ -22,7 +22,7 @@ public class BallHandling : NetworkBehaviour {
     private GameObject Target;
 
     // Target position for passes
-    private Vector3 TargetPosition;
+    //private Vector3 TargetPosition;
 
     // Hand to where the ball goes
     [SerializeField]
@@ -58,6 +58,10 @@ public class BallHandling : NetworkBehaviour {
     [SerializeField]
     private AnimationController AnimationControl;
 
+    // Player has control
+    [HideInInspector]
+    public bool HasControl = true;
+
     // Use this for initialization
     void Start () {
         canHold = true;
@@ -66,7 +70,7 @@ public class BallHandling : NetworkBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (PC.LocalPlayer == PC.ParentPlayer)
+        if (PC.LocalPlayer == PC.ParentPlayer && HasControl)
         {
             if(ball != null)
             {
@@ -89,14 +93,14 @@ public class BallHandling : NetworkBehaviour {
                     {
                         // PASS
                         // Get Target from Targeting Script
-                        Target = softLockScript.target;
+                        Target = softLockScript.target.gameObject;
                         //Debug.Log("target: " + Target);
-                        TargetPosition = softLockScript.targetPosition;
+                        //TargetPosition = softLockScript.targetPosition;
                         if (Target != null)
                         {
                             //Debug.Log("jadaadadadadadad");
                             //Debug.Log(gameObject.name + " Passes");
-                            Debug.Log("target: " + Target.name);
+                          //  Debug.Log("target: " + Target.name);
                             CmdPass(Target, ball.gameObject, Hand.position, this.gameObject);
                             AnimationControl.CmdPassAnimation();
                             ball = null;
@@ -122,6 +126,8 @@ public class BallHandling : NetworkBehaviour {
                         AnimationControl.CmdPassAnimation();
                         ball = null;
                     }
+                   
+
                 }
             }
 
@@ -214,17 +220,20 @@ public class BallHandling : NetworkBehaviour {
 
 
     [Command]
-    public void CmdSteal(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    public void CmdSteal(GameObject TargetHand, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
-        RpcSteal(Target, ballObject, HandPos, WhoThrew);
+        //Debug.Log("CmdSteal");
+        RpcSteal(TargetHand, ballObject, HandPos, WhoThrew);
     }
 
     [ClientRpc]
-    private void RpcSteal(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    private void RpcSteal(GameObject TargetHand, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
-
+        //Debug.Log("RpcSteal");
         Ball temp = ballObject.GetComponent<Ball>();
-        temp.CmdSetPass(true, Target, PassForce, HandPos, WhoThrew);
+        temp.thiefTransform = TargetHand.transform;
+        temp.stolenInProgress = true;
+        temp.CmdSetSteal(true, TargetHand, PassForce, HandPos, WhoThrew);
         CmdTurnOnFakeBall(false);
     }
 

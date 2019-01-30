@@ -34,7 +34,7 @@ public class hoverBoardScript : NetworkBehaviour
     private float Kd = 0.0f;
     private bool[] ToggleStabilizers;
     private int StabalizersActive = 0;
-    private bool AutoStabalize = true;
+    //private bool AutoStabalize = true;
 
     // Maximum
     [SerializeField]
@@ -78,6 +78,10 @@ public class hoverBoardScript : NetworkBehaviour
     // Animator
     [SerializeField]
     private AnimationController AnimationControl;
+
+    // Player has control or not
+    [HideInInspector]
+    public bool BoardHasControl = true;
 
     //marcstuff
     //public GameObject camGurl1;
@@ -126,7 +130,8 @@ public class hoverBoardScript : NetworkBehaviour
     {
 
         //if (isLocalPlayer)
-
+        if (BoardHasControl)
+        {
             //main thrust
             m_currThrust = 0.0f;
             float aclAxis = Input.GetAxis("Vertical");
@@ -151,6 +156,12 @@ public class hoverBoardScript : NetworkBehaviour
             CurrentAdjust = Speed < SpeedDeadZone ? 0.0f
                 : Speed < MaxSpeed ? m_hoverHeight * MaxTurnAdjustPercent * (Speed - SpeedDeadZone) / ((MaxSpeed - SpeedDeadZone) * 100f)
                 : m_hoverHeight * MaxTurnAdjustPercent / (100f);
+        }
+        else
+        {
+            m_currTurn = 0;
+            m_currThrust = 0;
+        }
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -161,25 +172,28 @@ public class hoverBoardScript : NetworkBehaviour
             sprintMultiplier = 1 + BoostPaddBosstLinearPercent;
         }
 
-        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.Space))
+        if (BoardHasControl)
         {
-            CanStick = false;
-            if (Input.GetKeyDown(KeyCode.Space) && OnGround)
+            if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.Space))
             {
-                Jump();
-                OnGround = false;
-            }
+                CanStick = false;
+                if (Input.GetKeyDown(KeyCode.Space) && OnGround)
+                {
+                    Jump();
+                    OnGround = false;
+                }
 
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                Flipping = true;
-                FlipCharacter();
+                if (Input.GetKey(KeyCode.LeftControl))
+                {
+                    Flipping = true;
+                    FlipCharacter();
+                }
             }
-        }
-        else
-        {
-            CanStick = true;
-            Flipping = false;
+            else
+            {
+                CanStick = true;
+                Flipping = false;
+            }
         }
 
         // Update animator
@@ -443,7 +457,7 @@ public class hoverBoardScript : NetworkBehaviour
     public void Jump()
     {
         float XAngle = transform.eulerAngles.x * Mathf.PI / 180;
-        float YAngle = transform.eulerAngles.y * Mathf.PI / 180;
+        //float YAngle = transform.eulerAngles.y * Mathf.PI / 180;
         float ZAngle = transform.eulerAngles.z * Mathf.PI / 180;
         float TargetAdjustForceX = -JumpForce * Mathf.Sin(XAngle);
         float TargetAdjustForceY = JumpForce * Mathf.Cos(XAngle);

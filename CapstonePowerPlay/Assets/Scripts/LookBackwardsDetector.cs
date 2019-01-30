@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class LookBackwardsDetector : MonoBehaviour {
 
-    private Cinemachine.CinemachineFreeLook playerVirtualCamera;
+    //private Cinemachine.CinemachineFreeLook playerVirtualCamera;
 
 
     public bool lookingBackwards;
@@ -21,7 +21,7 @@ public class LookBackwardsDetector : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        playerVirtualCamera = transform.GetComponent<Cinemachine.CinemachineFreeLook>();
+        //playerVirtualCamera = transform.GetComponent<Cinemachine.CinemachineFreeLook>();
         //antiCrosshair = GameObject.FindGameObjectWithTag("antiCrosshair");
 
         antiCrosshair.SetActive(false);

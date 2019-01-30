@@ -39,7 +39,7 @@ namespace Prototype.NetworkLobby
         public Text hostInfo;
 
 
-        LobbyPlayer lobber;
+        //LobbyPlayer lobber;
         public GameObject obj;
         
         //Client numPlayers from NetworkManager is always 0, so we count (throught connect/destroy in LobbyPlayer) the number
@@ -71,7 +71,7 @@ namespace Prototype.NetworkLobby
 
             SetServerInfo("Offline", "None");
 
-            lobber = FindObjectOfType<LobbyPlayer>();
+            //lobber = FindObjectOfType<LobbyPlayer>();
         }
 
         public override void OnLobbyClientSceneChanged(NetworkConnection conn)
