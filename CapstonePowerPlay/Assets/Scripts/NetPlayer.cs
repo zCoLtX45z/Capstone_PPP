@@ -130,8 +130,11 @@ public class NetPlayer : NetworkBehaviour {
         GameObject GO = Instantiate(PlayerObject, transform);
         GO.name = PlayerCode;
         NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
-        CmdParentChild(GO);
-        RpcSpawnPlayer(GO);
+        if (GO != null)
+        {
+            RpcParentChild(GO);
+            RpcSpawnPlayer(GO);
+        }
     }
 
     [ClientRpc]

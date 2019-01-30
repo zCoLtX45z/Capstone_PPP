@@ -26,13 +26,19 @@ public class Chat : NetworkBehaviour
     [SerializeField]
     private GameObject AllChatInput;
     [SerializeField]
+    private InputField AllChatInputText;
+    [SerializeField]
     private Text AllChatName;
     [SerializeField]
     private GameObject TeamChatInput;
     [SerializeField]
+    private InputField TeamChatInputText;
+    [SerializeField]
     private Text TeamChatName;
     [SerializeField]
     private GameObject ConsoleInput;
+    [SerializeField]
+    private InputField ConsoleInputText;
     [SerializeField]
     private Text ConsoleChatName;
     [SerializeField]
@@ -81,7 +87,6 @@ public class Chat : NetworkBehaviour
 
     void Awake()
     {
-        Application.logMessageReceived += LogCall;
     }
 
     void Start()
@@ -89,7 +94,6 @@ public class Chat : NetworkBehaviour
         AllChatName.text = gameObject.name;
         TeamChatName.text = gameObject.name;
         ConsoleChatName.text = gameObject.name;
-        Application.logMessageReceived += LogCall;
     }
 	// Update is called once per frame
 	void Update () {
@@ -276,6 +280,18 @@ public class Chat : NetworkBehaviour
         }
     }
 
+    public void ReEnterChat(string text)
+    {
+        if (text == "")
+        {
+            //ToggleMessege();
+        }
+        else
+        {
+            ToggleChat();
+        }
+    }
+
     public void UpdateDisplay()
     {
         int count = 0;
@@ -449,6 +465,7 @@ public class Chat : NetworkBehaviour
         {
             EnableUI();
             EnableComponents();
+            TeamChatInputText.ActivateInputField();
         }
         else
         {
@@ -568,16 +585,19 @@ public class Chat : NetworkBehaviour
         {
             AllChatInput.SetActive(false);
             TeamChatInput.SetActive(true);
+            TeamChatInputText.ActivateInputField();
         }
         else if (TeamChatInput.activeSelf)
         {
             ConsoleInput.SetActive(true);
             TeamChatInput.SetActive(false);
+            ConsoleInputText.ActivateInputField();
         }
         else if (ConsoleInput.activeSelf)
         {
             ConsoleInput.SetActive(false);
             AllChatInput.SetActive(true);
+            AllChatInputText.ActivateInputField();
         }
     }
 }
