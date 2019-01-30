@@ -215,7 +215,7 @@ public class hoverBoardScript : NetworkBehaviour
                 var hoverPoint = m_hoverPoints[i];
                 if (Physics.Raycast(hoverPoint.transform.position, -transform.up, out hit, m_hoverHeight + 0.3f, m_layerMask))
                 {
-                    Debug.DrawRay(hoverPoint.transform.position, -hoverPoint.transform.up * hit.distance, Color.red);
+                   // Debug.DrawRay(hoverPoint.transform.position, -hoverPoint.transform.up * hit.distance, Color.red);
                     m_body.AddForceAtPosition(Vector3.up * m_maxHoverForce * (1.0f - (hit.distance / m_hoverHeight)), hoverPoint.transform.position);
                     //Debug.Log(hoverPoint.name + ", Force: " + (Vector3.up * m_hoverForce * (1.0f - (hit.distance / m_hoverHeight))).y + ", Distance: " + hit.distance);
                 }
@@ -265,7 +265,7 @@ public class hoverBoardScript : NetworkBehaviour
                     temp.step(m_hoverHeight + TargetAdjustHeight, hit.distance);
                     m_body.AddForceAtPosition(temp.gameObject.transform.up * temp.getOutput(), temp.gameObject.transform.position);
 
-                    Debug.DrawRay(temp.gameObject.transform.position, -temp.gameObject.transform.up * hit.distance, Color.red);
+                   // Debug.DrawRay(temp.gameObject.transform.position, -temp.gameObject.transform.up * hit.distance, Color.red);
                     //  Debug.Log(temp.gameObject.name + ", Force: " + (temp.gameObject.transform.up * m_maxHoverForce * (1.0f - (hit.distance / m_hoverHeight))).y + ", Distance: " + hit.distance);
                 }
                 else if (!Flipping)
