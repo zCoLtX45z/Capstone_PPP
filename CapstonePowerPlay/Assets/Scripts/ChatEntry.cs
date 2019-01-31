@@ -21,9 +21,13 @@ public class ChatEntry : MonoBehaviour {
     public string EntryType;
     [HideInInspector]
     public string EntryText;
+    [HideInInspector]
+    public int EntryNumber;
+    [HideInInspector]
+    public string EntryPerson;
 
 
-    public void CreateMessege(string text, Color TextColor, string type)
+    public void CreateMessege(string text, Color TextColor, string type, int EntryNum, string WhoEntered)
     {
         EntryText = text;
         MessegeText.text = text;

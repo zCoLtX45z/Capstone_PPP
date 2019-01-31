@@ -61,6 +61,23 @@ public class PlayerColor : NetworkBehaviour {
         }
     }
 
+    public void SetUpPlayer()
+    {
+        ParentPlayer = GetComponentInParent<NetPlayer>();
+        LocalPlayer = ParentPlayer.LocalPlayer;
+        TeamNum = ParentPlayer.GetTeamNum();
+        SetTeamNum(TeamNum);
+        TextName.text = ParentPlayer.name;
+        if (LocalPlayer == ParentPlayer)
+        {
+            TextName.gameObject.SetActive(false);
+        }
+        if (LocalPlayer.GetTeamNum() != ParentPlayer.GetTeamNum())
+        {
+            TextName.gameObject.SetActive(false);
+        }
+    }
+
     public void SetTeamNum(int team)
     {
         CD.LocalPlayer = LocalPlayer;
