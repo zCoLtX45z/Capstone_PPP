@@ -12,7 +12,7 @@ public class LookAtPostionFollow : MonoBehaviour {
     private Transform player;
 
     [SerializeField]
-    private LayerMask layerMask;
+    private string layerMask;
 
     [SerializeField]
     private float speedTransation;
@@ -31,14 +31,14 @@ public class LookAtPostionFollow : MonoBehaviour {
 
         //transform.position = Vector3.MoveTowards(transform.position, lookatPoint.position, speedTransation * distance);
 
-        Debug.Log("string of layerMask: " + layerMask.ToString());
+        //Debug.Log("layerMask: " + layerMask);
 
         RaycastHit hit;
 
         if (Physics.Raycast(player.position, player.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
         {
-            Debug.DrawRay(player.position, player.TransformDirection(Vector3.down));
-            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
+           // Debug.DrawRay(player.position, player.TransformDirection(Vector3.down));
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer(layerMask))
             {
                 Debug.Log("Hit object with same layer");
                 Vector3 inverseTPoint = transform.InverseTransformPoint(transform.position + hit.normal);
