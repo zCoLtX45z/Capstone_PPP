@@ -253,6 +253,10 @@ public class Chat : NetworkBehaviour
                     Destroy(temp);
                 }
             }
+            else
+            {
+                Destroy(temp);
+            }
         }
         else if (temp.EntryType == "Team2")
         {
@@ -270,6 +274,10 @@ public class Chat : NetworkBehaviour
                 {
                     Destroy(temp);
                 }
+            }
+            else
+            {
+                Destroy(temp);
             }
         }
         else
