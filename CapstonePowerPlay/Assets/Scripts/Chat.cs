@@ -295,7 +295,7 @@ public class Chat : NetworkBehaviour
     {
         EnableUI();
         EnableComponents();
-        DisableComponents();
+        DisableUI();
     }
 
     public void ReEnterChat(string text)
