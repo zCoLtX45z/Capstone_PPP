@@ -26,8 +26,6 @@ public class ScoreTracker : MonoBehaviour {
             t1Scoring.Add(scoreCanvases[i].transform.GetChild(0).GetComponent<Text>());
             t2Scoring.Add(scoreCanvases[i].transform.GetChild(1).GetComponent<Text>());
         }
-        
-
 
         team1Score = 0;
         team2Score = 0;
