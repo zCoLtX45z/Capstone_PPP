@@ -288,6 +288,7 @@ public class Chat : NetworkBehaviour
         {
             if (c != WhoBroadcasted)
                 c.EnterEntry(Entry);
+            c.UpdateDisplay();
         }
     }
 
@@ -299,7 +300,6 @@ public class Chat : NetworkBehaviour
             EnableComponents();
             DisableUI();
         }
-        UpdateDisplay();
     }
 
     public void ReEnterChat(string text)
