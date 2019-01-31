@@ -298,8 +298,8 @@ public class Chat : NetworkBehaviour
             EnableUI();
             EnableComponents();
             DisableUI();
-            UpdateDisplay();
         }
+        UpdateDisplay();
     }
 
     public void ReEnterChat(string text)
