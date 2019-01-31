@@ -141,7 +141,7 @@ public class NetPlayer : NetworkBehaviour {
     private void RpcSpawnPlayer(GameObject spawningObject)
     {
         PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
-        PC.CmdSetUpPlayer();
+        PC.SetUpPlayer();
         HBS = spawningObject.GetComponent<hoverBoardScript>();
         BH = spawningObject.GetComponent<BallHandling>();
     }

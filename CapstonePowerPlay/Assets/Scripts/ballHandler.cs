@@ -16,7 +16,8 @@ public class ballHandler : NetworkBehaviour {
     {
 
         ballSpawn = GameObject.FindGameObjectWithTag("ballSpawn").GetComponent<Transform>();
-        CmdSpawnBall();
+        if (isServer)
+            CmdSpawnBall();
     }
 	
 	// Update is called once per frame
