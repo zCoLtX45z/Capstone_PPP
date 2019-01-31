@@ -36,8 +36,9 @@ public class LookAtPostionFollow : MonoBehaviour {
         if (Physics.Raycast(player.position, player.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
         {
             Debug.DrawRay(player.position, player.TransformDirection(Vector3.down));
-            if (hit.transform.gameObject.layer == layerMask)
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
+                Debug.Log("Hit object with same layer");
                 Vector3 inverseTPoint = transform.InverseTransformPoint(transform.position + hit.normal);
                 float angleX = Mathf.Atan2(inverseTPoint.z, inverseTPoint.y) * Mathf.Rad2Deg;
                 transform.Rotate(angleX, 0, 0);
