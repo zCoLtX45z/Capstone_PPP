@@ -184,7 +184,7 @@ public class Scoring : NetworkBehaviour
             {
                 if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
                 {
-                    Debug.Log(player.name + " is the local player");
+                    //Debug.Log(player.name + " is the local player");
                     localPlayer = player.transform;
 
 
