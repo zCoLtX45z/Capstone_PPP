@@ -5156,7 +5156,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1775631209951214}
-  m_LocalRotation: {x: -0.6504457, y: 0.2979796, z: 0.27365938, w: 0.6428367}
+  m_LocalRotation: {x: -0.6504457, y: 0.29797953, z: 0.27365944, w: 0.64283675}
   m_LocalPosition: {x: 2.0406787e-11, y: -0.000001905114, z: 0.00000009230348}
   m_LocalScale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
   m_Children:
@@ -7947,9 +7947,9 @@ MonoBehaviour:
   m_VerticalDamping: 0
   m_ScreenX: 0.5
   m_ScreenY: 0.6
-  m_DeadZoneWidth: 0
+  m_DeadZoneWidth: 0.03
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
+  m_SoftZoneWidth: 1
   m_SoftZoneHeight: 0.8
   m_BiasX: 0
   m_BiasY: 0
@@ -8269,7 +8269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   freeLookCamera: {fileID: 114350165958490342}
   hbs: {fileID: 114944545778426298}
-  deadZone: 1
+  deadZone: 0.03
   fovTransiSpeed: 7
   minFOV: 40
   maxFOV: 60
@@ -8668,7 +8668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e59ff7109d97a4cb4eaca0bae42fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  positionDamping: 0
+  positionDamping: 0.5
   rotationDamping: 2
   lookAtSoftDampingHeight: 0
   lookAtSoftDampingWidth: 0
