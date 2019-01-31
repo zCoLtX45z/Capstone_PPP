@@ -298,6 +298,7 @@ public class Chat : NetworkBehaviour
             EnableUI();
             EnableComponents();
             DisableUI();
+            UpdateDisplay();
         }
     }
 
