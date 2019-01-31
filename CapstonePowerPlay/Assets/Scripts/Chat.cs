@@ -293,6 +293,9 @@ public class Chat : NetworkBehaviour
 
     public void RefreshUi()
     {
+        if (!PlayerNameBackground.gameObject.activeSelf)
+            PlayerNameBackground.gameObject.SetActive(true);
+
         ChatParent.SetActive(true);
         foreach (Behaviour b in UiObjectsToDisableAfterTime)
         {
