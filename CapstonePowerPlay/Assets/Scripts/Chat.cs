@@ -293,9 +293,12 @@ public class Chat : NetworkBehaviour
 
     public void RefreshUi()
     {
-        EnableUI();
-        EnableComponents();
-        DisableUI();
+        if (NP.LocalPlayer == NP)
+        {
+            EnableUI();
+            EnableComponents();
+            DisableUI();
+        }
     }
 
     public void ReEnterChat(string text)
