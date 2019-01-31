@@ -31,6 +31,8 @@ public class LookAtPostionFollow : MonoBehaviour {
 
         //transform.position = Vector3.MoveTowards(transform.position, lookatPoint.position, speedTransation * distance);
 
+        Debug.Log("string of layerMask: " + layerMask.ToString());
+
         RaycastHit hit;
 
         if (Physics.Raycast(player.position, player.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
