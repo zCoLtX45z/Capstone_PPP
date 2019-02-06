@@ -8,37 +8,50 @@ public class ScoreTracker : MonoBehaviour {
     private float team1Score;
     private float team2Score;
 
-    private Text t1Scoring;
-    private Text t2Scoring;
+    [SerializeField]
+    public List<Text> t1Scoring = new List<Text>();
+    [SerializeField]
+    public List<Text> t2Scoring = new List<Text>();
+    [SerializeField]
+    public GameObject[] scoreCanvases;
+
     // Use this for initialization
     void Start () {
-        t1Scoring = transform.GetChild(0).GetComponent<Text>();
-        t2Scoring = transform.GetChild(1).GetComponent<Text>();
+        //t1Scoring = transform.GetChild(0).GetComponent<Text>();
+        //t2Scoring = transform.GetChild(1).GetComponent<Text>();
+
+        for (int i = 0; i < scoreCanvases.Length; i++)
+        {
+            Debug.Log("i: " + i);
+            t1Scoring.Add(scoreCanvases[i].transform.GetChild(0).GetComponent<Text>());
+            t2Scoring.Add(scoreCanvases[i].transform.GetChild(1).GetComponent<Text>());
+        }
 
         team1Score = 0;
         team2Score = 0;
 
-        t1Scoring.text = "Team1: " + team1Score.ToString();
-        t2Scoring.text = "Team2: " + team2Score.ToString();
+        //for (int i = 0; i < t1Scoring.Count; i++)
+        //{
+        //    t1Scoring[i].text = "Team1: " + team1Score.ToString();
+        //    t2Scoring[i].text = "Team2: " + team2Score.ToString();
+        //}
+        
     }
 	
     public void AddScoreToTeam1(float score)
     {
         team1Score += score;
-        t1Scoring.text = "Team1: " + team1Score.ToString();
-        //Scored();
+        //for (int i = 0; i < t1Scoring.Count; i++)
+        //{
+        //    t1Scoring[i].text = "Team1: " + team1Score.ToString();
+        //}
     }
     public void AddScoreToTeam2(float score)
     {
         team2Score += score;
-        t2Scoring.text = "Team2: " + team2Score.ToString();
-        //Scored();
+        //for (int i = 0; i < t1Scoring.Count; i++)
+        //{
+        //    t2Scoring[i].text = "Team2: " + team2Score.ToString();
+        //}
     }
-
-    /*
-    private void Scored()
-    {
-
-    }
-    */
 }

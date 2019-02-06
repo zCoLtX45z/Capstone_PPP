@@ -19,11 +19,14 @@ public class Scoring : NetworkBehaviour
     private float timeUntilScoreReset;
 
     [SerializeField]
-    private GameObject scoreUICanvas;
-    [SerializeField]
-    private Text textUiTeam1;
-    [SerializeField]
-    private Text textUiTeam2;
+    //private GameObject scoreUICanvas;
+    //[SerializeField]
+    //private Text textUiTeam1;
+    //[SerializeField]
+    //private Text textUiTeam2;
+
+    private ScoreTracker sTracker;
+
 
     [SerializeField]
     private Transform localPlayer;
@@ -31,6 +34,10 @@ public class Scoring : NetworkBehaviour
 
     private void Start()
     {
+        sTracker = GameObject.FindGameObjectWithTag("ScoreUI").GetComponent<ScoreTracker>();
+
+
+
         if (!localPlayer)
         {
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 1"))
@@ -42,22 +49,28 @@ public class Scoring : NetworkBehaviour
 
                     if (player.GetComponent<PlayerColor>().TeamNum == 1)
                     {
-                        textUiTeam1.color = Color.blue;
-                        textUiTeam2.color = Color.red;
+                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
+                        {
+                            sTracker.t1Scoring[i].color = Color.blue;
+                            sTracker.t2Scoring[i].color = Color.red;
+                        }
                     }
                     else if (player.GetComponent<PlayerColor>().TeamNum == 2)
                     {
-                        textUiTeam1.color = Color.red;
+                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
+                        {
+                            sTracker.t1Scoring[i].color = Color.red;
 
-                        float tempX = textUiTeam1.rectTransform.position.x;
+                            float tempX = sTracker.t1Scoring[i].rectTransform.position.x;
 
-                        textUiTeam1.rectTransform.position = textUiTeam2.rectTransform.position;
+                            sTracker.t1Scoring[i].rectTransform.position = sTracker.t2Scoring[i].rectTransform.position;
 
-                        textUiTeam2.color = Color.blue;
+                            sTracker.t2Scoring[i].color = Color.blue;
 
-                        textUiTeam2.rectTransform.position = new Vector3(tempX, textUiTeam1.rectTransform.position.y, textUiTeam1.rectTransform.position.z);
+                            sTracker.t2Scoring[i].rectTransform.position = new Vector3(tempX, sTracker.t1Scoring[i].rectTransform.position.y, sTracker.t1Scoring[i].rectTransform.position.z);
+
+                        }
                     }
-
                 }
             }
 
@@ -70,20 +83,27 @@ public class Scoring : NetworkBehaviour
 
                     if (player.GetComponent<PlayerColor>().TeamNum == 1)
                     {
-                        textUiTeam1.color = Color.blue;
-                        textUiTeam2.color = Color.red;
+                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
+                        {
+                            sTracker.t1Scoring[i].color = Color.blue;
+                            sTracker.t2Scoring[i].color = Color.red;
+                        }
                     }
                     else if (player.GetComponent<PlayerColor>().TeamNum == 2)
                     {
-                        textUiTeam1.color = Color.red;
+                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
+                        {
+                            sTracker.t1Scoring[i].color = Color.red;
 
-                        float tempX = textUiTeam1.rectTransform.position.x;
+                            float tempX = sTracker.t1Scoring[i].rectTransform.position.x;
 
-                        textUiTeam1.rectTransform.position = textUiTeam2.rectTransform.position;
+                            sTracker.t1Scoring[i].rectTransform.position = sTracker.t2Scoring[i].rectTransform.position;
 
-                        textUiTeam2.color = Color.blue;
+                            sTracker.t2Scoring[i].color = Color.blue;
 
-                        textUiTeam2.rectTransform.position = new Vector3(tempX, textUiTeam1.rectTransform.position.y, textUiTeam1.rectTransform.position.z);
+                            sTracker.t2Scoring[i].rectTransform.position = new Vector3(tempX, sTracker.t1Scoring[i].rectTransform.position.y, sTracker.t1Scoring[i].rectTransform.position.z);
+
+                        }
                     }
                 }
             }
@@ -91,9 +111,9 @@ public class Scoring : NetworkBehaviour
 
 
 
-        scoreUICanvas = GameObject.FindGameObjectWithTag("ScoreUI");
-        textUiTeam1 = scoreUICanvas.transform.GetChild(0).GetComponent<Text>();
-        textUiTeam2 = scoreUICanvas.transform.GetChild(1).GetComponent<Text>();
+        //scoreUICanvas = GameObject.FindGameObjectWithTag("ScoreUI");
+        //textUiTeam1 = scoreUICanvas.transform.GetChild(0).GetComponent<Text>();
+        //textUiTeam2 = scoreUICanvas.transform.GetChild(1).GetComponent<Text>();
 
         HandleScoreCanvas();
     }
@@ -103,8 +123,11 @@ public class Scoring : NetworkBehaviour
     public void HandleScoreCanvas()
     {
         //scoreDisplay.text = "Team1: " + team1Score + " | Team#2: " + team2Score;
-        textUiTeam1.text = team1Score.ToString();
-        textUiTeam2.text = team2Score.ToString();
+        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
+        {
+            sTracker.t1Scoring[i].text = team1Score.ToString();
+            sTracker.t2Scoring[i].text = team2Score.ToString();
+        }
     }
 
     [Command]
@@ -160,20 +183,26 @@ public class Scoring : NetworkBehaviour
 
                     if(player.GetComponent<PlayerColor>().TeamNum == 1)
                     {
-                        textUiTeam1.color = Color.blue;
-                        textUiTeam2.color = Color.red;
+                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
+                        {
+                            sTracker.t1Scoring[i].color = Color.blue;
+                            sTracker.t2Scoring[i].color = Color.red;
+                        }
                     }
                     else if (player.GetComponent<PlayerColor>().TeamNum == 2)
                     {
-                        textUiTeam1.color = Color.red;
+                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
+                        {
+                            sTracker.t1Scoring[i].color = Color.red;
 
-                        float tempX = textUiTeam1.rectTransform.position.x;
+                            float tempX = sTracker.t1Scoring[i].rectTransform.position.x;
 
-                        textUiTeam1.rectTransform.position = textUiTeam2.rectTransform.position;
+                            sTracker.t1Scoring[i].rectTransform.position = sTracker.t2Scoring[i].rectTransform.position;
 
-                        textUiTeam2.color = Color.blue;
+                            sTracker.t2Scoring[i].color = Color.blue;
 
-                        textUiTeam2.rectTransform.position = new Vector3(tempX, textUiTeam1.rectTransform.position.y, textUiTeam1.rectTransform.position.z);
+                            sTracker.t2Scoring[i].rectTransform.position = new Vector3(tempX, sTracker.t1Scoring[i].rectTransform.position.y, sTracker.t1Scoring[i].rectTransform.position.z);
+                        }
                     }
 
 
@@ -190,20 +219,26 @@ public class Scoring : NetworkBehaviour
 
                     if (player.GetComponent<PlayerColor>().TeamNum == 1)
                     {
-                        textUiTeam1.color = Color.blue;
-                        textUiTeam2.color = Color.red;
+                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
+                        {
+                            sTracker.t1Scoring[i].color = Color.blue;
+                            sTracker.t2Scoring[i].color = Color.red;
+                        }
                     }
                     else if (player.GetComponent<PlayerColor>().TeamNum == 2)
                     {
-                        textUiTeam1.color = Color.red;
+                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
+                        {
+                            sTracker.t1Scoring[i].color = Color.red;
 
-                        float tempX = textUiTeam1.rectTransform.position.x;
+                            float tempX = sTracker.t1Scoring[i].rectTransform.position.x;
 
-                        textUiTeam1.rectTransform.position = textUiTeam2.rectTransform.position;
+                            sTracker.t1Scoring[i].rectTransform.position = sTracker.t2Scoring[i].rectTransform.position;
 
-                        textUiTeam2.color = Color.blue;
+                            sTracker.t2Scoring[i].color = Color.blue;
 
-                        textUiTeam2.rectTransform.position = new Vector3(tempX, textUiTeam1.rectTransform.position.y, textUiTeam1.rectTransform.position.z);
+                            sTracker.t2Scoring[i].rectTransform.position = new Vector3(tempX, sTracker.t1Scoring[i].rectTransform.position.y, sTracker.t1Scoring[i].rectTransform.position.z);
+                        }
                     }
 
 

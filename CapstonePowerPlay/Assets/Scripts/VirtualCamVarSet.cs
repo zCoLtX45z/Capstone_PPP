@@ -23,8 +23,6 @@ public class VirtualCamVarSet : MonoBehaviour {
     [SerializeField]
     private float lookAtHardDampingWidth;
 
-
-
     [SerializeField]
     private Transform pCameraObject;
     
@@ -33,8 +31,6 @@ public class VirtualCamVarSet : MonoBehaviour {
 
     [SerializeField]
     private Transform lookAtTransform;
-
-   
 
 	// Use this for initialization
 	void Start () {

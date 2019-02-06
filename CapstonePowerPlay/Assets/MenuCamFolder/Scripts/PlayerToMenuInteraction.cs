@@ -8,6 +8,9 @@ public class PlayerToMenuInteraction : MonoBehaviour {
 
     private bool allowInteraction = false;
 
+    public bool triggerInteraction;
+
+
 	// Use this for initialization
 	void Start () {
         menuCamera = transform.GetComponent<Camera>();
@@ -32,6 +35,28 @@ public class PlayerToMenuInteraction : MonoBehaviour {
                 }
             }
         }
+
+
+
+        if (!triggerInteraction)
+        {
+            RaycastHit hit;
+
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                Ray ray = menuCamera.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    Debug.Log("Hit: " + hit.transform.gameObject.name);
+                    Transform objectHit = hit.transform;
+
+                    hit.transform.GetComponent<ButtonCallToDollyManager>().CallEffect();
+                    allowInteraction = false;
+                }
+            }
+        }
+
     }
 
 
@@ -40,7 +65,8 @@ public class PlayerToMenuInteraction : MonoBehaviour {
     {
         if(other.tag == "MenuTrigger")
         {
-            allowInteraction = true;
+            if(!triggerInteraction)
+                allowInteraction = true;
         }
     }
 
