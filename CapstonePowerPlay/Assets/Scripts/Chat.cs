@@ -231,10 +231,6 @@ public class Chat : NetworkBehaviour
                 GlobalChatEntries.Enqueue(temp);
                 RefreshUi();
             }
-            else
-            {
-                Destroy(temp);
-            }
         }
         else if (temp.EntryType == "Team1")
         {
@@ -247,10 +243,6 @@ public class Chat : NetworkBehaviour
                     EveryEntry.Enqueue(temp);
                     TeamChatEntries.Enqueue(temp);
                     RefreshUi();
-                }
-                else
-                {
-                    Destroy(temp);
                 }
             }
             else
@@ -269,10 +261,6 @@ public class Chat : NetworkBehaviour
                     EveryEntry.Enqueue(temp);
                     TeamChatEntries.Enqueue(temp);
                     RefreshUi();
-                }
-                else
-                {
-                    Destroy(temp);
                 }
             }
             else
