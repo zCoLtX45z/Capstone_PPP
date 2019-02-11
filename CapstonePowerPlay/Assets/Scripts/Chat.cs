@@ -610,20 +610,29 @@ public class Chat : NetworkBehaviour
     {
         if (AllChatInput.activeSelf)
         {
+            string tempMsg = AllChatInputText.text;
+            AllChatInputText.text = "";
             AllChatInput.SetActive(false);
             TeamChatInput.SetActive(true);
+            TeamChatInputText.text = tempMsg;
             TeamChatInputText.ActivateInputField();
         }
         else if (TeamChatInput.activeSelf)
         {
+            string tempMsg = TeamChatInputText.text;
+            TeamChatInputText.text = "";
             ConsoleInput.SetActive(true);
             TeamChatInput.SetActive(false);
+            ConsoleInputText.text = tempMsg;
             ConsoleInputText.ActivateInputField();
         }
         else if (ConsoleInput.activeSelf)
         {
+            string tempMsg = ConsoleInputText.text;
+            ConsoleInputText.text = "";
             ConsoleInput.SetActive(false);
             AllChatInput.SetActive(true);
+            AllChatInputText.text = tempMsg;
             AllChatInputText.ActivateInputField();
         }
     }

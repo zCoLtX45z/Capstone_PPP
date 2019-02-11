@@ -35,10 +35,10 @@ public class IKControl : NetworkBehaviour {
             Animator.SetLookAtPosition(TargetPosition);
             Animator.SetLookAtWeight(1);
             AnimatorClipInfo[] clipInfo = Animator.GetCurrentAnimatorClipInfo(layerIndex);
-            Debug.Log("Clip: " + clipInfo[0].clip);
+            //Debug.Log("Clip: " + clipInfo[0].clip);
             if ("" + clipInfo[0].clip == "Pass (UnityEngine.AnimationClip)" || "" + clipInfo[0].clip == "Shoot (UnityEngine.AnimationClip)")
             {
-                Debug.Log("Clip Passed Enter ");
+                //Debug.Log("Clip Passed Enter ");
                 Animator.SetIKPosition(AvatarIKGoal.RightHand, TargetPosition);
                 Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
                 Animator.SetIKPosition(AvatarIKGoal.LeftHand, TargetPosition);
