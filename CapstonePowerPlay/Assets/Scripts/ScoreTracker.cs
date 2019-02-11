@@ -22,7 +22,7 @@ public class ScoreTracker : MonoBehaviour {
 
         for (int i = 0; i < scoreCanvases.Length; i++)
         {
-            Debug.Log("i: " + i);
+            //Debug.Log("i: " + i);
             t1Scoring.Add(scoreCanvases[i].transform.GetChild(0).GetComponent<Text>());
             t2Scoring.Add(scoreCanvases[i].transform.GetChild(1).GetComponent<Text>());
         }

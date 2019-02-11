@@ -28,6 +28,8 @@ public class AnimationController : NetworkBehaviour {
     private bool Grounded = true;
     [SyncVar(hook = "UpdateSpeedRatio")]
     private float SpeedRatio = 0;
+    [SerializeField]
+    private Transform LookAtPosition;
 
     [Command]
     public void CmdPassAnimation()
@@ -108,5 +110,29 @@ public class AnimationController : NetworkBehaviour {
     public void CmdUpdateGrounded(bool grounded)
     {
         Grounded = grounded;
+    }
+
+    public GameObject ReturnBlueAvatar()
+    {
+        return BlueAvatar;
+    }
+    public GameObject ReturnRedAvatar()
+    {
+        return RedAvatar;
+    }
+
+    public Animator ReturnBlueAnimator()
+    {
+        return BlueAnimator;
+    }
+
+    public Animator ReturnRedAnimator()
+    {
+        return RedAnimator;
+    }
+
+    public Transform ReturnLookPos()
+    {
+        return LookAtPosition;
     }
 }
