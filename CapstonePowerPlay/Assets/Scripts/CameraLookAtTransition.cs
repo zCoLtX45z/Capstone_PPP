@@ -73,20 +73,21 @@ public class CameraLookAtTransition : MonoBehaviour {
             float dY = directionFromPlayer.y * playerLookAtPoint.up.y;
             float dZ = directionFromPlayer.z * playerLookAtPoint.up.z;
 
+           // Vector3 crossVec =  Vector3.Cross(directionFromPlayer, playerLookAtPoint.up);
 
-            //if (dX == 0)
+            //if (dX < 0)
             //{
-            //    dX = 1;
+            //    dX = -dX;
             //}
 
-            //if (dY == 0)
+            //if (dY < 0)
             //{
-            //    dY = 1;
+            //    dY = -dY;
             //}
 
-            //if (dZ == 0)
+            //if (dZ < 0)
             //{
-            //    dZ = 1;
+            //    dZ = -dZ;
             //}
 
 
@@ -100,7 +101,7 @@ public class CameraLookAtTransition : MonoBehaviour {
 
             Vector3 cross = Vector3.Cross(directionFromPlayer.normalized, playerLookAtPoint.forward);
 
-            // Debug.DrawRay(playerLookAtPoint.position, playerLookAtPoint.forward);
+
 
             if (cross.y > 0)
                 angle = -angle;
