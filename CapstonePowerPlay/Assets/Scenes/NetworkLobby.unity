@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657993, g: 0.49641424, b: 0.57481825, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657993, g: 0.49641424, b: 0.5748182, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &4
 LightmapSettings:
@@ -1473,8 +1473,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1512452277}
-  m_LocalRotation: {x: -0.038291737, y: -0.68084997, z: -0.035686582, w: 0.7305502}
-  m_LocalPosition: {x: 1.1310722, y: -15.203545, z: 10.734699}
+  m_LocalRotation: {x: -0.038291734, y: -0.68085, z: -0.035686586, w: 0.73055017}
+  m_LocalPosition: {x: 1.1310722, y: -15.203545, z: 10.734705}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 29721530}
@@ -1751,6 +1751,10 @@ Prefab:
     - target: {fileID: 22495014, guid: c0978251ff7b10d4fb954a4b56acd9f0, type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11475086, guid: c0978251ff7b10d4fb954a4b56acd9f0, type: 2}
+      propertyPath: m_PlayScene
+      value: DustinScene
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c0978251ff7b10d4fb954a4b56acd9f0, type: 2}
