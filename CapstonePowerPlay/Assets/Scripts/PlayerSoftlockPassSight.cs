@@ -157,7 +157,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                 // set distance to target
                 distanceToTarget = directionFromPlayer.magnitude;
 
-
+                // create RaycastHit
                 RaycastHit tempHit = new RaycastHit();
 
                 // send out raycast to the current teamate being referenced
