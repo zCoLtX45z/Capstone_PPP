@@ -5,19 +5,19 @@ using Cinemachine;
 
 public class CameraLookAtTransition : MonoBehaviour {
 
-    [SerializeField]
+    
     private Transform playerLookAtPoint;
 
-    [SerializeField]
+    
     private Transform ballLookAtPoint;
 
-    [SerializeField]
+    
     private bool lookAtBall;
 
-    [SerializeField]
+    
     private CinemachineFreeLook vFreeCam;
     
-    [SerializeField]
+    
     private CinemachineCollider collCineMachine;
 
 
@@ -95,9 +95,10 @@ public class CameraLookAtTransition : MonoBehaviour {
 
             directionFromPlayer = new Vector3((directionFromPlayer.x - dX), (directionFromPlayer.y - dY), (directionFromPlayer.z - dZ));
 
+            //Debug.Log("lookAt: forward: " + playerLookAtPoint.forward); 
 
             float angle = Vector3.Angle(directionFromPlayer, playerLookAtPoint.forward);
-            Debug.Log("Angle: " + angle);
+            //Debug.Log("Angle: " + angle);
 
             Vector3 cross = Vector3.Cross(directionFromPlayer.normalized, playerLookAtPoint.forward);
 
