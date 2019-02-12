@@ -38,10 +38,10 @@ public class Ragdoll : MonoBehaviour
 
     public void DisableRagdoll()
     {
-        foreach (Rigidbody rb in RBs)
-        {
-            rb.isKinematic = true;
-        }
+        //foreach (Rigidbody rb in RBs)
+        //{
+        //    rb.isKinematic = true;
+        //}
         gameObject.GetComponentInChildren<Animator>().enabled = true;
         PS.Play();
     }
