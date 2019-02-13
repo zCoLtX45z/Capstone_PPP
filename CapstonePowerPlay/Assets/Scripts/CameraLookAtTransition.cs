@@ -5,19 +5,19 @@ using Cinemachine;
 
 public class CameraLookAtTransition : MonoBehaviour {
 
-    [SerializeField]
+    //[SerializeField]
     private Transform playerLookAtPoint;
 
-    [SerializeField]
+    //[SerializeField]
     private Transform ballLookAtPoint;
 
-    [SerializeField]
+    //[SerializeField]
     private bool lookAtBall;
 
-    [SerializeField]
+    //[SerializeField]
     private CinemachineFreeLook vFreeCam;
     
-    [SerializeField]
+    //[SerializeField]
     private CinemachineCollider collCineMachine;
 
 
