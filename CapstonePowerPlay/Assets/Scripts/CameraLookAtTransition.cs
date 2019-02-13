@@ -111,12 +111,25 @@ public class CameraLookAtTransition : MonoBehaviour {
             float angle = Vector3.Angle(directionFromPlayer, playerLookAtPoint.forward);
             Debug.Log("Angle: " + angle);
 
-            Vector3 cross = Vector3.Cross(directionFromPlayer.normalized, playerLookAtPoint.forward);
 
 
+            Vector3 nVector3 = new Vector3(playerLookAtPoint.forward.x, playerLookAtPoint.forward.y, playerLookAtPoint.forward.z);
+            
+            if (nVector3.x < 0)
+                nVector3 = new Vector3(-playerLookAtPoint.forward.x, playerLookAtPoint.forward.y, playerLookAtPoint.forward.z);
+            if (nVector3.y < 0)
+                nVector3 = new Vector3(playerLookAtPoint.forward.x, -playerLookAtPoint.forward.y, playerLookAtPoint.forward.z);
+            if (nVector3.z < 0)
+                nVector3 = new Vector3(playerLookAtPoint.forward.x, playerLookAtPoint.forward.y, -playerLookAtPoint.forward.z);
 
-            if (cross.y > 0)
-                angle = -angle;
+
+            // this works on the ground, opposite on the ceiling, and out of wack on anything else
+            Vector3 cross = Vector3.Cross(directionFromPlayer.normalized, /*playerLookAtPoint.forward*/nVector3);
+
+
+           /// if (cross.y > 0)
+            //if (cross.x > 0 || cross.y > 0 || cross.z > 0)
+            //    angle = -angle;
 
             vFreeCam.m_XAxis.Value = angle;
 
