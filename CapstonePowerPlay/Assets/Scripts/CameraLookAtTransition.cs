@@ -196,12 +196,12 @@ public class CameraLookAtTransition : MonoBehaviour {
         float angleY = Vector3.Angle(directionFromPlayer, playerLookAtPoint.up);
 
 
-        /float yValue = 180
+        float yValue = (angleY / 180);
 
 
-        Debug.Log("anglY: " + angleY);
+        Debug.Log("yValue: " + yValue);
 
-        return 0.5f;
+        return yValue;
     }
 
 
