@@ -8,6 +8,8 @@ public class Ragdoll : MonoBehaviour
     private Rigidbody[] RBs;
     [SerializeField]
     private ParticleSystem PS;
+    [SerializeField]
+    private ParticleSystem PS1;
 	// Use this for initialization
 	void Awake ()
     {
@@ -43,6 +45,12 @@ public class Ragdoll : MonoBehaviour
         //    rb.isKinematic = true;
         //}
         gameObject.GetComponentInChildren<Animator>().enabled = true;
+        PlayEffects();
+    }
+
+    public void PlayEffects()
+    {
         PS.Play();
+        PS1.Play();
     }
 }
