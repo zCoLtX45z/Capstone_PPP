@@ -68,10 +68,22 @@ public class CameraLookAtTransition : MonoBehaviour {
 
             // this works if player stays on the ground
             //directionFromPlayer = new Vector3((directionFromPlayer.x / directionFromPlayer.y), 0, directionFromPlayer.z / directionFromPlayer.y);
-            
-            float dX = directionFromPlayer.x * playerLookAtPoint.up.x; 
-            float dY = directionFromPlayer.y * playerLookAtPoint.up.y;
-            float dZ = directionFromPlayer.z * playerLookAtPoint.up.z;
+
+            float upX = playerLookAtPoint.up.x;
+            float upY = playerLookAtPoint.up.y;
+            float upZ = playerLookAtPoint.up.z;
+
+            if (upX < 0)
+                upX = -upX;
+            if (upY < 0)
+                upY = -upY;
+            if (upZ < 0)
+                upZ = -upZ;
+
+
+            float dX = directionFromPlayer.x * upX; 
+            float dY = directionFromPlayer.y * upY;
+            float dZ = directionFromPlayer.z * upZ;
 
            // Vector3 crossVec =  Vector3.Cross(directionFromPlayer, playerLookAtPoint.up);
 
