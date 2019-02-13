@@ -5,19 +5,19 @@ using Cinemachine;
 
 public class CameraLookAtTransition : MonoBehaviour {
 
-    [SerializeField]
+
     private Transform playerLookAtPoint;
 
-    [SerializeField]
+
     private Transform ballLookAtPoint;
 
-    [SerializeField]
+
     private bool lookAtBall;
 
-    [SerializeField]
+
     private CinemachineFreeLook vFreeCam;
-    
-    [SerializeField]
+
+
     private CinemachineCollider collCineMachine;
 
 
@@ -33,7 +33,7 @@ public class CameraLookAtTransition : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
+
         if(Input.GetKeyDown(KeyCode.C))
         {
             Switch(lookAtBall);
@@ -61,15 +61,15 @@ public class CameraLookAtTransition : MonoBehaviour {
 
 
 
-           
+
 
 
             Vector3 directionFromPlayer = ((ballLookAtPoint.position - playerLookAtPoint.position));
 
             // this works if player stays on the ground
             //directionFromPlayer = new Vector3((directionFromPlayer.x / directionFromPlayer.y), 0, directionFromPlayer.z / directionFromPlayer.y);
-            
-            float dX = directionFromPlayer.x * playerLookAtPoint.up.x; 
+
+            float dX = directionFromPlayer.x * playerLookAtPoint.up.x;
             float dY = directionFromPlayer.y * playerLookAtPoint.up.y;
             float dZ = directionFromPlayer.z * playerLookAtPoint.up.z;
 
@@ -95,9 +95,10 @@ public class CameraLookAtTransition : MonoBehaviour {
 
             directionFromPlayer = new Vector3((directionFromPlayer.x - dX), (directionFromPlayer.y - dY), (directionFromPlayer.z - dZ));
 
+            //Debug.Log("lookAt: forward: " + playerLookAtPoint.forward);
 
             float angle = Vector3.Angle(directionFromPlayer, playerLookAtPoint.forward);
-            Debug.Log("Angle: " + angle);
+            //Debug.Log("Angle: " + angle);
 
             Vector3 cross = Vector3.Cross(directionFromPlayer.normalized, playerLookAtPoint.forward);
 
@@ -126,7 +127,7 @@ public class CameraLookAtTransition : MonoBehaviour {
                 vFreeCam.m_XAxis.m_InputAxisName = "Mouse X";
                 vFreeCam.m_YAxis.m_InputAxisName = "Mouse Y";
                 collCineMachine.m_Strategy = CinemachineCollider.ResolutionStrategy.PreserveCameraHeight;
-            } 
+            }
         }
     }
 
