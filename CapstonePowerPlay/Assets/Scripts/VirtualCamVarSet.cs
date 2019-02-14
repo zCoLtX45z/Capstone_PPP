@@ -69,27 +69,19 @@ public class VirtualCamVarSet : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        SetFreeCamVars();
-
-
-
-        
         freeLookVirtualCamera = transform.GetComponent<CinemachineFreeLook>();
 
-
         transposerVirtualCamera_Rig0 = freeLookVirtualCamera.GetRig(0).GetCinemachineComponent<CinemachineTransposer>();
-
-       
-       
+               
         transposerVirtualCamera_Rig1 = freeLookVirtualCamera.GetRig(1).GetCinemachineComponent<CinemachineTransposer>();
-
-        
+               
         transposerVirtualCamera_Rig2 = freeLookVirtualCamera.GetRig(2).GetCinemachineComponent<CinemachineTransposer>();
 
-        // un child pCamera
         pCameraObject.parent = null;
 
         gameObject.AddComponent<CinemachineCollider>().m_CollideAgainst = lMask;
+
+        SetFreeCamVars();
     }
 
 
