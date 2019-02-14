@@ -16,12 +16,18 @@ public class CameraLookAtTransition : MonoBehaviour {
 
     //[SerializeField]
     private CinemachineFreeLook vFreeCam;
+
+    [SerializeField]
+    private CinemachineVirtualCamera vCam;
+
     
     //[SerializeField]
     private CinemachineCollider collCineMachine;
 
     [SerializeField]
     private float transoitionAngleSpeed;
+
+    private VirtualCamVarSet varSet;
 
 
     private void Start()
@@ -31,6 +37,8 @@ public class CameraLookAtTransition : MonoBehaviour {
         collCineMachine = transform.GetComponent<CinemachineCollider>();
         ballLookAtPoint = GameObject.FindGameObjectWithTag("Ball").transform;
         playerLookAtPoint = vFreeCam.LookAt;
+
+        varSet = transform.GetComponent<VirtualCamVarSet>(); 
     }
 
 
@@ -49,23 +57,29 @@ public class CameraLookAtTransition : MonoBehaviour {
                 vFreeCam.m_XAxis.m_InputAxisName = "";
                 vFreeCam.m_YAxis.m_InputAxisName = "";
                 collCineMachine.m_Strategy = CinemachineCollider.ResolutionStrategy.PreserveCameraDistance;
+                varSet.SetLookAtBallVar();
+                vFreeCam.m_Priority = 50;
+                vCam.m_Priority = 51;
             }
 
 
-            Vector3 directionFromPlayer = ((ballLookAtPoint.position - playerLookAtPoint.position));
+            //Vector3 directionFromPlayer = ((ballLookAtPoint.position - playerLookAtPoint.position));
 
-            vFreeCam.m_XAxis.Value = AngleXValueSet(directionFromPlayer);
+            //vFreeCam.m_XAxis.Value = AngleXValueSet(directionFromPlayer);
 
-            vFreeCam.m_YAxis.Value = AngleYValueSet(directionFromPlayer);
+            //vFreeCam.m_YAxis.Value = AngleYValueSet(directionFromPlayer);
 
         }
         else
         {
             if (collCineMachine.m_Strategy != CinemachineCollider.ResolutionStrategy.PreserveCameraHeight)
             {
+                vFreeCam.m_Priority = 51;
+                vCam.m_Priority = 50;
                 vFreeCam.m_XAxis.m_InputAxisName = "Mouse X";
                 vFreeCam.m_YAxis.m_InputAxisName = "Mouse Y";
                 collCineMachine.m_Strategy = CinemachineCollider.ResolutionStrategy.PreserveCameraHeight;
+                varSet.SetFreeCamVars();
             } 
         }
     }
@@ -215,11 +229,12 @@ public class CameraLookAtTransition : MonoBehaviour {
 
         float angleY = Vector3.Angle(directionFromPlayer, playerLookAtPoint.up);
 
+        Debug.Log("angleY: " + angleY);
 
         float yValue = (angleY / 180);
 
 
-        Debug.Log("yValue: " + yValue);
+        //Debug.Log("yValue: " + yValue);
 
         return yValue;
     }
