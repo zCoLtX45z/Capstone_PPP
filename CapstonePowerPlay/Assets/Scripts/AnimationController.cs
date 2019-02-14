@@ -34,6 +34,11 @@ public class AnimationController : NetworkBehaviour {
     [Command]
     public void CmdPassAnimation()
     {
+        RpcPassAnimation();
+    }
+    [ClientRpc]
+    public void RpcPassAnimation()
+    {
         Pass = true;
     }
     private void PassAnimation(bool pass)
@@ -56,6 +61,11 @@ public class AnimationController : NetworkBehaviour {
     [Command]
     public void CmdJumpAnimation()
     {
+        RpcJumpAnimation();
+    }
+    [ClientRpc]
+    public void RpcJumpAnimation()
+    {
         Jump = true;
     }
     private void JumpAnimation(bool jump)
@@ -77,6 +87,11 @@ public class AnimationController : NetworkBehaviour {
 
     [Command]
     public void CmdUpdateSpeedRatio(float ratio)
+    {
+        RpcUpdateSpeedRatio(ratio);
+    }
+    [ClientRpc]
+    public void RpcUpdateSpeedRatio(float ratio)
     {
         SpeedRatio = ratio;
     }
@@ -108,6 +123,11 @@ public class AnimationController : NetworkBehaviour {
     }
     [Command]
     public void CmdUpdateGrounded(bool grounded)
+    {
+        RpcUpdateGrounded(Grounded);
+    }
+    [ClientRpc]
+    public void RpcUpdateGrounded(bool grounded)
     {
         Grounded = grounded;
     }
