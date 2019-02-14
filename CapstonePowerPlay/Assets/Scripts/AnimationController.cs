@@ -40,6 +40,7 @@ public class AnimationController : NetworkBehaviour {
     public void RpcPassAnimation()
     {
         Pass = true;
+        PassAnimation(Pass);
     }
     private void PassAnimation(bool pass)
     {
@@ -67,6 +68,7 @@ public class AnimationController : NetworkBehaviour {
     public void RpcJumpAnimation()
     {
         Jump = true;
+        JumpAnimation(Jump);
     }
     private void JumpAnimation(bool jump)
     {
@@ -94,6 +96,7 @@ public class AnimationController : NetworkBehaviour {
     public void RpcUpdateSpeedRatio(float ratio)
     {
         SpeedRatio = ratio;
+        UpdateSpeedRatio(SpeedRatio);
     }
 
     public void UpdateSpeedRatio(float ratio)
@@ -130,6 +133,7 @@ public class AnimationController : NetworkBehaviour {
     public void RpcUpdateGrounded(bool grounded)
     {
         Grounded = grounded;
+        UpdateGrounded(Grounded);
     }
 
     public GameObject ReturnBlueAvatar()
