@@ -50,7 +50,7 @@ public class Ragdoll : MonoBehaviour
   //      }
         if(Input.GetKeyDown(KeyCode.L))
         {
-            CmdGetUp();
+            //CmdGetUp();
         }
 	}
 
@@ -69,25 +69,25 @@ public class Ragdoll : MonoBehaviour
     //    //BaseRb.isKinematic = true;
     //    //Anim.enabled = false;
     //}
-    [Command]
-    public void CmdGetUp()
-    {
-        Debug.Log("getting up");
-        PS.Play();
-        PS1.Play();
-        //foreach (Rigidbody rb in RBs)
-        //{
-        //    if (rb.gameObject.tag != "Shield" || rb.gameObject.tag != "Team 1" || rb.gameObject.tag != "Team 2")
-        //    {
-        //        //rb.isKinematic = true;
-        //        rb.mass = 0.01f;
-        //        rb.velocity = Vector3.zero;
-        //    }
-        //}
-        //BaseRb.isKinematic = false;
-        //Anim.enabled = true;
+    //[Command]
+    //public void CmdGetUp()
+    //{
+    //    Debug.Log("getting up");
+    //    PS.Play();
+    //    PS1.Play();
+    //    //foreach (Rigidbody rb in RBs)
+    //    //{
+    //    //    if (rb.gameObject.tag != "Shield" || rb.gameObject.tag != "Team 1" || rb.gameObject.tag != "Team 2")
+    //    //    {
+    //    //        //rb.isKinematic = true;
+    //    //        rb.mass = 0.01f;
+    //    //        rb.velocity = Vector3.zero;
+    //    //    }
+    //    //}
+    //    //BaseRb.isKinematic = false;
+    //    //Anim.enabled = true;
 
-    }
+    //}
    
     //public void CmdPlayGetUpEffects()
     //{
