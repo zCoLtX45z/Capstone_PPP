@@ -122,23 +122,43 @@ public class CameraLookAtTransition : MonoBehaviour {
         Vector3 cross = Vector3.Cross(directionFromPlayer.normalized, nVector3);
 
 
+        // crossX
+
+        
+
         if (cross.x > 0 && playerLookAtPoint.up.x > 0)
+        {
+            Debug.Log("x > 0");
             angleX = -angleX;
-        //
+        }
         else if (cross.x < 0 && playerLookAtPoint.up.x < 0)
+        {
+            Debug.Log("x < 0");
             angleX = -angleX;
-        // works if on ground
+        }
+        //crossY
         else if (cross.y > 0 && playerLookAtPoint.up.y > 0)
+        {
+            Debug.Log("y > 0");
             angleX = -angleX;
-        // works on ground
+        }
         else if (cross.y < 0 && playerLookAtPoint.up.y < 0)
+        {
+            Debug.Log("y < 0");
             angleX = -angleX;
-        //
+        }
+        // crossZ
         else if (cross.z > 0 && playerLookAtPoint.up.z > 0)
+        {
+            Debug.Log("z > 0");
             angleX = -angleX;
-        //
+        }
         else if (cross.z < 0 && playerLookAtPoint.up.z < 0)
+        {
+            Debug.Log("z < 0");
             angleX = -angleX;
+        }
+ 
 
         return angleX;
     }

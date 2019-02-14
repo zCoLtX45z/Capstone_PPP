@@ -8360,17 +8360,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e59ff7109d97a4cb4eaca0bae42fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  positionDamping: 0
-  rotationDamping: 1.5
-  lookAtSoftDampingHeight: 0
-  lookAtSoftDampingWidth: 0
-  lookAtHardDampingHeight: 0
-  lookAtHardDampingWidth: 0
+  positionDampingFreeCam: 0
+  rotationDampingFreeCam: 0
+  positionDampingBallCam: 0
+  rotationDampingBallCam: 0
   pCameraObject: {fileID: 4601624505336934}
   lMask:
     serializedVersion: 2
     m_Bits: 512
   lookAtTransform: {fileID: 4029538329144752}
+  heightsFree:
+  - 2.86
+  - 0.22
+  - -1.38
+  radiusFree:
+  - 1.15
+  - 6
+  - 0.3
+  heightsBall:
+  - 2
+  - 0.22
+  - -1.38
+  radiusBall:
+  - 0
+  - 3
+  - 0
 --- !u!114 &114687538464528480
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8561,6 +8575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c3c533d736ee604a8f0e2e006249d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transoitionAngleSpeed: 0
 --- !u!114 &114822791495747712
 MonoBehaviour:
   m_ObjectHideFlags: 1
