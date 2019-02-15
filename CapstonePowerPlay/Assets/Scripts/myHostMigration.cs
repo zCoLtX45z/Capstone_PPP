@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class myHostMigration : NetworkMigrationManager {
 
-
+    
    
     // Use this for initialization
     void Start () {
