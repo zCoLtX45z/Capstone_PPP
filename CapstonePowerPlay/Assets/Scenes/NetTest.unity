@@ -2204,17 +2204,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e59ff7109d97a4cb4eaca0bae42fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  positionDamping: 0
-  rotationDamping: 1.5
-  lookAtSoftDampingHeight: 0
-  lookAtSoftDampingWidth: 0
-  lookAtHardDampingHeight: 0
-  lookAtHardDampingWidth: 0
+  positionDampingFreeCam: 0
+  rotationDampingFreeCam: 0
+  positionDampingBallCam: 0
+  rotationDampingBallCam: 0
   pCameraObject: {fileID: 821152826}
   lMask:
     serializedVersion: 2
     m_Bits: 512
   lookAtTransform: {fileID: 1945445398}
+  heightsFree: []
+  radiusFree: []
+  heightsBall: []
+  radiusBall: []
 --- !u!1 &394657780
 GameObject:
   m_ObjectHideFlags: 0
@@ -3867,6 +3869,7 @@ MonoBehaviour:
   RedAvatar: {fileID: 2008246085}
   HoverBoard: {fileID: 627341774}
   PC: {fileID: 627341771}
+  LookAtPosition: {fileID: 0}
 --- !u!114 &627341771
 MonoBehaviour:
   m_ObjectHideFlags: 0
