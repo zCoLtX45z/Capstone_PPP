@@ -157,19 +157,38 @@ public class VirtualCamVarSet : MonoBehaviour {
 
 
         //// orbit
-        //top
-        freeLookVirtualCamera.m_Orbits[0].m_Height = heightsFree[0];
-        freeLookVirtualCamera.m_Orbits[0].m_Radius = radiusFree[0];
-        // middle
-        freeLookVirtualCamera.m_Orbits[1].m_Height = heightsFree[1];
-        freeLookVirtualCamera.m_Orbits[1].m_Radius = radiusFree[1];
-        // bottom
-        freeLookVirtualCamera.m_Orbits[2].m_Height = heightsFree[2];
-        freeLookVirtualCamera.m_Orbits[2].m_Radius = radiusFree[2];
+        try
+        {
+            //top
+            freeLookVirtualCamera.m_Orbits[0].m_Height = heightsFree[0];
+            freeLookVirtualCamera.m_Orbits[0].m_Radius = radiusFree[0];
+        }
+        catch
+        {
+            Debug.LogWarning("Out of range exception '0'");
+        }
+        try
+        {
+            // middle
+            freeLookVirtualCamera.m_Orbits[1].m_Height = heightsFree[1];
+            freeLookVirtualCamera.m_Orbits[1].m_Radius = radiusFree[1];
+        }
+        catch
+        {
+            Debug.LogWarning("Out of range exception '1'");
+        }
+        try
+        {
+            // bottom
+            freeLookVirtualCamera.m_Orbits[2].m_Height = heightsFree[2];
+            freeLookVirtualCamera.m_Orbits[2].m_Radius = radiusFree[2];
+        }
+        catch
+        {
+            Debug.LogWarning("Out of range exception '2'");
+        }
+
     }
-
-
-
 
     public void SetLookAtBallVar()
     {

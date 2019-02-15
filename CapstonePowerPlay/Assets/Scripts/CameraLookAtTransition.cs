@@ -35,7 +35,8 @@ public class CameraLookAtTransition : MonoBehaviour {
         lookAtBall = false;
         vFreeCam = transform.GetComponent<CinemachineFreeLook>();
         collCineMachine = transform.GetComponent<CinemachineCollider>();
-        ballLookAtPoint = GameObject.FindGameObjectWithTag("Ball").transform;
+        if (GameObject.FindGameObjectWithTag("Ball") != null)
+            ballLookAtPoint = GameObject.FindGameObjectWithTag("Ball").transform;
         playerLookAtPoint = vFreeCam.LookAt;
 
         varSet = transform.GetComponent<VirtualCamVarSet>(); 
