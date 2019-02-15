@@ -5097,8 +5097,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1330494078311500}
-  m_LocalRotation: {x: -0.6504458, y: 0.29797962, z: 0.2736594, w: 0.64283675}
-  m_LocalPosition: {x: -0.00000024053347, y: -0.0000018923099, z: 0.00000035662833}
+  m_LocalRotation: {x: -0.6504457, y: 0.29797956, z: 0.27365938, w: 0.6428367}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_Children:
   - {fileID: 4293918010601716}
@@ -8179,6 +8179,7 @@ MonoBehaviour:
   PC: {fileID: 114722912023878534}
   AnimationControl: {fileID: 114152231147875170}
   HasControl: 1
+  PassEffect: {fileID: 0}
 --- !u!114 &114103602650948316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8915,9 +8916,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positionDampingFreeCam: 0
-  rotationDampingFreeCam: 0
+  rotationDampingFreeCam: 1.5
   positionDampingBallCam: 0
-  rotationDampingBallCam: 0
+  rotationDampingBallCam: 1.5
   pCameraObject: {fileID: 4601624505336934}
   lMask:
     serializedVersion: 2
