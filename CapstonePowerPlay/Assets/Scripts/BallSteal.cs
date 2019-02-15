@@ -61,10 +61,13 @@ public class BallSteal : NetworkBehaviour
 
        if(ballTransform == null)
        {
-            ballTransform = GameObject.FindGameObjectWithTag("Ball").transform;
-            if(ballTransform != null)
+            if (GameObject.FindGameObjectWithTag("Ball") != null)
             {
-                ballScript = ballTransform.GetComponent<Ball>();
+                ballTransform = GameObject.FindGameObjectWithTag("Ball").transform;
+                if (ballTransform != null)
+                {
+                    ballScript = ballTransform.GetComponent<Ball>();
+                }
             }
        }
 
