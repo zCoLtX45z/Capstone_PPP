@@ -187,7 +187,6 @@ public class VirtualCamVarSet : MonoBehaviour {
         {
             Debug.LogWarning("Out of range exception '2'");
         }
-
     }
 
     public void SetLookAtBallVar()
