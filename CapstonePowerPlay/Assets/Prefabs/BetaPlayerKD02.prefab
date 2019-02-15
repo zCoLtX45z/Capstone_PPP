@@ -5097,7 +5097,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1330494078311500}
-  m_LocalRotation: {x: -0.6504457, y: 0.29797953, z: 0.27365944, w: 0.64283675}
+  m_LocalRotation: {x: -0.6504458, y: 0.29797962, z: 0.2736594, w: 0.64283675}
   m_LocalPosition: {x: -0.00000024053347, y: -0.0000018923099, z: 0.00000035662833}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_Children:
@@ -8308,6 +8308,7 @@ MonoBehaviour:
   HoverBoard: {fileID: 114944545778426298}
   PC: {fileID: 114722912023878534}
   LookAtPosition: {fileID: 4525866534518862}
+  LookPos: {x: 0, y: 0, z: 0}
 --- !u!114 &114169346226515744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8366,6 +8367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AC: {fileID: 114152231147875170}
+  PC: {fileID: 114722912023878534}
   Avatar: {fileID: 1469610680263598}
   Animator: {fileID: 95364638906473004}
   LookAtPos: {fileID: 4525866534518862}
@@ -8912,17 +8914,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e59ff7109d97a4cb4eaca0bae42fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  positionDamping: 0
-  rotationDamping: 1.5
-  lookAtSoftDampingHeight: 0
-  lookAtSoftDampingWidth: 0
-  lookAtHardDampingHeight: 0
-  lookAtHardDampingWidth: 0
+  positionDampingFreeCam: 0
+  rotationDampingFreeCam: 0
+  positionDampingBallCam: 0
+  rotationDampingBallCam: 0
   pCameraObject: {fileID: 4601624505336934}
   lMask:
     serializedVersion: 2
     m_Bits: 512
   lookAtTransform: {fileID: 4029538329144752}
+  heightsFree: []
+  radiusFree: []
+  heightsBall: []
+  radiusBall: []
 --- !u!114 &114666059513573896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9050,6 +9054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AC: {fileID: 114152231147875170}
+  PC: {fileID: 114722912023878534}
   Avatar: {fileID: 1760316481609620}
   Animator: {fileID: 95845923306192892}
   LookAtPos: {fileID: 4525866534518862}
@@ -9151,6 +9156,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c3c533d736ee604a8f0e2e006249d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vCam: {fileID: 0}
+  transoitionAngleSpeed: 0
 --- !u!114 &114822791495747712
 MonoBehaviour:
   m_ObjectHideFlags: 1

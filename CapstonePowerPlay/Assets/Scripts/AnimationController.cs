@@ -30,7 +30,19 @@ public class AnimationController : NetworkBehaviour {
     private float SpeedRatio = 0;
     [SerializeField]
     private Transform LookAtPosition;
+    [HideInInspector]
+    public Vector3 LookPos;
 
+    [Command]
+    public void CmdUpdateTargetPosition(Vector3 pos)
+    {
+        RpcUpdateTargetPosition(pos);
+    }
+    [ClientRpc]
+    public void RpcUpdateTargetPosition(Vector3 pos)
+    {
+        LookPos = pos;
+    }
     [Command]
     public void CmdPassAnimation()
     {

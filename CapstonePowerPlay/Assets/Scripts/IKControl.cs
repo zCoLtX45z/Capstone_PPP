@@ -7,6 +7,8 @@ public class IKControl : NetworkBehaviour {
 
     [SerializeField]
     private AnimationController AC;
+    [SerializeField]
+    private PlayerColor PC;
 
     [SerializeField]
     private GameObject Avatar;
@@ -39,9 +41,12 @@ public class IKControl : NetworkBehaviour {
     {
         if (Avatar.activeSelf)
         {
-            TargetPosition = LookAtPos.position;
-            CmdUpdateTargetPosition(TargetPosition);
-            Animator.SetLookAtPosition(TargetPosition);
+            if (PC.LocalPlayer == PC.ParentPlayer)
+            {
+                TargetPosition = LookAtPos.position;
+                AC.CmdUpdateTargetPosition(TargetPosition);
+            }
+            Animator.SetLookAtPosition(AC.LookPos);
             Animator.SetLookAtWeight(1);
             AnimatorClipInfo[] clipInfo = Animator.GetCurrentAnimatorClipInfo(layerIndex);
             //Debug.Log("Clip: " + clipInfo[0].clip);
