@@ -62,17 +62,20 @@ public class BallHandling : NetworkBehaviour {
     [HideInInspector]
     public bool HasControl = true;
 
+    //effects
+    public ParticleSystem PassEffect;
     // Use this for initialization
-    void Start () {
+    void Start() {
         canHold = true;
         playerTag = transform.root.tag;
-	}
+        PassEffect = gameObject.GetComponentInChildren<ParticleSystem>();
+    }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update() {
         if (PC.LocalPlayer == PC.ParentPlayer && HasControl)
         {
-            if(ball != null)
+            if (ball != null)
             {
                 ball.CmdMakeBallDisapear();
                 ball.BH = this;
@@ -101,7 +104,7 @@ public class BallHandling : NetworkBehaviour {
                         {
                             //Debug.Log("jadaadadadadadad");
                             //Debug.Log(gameObject.name + " Passes");
-                          //  Debug.Log("target: " + Target.name);
+                            //  Debug.Log("target: " + Target.name);
                             CmdPass(Target, ball.gameObject, Hand.position, this.gameObject);
                             AnimationControl.CmdPassAnimation();
                             ball = null;
@@ -127,7 +130,7 @@ public class BallHandling : NetworkBehaviour {
                         AnimationControl.CmdPassAnimation();
                         ball = null;
                     }
-                   
+
 
                 }
             }
@@ -147,7 +150,7 @@ public class BallHandling : NetworkBehaviour {
         {
             // nothing for now
         }
-	}
+    }
 
     public void SetHand(Transform T)
     {
@@ -162,13 +165,14 @@ public class BallHandling : NetworkBehaviour {
     [Command]
     private void CmdPass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
+        RpcPlayPassEffect();
         RpcPass(Target, ballObject, HandPos, WhoThrew);
     }
 
     [ClientRpc]
     private void RpcPass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
-        
+
         Ball temp = ballObject.GetComponent<Ball>();
         temp.CmdSetPass(true, Target, PassForce, HandPos, WhoThrew);
         CmdTurnOnFakeBall(false);
@@ -178,6 +182,7 @@ public class BallHandling : NetworkBehaviour {
     private void CmdShoot(GameObject ballObject, Vector3 HandPos, Vector3 Direction, GameObject WhoThrew)
     {
         CmdTurnOnFakeBall(false);
+        RpcPlayPassEffect();
         RpcShoot(Direction, ballObject, HandPos, WhoThrew);
     }
 
@@ -213,6 +218,14 @@ public class BallHandling : NetworkBehaviour {
     {
         BallHandling bh = playerObject.GetComponent<BallHandling>();
         bh.FakeBall.SetActive(b);
+    }
+    /// <summary>
+    /// /passing effects
+    /// </summary>
+    [ClientRpc]
+    public void RpcPlayPassEffect()
+    {
+        PassEffect.Play();
     }
 
 
