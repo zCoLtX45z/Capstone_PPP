@@ -225,7 +225,8 @@ public class BallHandling : NetworkBehaviour {
     [ClientRpc]
     public void RpcPlayPassEffect()
     {
-        PassEffect.Play();
+        if (PassEffect != null)
+            PassEffect.Play();
     }
 
 
