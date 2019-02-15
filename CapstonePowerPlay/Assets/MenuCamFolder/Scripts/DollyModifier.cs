@@ -21,7 +21,7 @@ public class DollyModifier : MonoBehaviour {
     [SerializeField]
     private float trackSpeedUpDistanceModifier;
 
-    [SerializeField]
+    //[SerializeField]
     private float trackLength;
 
 
