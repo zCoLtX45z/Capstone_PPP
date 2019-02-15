@@ -28,11 +28,19 @@ public class AnimationController : NetworkBehaviour {
     private bool Grounded = true;
     [SyncVar(hook = "UpdateSpeedRatio")]
     private float SpeedRatio = 0;
+    [SerializeField]
+    private Transform LookAtPosition;
 
     [Command]
     public void CmdPassAnimation()
     {
+        RpcPassAnimation();
+    }
+    [ClientRpc]
+    public void RpcPassAnimation()
+    {
         Pass = true;
+        PassAnimation(Pass);
     }
     private void PassAnimation(bool pass)
     {
@@ -54,7 +62,13 @@ public class AnimationController : NetworkBehaviour {
     [Command]
     public void CmdJumpAnimation()
     {
+        RpcJumpAnimation();
+    }
+    [ClientRpc]
+    public void RpcJumpAnimation()
+    {
         Jump = true;
+        JumpAnimation(Jump);
     }
     private void JumpAnimation(bool jump)
     {
@@ -76,7 +90,13 @@ public class AnimationController : NetworkBehaviour {
     [Command]
     public void CmdUpdateSpeedRatio(float ratio)
     {
+        RpcUpdateSpeedRatio(ratio);
+    }
+    [ClientRpc]
+    public void RpcUpdateSpeedRatio(float ratio)
+    {
         SpeedRatio = ratio;
+        UpdateSpeedRatio(SpeedRatio);
     }
 
     public void UpdateSpeedRatio(float ratio)
@@ -107,6 +127,36 @@ public class AnimationController : NetworkBehaviour {
     [Command]
     public void CmdUpdateGrounded(bool grounded)
     {
+        RpcUpdateGrounded(Grounded);
+    }
+    [ClientRpc]
+    public void RpcUpdateGrounded(bool grounded)
+    {
         Grounded = grounded;
+        UpdateGrounded(Grounded);
+    }
+
+    public GameObject ReturnBlueAvatar()
+    {
+        return BlueAvatar;
+    }
+    public GameObject ReturnRedAvatar()
+    {
+        return RedAvatar;
+    }
+
+    public Animator ReturnBlueAnimator()
+    {
+        return BlueAnimator;
+    }
+
+    public Animator ReturnRedAnimator()
+    {
+        return RedAnimator;
+    }
+
+    public Transform ReturnLookPos()
+    {
+        return LookAtPosition;
     }
 }
