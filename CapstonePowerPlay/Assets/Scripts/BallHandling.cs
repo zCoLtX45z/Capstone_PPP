@@ -93,7 +93,8 @@ public class BallHandling : NetworkBehaviour {
                     {
                         // PASS
                         // Get Target from Targeting Script
-                        Target = softLockScript.target.gameObject;
+                        if (softLockScript.target != null)
+                            Target = softLockScript.target.gameObject;
                         //Debug.Log("target: " + Target);
                         //TargetPosition = softLockScript.targetPosition;
                         if (Target != null)
