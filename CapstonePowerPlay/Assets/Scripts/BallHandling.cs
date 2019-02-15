@@ -63,12 +63,12 @@ public class BallHandling : NetworkBehaviour {
     public bool HasControl = true;
 
     //effects
-    public ParticleSystem PassEffect;
+    public ParticleSystem PassEffectBlue;
+    public ParticleSystem PassEffectRed;
     // Use this for initialization
     void Start() {
         canHold = true;
         playerTag = transform.root.tag;
-        PassEffect = gameObject.GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -225,8 +225,24 @@ public class BallHandling : NetworkBehaviour {
     [ClientRpc]
     public void RpcPlayPassEffect()
     {
-        if (PassEffect != null)
-            PassEffect.Play();
+        if (PC.LocalPlayer == PC.ParentPlayer)
+        {
+            if (PassEffectBlue != null)
+                PassEffectBlue.Play();
+        }
+        else
+        {
+            if (PC.LocalPlayer.GetTeamNum() == PC.ParentPlayer.GetTeamNum())
+            {
+                if (PassEffectBlue != null)
+                    PassEffectBlue.Play();
+            }
+            else
+            {
+                if (PassEffectRed != null)
+                    PassEffectRed.Play();
+            }
+        }
     }
 
 
