@@ -68,6 +68,7 @@ public class BallHandling : NetworkBehaviour {
     void Start() {
         canHold = true;
         playerTag = transform.root.tag;
+        PassEffect = gameObject.GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
