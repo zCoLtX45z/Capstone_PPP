@@ -20,9 +20,6 @@ public class Placing : MonoBehaviour {
 
     // Post set variables
     private Mesh ObjectMesh = null;
-    private MeshRenderer ObjectRenderer = null;
-    private Collider ObjectPlacingTrigger = null;
-    private Transform BaseTransform = null;
 
     // Running variables
     private bool VariablesSet = false;
@@ -38,11 +35,8 @@ public class Placing : MonoBehaviour {
         VariablesSet = false;
     }
 
-    public void SetVariables(MeshRenderer meshRenderer,Mesh meshObject, Collider ObjectTrigger, Transform bottonTransform)
+    public void SetVariables(Mesh meshObject)
     {
-        ObjectRenderer = meshRenderer;
-        ObjectPlacingTrigger = ObjectTrigger;
-        BaseTransform = bottonTransform;
         ObjectMesh = meshObject;
         VariablesSet = true;
     }
@@ -55,7 +49,10 @@ public class Placing : MonoBehaviour {
             {
                 Vector3 pos = LookHit.point;
                 Vector3 norm = LookHit.normal;
-
+                ChildObject.transform.position = pos;
+                ChildObject.transform.up = norm;
+                ChildMesh = ObjectMesh;
+                
                 ChildObject.SetActive(true);
                 return true;
             }
