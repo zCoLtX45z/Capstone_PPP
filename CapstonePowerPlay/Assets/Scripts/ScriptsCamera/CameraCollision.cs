@@ -13,7 +13,8 @@ public class CameraCollision : MonoBehaviour {
     public float distance;
 
 
-
+    [SerializeField]
+    private LayerMask layerMask;
 
 	// Use this for initialization
 	void Start () {
@@ -27,10 +28,13 @@ public class CameraCollision : MonoBehaviour {
 
         RaycastHit hit;
 
-        if(Physics.Linecast(transform.parent.position, desiredCameraPos, out hit))
+        if(Physics.Linecast(transform.parent.position, desiredCameraPos, out hit, layerMask))
         {
-            Debug.Log("Hit: " + hit.transform.name);
-            distance = Mathf.Clamp((hit.distance * 0.7f), minDistance, maxDistance);
+            if (hit.transform.tag != "Shield" && hit.transform.tag != "Team 1" && hit.transform.tag != "Team 2")
+            {
+                Debug.Log("Hit: " + hit.transform.name + " tag: " + hit.transform.tag);
+                distance = Mathf.Clamp((hit.distance * 5f), minDistance, maxDistance);
+            }
         }
         else
         {
