@@ -5,8 +5,9 @@ using Cinemachine;
 
 public class VirtualCamFOVTransition : MonoBehaviour {
 
-    [SerializeField]
-    private CinemachineFreeLook freeLookCamera;
+
+
+    private Camera cameraObject;
 
     [SerializeField]
     private hoverBoardScript hbs;
@@ -30,24 +31,30 @@ public class VirtualCamFOVTransition : MonoBehaviour {
     [SerializeField]
     private float boostMultiplication = 2;
 
-	// Update is called once per frame
-	void Update () {
+    private void Start()
+    {
+        cameraObject = transform.GetComponent<Camera>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
 
         //float tempNumberSet = Mathf.Clamp((((hbs.Speed) - 23) / 100 * 50) + 40, 40, 60);
         float tempNumberSet = Mathf.Clamp((((hbs.Speed) - 23) * boostMultiplication) + minFOV, minFOV, maxFOV);
 
 
-        if(currentNumber < tempNumberSet - deadZone)
+        if (currentNumber < tempNumberSet - deadZone)
         {
             currentNumber += Time.deltaTime * fovTransiSpeed;
         }
 
-        else if(currentNumber > tempNumberSet + deadZone)
+        else if (currentNumber > tempNumberSet + deadZone)
         {
             currentNumber -= Time.deltaTime * fovTransiSpeed;
         }
 
-        freeLookCamera.m_Lens.FieldOfView = Mathf.Clamp(currentNumber, 40, 60);
+        cameraObject.fieldOfView = Mathf.Clamp(currentNumber, 40, 60);
 
 
 
