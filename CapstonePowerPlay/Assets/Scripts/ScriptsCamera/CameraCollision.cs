@@ -6,7 +6,10 @@ public class CameraCollision : MonoBehaviour {
 
     public float minDistance = 1.0f;
     public float maxDistance = 4.0f;
-    public float smooth = 10.0f;
+    public float smoothTransitionSpeed = 10.0f;
+
+    [SerializeField]
+    private float distanceMultiplier;
 
     Vector3 dollyDir;
     public Vector3 dollyDirAdjusted;
@@ -15,6 +18,8 @@ public class CameraCollision : MonoBehaviour {
 
     [SerializeField]
     private LayerMask layerMask;
+
+    
 
 	// Use this for initialization
 	void Start () {
@@ -33,7 +38,7 @@ public class CameraCollision : MonoBehaviour {
             if (hit.transform.tag != "Shield" && hit.transform.tag != "Team 1" && hit.transform.tag != "Team 2")
             {
                 Debug.Log("Hit: " + hit.transform.name + " tag: " + hit.transform.tag);
-                distance = Mathf.Clamp((hit.distance * 5f), minDistance, maxDistance);
+                distance = Mathf.Clamp((hit.distance * distanceMultiplier), minDistance, maxDistance);
             }
         }
         else
@@ -41,6 +46,6 @@ public class CameraCollision : MonoBehaviour {
             distance = maxDistance;
         }
 
-        transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDir * distance, Time.deltaTime * smooth);
+        transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDir * distance, Time.deltaTime * smoothTransitionSpeed);
 	}
 }

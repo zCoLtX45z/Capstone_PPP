@@ -724,6 +724,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1230529737554084
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4681006679509006}
+  m_Layer: 8
+  m_Name: HeadLookAtPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1231203232862370
 GameObject:
   m_ObjectHideFlags: 1
@@ -4414,9 +4429,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1233887244022044}
   m_LocalRotation: {x: 0.00013460217, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 1.8520089, z: -50.509327}
+  m_LocalPosition: {x: 0, y: 0, z: -5.15}
   m_LocalScale: {x: 8.4182205, y: 8.418216, z: 8.418221}
-  m_Children: []
+  m_Children:
+  - {fileID: 4681006679509006}
   m_Father: {fileID: 4601867067728822}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90.130005, z: -98.6}
@@ -5706,6 +5722,19 @@ Transform:
   m_Father: {fileID: 4398393858459400}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4681006679509006
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1230529737554084}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.077}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4281840239818796}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4682968986273750
 Transform:
   m_ObjectHideFlags: 1
@@ -5928,7 +5957,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1062785021853046}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0522776, y: -12.560144, z: -0.34527847}
+  m_LocalPosition: {x: 1.0522776, y: 0, z: -0.34527847}
   m_LocalScale: {x: 8.4182205, y: 8.418217, z: 8.418221}
   m_Children:
   - {fileID: 4601867067728822}
@@ -7928,7 +7957,7 @@ MonoBehaviour:
   PC: {fileID: 114433682827864126}
   Avatar: {fileID: 1263511993660950}
   Animator: {fileID: 95817973123921130}
-  LookAtPos: {fileID: 0}
+  LookAtPos: {fileID: 4681006679509006}
   LeftShoulderHint: {fileID: 4308021860541556}
   RightShoulderHint: {fileID: 4985751194863580}
 --- !u!114 &114122420501076978
@@ -7987,7 +8016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b60cf4d3c147ee45b4d2de9ac7f19f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRotSpeed: 50
+  maxRotSpeed: 200
 --- !u!114 &114154484803862742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8301,7 +8330,7 @@ MonoBehaviour:
   LocalPlayer: {fileID: 0}
   ParentPlayer: {fileID: 0}
   CD: {fileID: 114502831862712246}
-  pSLPS: {fileID: 0}
+  pSLPS: {fileID: 114264152464030588}
 --- !u!114 &114440642059019792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8349,7 +8378,7 @@ MonoBehaviour:
   PC: {fileID: 114433682827864126}
   Avatar: {fileID: 1167711718888564}
   Animator: {fileID: 95812196854362706}
-  LookAtPos: {fileID: 0}
+  LookAtPos: {fileID: 4681006679509006}
   LeftShoulderHint: {fileID: 4731980973436684}
   RightShoulderHint: {fileID: 4859933626848682}
 --- !u!114 &114502831862712246
@@ -8432,14 +8461,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42a01ba419667914e911ee1757f848a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistance: 10
-  maxDistance: 44
-  smooth: 2
+  minDistance: 1
+  maxDistance: 5
+  smoothTransitionSpeed: 5
+  distanceMultiplier: 0.75
   dollyDirAdjusted: {x: 0, y: 0, z: 0}
   distance: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294966015
+    m_Bits: 4294965961
 --- !u!114 &114632823717349468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8511,8 +8541,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetReticle: {fileID: 114652131121659694}
-  softLockScript: {fileID: 0}
-  thisPlayerCam: {fileID: 0}
+  softLockScript: {fileID: 114264152464030588}
+  thisPlayerCam: {fileID: 20486848462512204}
   ballHandlingScript: {fileID: 114142135226146606}
 --- !u!114 &114720644896857896
 MonoBehaviour:
