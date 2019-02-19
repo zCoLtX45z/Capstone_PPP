@@ -328,7 +328,7 @@ public class hoverBoardScript : NetworkBehaviour
             }
             else
             {
-                m_body.AddForce(transform.forward * m_currThrust * Time.fixedDeltaTime * SpeedBoostLinearPercent * AccelerationMultiplier / 100, ForceMode.Acceleration);
+                m_body.AddForce(transform.forward * m_currThrust * Time.fixedDeltaTime * (100 + SpeedBoostLinearPercent) * AccelerationMultiplier / 100, ForceMode.Acceleration);
             }
         }
 
@@ -342,7 +342,7 @@ public class hoverBoardScript : NetworkBehaviour
         if (!SpeedBoosted)
             m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength * SpeedTurnAdjust);
         else
-            m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength * SpeedTurnAdjust * SpeedBoostTurnPercent / 100);
+            m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength * SpeedTurnAdjust * (100 + SpeedBoostTurnPercent) / 100);
     }
 
     void OnDrawGizmos()
