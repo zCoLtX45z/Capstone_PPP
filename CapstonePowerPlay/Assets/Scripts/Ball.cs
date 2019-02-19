@@ -255,6 +255,7 @@ public class Ball : NetworkBehaviour
 
             if (BH.canHold )
             {
+                CmdMakeBallDisapear();
                 Hand = BH.ReturnHand();
                 CmdUpdateHandTransform(BH.gameObject);
                 //Handle.position = Hand.position;
@@ -264,7 +265,6 @@ public class Ball : NetworkBehaviour
                 //RBS.CmdSetPlayerHolding(BH.gameObject);
                 BH.CmdTurnOnFakeBall(true);
                 //CmdTurnOnBall(false);
-                CmdMakeBallDisapear();
             }
             else
             { 
@@ -298,7 +298,6 @@ public class Ball : NetworkBehaviour
     [ClientRpc]
     public void RpcShoot(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
     {
-        CmdMakeBallReapear();
         //transform.gameObject.layer = 0;
         Thrown = true;
         CanBeCaughtTimer = 0.15f;
@@ -316,6 +315,7 @@ public class Ball : NetworkBehaviour
         WhoTossedTheBall = WhoThrew;
         Hand = null;
         BH = null;
+        CmdMakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
     }
 
@@ -328,7 +328,6 @@ public class Ball : NetworkBehaviour
     [ClientRpc]
     public void RpcSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
-        CmdMakeBallReapear();
         Thrown = true;
 
         CanBeCaughtTimer = 0.15f;
@@ -345,6 +344,7 @@ public class Ball : NetworkBehaviour
         WhoTossedTheBall = WhoThrew;
         Hand = null;
         BH = null;
+        CmdMakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
     }
 
@@ -407,11 +407,11 @@ public class Ball : NetworkBehaviour
     [ClientRpc]
     public void RpcMakeBallDisapear()
     {
+        ChildObject.SetActive(false);
         HardCol.enabled = false;
         SoftCol.enabled = false;
         RB.useGravity = false;
         RB.isKinematic = true;
-        ChildObject.SetActive(false);
     }
 
     [Command]
