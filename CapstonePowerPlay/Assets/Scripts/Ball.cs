@@ -168,7 +168,8 @@ public class Ball : NetworkBehaviour
 
         if (Held)
         {
-            UiCanvas.position = Hand.transform.position;
+            if (Hand != null)
+                UiCanvas.position = Hand.transform.position;
         }
         else if (UiCanvas.localPosition != Vector3.zero)
         {
