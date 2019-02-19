@@ -14,8 +14,8 @@ public class LookAtPostionFollow : MonoBehaviour {
     [SerializeField]
     private string layerMask;
 
-    [SerializeField]
-    private float speedTransation;
+    //[SerializeField]
+    //private float speedTransition;
 
 	void Start () {
         transform.parent = null;	
