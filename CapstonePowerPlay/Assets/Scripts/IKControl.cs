@@ -7,6 +7,8 @@ public class IKControl : NetworkBehaviour {
 
     [SerializeField]
     private AnimationController AC;
+    [SerializeField]
+    private PlayerColor PC;
 
     [SerializeField]
     private GameObject Avatar;
@@ -16,6 +18,10 @@ public class IKControl : NetworkBehaviour {
 
     [SerializeField]
     private Transform LookAtPos;
+    [SerializeField]
+    private Transform LeftShoulderHint;
+    [SerializeField]
+    private Transform RightShoulderHint;
     [SyncVar]
     private Vector3 TargetPosition;
     // Use this for initialization
@@ -23,16 +29,24 @@ public class IKControl : NetworkBehaviour {
     [Command]
     public void CmdUpdateTargetPosition(Vector3 pos)
     {
+        RpcUpdateTargetPosition(pos);
+    }
+    [ClientCallback]
+    public void RpcUpdateTargetPosition(Vector3 pos)
+    {
         TargetPosition = pos;
     }
-    
+
     private void OnAnimatorIK(int layerIndex)
     {
         if (Avatar.activeSelf)
         {
-            TargetPosition = LookAtPos.position;
-            CmdUpdateTargetPosition(TargetPosition);
-            Animator.SetLookAtPosition(TargetPosition);
+            if (PC.LocalPlayer == PC.ParentPlayer)
+            {
+                TargetPosition = LookAtPos.position;
+                AC.CmdUpdateTargetPosition(TargetPosition);
+            }
+            Animator.SetLookAtPosition(AC.LookPos);
             Animator.SetLookAtWeight(1);
             AnimatorClipInfo[] clipInfo = Animator.GetCurrentAnimatorClipInfo(layerIndex);
             //Debug.Log("Clip: " + clipInfo[0].clip);
@@ -43,6 +57,7 @@ public class IKControl : NetworkBehaviour {
                 Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
                 Animator.SetIKPosition(AvatarIKGoal.LeftHand, TargetPosition);
                 Animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+                //Animator.SetIKHintPosition(AvatarIKHint.)
             }
             else
             {

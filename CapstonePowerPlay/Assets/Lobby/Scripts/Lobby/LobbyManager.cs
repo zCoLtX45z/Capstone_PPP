@@ -437,6 +437,8 @@ namespace Prototype.NetworkLobby
             infoPanel.Display("Cient error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
         }
 
-       
+        
+
+
     }
 }

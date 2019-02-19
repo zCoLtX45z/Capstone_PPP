@@ -30,12 +30,15 @@ public class Scoring : NetworkBehaviour
 
     [SerializeField]
     private Transform localPlayer;
-
+    //effects//
+    [SerializeField]
+    private ParticleSystem GoalEffects;
+  
 
     private void Start()
     {
         sTracker = GameObject.FindGameObjectWithTag("ScoreUI").GetComponent<ScoreTracker>();
-
+        GoalEffects = GetComponentInChildren<ParticleSystem>();
 
 
         if (!localPlayer)
@@ -134,6 +137,7 @@ public class Scoring : NetworkBehaviour
     public void CmdTeam1Score()
     {
         Debug.Log("Cmd team1");
+        RpcPlayGoaleffect();
         RpcTeam1Score();
     }
     [ClientRpc]
@@ -143,7 +147,11 @@ public class Scoring : NetworkBehaviour
         team1Score++;
         HandleScoreCanvas();
     }
-
+   [ClientRpc]
+   public void RpcPlayGoaleffect()
+    {
+       GoalEffects.Play();
+    }
 
 
 
@@ -151,6 +159,7 @@ public class Scoring : NetworkBehaviour
     public void CmdTeam2Score()
     {
         Debug.Log("Cmd team2");
+        RpcPlayGoaleffect();
         RpcTeam2Score();
     }
     [ClientRpc]
