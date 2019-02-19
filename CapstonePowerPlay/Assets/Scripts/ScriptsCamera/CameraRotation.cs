@@ -8,42 +8,44 @@ public class CameraRotation : MonoBehaviour {
     [SerializeField]
     private float rotSpeed;
 
-    private float yaw;
+    public float yaw;
 
-    private float pit;
+    public float pit;
 
     [SerializeField]
     private Transform objectToCopy;
 
     private Vector3 rotRef;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    public bool allow = false;
 
+    private float xRot = 0;
+    private float yRot = 0;
 
+    // Update is called once per frame
+    void Update() {
+        if (allow)
+        {
+            yaw = rotSpeed * Input.GetAxis("Mouse X");
+            pit = (rotSpeed * -Input.GetAxis("Mouse Y"));
 
-        
-        yaw = rotSpeed * -Input.GetAxis("Mouse X");
-        pit = rotSpeed * -Input.GetAxis("Mouse Y");
+            rotRef += (new Vector3(pit, yaw, 0));
+            rotRef = new Vector3(Mathf.Clamp(rotRef.x, -80, 80), rotRef.y, rotRef.z);
 
-        
-
-        rotRef += (new Vector3(pit, yaw, 0));
-        rotRef = new Vector3(Mathf.Clamp(rotRef.x, -80, 80), rotRef.y, rotRef.z);
-
-        transform.localEulerAngles = rotRef;
-
-
-
-
-
-
-        //transform.eulerAngles = rotRef;
-
+            //Debug.Log("rotRef: " + rotRef);
+            transform.localEulerAngles = rotRef + new Vector3(xRot,yRot,0);
+        }
     }
+
+    public void GrabRot()
+    {
+        //Debug.Log("GrabRot");
+        yaw = 0;
+        pit = 0;
+        xRot = transform.localEulerAngles.x;
+        yRot = transform.localEulerAngles.y;
+
+        rotRef = Vector3.zero;
+    }
+
 }

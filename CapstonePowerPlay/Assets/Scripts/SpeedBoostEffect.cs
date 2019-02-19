@@ -22,7 +22,7 @@ public class SpeedBoostEffect : MonoBehaviour {
     private void Start()
     {
         hBS = transform.GetComponent<hoverBoardScript>();
-        hBS.BoostPaddBosstLinearPercent = 0;
+        hBS.BoostPaddBoostLinearPercent = 0;
     }
 
 
@@ -45,7 +45,7 @@ public class SpeedBoostEffect : MonoBehaviour {
         {
             boosting = false;
             // hbs boost is set to 0
-            hBS.BoostPaddBosstLinearPercent = 0;
+            hBS.BoostPaddBoostLinearPercent = 0;
         }
 
     }
@@ -59,7 +59,7 @@ public class SpeedBoostEffect : MonoBehaviour {
             boosting = true;
 
             // hbs boost is set to speedBoost
-            hBS.BoostPaddBosstLinearPercent = speedBoost;
+            hBS.BoostPaddBoostLinearPercent = speedBoost;
         }
     }
 
