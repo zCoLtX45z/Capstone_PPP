@@ -4122,7 +4122,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1373072118207364}
-  m_LocalRotation: {x: -0.67336744, y: 0.2878426, z: 0.28430304, w: 0.61878496}
+  m_LocalRotation: {x: -0.6733673, y: 0.28784245, z: 0.2843032, w: 0.61878496}
   m_LocalPosition: {x: -0.00000024053347, y: -0.0000018923099, z: 0.00000035662833}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_Children:
@@ -8179,7 +8179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a955cb2580809c8459e4c63402b1934e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freeLookCamera: {fileID: 114709808054859026}
+  cameraObject: {fileID: 20061731692097010}
   hbs: {fileID: 114572095522747934}
   deadZone: 1
   fovTransiSpeed: 7
@@ -8756,7 +8756,7 @@ MonoBehaviour:
   SpeedBoostTurnPercent: 25
   SprintBoostLinearPercent: 50
   AdditiveAcceleration: 2
-  BoostPaddBosstLinearPercent: 0
+  BoostPaddBoostLinearPercent: 0
   SpeedBoosted: 0
   AnimationControl: {fileID: 114631400278823506}
   BoardHasControl: 1
@@ -9329,7 +9329,6 @@ MonoBehaviour:
   lookatPoint: {fileID: 4915676197320414}
   player: {fileID: 4761942942023518}
   layerMask: Ground
-  speedTransation: 0.35
 --- !u!114 &114904336286306932
 MonoBehaviour:
   m_ObjectHideFlags: 1
