@@ -18,10 +18,6 @@ public class PlacingItemsTOTC : MonoBehaviour {
     [SerializeField]
     private ItemSlot[] ItemSlots;
 
-    // Placables
-    [SerializeField]
-    private Mesh SprintItemMesh;
-
     // Variables
     private bool PlacingItems = false;
     private int CurrentSlot = 0;

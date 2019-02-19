@@ -16,7 +16,7 @@ public class Placing : MonoBehaviour {
     [SerializeField]
     private LayerMask PlaceLayers;
     [SerializeField]
-    private Mesh ChildMesh;
+    private MeshFilter ChildMesh;
     [SerializeField]
     private MeshRenderer ChildMeshRenderer;
     [SerializeField]
@@ -76,10 +76,10 @@ public class Placing : MonoBehaviour {
                 ChildTransform.up = ObjectNormal;
 
                 // Set the mesh to the desired mesh
-                ChildMesh = ObjectMesh;
+                ChildMesh.mesh = ObjectMesh;
 
                 // Set the mesh and collider to fit each other
-                ChildCollider.size = ChildMesh.bounds.size;
+                ChildCollider.size = ChildMesh.mesh.bounds.size;
                 MeshTransform.position = Vector3.zero;
 
 
@@ -87,7 +87,7 @@ public class Placing : MonoBehaviour {
                 ChildTransform.gameObject.SetActive(true);
 
                 // Make sure hte mesh is not in the ground
-                MeshTransform.Translate(0, ChildMesh.bounds.size.y / 2, 0);
+                MeshTransform.Translate(0, ChildMesh.mesh.bounds.size.y / 2, 0);
                 if (PT.TriggerActive)
                 {
                     ChildMeshRenderer.material = PlacingMaterialRed;
