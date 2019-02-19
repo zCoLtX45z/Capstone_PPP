@@ -6,6 +6,8 @@ public class LookAtBall : MonoBehaviour {
 
     private Transform lookatBall;
 
+    public bool allow = false;
+
 	// Use this for initialization
 	void Start () {
         lookatBall = GameObject.FindGameObjectWithTag("Ball").transform;
