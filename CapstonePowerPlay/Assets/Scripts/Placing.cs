@@ -6,7 +6,9 @@ public class Placing : MonoBehaviour {
 
     // Pre set variables
     [SerializeField]
-    private Material PlacingMaterial;
+    private Material PlacingMaterialRed;
+    [SerializeField]
+    private Material PlacingMaterialBlue;
     [SerializeField]
     private Transform LookDirection;
     [SerializeField]
@@ -16,14 +18,26 @@ public class Placing : MonoBehaviour {
     [SerializeField]
     private Mesh ChildMesh;
     [SerializeField]
-    private GameObject ChildObject;
+    private MeshRenderer ChildMeshRenderer;
+    [SerializeField]
+    private Transform ChildTransform;
+    [SerializeField]
+    private Transform MeshTransform;
+    [SerializeField]
+    private BoxCollider ChildCollider;
+    [SerializeField]
+    private PlacingTrigger PT;
 
     // Post set variables
     private Mesh ObjectMesh = null;
 
     // Running variables
-    private bool VariablesSet = false;
+    private bool MeshSet = false;
     private RaycastHit LookHit;
+    [HideInInspector]
+    public Vector3 ObjectPosition = Vector3.zero;
+    [HideInInspector]
+    public Vector3 ObjectNormal = Vector3.zero;
 
     public void ChangePlaceDistance(float dist)
     {
@@ -32,33 +46,62 @@ public class Placing : MonoBehaviour {
 
     public void TurnSettingBoolOff()
     {
-        VariablesSet = false;
+        MeshSet = false;
     }
 
-    public void SetVariables(Mesh meshObject)
+    public void SetMesh(Mesh meshObject)
     {
         ObjectMesh = meshObject;
-        VariablesSet = true;
+        if (ObjectMesh != null)
+            MeshSet = true;
+    }
+
+    public Vector3 GetPlacePosition()
+    {
+        return ChildTransform.position;
     }
 
     public bool UpdatePlacement()
     {
-        if (VariablesSet)
+        if (MeshSet)
         {
             if (Physics.Raycast(LookDirection.position, LookDirection.forward, out LookHit, PlaceDistance, PlaceLayers))
             {
-                Vector3 pos = LookHit.point;
-                Vector3 norm = LookHit.normal;
-                ChildObject.transform.position = pos;
-                ChildObject.transform.up = norm;
+                // Find where you are looking
+                Vector3 ObjectPosition = LookHit.point;
+                Vector3 ObjectNormal = LookHit.normal;
+
+                // Set the child object to that position and set rotation
+                ChildTransform.position = ObjectPosition;
+                ChildTransform.up = ObjectNormal;
+
+                // Set the mesh to the desired mesh
                 ChildMesh = ObjectMesh;
-                
-                ChildObject.SetActive(true);
-                return true;
+
+                // Set the mesh and collider to fit each other
+                ChildCollider.size = ChildMesh.bounds.size;
+                MeshTransform.position = Vector3.zero;
+
+
+                // Turn on object
+                ChildTransform.gameObject.SetActive(true);
+
+                // Make sure hte mesh is not in the ground
+                MeshTransform.Translate(0, ChildMesh.bounds.size.y / 2, 0);
+                if (PT.TriggerActive)
+                {
+                    ChildMeshRenderer.material = PlacingMaterialRed;
+                    return false;
+                }
+                else
+                {
+                    ChildMeshRenderer.material = PlacingMaterialBlue;
+                    return true;
+                }
             }
             else
             {
-                ChildObject.SetActive(false);
+                ChildTransform.gameObject.SetActive(false);
                 return false;
             }
         }
