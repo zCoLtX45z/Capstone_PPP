@@ -5,13 +5,15 @@ using UnityEngine.UI;
 
 public class Item : MonoBehaviour {
 
-    [SerializeField]
     private Mesh ItemMesh;
+    [SerializeField]
+    private MeshFilter ItemMeshFilter;
     [SerializeField]
     private Texture ItemSprite;
 
     public Mesh GetMesh()
     {
+        ItemMesh = ItemMeshFilter.sharedMesh;
         return ItemMesh;
     }
 

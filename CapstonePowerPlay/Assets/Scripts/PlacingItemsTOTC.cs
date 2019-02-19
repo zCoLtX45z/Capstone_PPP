@@ -1,18 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class PlacingItemsTOTC : MonoBehaviour {
+public class PlacingItemsTOTC : NetworkBehaviour {
 
     // Placing Script
     [SerializeField]
     private Placing PlacingScript;
+    [SerializeField]
+    private Transform PlacingTransform;
 
     // Player Components
     [SerializeField]
     private hoverBoardScript HBS;
     [SerializeField]
     private BallHandling BH;
+    [SerializeField]
+    private RunePickups RP;
 
     // Item Slots
     [SerializeField]
@@ -23,15 +28,23 @@ public class PlacingItemsTOTC : MonoBehaviour {
     private int CurrentSlot = 0;
     private int MaxSlots = 0;
     private Item ActiveItem;
+    [SerializeField]
+    private float PickUpTime = 0.2f;
+    private float PickUpTimer = 0;
+    private bool PickedUpItem = false;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         MaxSlots = ItemSlots.Length;
+        foreach (ItemSlot IS in ItemSlots)
+        {
+            IS.SetImage();
+        }
     }
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.G))
+		if (Input.GetKeyDown(KeyCode.Tab))
         {
             // Toggle placing items
             PlacingItems = !PlacingItems;
@@ -39,9 +52,9 @@ public class PlacingItemsTOTC : MonoBehaviour {
             if (PlacingItems)
             {
                 bool HasItems = false;
-                foreach (ItemSlot s in ItemSlots)
+                foreach (ItemSlot IS in ItemSlots)
                 {
-                    if (s.ItemHeld)
+                    if (IS.ItemHeld)
                     {
                         HasItems = true;
                         break;
@@ -58,12 +71,12 @@ public class PlacingItemsTOTC : MonoBehaviour {
 
         if (PlacingItems)
         {
-            bool canPlace = PlacingScript.UpdatePlacement();
             BH.HasControl = false;
             if (MaxSlots > 0)
             {
                 ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
                 PlacingScript.SetMesh(ActiveItem.GetMesh());
+                PlacingTransform.localScale = ActiveItem.transform.localScale;
             }
             if (Input.GetMouseButtonDown(1))
             {
@@ -88,24 +101,60 @@ public class PlacingItemsTOTC : MonoBehaviour {
                 {
                     ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
                     PlacingScript.SetMesh(ActiveItem.GetMesh());
+                    PlacingTransform.localScale = ActiveItem.transform.localScale;
                 }
             }
             else if (Input.GetMouseButtonDown(0))
             {
                 // place item
+                bool canPlace = PlacingScript.UpdatePlacement(ActiveItem.transform.localScale.x);
                 if (canPlace)
                 {
                     PlacingItems = false;
                     ActiveItem = Instantiate(ActiveItem);
                     ActiveItem.transform.parent = null;
                     ActiveItem.Place(PlacingScript.ObjectPosition, PlacingScript.ObjectNormal);
+                    NetworkServer.Spawn(ActiveItem.gameObject);
                     ItemSlots[CurrentSlot].RemoveItem();
                 }
             }
+            PlacingScript.UpdatePlacement(ActiveItem.transform.localScale.x);
         }
         else
         {
             BH.HasControl = true;
+            PlacingTransform.gameObject.SetActive(false);
+        }
+
+        if (PickedUpItem)
+        {
+            PickUpTimer += Time.deltaTime;
+            if (PickUpTimer >= PickUpTime)
+            {
+                PickUpTimer = 0;
+                PickedUpItem = false;
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "BlueRune" || other.gameObject.tag == "RedRune" || other.gameObject.tag == "GreenRune" || other.gameObject.tag == "Rune")
+        {
+            if (PickedUpItem == false)
+            {
+                Rune tempRune = other.GetComponent<Rune>();
+                foreach (ItemSlot IS in ItemSlots)
+                {
+                    if (IS.ItemHeld == false)
+                    {
+                        PickedUpItem = true;
+                        IS.SetItem(tempRune.GetItemPrefab());
+                        break;
+                    }
+                }
+                RP.CmdDestroyRune(tempRune.gameObject);
+            }
         }
     }
 }
