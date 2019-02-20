@@ -57,7 +57,8 @@ public class VirtualCamFOVTransition : MonoBehaviour {
             currentNumber -= Time.deltaTime * fovTransiSpeed;
         }
 
-        cameraObject.fieldOfView = Mathf.Clamp(currentNumber, 40, 60);
+        if (cameraObject != null)
+            cameraObject.fieldOfView = Mathf.Clamp(currentNumber, 40, 60);
 
 
 

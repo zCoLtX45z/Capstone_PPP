@@ -61,26 +61,28 @@ public class Placing : MonoBehaviour {
         return ChildTransform.position;
     }
 
-    public bool UpdatePlacement()
+    public bool UpdatePlacement(float MeshScale = 1)
     {
         if (MeshSet)
         {
             if (Physics.Raycast(LookDirection.position, LookDirection.forward, out LookHit, PlaceDistance, PlaceLayers))
             {
+                Debug.DrawRay(LookDirection.position, LookDirection.forward * LookHit.distance, Color.blue);
                 // Find where you are looking
-                Vector3 ObjectPosition = LookHit.point;
-                Vector3 ObjectNormal = LookHit.normal;
-
+                ObjectPosition = LookHit.point;
+                ObjectNormal = LookHit.normal;
+                Debug.DrawRay(ObjectPosition, ObjectNormal, Color.black);
                 // Set the child object to that position and set rotation
                 ChildTransform.position = ObjectPosition;
                 ChildTransform.up = ObjectNormal;
+                //ChildTransform.localScale = ChildTransform.localScale * MeshScale;
 
                 // Set the mesh to the desired mesh
                 ChildMesh.mesh = ObjectMesh;
 
                 // Set the mesh and collider to fit each other
-                ChildCollider.size = ChildMesh.mesh.bounds.size;
-                MeshTransform.position = Vector3.zero;
+                ChildCollider.size = ChildMesh.mesh.bounds.size * MeshScale;
+                MeshTransform.localPosition = Vector3.zero;
 
 
                 // Turn on object
@@ -101,7 +103,8 @@ public class Placing : MonoBehaviour {
             }
             else
             {
-                ChildTransform.gameObject.SetActive(false);
+                ChildMeshRenderer.material = PlacingMaterialRed;
+                Debug.DrawRay(LookDirection.position, LookDirection.forward * LookHit.distance, Color.red);
                 return false;
             }
         }

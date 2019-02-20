@@ -29,7 +29,7 @@ public class CameraModeMedium : MonoBehaviour {
             
             if (isFreeCam == false)
             {
-                Debug.Log("isFreeCam is False");
+               // Debug.Log("isFreeCam is False");
                 cameraRotation.GrabRot();
                 isFreeCam = true;
                 lookAtBall.allow = false;
@@ -37,7 +37,7 @@ public class CameraModeMedium : MonoBehaviour {
             }
             else
             {
-                Debug.Log("isFreeCam is True");
+               // Debug.Log("isFreeCam is True");
                 isFreeCam = false;
                 lookAtBall.allow = true;
                 cameraRotation.allow = false;

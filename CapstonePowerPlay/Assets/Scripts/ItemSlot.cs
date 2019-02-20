@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class ItemSlot : MonoBehaviour {
 
+    [SerializeField]
     private Item HeldItem = null;
-    [HideInInspector]
+    //[HideInInspector]
     public bool ItemHeld = false;
 
 
@@ -28,6 +29,7 @@ public class ItemSlot : MonoBehaviour {
     public void SetItem(Item item)
     {
         HeldItem = item;
+        SetImage(item.GetSprite());
         if (HeldItem != null)
             ItemHeld = true;
     }
@@ -39,7 +41,7 @@ public class ItemSlot : MonoBehaviour {
 
     public void RemoveItem()
     {
-        ImageSlot.texture = NullSprite;
+        SetImage();
         HeldItem = null;
         ItemHeld = false;
     }
