@@ -149,6 +149,7 @@ public class PlacingItemsTOTC : NetworkBehaviour {
                     ActiveItem = Instantiate(ActiveItem);
                     ActiveItem.transform.parent = null;
                     ActiveItem.Place(PlacingScript.ObjectPosition, PlacingScript.ObjectNormal);
+                    ActiveItem.transform.eulerAngles = PlacingScript.MeshTransformChange;
                     NetworkServer.Spawn(ActiveItem.gameObject);
                     ItemSlots[CurrentSlot].RemoveItem();
                 }
