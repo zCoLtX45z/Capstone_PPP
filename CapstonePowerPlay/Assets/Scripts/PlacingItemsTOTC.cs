@@ -75,8 +75,38 @@ public class PlacingItemsTOTC : NetworkBehaviour {
             if (MaxSlots > 0)
             {
                 ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
-                PlacingScript.SetMesh(ActiveItem.GetMesh());
-                PlacingTransform.localScale = ActiveItem.transform.localScale;
+                if (ItemSlots[CurrentSlot].ItemHeld)
+                {
+                    PlacingScript.SetMesh(ActiveItem.GetMesh());
+                    PlacingTransform.localScale = ActiveItem.transform.localScale;
+                }
+                else
+                {
+                    int initialInt = CurrentSlot;
+                    while (ItemSlots[CurrentSlot].ItemHeld == false)
+                    {
+                        CurrentSlot++;
+                        if (CurrentSlot == MaxSlots)
+                        {
+                            CurrentSlot = 0;
+                        }
+
+                        if (initialInt == CurrentSlot)
+                        {
+                            break;
+                        }
+                    }
+                    ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
+                    if (ItemSlots[CurrentSlot].ItemHeld)
+                    {
+                        PlacingScript.SetMesh(ActiveItem.GetMesh());
+                        PlacingTransform.localScale = ActiveItem.transform.localScale;
+                    }
+                }
+                if (!ItemSlots[CurrentSlot].ItemHeld)
+                {
+                    PlacingItems = false;
+                }
             }
             if (Input.GetMouseButtonDown(1))
             {
@@ -88,12 +118,17 @@ public class PlacingItemsTOTC : NetworkBehaviour {
                 }
                 if (ItemSlots[CurrentSlot].ItemHeld == false)
                 {
+                    int initialInt = CurrentSlot;
                     while (ItemSlots[CurrentSlot].ItemHeld == false)
                     {
                         CurrentSlot++;
                         if (CurrentSlot == MaxSlots)
                         {
                             CurrentSlot = 0;
+                        }
+                        if (initialInt == CurrentSlot)
+                        {
+                            break;
                         }
                     }
                 }
