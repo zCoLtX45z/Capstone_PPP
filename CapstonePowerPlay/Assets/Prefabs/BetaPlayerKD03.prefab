@@ -6280,7 +6280,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1769776469540960}
   m_LocalRotation: {x: -0.6504457, y: 0.29797953, z: 0.27365944, w: 0.64283675}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.00000024053347, y: -0.0000018923099, z: 0.00000035662833}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_Children:
   - {fileID: 4806625538341914}
@@ -8368,12 +8368,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9e7dbd5345308459233846b92815f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Kp: 2000
+  Kp: 1
   Ki: 0
-  Kd: 18000
-  isClamp: 1
-  min: -12000
-  max: 12000
+  Kd: 0
+  isClamp: 0
+  min: 0
+  max: 1
 --- !u!114 &114086864992659708
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8414,13 +8414,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb9f375cc904514b96c5fb33b6a5d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AC: {fileID: 114631400278823506}
-  PC: {fileID: 114308344465637488}
-  Avatar: {fileID: 1329147166675926}
-  Animator: {fileID: 95256436764967092}
-  LookAtPos: {fileID: 4481120396667722}
-  LeftShoulderHint: {fileID: 4621144689164956}
-  RightShoulderHint: {fileID: 4101873349157692}
+  AC: {fileID: 0}
+  PC: {fileID: 0}
+  Avatar: {fileID: 0}
+  Animator: {fileID: 0}
+  LookAtPos: {fileID: 0}
+  LeftShoulderHint: {fileID: 0}
+  RightShoulderHint: {fileID: 0}
 --- !u!114 &114120937597129974
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8470,23 +8470,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b611f4471c62cef4897d3df1c9fdae0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShootForce: 1200
-  PassForce: 50
-  Cam: {fileID: 20061731692097010}
-  softLockScript: {fileID: 114995258201519340}
-  Hand: {fileID: 4295526731304560}
+  ShootForce: 200
+  PassForce: 0
+  Cam: {fileID: 0}
+  softLockScript: {fileID: 0}
+  Hand: {fileID: 0}
   ball: {fileID: 0}
   canHold: 1
-  canHoldTimer: 0
+  canHoldTimer: 1
   HitLayer:
     serializedVersion: 2
-    m_Bits: 769
-  FakeBall: {fileID: 1577039871494746}
-  PC: {fileID: 114308344465637488}
-  AnimationControl: {fileID: 114631400278823506}
+    m_Bits: 0
+  FakeBall: {fileID: 0}
+  PC: {fileID: 0}
+  AnimationControl: {fileID: 0}
   HasControl: 1
-  PassEffectBlue: {fileID: 198884064896175418}
-  PassEffectRed: {fileID: 198886133201525782}
+  PassEffectBlue: {fileID: 0}
+  PassEffectRed: {fileID: 0}
 --- !u!114 &114189871462855504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8499,12 +8499,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraObject: {fileID: 0}
-  hbs: {fileID: 114572095522747934}
-  deadZone: 1
-  fovTransiSpeed: 7
+  hbs: {fileID: 0}
+  deadZone: 0
+  fovTransiSpeed: 0
   minFOV: 40
   maxFOV: 60
-  boostMultiplication: 3
+  boostMultiplication: 2
 --- !u!114 &114222842602750842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8516,12 +8516,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9e7dbd5345308459233846b92815f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Kp: 2000
+  Kp: 1
   Ki: 0
-  Kd: 18000
-  isClamp: 1
-  min: -12000
-  max: 12000
+  Kd: 0
+  isClamp: 0
+  min: 0
+  max: 1
 --- !u!114 &114223464864169626
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8605,12 +8605,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9e7dbd5345308459233846b92815f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Kp: 2000
+  Kp: 1
   Ki: 0
-  Kd: 18000
-  isClamp: 1
-  min: -12000
-  max: 12000
+  Kd: 0
+  isClamp: 0
+  min: 0
+  max: 1
 --- !u!114 &114300285572637540
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8690,19 +8690,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e5fc3c2115290b42afdf71fb4fe58fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BluePlayer: {fileID: 1329147166675926}
-  RedPlayer: {fileID: 1795984923896168}
-  BH: {fileID: 114175339602370456}
-  RedHand: {fileID: 4582737018139792}
-  BlueHand: {fileID: 4295526731304560}
-  RedFakeBall: {fileID: 1669770944019234}
-  BlueFakeBall: {fileID: 1577039871494746}
-  TextName: {fileID: 102976679715150838}
+  BluePlayer: {fileID: 0}
+  RedPlayer: {fileID: 0}
+  BH: {fileID: 0}
+  RedHand: {fileID: 0}
+  BlueHand: {fileID: 0}
+  RedFakeBall: {fileID: 0}
+  BlueFakeBall: {fileID: 0}
+  TextName: {fileID: 0}
   TeamNum: 0
   LocalPlayer: {fileID: 0}
   ParentPlayer: {fileID: 0}
-  CD: {fileID: 114968035859068554}
-  pSLPS: {fileID: 114995258201519340}
+  CD: {fileID: 0}
+  pSLPS: {fileID: 0}
 --- !u!114 &114308887140766562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8756,12 +8756,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9e7dbd5345308459233846b92815f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Kp: 2000
+  Kp: 1
   Ki: 0
-  Kd: 18000
-  isClamp: 1
-  min: -12000
-  max: 12000
+  Kd: 0
+  isClamp: 0
+  min: 0
+  max: 1
 --- !u!114 &114341555817900574
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8786,8 +8786,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HeldItem: {fileID: 0}
   ItemHeld: 0
-  NullSprite: {fileID: 2800000, guid: b8a71a265c78c2c4abb4ed5c203836ae, type: 3}
-  ImageSlot: {fileID: 114710472467375350}
+  NullSprite: {fileID: 0}
+  ImageSlot: {fileID: 0}
 --- !u!114 &114349032648139290
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8836,10 +8836,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a5ce4b1b4a23c84e94f174fbe2f070a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetReticle: {fileID: 114479120947808598}
-  softLockScript: {fileID: 114995258201519340}
-  thisPlayerCam: {fileID: 20061731692097010}
-  ballHandlingScript: {fileID: 114175339602370456}
+  targetReticle: {fileID: 0}
+  softLockScript: {fileID: 0}
+  thisPlayerCam: {fileID: 0}
+  ballHandlingScript: {fileID: 0}
 --- !u!114 &114397355035647684
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8862,7 +8862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2533471edade8446a2aefa550626155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerShove: {fileID: 114661304333915238}
+  PlayerShove: {fileID: 0}
 --- !u!114 &114405424237936048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8874,7 +8874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e015dad1ba8db6e4ebd23d0afe41b061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerBoard: {fileID: 114572095522747934}
+  PlayerBoard: {fileID: 0}
 --- !u!114 &114410885966731298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8889,7 +8889,7 @@ MonoBehaviour:
   PlacingMaterialRed: {fileID: 2100000, guid: a8faf6e1c7b5c4c46914ea1b421ba55f, type: 2}
   PlacingMaterialBlue: {fileID: 2100000, guid: c4f5ec73c739196488fc90f9d499c88f, type: 2}
   LookDirection: {fileID: 4330511575072028}
-  PlaceDistance: 15
+  PlaceDistance: 5
   PlaceLayers:
     serializedVersion: 2
     m_Bits: 513
@@ -8899,10 +8899,9 @@ MonoBehaviour:
   MeshTransform: {fileID: 4924373124881746}
   ChildCollider: {fileID: 65773815257135464}
   PT: {fileID: 114989578221541512}
-  PlayerCameraTransform: {fileID: 4330511575072028}
   ObjectPosition: {x: 0, y: 0, z: 0}
   ObjectNormal: {x: 0, y: 0, z: 0}
-  ObjectTurnOffset: -90
+  ObjectTurnOffset: 90
 --- !u!114 &114424680072985036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8914,12 +8913,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9e7dbd5345308459233846b92815f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Kp: 2000
+  Kp: 1
   Ki: 0
-  Kd: 18000
-  isClamp: 1
-  min: -12000
-  max: 12000
+  Kd: 0
+  isClamp: 0
+  min: 0
+  max: 1
 --- !u!114 &114479120947808598
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8994,14 +8993,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positionDampingFreeCam: 0
-  rotationDampingFreeCam: 1.5
+  rotationDampingFreeCam: 0
   positionDampingBallCam: 0
-  rotationDampingBallCam: 1.5
-  pCameraObject: {fileID: 4330511575072028}
+  rotationDampingBallCam: 0
+  pCameraObject: {fileID: 0}
   lMask:
     serializedVersion: 2
-    m_Bits: 512
-  lookAtTransform: {fileID: 4047614562464252}
+    m_Bits: 0
+  lookAtTransform: {fileID: 0}
   heightsFree: []
   radiusFree: []
   heightsBall: []
@@ -9103,7 +9102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2533471edade8446a2aefa550626155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerShove: {fileID: 114661304333915238}
+  PlayerShove: {fileID: 0}
 --- !u!114 &114564708736720784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9158,47 +9157,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93c85b5e9c83d841bf6134a335dee4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_body: {fileID: 54984439171799430}
-  m_deadZone: 0.5
-  m_forwardAcl: 4000
-  m_backwardAcl: 2000
+  m_body: {fileID: 0}
+  m_deadZone: 0.1
+  m_forwardAcl: 100
+  m_backwardAcl: 25
   m_currThrust: 0
-  m_turnStrength: 200
+  m_turnStrength: 10
   m_currTurn: 0
   m_layerMask:
     serializedVersion: 2
-    m_Bits: 513
-  m_maxHoverForce: 1800
-  m_minHoverForce: -2500
-  m_hoverHeight: 0.75
+    m_Bits: 0
+  m_maxHoverForce: 9
+  m_minHoverForce: 0
+  m_hoverHeight: 2
   m_hoverPoints: []
-  PIDHoverPoints:
-  - {fileID: 114750423215070430}
-  - {fileID: 114734651148988940}
-  - {fileID: 114977152683685238}
-  - {fileID: 114222842602750842}
-  - {fileID: 114316452595519760}
-  - {fileID: 114016897020804522}
-  - {fileID: 114283849482338494}
-  - {fileID: 114629804666387336}
-  - {fileID: 114424680072985036}
-  Kp: 1
-  Ki: 0.0625
-  Kd: 13
-  MaxSpeed: 25
+  PIDHoverPoints: []
+  Kp: 1.1
+  Ki: 0
+  Kd: 0
+  MaxSpeed: 10
   Speed: 0
-  MaxTurnAdjustPercent: 12
-  SpeedDeadZone: 10
-  FallAssistForce: 300
-  RiseAssistForce: 900
+  MaxTurnAdjustPercent: 50
+  SpeedDeadZone: 5
+  FallAssistForce: 10000
+  RiseAssistForce: 0
   JumpForce: 400
   SpeedBoostLinearPercent: 50
   SpeedBoostTurnPercent: 25
   SprintBoostLinearPercent: 50
-  AdditiveAcceleration: 2
+  AdditiveAcceleration: 5
   BoostPaddBoostLinearPercent: 0
   SpeedBoosted: 0
-  AnimationControl: {fileID: 114631400278823506}
+  AnimationControl: {fileID: 0}
   BoardHasControl: 1
 --- !u!114 &114605731207966420
 MonoBehaviour:
@@ -9246,12 +9236,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9e7dbd5345308459233846b92815f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Kp: 2000
+  Kp: 1
   Ki: 0
-  Kd: 18000
-  isClamp: 1
-  min: -12000
-  max: 12000
+  Kd: 0
+  isClamp: 0
+  min: 0
+  max: 1
 --- !u!114 &114629997275021546
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9295,13 +9285,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 646ca5594a47f1249bf5ef0ed8f87158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueAnimator: {fileID: 95256436764967092}
-  RedAnimator: {fileID: 95887857349450274}
-  BlueAvatar: {fileID: 1329147166675926}
-  RedAvatar: {fileID: 1795984923896168}
-  HoverBoard: {fileID: 114572095522747934}
-  PC: {fileID: 114308344465637488}
-  LookAtPosition: {fileID: 4481120396667722}
+  BlueAnimator: {fileID: 0}
+  RedAnimator: {fileID: 0}
+  BlueAvatar: {fileID: 0}
+  RedAvatar: {fileID: 0}
+  HoverBoard: {fileID: 0}
+  PC: {fileID: 0}
+  LookAtPosition: {fileID: 0}
   LookPos: {x: 0, y: 0, z: 0}
 --- !u!114 &114659791773758722
 MonoBehaviour:
@@ -9330,16 +9320,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04b5ba079f072d946b0376de886aaf5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShieldBlue: {fileID: 23790248005085384}
-  ShieldRed: {fileID: 23459392459483572}
-  Hoverboard: {fileID: 114572095522747934}
-  PlayerRigidBody: {fileID: 54984439171799430}
-  PC: {fileID: 114308344465637488}
+  ShieldBlue: {fileID: 0}
+  ShieldRed: {fileID: 0}
+  Hoverboard: {fileID: 0}
+  PlayerRigidBody: {fileID: 0}
+  PC: {fileID: 0}
   ShieldOpacity: 0
   ShieldStrength: 0
   MaxShieldStrength: 3
   MaxShieldOpacity: 3
-  MaxShoveForce: 500
+  MaxShoveForce: 50
   MinSpeedToDropBallPercent: 0.5
 --- !u!114 &114665206887167072
 MonoBehaviour:
@@ -9579,12 +9569,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9e7dbd5345308459233846b92815f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Kp: 2000
+  Kp: 1
   Ki: 0
-  Kd: 18000
-  isClamp: 1
-  min: -12000
-  max: 12000
+  Kd: 0
+  isClamp: 0
+  min: 0
+  max: 1
 --- !u!114 &114738277780661088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9616,8 +9606,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a67378ea83bd54ea44d4455c09b0ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stealMaxAngle: 200
-  maxDistance: 10
+  stealMaxAngle: 40
+  maxDistance: 0
   distanceToTarget: 0
   angle: 0
   target: {fileID: 0}
@@ -9625,7 +9615,7 @@ MonoBehaviour:
   ballTransform: {fileID: 0}
   ballScript: {fileID: 0}
   player: {fileID: 0}
-  playerHandTransform: {fileID: 4295526731304560}
+  playerHandTransform: {fileID: 0}
 --- !u!114 &114750423215070430
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9637,12 +9627,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9e7dbd5345308459233846b92815f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Kp: 2000
+  Kp: 1
   Ki: 0
-  Kd: 18000
-  isClamp: 1
-  min: -12000
-  max: 12000
+  Kd: 0
+  isClamp: 0
+  min: 0
+  max: 1
 --- !u!114 &114757961796573248
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9810,8 +9800,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6824b36d151fba438db41808524f752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedBoost: 600
-  maxTime: 3
+  speedBoost: 0
+  maxTime: 0
 --- !u!114 &114864899370174816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9825,8 +9815,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HeldItem: {fileID: 0}
   ItemHeld: 0
-  NullSprite: {fileID: 2800000, guid: b8a71a265c78c2c4abb4ed5c203836ae, type: 3}
-  ImageSlot: {fileID: 114373018845534044}
+  NullSprite: {fileID: 0}
+  ImageSlot: {fileID: 0}
 --- !u!114 &114871081179488778
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9838,9 +9828,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc2c7b8b3e4a36459597b99a3843941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookatPoint: {fileID: 4915676197320414}
-  player: {fileID: 4761942942023518}
-  layerMask: Ground
+  lookatPoint: {fileID: 0}
+  player: {fileID: 0}
+  layerMask: 
 --- !u!114 &114904336286306932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9899,13 +9889,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb9f375cc904514b96c5fb33b6a5d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AC: {fileID: 114631400278823506}
-  PC: {fileID: 114308344465637488}
-  Avatar: {fileID: 1795984923896168}
-  Animator: {fileID: 95887857349450274}
-  LookAtPos: {fileID: 4481120396667722}
-  LeftShoulderHint: {fileID: 4447167184652680}
-  RightShoulderHint: {fileID: 4409021585362716}
+  AC: {fileID: 0}
+  PC: {fileID: 0}
+  Avatar: {fileID: 0}
+  Animator: {fileID: 0}
+  LookAtPos: {fileID: 0}
+  LeftShoulderHint: {fileID: 0}
+  RightShoulderHint: {fileID: 0}
 --- !u!114 &114962322424447256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9949,16 +9939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58954da729edf81449437a6928080477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DisabledComponents:
-  - {fileID: 20061731692097010}
-  - {fileID: 114709808054859026}
-  - {fileID: 114572095522747934}
-  - {fileID: 114806821891738882}
-  - {fileID: 114995258201519340}
-  - {fileID: 114665206887167072}
-  - {fileID: 81980586919410930}
-  - {fileID: 114806821891738882}
-  - {fileID: 114659791773758722}
+  DisabledComponents: []
   LocalPlayer: {fileID: 0}
   ParentPlayer: {fileID: 0}
 --- !u!114 &114972707436689458
@@ -9998,12 +9979,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9e7dbd5345308459233846b92815f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Kp: 2000
+  Kp: 1
   Ki: 0
-  Kd: 18000
-  isClamp: 1
-  min: -12000
-  max: 12000
+  Kd: 0
+  isClamp: 0
+  min: 0
+  max: 1
 --- !u!114 &114989578221541512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10028,17 +10009,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4fc167d49c6c5c48a101660dd96da0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  softLockAngle: 110
+  softLockAngle: 40
   distanceToTarget: 0
   listOfTeamates: []
   angle: 0
   target: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   currentAcceptedTargets: []
-  teamTag: Player
+  teamTag: 
   playerAndChildren: []
-  maxDistance: 60
-  player: {fileID: 1197684474113224}
+  maxDistance: 0
+  player: {fileID: 0}
 --- !u!124 &124608719384826532
 Behaviour:
   m_ObjectHideFlags: 1
