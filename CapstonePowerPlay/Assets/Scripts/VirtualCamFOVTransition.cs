@@ -6,7 +6,7 @@ using Cinemachine;
 public class VirtualCamFOVTransition : MonoBehaviour {
 
 
-
+    [SerializeField]
     private Camera cameraObject;
 
     [SerializeField]
@@ -33,7 +33,10 @@ public class VirtualCamFOVTransition : MonoBehaviour {
 
     private void Start()
     {
-        cameraObject = transform.GetComponent<Camera>();
+        if (cameraObject == null)
+        {
+            cameraObject = transform.GetComponent<Camera>();
+        }
     }
 
     // Update is called once per frame
@@ -54,7 +57,8 @@ public class VirtualCamFOVTransition : MonoBehaviour {
             currentNumber -= Time.deltaTime * fovTransiSpeed;
         }
 
-        cameraObject.fieldOfView = Mathf.Clamp(currentNumber, 40, 60);
+        if (cameraObject != null)
+            cameraObject.fieldOfView = Mathf.Clamp(currentNumber, 40, 60);
 
 
 

@@ -57,7 +57,6 @@ public class RunePickups : NetworkBehaviour {
                     green = 0;
                 }
                 pickupTimer = 0.5f;
-                CmdDestroyRune(r.gameObject);
                 //Destroy(r.gameObject);
             }
             if (r.gameObject.tag == "BlueRune")
@@ -69,7 +68,6 @@ public class RunePickups : NetworkBehaviour {
                     green = 0;
                 }
                 pickupTimer = 0.5f;
-                CmdDestroyRune(r.gameObject);
             }
             if (r.gameObject.tag == "GreenRune")
             {
@@ -80,14 +78,13 @@ public class RunePickups : NetworkBehaviour {
                     blue = 0;
                 }
                 pickupTimer = 0.5f;
-                CmdDestroyRune(r.gameObject);
             }
         }
     }
 
     
     [Command]
-    void CmdDestroyRune(GameObject rune)
+    public void CmdDestroyRune(GameObject rune)
     {
         Destroy(rune);
     }
