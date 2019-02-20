@@ -40,8 +40,6 @@ public class Placing : MonoBehaviour {
     public Vector3 ObjectPosition = Vector3.zero;
     [HideInInspector]
     public Vector3 ObjectNormal = Vector3.zero;
-    [HideInInspector]
-    public Vector3 MeshTransformChange = Vector3.zero;
     [SerializeField]
     private float ObjectTurnOffset = 90;
 
@@ -73,48 +71,31 @@ public class Placing : MonoBehaviour {
         {
             if (Physics.Raycast(LookDirection.position, LookDirection.forward, out LookHit, PlaceDistance, PlaceLayers))
             {
-                //Debug.DrawRay(LookDirection.position, LookDirection.forward * LookHit.distance, Color.blue);
-                /// Find where you are looking
+                Debug.DrawRay(LookDirection.position, LookDirection.forward * LookHit.distance, Color.blue);
+                // Find where you are looking
                 ObjectPosition = LookHit.point;
                 ObjectNormal = LookHit.normal;
-                //Debug.DrawRay(ObjectPosition, ObjectNormal * 3, Color.black);
-                /// Set the child object to that position and set rotation
+                Debug.DrawRay(ObjectPosition, ObjectNormal, Color.black);
+                // Set the child object to that position and set rotation
                 ChildTransform.position = ObjectPosition;
                 ChildTransform.up = ObjectNormal;
                 //ChildTransform.localScale = ChildTransform.localScale * MeshScale;
                 MeshTransform.localEulerAngles = new Vector3(MeshTransform.localEulerAngles.x, PlayerCameraTransform.eulerAngles.y + ObjectTurnOffset, MeshTransform.localEulerAngles.z);
-                MeshTransformChange = MeshTransform.eulerAngles;
 
-                /// Set the mesh to the desired mesh
+                // Set the mesh to the desired mesh
                 ChildMesh.mesh = ObjectMesh;
 
-                /// Set the mesh and collider to fit each other
+                // Set the mesh and collider to fit each other
                 ChildCollider.size = ChildMesh.mesh.bounds.size * MeshScale;
-                float XOffSetCollider = 0;
-                float YOffSetCollider = 0;
-                float ZOffSetCollider = 0;
-                if (ChildCollider.size.x <= 0)
-                {
-                    XOffSetCollider = 0.1f;
-                }
-                if (ChildCollider.size.y <= 0)
-                {
-                    YOffSetCollider = 0.1f;
-                }
-                if (ChildCollider.size.z <= 0)
-                {
-                    ZOffSetCollider = 0.1f;
-                }
-                ChildCollider.size += new Vector3(XOffSetCollider, YOffSetCollider, ZOffSetCollider);
                 MeshTransform.localPosition = Vector3.zero;
 
 
-                /// Turn on object
+                // Turn on object
                 ChildTransform.gameObject.SetActive(true);
 
-                /// Make sure hte mesh is not in the ground
-                MeshTransform.Translate(0, ChildMesh.mesh.bounds.size.y / 2 + YOffSetCollider, 0);
-                if (PT.TriggerActive || PT.InGround)
+                // Make sure hte mesh is not in the ground
+                MeshTransform.Translate(0, ChildMesh.mesh.bounds.size.y / 2, 0);
+                if (PT.TriggerActive)
                 {
                     ChildMeshRenderer.material = PlacingMaterialRed;
                     return false;
@@ -128,7 +109,7 @@ public class Placing : MonoBehaviour {
             else
             {
                 ChildMeshRenderer.material = PlacingMaterialRed;
-                //Debug.DrawRay(LookDirection.position, LookDirection.forward * LookHit.distance, Color.red);
+                Debug.DrawRay(LookDirection.position, LookDirection.forward * LookHit.distance, Color.red);
                 return false;
             }
         }
