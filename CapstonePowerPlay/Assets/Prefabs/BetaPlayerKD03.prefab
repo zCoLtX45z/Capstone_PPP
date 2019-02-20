@@ -6279,7 +6279,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1769776469540960}
-  m_LocalRotation: {x: -0.6504457, y: 0.2979796, z: 0.27365938, w: 0.6428367}
+  m_LocalRotation: {x: -0.6504457, y: 0.29797953, z: 0.27365944, w: 0.64283675}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_Children:
@@ -8899,8 +8899,10 @@ MonoBehaviour:
   MeshTransform: {fileID: 4924373124881746}
   ChildCollider: {fileID: 65773815257135464}
   PT: {fileID: 114989578221541512}
+  PlayerCameraTransform: {fileID: 4330511575072028}
   ObjectPosition: {x: 0, y: 0, z: 0}
   ObjectNormal: {x: 0, y: 0, z: 0}
+  ObjectTurnOffset: -90
 --- !u!114 &114424680072985036
 MonoBehaviour:
   m_ObjectHideFlags: 1
