@@ -8016,7 +8016,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b60cf4d3c147ee45b4d2de9ac7f19f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRotSpeed: 200
+  maxRotSpeed: 125
+  acceleration: 4.5
 --- !u!114 &114154484803862742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8282,7 +8283,7 @@ MonoBehaviour:
   SpeedBoostTurnPercent: 25
   SprintBoostLinearPercent: 50
   AdditiveAcceleration: 2
-  BoostPaddBosstLinearPercent: 0
+  BoostPaddBoostLinearPercent: 0
   SpeedBoosted: 0
   AnimationControl: {fileID: 114909838340667796}
   BoardHasControl: 1
@@ -8770,7 +8771,6 @@ MonoBehaviour:
   lookatPoint: {fileID: 4963115840029284}
   player: {fileID: 4257081958782354}
   layerMask: Ground
-  speedTransation: 0.35
 --- !u!114 &114973040901100244
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -14,8 +14,8 @@ public class LookAtPostionFollow : MonoBehaviour {
     [SerializeField]
     private string layerMask;
 
-    [SerializeField]
-    private float speedTransation;
+    //[SerializeField]
+    //private float speedTransition;
 
 	void Start () {
         transform.parent = null;	
@@ -44,8 +44,6 @@ public class LookAtPostionFollow : MonoBehaviour {
                 Vector3 inverseTPoint = transform.InverseTransformPoint(transform.position + hit.normal);
                 float angleX = Mathf.Atan2(inverseTPoint.z, inverseTPoint.y) * Mathf.Rad2Deg;
                 transform.Rotate(angleX, 0, 0);
-
-                inverseTPoint = transform.InverseTransformPoint(transform.position + hit.normal);
 
                 float angleZ = -Mathf.Atan2(inverseTPoint.x, inverseTPoint.y) * Mathf.Rad2Deg;
                 transform.Rotate(0, 0, angleZ);

@@ -6,7 +6,9 @@ public class Placing : MonoBehaviour {
 
     // Pre set variables
     [SerializeField]
-    private Material PlacingMaterial;
+    private Material PlacingMaterialRed;
+    [SerializeField]
+    private Material PlacingMaterialBlue;
     [SerializeField]
     private Transform LookDirection;
     [SerializeField]
@@ -14,16 +16,28 @@ public class Placing : MonoBehaviour {
     [SerializeField]
     private LayerMask PlaceLayers;
     [SerializeField]
-    private Mesh ChildMesh;
+    private MeshFilter ChildMesh;
     [SerializeField]
-    private GameObject ChildObject;
+    private MeshRenderer ChildMeshRenderer;
+    [SerializeField]
+    private Transform ChildTransform;
+    [SerializeField]
+    private Transform MeshTransform;
+    [SerializeField]
+    private BoxCollider ChildCollider;
+    [SerializeField]
+    private PlacingTrigger PT;
 
     // Post set variables
     private Mesh ObjectMesh = null;
 
     // Running variables
-    private bool VariablesSet = false;
+    private bool MeshSet = false;
     private RaycastHit LookHit;
+    [HideInInspector]
+    public Vector3 ObjectPosition = Vector3.zero;
+    [HideInInspector]
+    public Vector3 ObjectNormal = Vector3.zero;
 
     public void ChangePlaceDistance(float dist)
     {
@@ -32,33 +46,65 @@ public class Placing : MonoBehaviour {
 
     public void TurnSettingBoolOff()
     {
-        VariablesSet = false;
+        MeshSet = false;
     }
 
-    public void SetVariables(Mesh meshObject)
+    public void SetMesh(Mesh meshObject)
     {
         ObjectMesh = meshObject;
-        VariablesSet = true;
+        if (ObjectMesh != null)
+            MeshSet = true;
     }
 
-    public bool UpdatePlacement()
+    public Vector3 GetPlacePosition()
     {
-        if (VariablesSet)
+        return ChildTransform.position;
+    }
+
+    public bool UpdatePlacement(float MeshScale = 1)
+    {
+        if (MeshSet)
         {
             if (Physics.Raycast(LookDirection.position, LookDirection.forward, out LookHit, PlaceDistance, PlaceLayers))
             {
-                Vector3 pos = LookHit.point;
-                Vector3 norm = LookHit.normal;
-                ChildObject.transform.position = pos;
-                ChildObject.transform.up = norm;
-                ChildMesh = ObjectMesh;
-                
-                ChildObject.SetActive(true);
-                return true;
+                Debug.DrawRay(LookDirection.position, LookDirection.forward * LookHit.distance, Color.blue);
+                // Find where you are looking
+                ObjectPosition = LookHit.point;
+                ObjectNormal = LookHit.normal;
+                Debug.DrawRay(ObjectPosition, ObjectNormal, Color.black);
+                // Set the child object to that position and set rotation
+                ChildTransform.position = ObjectPosition;
+                ChildTransform.up = ObjectNormal;
+                //ChildTransform.localScale = ChildTransform.localScale * MeshScale;
+
+                // Set the mesh to the desired mesh
+                ChildMesh.mesh = ObjectMesh;
+
+                // Set the mesh and collider to fit each other
+                ChildCollider.size = ChildMesh.mesh.bounds.size * MeshScale;
+                MeshTransform.localPosition = Vector3.zero;
+
+
+                // Turn on object
+                ChildTransform.gameObject.SetActive(true);
+
+                // Make sure hte mesh is not in the ground
+                MeshTransform.Translate(0, ChildMesh.mesh.bounds.size.y / 2, 0);
+                if (PT.TriggerActive)
+                {
+                    ChildMeshRenderer.material = PlacingMaterialRed;
+                    return false;
+                }
+                else
+                {
+                    ChildMeshRenderer.material = PlacingMaterialBlue;
+                    return true;
+                }
             }
             else
             {
-                ChildObject.SetActive(false);
+                ChildMeshRenderer.material = PlacingMaterialRed;
+                Debug.DrawRay(LookDirection.position, LookDirection.forward * LookHit.distance, Color.red);
                 return false;
             }
         }

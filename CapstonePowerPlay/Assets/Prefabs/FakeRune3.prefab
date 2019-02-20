@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 65878283419588946}
   - component: {fileID: 114014834709858690}
   - component: {fileID: 114316316529636812}
+  - component: {fileID: 114903983299505148}
   m_Layer: 0
   m_Name: FakeRune3
   m_TagString: RedRune
@@ -151,3 +152,16 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114903983299505148
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1111440962559610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f98265bf2f9e6445a1f4eeaab19bc3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemPrefab: {fileID: 114152028983248786, guid: 38ae860f419132c45aefed750d03cfb1,
+    type: 2}

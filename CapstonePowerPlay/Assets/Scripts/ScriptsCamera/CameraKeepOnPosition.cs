@@ -14,6 +14,10 @@ public class CameraKeepOnPosition : MonoBehaviour {
     private float currentRotSpeed;
 
     private float rotStep;
+
+    [SerializeField]
+    private float acceleration;
+
 	// Use this for initialization
 	void Start () {
         cameraLookAtPosition = transform.parent;
@@ -28,7 +32,9 @@ public class CameraKeepOnPosition : MonoBehaviour {
 
         float angle = Quaternion.Angle(transform.rotation, cameraLookAtPosition.rotation);
 
-        currentRotSpeed = Mathf.Clamp((angle * 2), 0, maxRotSpeed);
+        //currentRotSpeed = Mathf.Clamp((angle * acceleration), 0, maxRotSpeed);
+
+        currentRotSpeed = angle * acceleration;
 
         rotStep = currentRotSpeed * Time.deltaTime;
 

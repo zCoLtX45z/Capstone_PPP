@@ -36,9 +36,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4041104226129866}
+  - component: {fileID: 114152028983248786}
+  - component: {fileID: 114331492419244790}
   m_Layer: 0
   m_Name: SpeedStripPrefab
-  m_TagString: Untagged
+  m_TagString: BoostPad
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,7 +57,7 @@ GameObject:
   - component: {fileID: 65509413895986218}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: BoostPad
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,7 +118,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 91f4c1f82dcb81a4b8170e27c68fa7f0, type: 3}
+  - {fileID: 2100000, guid: c13aef5d0d9bbec4d83f5d9877f8eb05, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -162,3 +164,48 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114152028983248786
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1359245152880422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 973d29f7a6d3a49489764d83f678928c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemMeshFilter: {fileID: 33627185278441476}
+  ItemSprite: {fileID: 2800000, guid: c876860254cb0c6428c36f2586ff424e, type: 3}
+--- !u!114 &114331492419244790
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1359245152880422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 56
+    i1: 174
+    i2: 134
+    i3: 15
+    i4: 65
+    i5: 145
+    i6: 50
+    i7: 196
+    i8: 90
+    i9: 239
+    i10: 237
+    i11: 117
+    i12: 13
+    i13: 3
+    i14: 207
+    i15: 177
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1

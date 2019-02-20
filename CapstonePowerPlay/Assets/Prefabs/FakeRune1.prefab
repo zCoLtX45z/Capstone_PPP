@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 65540041006846740}
   - component: {fileID: 114461121928868626}
   - component: {fileID: 114204384448807378}
+  - component: {fileID: 114985482286840866}
   m_Layer: 0
   m_Name: FakeRune1
   m_TagString: BlueRune
@@ -151,3 +152,16 @@ MonoBehaviour:
     i15: 64
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114985482286840866
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1342650457487768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f98265bf2f9e6445a1f4eeaab19bc3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemPrefab: {fileID: 114152028983248786, guid: 38ae860f419132c45aefed750d03cfb1,
+    type: 2}
