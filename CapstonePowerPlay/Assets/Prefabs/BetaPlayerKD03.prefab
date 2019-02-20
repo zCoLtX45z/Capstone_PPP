@@ -6279,7 +6279,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1769776469540960}
-  m_LocalRotation: {x: -0.6504458, y: 0.29797962, z: 0.2736594, w: 0.64283675}
+  m_LocalRotation: {x: -0.6504457, y: 0.2979796, z: 0.27365938, w: 0.6428367}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_Children:
@@ -8886,8 +8886,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ad8cc2b8ea0f9a4a821c83f6e11d391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlacingMaterialRed: {fileID: 2100000, guid: c4f5ec73c739196488fc90f9d499c88f, type: 2}
-  PlacingMaterialBlue: {fileID: 2100000, guid: a8faf6e1c7b5c4c46914ea1b421ba55f, type: 2}
+  PlacingMaterialRed: {fileID: 2100000, guid: a8faf6e1c7b5c4c46914ea1b421ba55f, type: 2}
+  PlacingMaterialBlue: {fileID: 2100000, guid: c4f5ec73c739196488fc90f9d499c88f, type: 2}
   LookDirection: {fileID: 4330511575072028}
   PlaceDistance: 15
   PlaceLayers:
@@ -9602,6 +9602,7 @@ MonoBehaviour:
   ItemSlots:
   - {fileID: 114341673818659978}
   - {fileID: 114864899370174816}
+  PickUpTime: 0.2
 --- !u!114 &114738930339711330
 MonoBehaviour:
   m_ObjectHideFlags: 1
