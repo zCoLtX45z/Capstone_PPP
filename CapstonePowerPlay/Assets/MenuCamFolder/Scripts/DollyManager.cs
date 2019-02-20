@@ -75,7 +75,7 @@ public class DollyManager : MonoBehaviour {
         }
     }
 
-    public void LoobyList_And_Lobby(bool forwards)
+    public void Menu_And_SettingsButton(bool forwards)
     {
         if (forwards)
         {

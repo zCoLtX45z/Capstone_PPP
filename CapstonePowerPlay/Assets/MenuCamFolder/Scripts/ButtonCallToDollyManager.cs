@@ -6,7 +6,7 @@ public class ButtonCallToDollyManager : MonoBehaviour {
 
    public enum ButtonEfect
    {
-        Start, Play, FindLobby
+        Start, Play, Setting
    }
 
     public ButtonEfect bFect;
@@ -29,9 +29,9 @@ public class ButtonCallToDollyManager : MonoBehaviour {
         {
             PlayToLobbyButton();
         }
-        else if (bFect == ButtonEfect.FindLobby)
+        else if (bFect == ButtonEfect.Setting)
         {
-            LobbyButton();
+            MenuToSettingButton();
         }
     }
 
@@ -46,8 +46,8 @@ public class ButtonCallToDollyManager : MonoBehaviour {
         dManager.Menu_And_LobbyList(true);
     }
     
-    public void LobbyButton()
+    public void MenuToSettingButton()
     {
-        dManager.LoobyList_And_Lobby(true);
+        dManager.Menu_And_SettingsButton(true);
     }
 }
