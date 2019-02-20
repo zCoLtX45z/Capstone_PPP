@@ -45,6 +45,8 @@ public class LookAtPostionFollow : MonoBehaviour {
                 float angleX = Mathf.Atan2(inverseTPoint.z, inverseTPoint.y) * Mathf.Rad2Deg;
                 transform.Rotate(angleX, 0, 0);
 
+                inverseTPoint = transform.InverseTransformPoint(transform.position + hit.normal);
+
                 float angleZ = -Mathf.Atan2(inverseTPoint.x, inverseTPoint.y) * Mathf.Rad2Deg;
                 transform.Rotate(0, 0, angleZ);
             }

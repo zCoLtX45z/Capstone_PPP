@@ -38,6 +38,8 @@ public class Placing : MonoBehaviour {
     public Vector3 ObjectPosition = Vector3.zero;
     [HideInInspector]
     public Vector3 ObjectNormal = Vector3.zero;
+    [SerializeField]
+    private float ObjectTurnOffset = 90;
 
     public void ChangePlaceDistance(float dist)
     {
@@ -76,6 +78,7 @@ public class Placing : MonoBehaviour {
                 ChildTransform.position = ObjectPosition;
                 ChildTransform.up = ObjectNormal;
                 //ChildTransform.localScale = ChildTransform.localScale * MeshScale;
+                MeshTransform.localEulerAngles = new Vector3(MeshTransform.localEulerAngles.x, LookDirection.eulerAngles.y + ObjectTurnOffset, MeshTransform.localEulerAngles.z);
 
                 // Set the mesh to the desired mesh
                 ChildMesh.mesh = ObjectMesh;
