@@ -59,14 +59,18 @@ public class Ball : NetworkBehaviour
     //UI Elements
     [SerializeField]
     private RectTransform UiCanvas;
+    //particle system
+    [SerializeField]
+    private ParticleSystem BallTrail;
 
     // Use this for initialization
     void Start ()
     {
         Handle = GetComponent<Transform>();
         RB = GetComponent<Rigidbody>();
-        
-	}
+        BallTrail = GetComponentInChildren<ParticleSystem>();
+
+    }
 
     private void Update()
     {
@@ -456,5 +460,9 @@ public class Ball : NetworkBehaviour
     {
         BH = bhObject.GetComponent<BallHandling>();
     }
-
+    [ClientRpc]
+    public void PlayTrail()
+    {
+        BallTrail.enableEmission = true;
+    }
 }
