@@ -17,6 +17,9 @@ public class LookAtBall : MonoBehaviour {
 
     private CameraModeMedium cMM;
 
+    [SerializeField]
+    private Transform upRotationRootObj;
+
     // Use this for initialization
     void Start () {
         lookatBall = GameObject.FindGameObjectWithTag("Ball").transform;
@@ -32,15 +35,17 @@ public class LookAtBall : MonoBehaviour {
         }
 
         cMM = transform.GetComponent<CameraModeMedium>();
+
+       
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (allow)
         {
-            if (lookatBall.gameObject.activeInHierarchy)
+            if (lookatBall.GetChild(0).gameObject.activeInHierarchy)
             {
-                transform.LookAt(lookatBall);
+                transform.LookAt(lookatBall, upRotationRootObj.up);
             }
             else
             {
@@ -50,12 +55,13 @@ public class LookAtBall : MonoBehaviour {
                     {
                         if (players[i].GetComponent<BallHandling>().ball != null)
                         {
-                            transform.LookAt(players[i].GetChild(2));
+                            transform.LookAt(players[i].GetChild(2), upRotationRootObj.up);
                         }
                     }
                 }
                 else
                 {
+                    Debug.Log("Change");
                     cMM.ChangeCameraMode();
                 }
 
