@@ -89,6 +89,9 @@ public class Placing : MonoBehaviour {
         {
             if (Physics.Raycast(LookDirectionOffset.position, LookDirectionOffset.forward, out LookHitOffset, PlaceDistance, PlaceLayers))
             {
+                // Reset the trigger
+                //PT.ResetPT();
+
                 Debug.DrawRay(LookDirection.position, LookDirection.forward * LookHit.distance, Color.blue);
                 Debug.DrawRay(LookDirectionOffset.position, LookDirectionOffset.forward * LookHitOffset.distance, Color.green);
                 Debug.DrawLine(LookHit.point, LookHitOffset.point, Color.yellow);
@@ -121,23 +124,27 @@ public class Placing : MonoBehaviour {
                 //ChildMesh.mesh = ObjectMesh;
 
                 /// Set the mesh and collider to fit each other
-                //ChildCollider.size = ChildMesh.mesh.bounds.size * MeshScale;
+                ChildCollider.size = PlaceholderItem.BoxSize;
+                ChildCollider.center = PlaceholderItem.BoxOffset;
                 MeshTransform.localPosition = Vector3.zero;
 
 
                 /// Turn on object
                 ChildTransform.gameObject.SetActive(true);
-
-                // Make sure hte mesh is not in the ground
-                MeshTransform.Translate(0, ChildMesh.mesh.bounds.size.y / 2, 0);
-                if (PT.TriggerActive)
+              
+                /// Make sure the item isn't always in the ground
+                MeshTransform.localPosition += new Vector3(0, ChildCollider.size.y / 2 + 0.1f, 0);
+                /// 
+                if (PT.TriggerActive || PT.InGround)
                 {
-                    ChildMeshRenderer.material = PlacingMaterialRed;
+                    if (PlaceholderItem != null)
+                        PlaceholderItem.ChangeMaterials(PlacingMaterialRed);
                     return false;
                 }
                 else
                 {
-                    ChildMeshRenderer.material = PlacingMaterialBlue;
+                    if (PlaceholderItem != null)
+                        PlaceholderItem.ChangeMaterials(PlacingMaterialBlue);
                     return true;
                 }
             }
@@ -145,7 +152,8 @@ public class Placing : MonoBehaviour {
         }
         else
         {
-            ChildMeshRenderer.material = PlacingMaterialRed;
+            if (PlaceholderItem != null)
+                PlaceholderItem.ChangeMaterials(PlacingMaterialRed);
             Debug.DrawRay(LookDirection.position, LookDirection.forward * LookHit.distance, Color.red);
             return false;
         }

@@ -14,6 +14,17 @@ public class Item : MonoBehaviour {
     private Behaviour[] DisableBehaviours;
     [SerializeField]
     private GameObject[] DisableObjects;
+    [SerializeField]
+    private MeshRenderer[] MeshRenderers;
+    [SerializeField]
+    private BoxCollider PlacingCollider;
+    public Vector3 BoxSize;
+    public Vector3 BoxOffset;
+
+    public BoxCollider GetCollider()
+    {
+        return PlacingCollider;
+    }
 
     public Mesh GetMesh()
     {
@@ -53,6 +64,14 @@ public class Item : MonoBehaviour {
         foreach (GameObject g in DisableObjects)
         {
             g.SetActive(true);
+        }
+    }
+
+    public void ChangeMaterials(Material mat)
+    {
+        foreach (MeshRenderer MR in MeshRenderers)
+        {
+            MR.material = mat;
         }
     }
 }
