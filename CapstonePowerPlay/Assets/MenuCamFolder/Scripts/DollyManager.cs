@@ -9,6 +9,8 @@ public class DollyManager : MonoBehaviour {
 
     [SerializeField]
     private Transform[] c_DollyCarts;
+    [SerializeField]
+    private Transform[] l_DollyCarts;
     /*
      * 0 = Null to start
      * 1 = Start To menu
@@ -78,7 +80,7 @@ public class DollyManager : MonoBehaviour {
         }
     }
 
-    public void Play_And_Menu(bool forwards)
+    public void Menu_And_Setting(bool forwards)
     {
         if (forwards)
         {
@@ -106,6 +108,7 @@ public class DollyManager : MonoBehaviour {
         dollyMod.reverse = false;
         dollyMod.allowMovement = true;
         c_DollyCarts[trackInteger].GetComponent<Cinemachine.CinemachineDollyCart>().m_Position = 0;
+        l_DollyCarts[trackInteger].GetComponent<Cinemachine.CinemachineDollyCart>().m_Position = 0;
     }
 
     private void BackwardMovement(int trackInteger)
@@ -116,6 +119,14 @@ public class DollyManager : MonoBehaviour {
         }
 
         DollyModifier dollyMod = c_DollyCarts[trackInteger].GetComponent<DollyModifier>();
+
+        dollyMod.reachedSpeedMax = false;
+        dollyMod.reachedSpeedMaxRev = false;
+        c_virtualCameras[trackInteger].Priority = highPriority;
+        dollyMod.reverse = true;
+        dollyMod.allowMovement = true;
+
+        dollyMod = l_DollyCarts[trackInteger].GetComponent<DollyModifier>();
 
         dollyMod.reachedSpeedMax = false;
         dollyMod.reachedSpeedMaxRev = false;
