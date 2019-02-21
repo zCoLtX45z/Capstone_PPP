@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 
 
@@ -63,8 +64,10 @@ public class DollyManager : MonoBehaviour {
         }
     }
 
-    public void Menu_And_LobbyList(bool forwards)
+    public void Menu_And_Play(bool forwards)
     {
+        
+
         if (forwards)
         {
             ForwardMovement(2);
@@ -75,7 +78,7 @@ public class DollyManager : MonoBehaviour {
         }
     }
 
-    public void LoobyList_And_Lobby(bool forwards)
+    public void Play_And_Menu(bool forwards)
     {
         if (forwards)
         {
@@ -119,7 +122,7 @@ public class DollyManager : MonoBehaviour {
         c_virtualCameras[trackInteger].Priority = highPriority;
         dollyMod.reverse = true;
         dollyMod.allowMovement = true;
-        c_DollyCarts[trackInteger].GetComponent<Cinemachine.CinemachineDollyCart>().m_Position = c_DollyCarts[0].GetComponent<Cinemachine.CinemachineDollyCart>().m_Path.PathLength;
+        //c_DollyCarts[trackInteger].GetComponent<Cinemachine.CinemachineDollyCart>().m_Position = c_DollyCarts[0].GetComponent<Cinemachine.CinemachineDollyCart>().m_Path.PathLength;
     }
 
 
