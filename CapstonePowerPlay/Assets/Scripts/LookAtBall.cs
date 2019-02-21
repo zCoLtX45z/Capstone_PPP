@@ -6,15 +6,91 @@ public class LookAtBall : MonoBehaviour {
 
     private Transform lookatBall;
 
+    [SerializeField]
+    private BallHandling thisPlayerBallHandling;
+
+
     public bool allow = false;
 
-	// Use this for initialization
-	void Start () {
+    public List<Transform> players = new List<Transform>();
+
+
+    private CameraModeMedium cMM;
+
+    // Use this for initialization
+    void Start () {
         lookatBall = GameObject.FindGameObjectWithTag("Ball").transform;
+
+        foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 1"))
+        {
+            if(playerObj != thisPlayerBallHandling.transform)
+                players.Add(playerObj.transform);
+        }
+        foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 2"))
+        {
+            players.Add(playerObj.transform);
+        }
+
+        cMM = transform.GetComponent<CameraModeMedium>();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        transform.LookAt(lookatBall);
-	}
+        if (allow)
+        {
+            if (lookatBall.gameObject.activeInHierarchy)
+            {
+                transform.LookAt(lookatBall);
+            }
+            else
+            {
+                if (thisPlayerBallHandling.ball == null)
+                {
+                    for (int i = 0; i < players.Count; i++)
+                    {
+                        if (players[i].GetComponent<BallHandling>().ball != null)
+                        {
+                            transform.LookAt(players[i].GetChild(2));
+                        }
+                    }
+                }
+                else
+                {
+                    cMM.ChangeCameraMode();
+                }
+
+            }
+
+            int numberOfPlayers = 0;
+
+
+            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 1"))
+            {
+                numberOfPlayers++;
+            }
+            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 2"))
+            {
+                numberOfPlayers++;
+            }
+
+            if (numberOfPlayers > players.Count)
+            {
+                for (int i = players.Count - 1; i >= 0; i--)
+                {
+                    players.Remove(players[i]);
+                }
+
+                foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 1"))
+                {
+                    players.Add(playerObj.transform);
+                }
+
+                foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 2"))
+                {
+                    players.Add(playerObj.transform);
+                }
+            }
+        }
+
+    }
 }
