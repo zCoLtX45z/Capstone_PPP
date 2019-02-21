@@ -8367,6 +8367,7 @@ MonoBehaviour:
   PT: {fileID: 0}
   ObjectPosition: {x: 0, y: 0, z: 0}
   ObjectNormal: {x: 0, y: 0, z: 0}
+  ObjectTurnOffset: 90
 --- !u!114 &114184157549361408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8981,11 +8982,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DisabledComponents:
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 114210893231570718}
   - {fileID: 114681017067583968}
-  - {fileID: 0}
+  - {fileID: 114210893231570718}
+  - {fileID: 114681017067583968}
+  - {fileID: 114586500489226256}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 114681017067583968}
