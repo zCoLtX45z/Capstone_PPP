@@ -61,14 +61,14 @@ public class Ball : NetworkBehaviour
     private RectTransform UiCanvas;
     //particle system
     [SerializeField]
-    private ParticleSystem BallTrail;
+    private ParticleSystem.EmissionModule BallTrail;
 
     // Use this for initialization
     void Start ()
     {
         Handle = GetComponent<Transform>();
         RB = GetComponent<Rigidbody>();
-        BallTrail = GetComponentInChildren<ParticleSystem>();
+        BallTrail = GetComponentInChildren<ParticleSystem.EmissionModule>();
 
     }
 
@@ -85,6 +85,7 @@ public class Ball : NetworkBehaviour
             CanBeCaughtTimer -= Time.deltaTime;
             if (CanBeCaughtTimer <= 0)
             {
+                CmdPlayTrail();
                 Thrown = false;
                 CanBeCaughtTimer = 0.1f;
             }
@@ -246,6 +247,7 @@ public class Ball : NetworkBehaviour
         //Debug.Log("triged: " + c.name + " tag: " + c.tag);
         if((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
         {
+            CmdStopTrail();
             //Debug.Log("PLAYER HAS ENTERED THE AREA!!!1");
             gameObject.layer = 2;
             HardCol.isTrigger = true;
@@ -460,9 +462,24 @@ public class Ball : NetworkBehaviour
     {
         BH = bhObject.GetComponent<BallHandling>();
     }
-    [ClientRpc]
-    public void PlayTrail()
+    [Command]
+    private void CmdPlayTrail()
     {
-        BallTrail.enableEmission = true;
+        RpcPlayTrail();
+    }
+    [ClientRpc]
+    public void RpcPlayTrail()
+    {
+        BallTrail.enabled = true;
+    }
+    [Command]
+    private void CmdStopTrail()
+    {
+        RpcStopTrail();
+    }
+    [ClientRpc]
+    private void RpcStopTrail()
+    {
+        BallTrail.enabled = false;
     }
 }
