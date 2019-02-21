@@ -8,8 +8,9 @@ public class CameraRotation : MonoBehaviour {
     [SerializeField]
     private float rotSpeed;
 
+    [HideInInspector]
     public float yaw;
-
+    [HideInInspector]
     public float pit;
 
     [SerializeField]

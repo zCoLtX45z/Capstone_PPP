@@ -8580,8 +8580,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDistance: 4
   maxDistance: 43.73
-  smoothTransitionSpeed: 10
-  distanceMultiplier: 0.75
+  smoothTransitionSpeed: 4.93
+  distanceMultiplier: 7.94
   dollyDirAdjusted: {x: 0, y: 0, z: 0}
   distance: 0
   layerMask:
@@ -8876,7 +8876,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c9b8bf5403fcbb499cec3fa6ecfb0a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisPlayerBallHandling: {fileID: 114529124306861296}
   allow: 0
+  players: []
+  upRotationRootObj: {fileID: 4772519001269948}
 --- !u!114 &114514771727352324
 MonoBehaviour:
   m_ObjectHideFlags: 1
