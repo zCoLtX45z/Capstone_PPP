@@ -102,13 +102,23 @@ public class DollyManager : MonoBehaviour {
 
         DollyModifier dollyMod = c_DollyCarts[trackInteger].GetComponent<DollyModifier>();
 
+        c_DollyCarts[trackInteger].GetComponent<Cinemachine.CinemachineDollyCart>().m_Position = 0;
+        l_DollyCarts[trackInteger].GetComponent<Cinemachine.CinemachineDollyCart>().m_Position = 0;
+
         dollyMod.reachedSpeedMax = false;
         dollyMod.reachedSpeedMaxRev = false;
         c_virtualCameras[trackInteger].Priority = highPriority;
         dollyMod.reverse = false;
         dollyMod.allowMovement = true;
-        c_DollyCarts[trackInteger].GetComponent<Cinemachine.CinemachineDollyCart>().m_Position = 0;
-        l_DollyCarts[trackInteger].GetComponent<Cinemachine.CinemachineDollyCart>().m_Position = 0;
+        
+
+        dollyMod = l_DollyCarts[trackInteger].GetComponent<DollyModifier>();
+
+        dollyMod.reachedSpeedMax = false;
+        dollyMod.reachedSpeedMaxRev = false;
+        c_virtualCameras[trackInteger].Priority = highPriority;
+        dollyMod.reverse = false;
+        dollyMod.allowMovement = true;
     }
 
     private void BackwardMovement(int trackInteger)
