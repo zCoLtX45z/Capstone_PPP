@@ -12,13 +12,28 @@ public class KeepNetRotation : NetworkBehaviour {
 
     private NetPlayer[] NetPlayerList;
     private hoverBoardScript[] HoverboardList;
+
+    //new spawning mechanics
+    [SerializeField]
+    private Transform FinalSpot;
+
     private void Start()
     {
+        FinalSpot = GameObject.FindObjectOfType<netSpawner>().transform;
         
+        AN.enabled = false;
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update ()
+    {
+        Debug.Log(FinalSpot.transform.position.y);
+        if(this.gameObject.transform.position.y < FinalSpot.transform.position.y)
+        {
+            Debug.Log("moving on up");
+            transform.position += Vector3.up * 1 * Time.deltaTime;
+        }
+
         if (!IsRotating)
         {
             NetPlayerList = FindObjectsOfType<NetPlayer>();
