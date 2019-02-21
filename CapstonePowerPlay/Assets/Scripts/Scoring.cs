@@ -33,10 +33,14 @@ public class Scoring : NetworkBehaviour
     //effects//
     [SerializeField]
     private ParticleSystem GoalEffects;
-  
+
+    private AudioSource Src;
+    public AudioClip Score;
 
     private void Start()
     {
+        Src = GetComponent<AudioSource>();
+
         sTracker = GameObject.FindGameObjectWithTag("ScoreUI").GetComponent<ScoreTracker>();
         GoalEffects = GetComponentInChildren<ParticleSystem>();
 
@@ -268,6 +272,7 @@ public class Scoring : NetworkBehaviour
             Debug.Log("Ball has triggered the net");
             if(teamScored == 1)
             {
+                Src.PlayOneShot(Score, 1f);
                 Debug.Log("Team1 Scored!");
                 CmdTeam1Score();
                 timeUntilScoreReset = maxTimeUntilScoreReset;
@@ -275,6 +280,7 @@ public class Scoring : NetworkBehaviour
             }
             else if (teamScored == 2)
             {
+                Src.PlayOneShot(Score, 1f);
                 Debug.Log("Team2 Scored!");
                 CmdTeam2Score();
                 timeUntilScoreReset = maxTimeUntilScoreReset;
