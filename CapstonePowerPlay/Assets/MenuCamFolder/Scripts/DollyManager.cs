@@ -143,7 +143,6 @@ public class DollyManager : MonoBehaviour {
         c_virtualCameras[trackInteger].Priority = highPriority;
         dollyMod.reverse = true;
         dollyMod.allowMovement = true;
-        //c_DollyCarts[trackInteger].GetComponent<Cinemachine.CinemachineDollyCart>().m_Position = c_DollyCarts[0].GetComponent<Cinemachine.CinemachineDollyCart>().m_Path.PathLength;
     }
 
 

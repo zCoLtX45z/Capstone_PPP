@@ -33,14 +33,12 @@ public class CameraRotation : MonoBehaviour {
             rotRef += (new Vector3(pit, yaw, 0));
             rotRef = new Vector3(Mathf.Clamp(rotRef.x, -80, 80), rotRef.y, rotRef.z);
 
-            //Debug.Log("rotRef: " + rotRef);
             transform.localEulerAngles = rotRef + new Vector3(xRot,yRot,0);
         }
     }
 
     public void GrabRot()
     {
-        //Debug.Log("GrabRot");
         yaw = 0;
         pit = 0;
         xRot = transform.localEulerAngles.x;
