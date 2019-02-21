@@ -12,6 +12,10 @@ public class Placing : MonoBehaviour {
     [SerializeField]
     private Transform LookDirection;
     [SerializeField]
+    private Transform LookDirectionOffset;
+    [SerializeField]
+    private Transform ItemLookDirection;
+    [SerializeField]
     private float PlaceDistance = 5;
     [SerializeField]
     private LayerMask PlaceLayers;
@@ -34,12 +38,22 @@ public class Placing : MonoBehaviour {
     // Running variables
     private bool MeshSet = false;
     private RaycastHit LookHit;
+    private RaycastHit LookHitOffset;
     [HideInInspector]
     public Vector3 ObjectPosition = Vector3.zero;
     [HideInInspector]
     public Vector3 ObjectNormal = Vector3.zero;
+    [HideInInspector]
+    public Vector3 TurnOffset = Vector3.zero;
+    [HideInInspector]
+    public Vector3 OffsetDirection = Vector3.zero;
+    [HideInInspector]
+    public Vector3 ItemWorldPosition = Vector3.zero;
+    [HideInInspector]
+    public Quaternion ItemWorldRotation = Quaternion.identity;
     [SerializeField]
     private float ObjectTurnOffset = 90;
+    private Item PlaceholderItem = null;
 
     public void ChangePlaceDistance(float dist)
     {
@@ -63,32 +77,55 @@ public class Placing : MonoBehaviour {
         return ChildTransform.position;
     }
 
-    public bool UpdatePlacement(float MeshScale = 1)
+    public void PlaceItem()
     {
-        if (MeshSet)
+        Destroy(PlaceholderItem.gameObject);
+        PlaceholderItem = null;
+    }
+
+    public bool UpdatePlacement(Item item, float MeshScale = 1)
+    {
+        if (Physics.Raycast(LookDirection.position, LookDirection.forward, out LookHit, PlaceDistance, PlaceLayers))
         {
-            if (Physics.Raycast(LookDirection.position, LookDirection.forward, out LookHit, PlaceDistance, PlaceLayers))
+            if (Physics.Raycast(LookDirectionOffset.position, LookDirectionOffset.forward, out LookHitOffset, PlaceDistance, PlaceLayers))
             {
                 Debug.DrawRay(LookDirection.position, LookDirection.forward * LookHit.distance, Color.blue);
+                Debug.DrawRay(LookDirectionOffset.position, LookDirectionOffset.forward * LookHitOffset.distance, Color.green);
+                Debug.DrawLine(LookHit.point, LookHitOffset.point, Color.yellow);
+                Debug.DrawRay(ObjectPosition, ObjectNormal, Color.black);
+
                 // Find where you are looking
                 ObjectPosition = LookHit.point;
                 ObjectNormal = LookHit.normal;
-                Debug.DrawRay(ObjectPosition, ObjectNormal, Color.black);
-                // Set the child object to that position and set rotation
+                OffsetDirection = (LookHit.point - LookHitOffset.point).normalized;
+
+                TurnOffset = MeshTransform.eulerAngles;
                 ChildTransform.position = ObjectPosition;
-                ChildTransform.up = ObjectNormal;
-                //ChildTransform.localScale = ChildTransform.localScale * MeshScale;
-                MeshTransform.localEulerAngles = new Vector3(MeshTransform.localEulerAngles.x, LookDirection.eulerAngles.y + ObjectTurnOffset, MeshTransform.localEulerAngles.z);
+                //ChildTransform.up = ObjectNormal;
+                //ChildTransform.forward = OffsetDirection;
+                ItemLookDirection.localPosition = Vector3.zero;
+                ItemLookDirection.position += OffsetDirection;
+                Debug.DrawLine(LookHit.point, ItemLookDirection.position, Color.red);
+                ChildTransform.LookAt(ItemLookDirection, ObjectNormal);
+                ItemWorldPosition = ChildTransform.position;
+                ItemWorldRotation = ChildTransform.rotation;
 
-                // Set the mesh to the desired mesh
-                ChildMesh.mesh = ObjectMesh;
+                // Spawn Temp Item
+                if (PlaceholderItem == null)
+                {
+                    PlaceholderItem = Instantiate(item, ChildTransform);
+                    PlaceholderItem.Disable();
+                }
 
-                // Set the mesh and collider to fit each other
-                ChildCollider.size = ChildMesh.mesh.bounds.size * MeshScale;
+                /// Set the mesh to the desired mesh
+                //ChildMesh.mesh = ObjectMesh;
+
+                /// Set the mesh and collider to fit each other
+                //ChildCollider.size = ChildMesh.mesh.bounds.size * MeshScale;
                 MeshTransform.localPosition = Vector3.zero;
 
 
-                // Turn on object
+                /// Turn on object
                 ChildTransform.gameObject.SetActive(true);
 
                 // Make sure hte mesh is not in the ground
@@ -104,13 +141,13 @@ public class Placing : MonoBehaviour {
                     return true;
                 }
             }
-            else
-            {
-                ChildMeshRenderer.material = PlacingMaterialRed;
-                Debug.DrawRay(LookDirection.position, LookDirection.forward * LookHit.distance, Color.red);
-                return false;
-            }
+            return false;
         }
-        return false;
+        else
+        {
+            ChildMeshRenderer.material = PlacingMaterialRed;
+            Debug.DrawRay(LookDirection.position, LookDirection.forward * LookHit.distance, Color.red);
+            return false;
+        }
     }
 }

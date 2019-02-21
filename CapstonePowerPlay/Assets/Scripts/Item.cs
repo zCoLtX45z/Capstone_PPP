@@ -10,6 +10,10 @@ public class Item : MonoBehaviour {
     private MeshFilter ItemMeshFilter;
     [SerializeField]
     private Texture ItemSprite;
+    [SerializeField]
+    private Behaviour[] DisableBehaviours;
+    [SerializeField]
+    private GameObject[] DisableObjects;
 
     public Mesh GetMesh()
     {
@@ -26,5 +30,29 @@ public class Item : MonoBehaviour {
     {
         transform.position = pos;
         transform.up = normal;
+    }
+
+    public void Disable()
+    {
+        foreach (Behaviour b in DisableBehaviours)
+        {
+            b.enabled = false;
+        }
+        foreach (GameObject g in DisableObjects)
+        {
+            g.SetActive(false);
+        }
+    }
+
+    public void Enable()
+    {
+        foreach (Behaviour b in DisableBehaviours)
+        {
+            b.enabled = true;
+        }
+        foreach (GameObject g in DisableObjects)
+        {
+            g.SetActive(true);
+        }
     }
 }
