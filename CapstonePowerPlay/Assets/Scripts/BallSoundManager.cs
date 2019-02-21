@@ -8,6 +8,9 @@ public class BallSoundManager : MonoBehaviour {
 
     public AudioClip bounce;
 
+    private float minVol = 0.5f;
+    private float maxVol = 1f;
+
 	// Use this for initialization
 	void Start () {
         audioSrc = GetComponent<AudioSource>();
@@ -20,6 +23,7 @@ public class BallSoundManager : MonoBehaviour {
 
     private void OnCollisionEnter(Collision coll)
     {
-        audioSrc.PlayOneShot(bounce, 1f);
+        float vol = Random.Range(minVol, maxVol);
+        audioSrc.PlayOneShot(bounce, vol);
     }
 }
