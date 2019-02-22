@@ -149,13 +149,13 @@ public class PlacingItemsTOTC : NetworkBehaviour {
                     PlacingItems = false;
                     ActiveItem = Instantiate(ActiveItem);
                     PlacingScript.PlaceItem();
-                    ActiveItem.transform.parent = null;
-                    ActiveItem.transform.position = PlacingScript.ObjectPosition;
+                    //ActiveItem.transform.parent = null;
+                    //ActiveItem.transform.position = PlacingScript.ObjectPosition;
                     //ActiveItem.transform.up = PlacingScript.ObjectNormal;
                     //ActiveItem.transform.forward = PlacingScript.OffsetDirection;
                     ActiveItem.transform.position = PlacingScript.ItemWorldPosition;
                     ActiveItem.transform.rotation = PlacingScript.ItemWorldRotation;
-                    NetworkServer.Spawn(ActiveItem.gameObject);
+                    CmdSpawnItem(ActiveItem.gameObject);
                     ItemSlots[CurrentSlot].RemoveItem();
                 }
             }
@@ -175,6 +175,12 @@ public class PlacingItemsTOTC : NetworkBehaviour {
                 PickedUpItem = false;
             }
         }
+    }
+
+    [Command]
+    private void CmdSpawnItem(GameObject item)
+    {
+        NetworkServer.Spawn(item);
     }
 
     private void OnTriggerEnter(Collider other)
