@@ -75,10 +75,11 @@ public class PlacingItemsTOTC : NetworkBehaviour {
             if (MaxSlots > 0)
             {
                 ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
+                PlacingScript.UpdatePlacement(ActiveItem, ActiveItem.transform.localScale.x);
                 if (ItemSlots[CurrentSlot].ItemHeld)
                 {
-                    PlacingScript.SetMesh(ActiveItem.GetMesh());
-                    PlacingTransform.localScale = ActiveItem.transform.localScale;
+                    //PlacingScript.SetMesh(ActiveItem.GetMesh());
+                    //PlacingTransform.localScale = ActiveItem.transform.localScale;
                 }
                 else
                 {
@@ -99,8 +100,8 @@ public class PlacingItemsTOTC : NetworkBehaviour {
                     ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
                     if (ItemSlots[CurrentSlot].ItemHeld)
                     {
-                        PlacingScript.SetMesh(ActiveItem.GetMesh());
-                        PlacingTransform.localScale = ActiveItem.transform.localScale;
+                        //PlacingScript.SetMesh(ActiveItem.GetMesh());
+                        //PlacingTransform.localScale = ActiveItem.transform.localScale;
                     }
                 }
                 if (!ItemSlots[CurrentSlot].ItemHeld)
@@ -142,18 +143,22 @@ public class PlacingItemsTOTC : NetworkBehaviour {
             else if (Input.GetMouseButtonDown(0))
             {
                 // place item
-                bool canPlace = PlacingScript.UpdatePlacement(ActiveItem.transform.localScale.x);
+                bool canPlace = PlacingScript.UpdatePlacement(ActiveItem, ActiveItem.transform.localScale.x);
                 if (canPlace)
                 {
                     PlacingItems = false;
                     ActiveItem = Instantiate(ActiveItem);
+                    PlacingScript.PlaceItem();
                     ActiveItem.transform.parent = null;
-                    ActiveItem.Place(PlacingScript.ObjectPosition, PlacingScript.ObjectNormal);
+                    ActiveItem.transform.position = PlacingScript.ObjectPosition;
+                    //ActiveItem.transform.up = PlacingScript.ObjectNormal;
+                    //ActiveItem.transform.forward = PlacingScript.OffsetDirection;
+                    ActiveItem.transform.position = PlacingScript.ItemWorldPosition;
+                    ActiveItem.transform.rotation = PlacingScript.ItemWorldRotation;
                     NetworkServer.Spawn(ActiveItem.gameObject);
                     ItemSlots[CurrentSlot].RemoveItem();
                 }
             }
-            PlacingScript.UpdatePlacement(ActiveItem.transform.localScale.x);
         }
         else
         {

@@ -5,9 +5,8 @@ using UnityEngine.UI;
 
 public class ItemSlot : MonoBehaviour {
 
-    [SerializeField]
     private Item HeldItem = null;
-    //[HideInInspector]
+    [HideInInspector]
     public bool ItemHeld = false;
 
 

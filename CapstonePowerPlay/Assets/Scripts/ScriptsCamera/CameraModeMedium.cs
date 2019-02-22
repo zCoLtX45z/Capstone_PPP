@@ -24,11 +24,7 @@ public class CameraModeMedium : MonoBehaviour {
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.C))
         {
-            // Debug.Log("C has been pressed");
-            //isFreeCam = true ? false : true;
             ChangeCameraMode();
-
-
         }
 	}
 
@@ -36,7 +32,6 @@ public class CameraModeMedium : MonoBehaviour {
     {
         if (isFreeCam == false)
         {
-            // Debug.Log("isFreeCam is False");
             cameraRotation.GrabRot();
             isFreeCam = true;
             lookAtBall.allow = false;
@@ -44,7 +39,6 @@ public class CameraModeMedium : MonoBehaviour {
         }
         else
         {
-            // Debug.Log("isFreeCam is True");
             isFreeCam = false;
             lookAtBall.allow = true;
             cameraRotation.allow = false;

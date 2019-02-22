@@ -37,7 +37,6 @@ public class CameraCollision : MonoBehaviour {
         {
             if (hit.transform.tag != "Shield" && hit.transform.tag != "Team 1" && hit.transform.tag != "Team 2")
             {
-                Debug.Log("Hit: " + hit.transform.name + " tag: " + hit.transform.tag);
                 distance = Mathf.Clamp((hit.distance * distanceMultiplier), minDistance, maxDistance);
             }
         }
