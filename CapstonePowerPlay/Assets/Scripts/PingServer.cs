@@ -5,7 +5,8 @@ using UnityEngine.Networking;
 
 public class PingServer : NetworkBehaviour {
 	void Start () {
-        InvokeRepeating("RpcPingFunction", 10, 30);
+        if(isLocalPlayer)
+            InvokeRepeating("RpcPingFunction", 10, 30);
 	}
 
     [ClientRpc]

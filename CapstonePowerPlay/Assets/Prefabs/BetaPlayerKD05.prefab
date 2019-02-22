@@ -2628,7 +2628,6 @@ GameObject:
   - component: {fileID: 114265916815427910}
   - component: {fileID: 114172115259487244}
   - component: {fileID: 114764970251683102}
-  - component: {fileID: 114213538569576188}
   - component: {fileID: 114153382749759128}
   - component: {fileID: 82528023482240398}
   - component: {fileID: 54436893071655470}
@@ -8584,17 +8583,6 @@ MonoBehaviour:
   SpeedBoosted: 0
   AnimationControl: {fileID: 114252429124029196}
   BoardHasControl: 1
---- !u!114 &114213538569576188
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1612317655870148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21adcc7a598d3f944a3817fbdba0bc49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114230311020476480
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9093,7 +9081,6 @@ MonoBehaviour:
   - {fileID: 114501465127518366}
   - {fileID: 114005357797499334}
   - {fileID: 114916186977716184}
-  - {fileID: 114213538569576188}
   LocalPlayer: {fileID: 0}
   ParentPlayer: {fileID: 0}
 --- !u!114 &114584226341380646
