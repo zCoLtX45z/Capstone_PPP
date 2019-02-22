@@ -36,6 +36,7 @@ public class CameraModeMedium : MonoBehaviour {
             isFreeCam = true;
             lookAtBall.allow = false;
             cameraRotation.allow = true;
+            lookAtBall.hardLock = false;
         }
         else
         {

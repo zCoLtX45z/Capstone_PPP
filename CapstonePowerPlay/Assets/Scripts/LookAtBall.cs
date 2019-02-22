@@ -28,7 +28,7 @@ public class LookAtBall : MonoBehaviour
     [SerializeField]
     private float speedRot;
 
-    private bool hardLock = false;
+    public bool hardLock = false;
 
     // Use this for initialization
     void Start()
@@ -55,14 +55,25 @@ public class LookAtBall : MonoBehaviour
     {
         if (allow)
         {
-            //if(!hardLock)
-            //transform.rotation = Quaternion.RotateTowards(transform.rotation, target.rotation, step);
-
-
-
+           
             if (lookatBall.GetChild(0).gameObject.activeInHierarchy)
             {
-                transform.LookAt(lookatBall, upRotationRootObj.up);
+                if (!hardLock)
+                {
+                    Vector3 direction = lookatBall.position - transform.position;
+                    float angle = Vector3.Angle(direction, transform.forward);
+                    if (angle >= maxAngle)
+                    {
+                        Quaternion rot = Quaternion.LookRotation(direction);
+                        transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, speedRot * angle * Time.deltaTime);
+                    }
+                    else
+                        hardLock = true;
+                }
+                else
+                {
+                    transform.LookAt(lookatBall, upRotationRootObj.up);
+                }
             }
             else
             {
@@ -72,7 +83,27 @@ public class LookAtBall : MonoBehaviour
                     {
                         if (players[i].GetComponent<BallHandling>().ball != null)
                         {
-                            transform.LookAt(players[i].GetChild(2), upRotationRootObj.up);
+                            // origin location
+                            if (!hardLock)
+                            {
+                                Vector3 direction = players[i].GetChild(2).position - transform.position;
+                                float angle = Vector3.Angle(direction, transform.forward);
+                                if (angle >= maxAngle)
+                                {
+                                    Quaternion rot = Quaternion.LookRotation(direction);
+                                    transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, speedRot * angle * Time.deltaTime);
+                                }
+                                else
+                                {
+                                    hardLock = true;
+                                }
+                            }
+
+                            else
+                            {
+                                // original
+                                transform.LookAt(players[i].GetChild(2), upRotationRootObj.up);
+                            }
                         }
                     }
                 }
