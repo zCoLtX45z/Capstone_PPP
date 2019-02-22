@@ -18,6 +18,8 @@ public class PlacingItemsTOTC : NetworkBehaviour {
     private BallHandling BH;
     [SerializeField]
     private RunePickups RP;
+    [SerializeField]
+    private PlayerColor PC;
 
     // Item Slots
     [SerializeField]
@@ -44,6 +46,12 @@ public class PlacingItemsTOTC : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (PC.LocalPlayer != PC.ParentPlayer)
+        {
+            return;
+        }
+
 		if (Input.GetKeyDown(KeyCode.Tab))
         {
             // Toggle placing items
@@ -147,15 +155,12 @@ public class PlacingItemsTOTC : NetworkBehaviour {
                 if (canPlace)
                 {
                     PlacingItems = false;
-                    ActiveItem = Instantiate(ActiveItem);
                     PlacingScript.PlaceItem();
-                    ActiveItem.transform.parent = null;
-                    ActiveItem.transform.position = PlacingScript.ObjectPosition;
+                    //ActiveItem.transform.parent = null;
+                    //ActiveItem.transform.position = PlacingScript.ObjectPosition;
                     //ActiveItem.transform.up = PlacingScript.ObjectNormal;
                     //ActiveItem.transform.forward = PlacingScript.OffsetDirection;
-                    ActiveItem.transform.position = PlacingScript.ItemWorldPosition;
-                    ActiveItem.transform.rotation = PlacingScript.ItemWorldRotation;
-                    NetworkServer.Spawn(ActiveItem.gameObject);
+                    CmdSpawnItem(ActiveItem.gameObject, PlacingScript.ItemWorldPosition, PlacingScript.ItemWorldRotation);
                     ItemSlots[CurrentSlot].RemoveItem();
                 }
             }
@@ -175,6 +180,17 @@ public class PlacingItemsTOTC : NetworkBehaviour {
                 PickedUpItem = false;
             }
         }
+    }
+
+    [Command]
+    private void CmdSpawnItem(GameObject item, Vector3 Pos, Quaternion Rotation)
+    {
+        GameObject temp = Instantiate(item);
+        temp.transform.position = Pos;
+        temp.transform.rotation = Rotation;
+
+        if (temp != null)
+            NetworkServer.Spawn(item);
     }
 
     private void OnTriggerEnter(Collider other)
