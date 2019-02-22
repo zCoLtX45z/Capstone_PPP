@@ -188,7 +188,8 @@ public class PlacingItemsTOTC : NetworkBehaviour {
     [Command]
     private void CmdSpawnItem(GameObject item)
     {
-        NetworkServer.Spawn(item);
+        if (item != null)
+            NetworkServer.Spawn(item);
     }
 
     private void OnTriggerEnter(Collider other)
