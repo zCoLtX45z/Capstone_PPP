@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LookAtBall : MonoBehaviour {
+public class LookAtBall : MonoBehaviour
+{
 
     private Transform lookatBall;
 
@@ -20,13 +21,23 @@ public class LookAtBall : MonoBehaviour {
     [SerializeField]
     private Transform upRotationRootObj;
 
+
+    [SerializeField]
+    private float maxAngle;
+
+    [SerializeField]
+    private float speedRot;
+
+    private bool hardLock = false;
+
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         lookatBall = GameObject.FindGameObjectWithTag("Ball").transform;
 
         foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 1"))
         {
-            if(playerObj != thisPlayerBallHandling.transform)
+            if (playerObj != thisPlayerBallHandling.transform)
                 players.Add(playerObj.transform);
         }
         foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 2"))
@@ -36,13 +47,19 @@ public class LookAtBall : MonoBehaviour {
 
         cMM = transform.GetComponent<CameraModeMedium>();
 
-       
+
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (allow)
         {
+            //if(!hardLock)
+            //transform.rotation = Quaternion.RotateTowards(transform.rotation, target.rotation, step);
+
+
+
             if (lookatBall.GetChild(0).gameObject.activeInHierarchy)
             {
                 transform.LookAt(lookatBall, upRotationRootObj.up);
