@@ -18,6 +18,8 @@ public class PlacingItemsTOTC : NetworkBehaviour {
     private BallHandling BH;
     [SerializeField]
     private RunePickups RP;
+    [SerializeField]
+    private PlayerColor PC;
 
     // Item Slots
     [SerializeField]
@@ -44,6 +46,12 @@ public class PlacingItemsTOTC : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (PC.LocalPlayer != PC.ParentPlayer)
+        {
+            return;
+        }
+
 		if (Input.GetKeyDown(KeyCode.Tab))
         {
             // Toggle placing items
