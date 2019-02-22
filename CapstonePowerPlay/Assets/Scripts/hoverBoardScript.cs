@@ -87,6 +87,11 @@ public class hoverBoardScript : NetworkBehaviour
     //public GameObject camGurl1;
     //public GameObject camGurl2;
 
+    // Speed Ratio for Cmd Send
+    private float CurrentSpeedRatio = 0;
+    private float LastSpeedRatio = 0;
+    private bool LastTimeOnGround = false;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -197,8 +202,22 @@ public class hoverBoardScript : NetworkBehaviour
         }
 
         // Update animator
-        AnimationControl.UpdateSpeedRatio(Mathf.Abs(Speed / MaxSpeed));
-        AnimationControl.CmdUpdateGrounded(OnGround);
+        CurrentSpeedRatio = Mathf.Abs(Speed / MaxSpeed);
+
+        if (LastSpeedRatio <= 0.01f && CurrentSpeedRatio >= 0.01)
+            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+        else if (LastSpeedRatio <= 0.75f && CurrentSpeedRatio >= 0.75)
+            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+        else if (LastSpeedRatio >= 0.75f && CurrentSpeedRatio <= 0.75)
+            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+        else if (LastSpeedRatio >= 0.01f && CurrentSpeedRatio <= 0.01)
+            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+
+        if (LastTimeOnGround != OnGround)
+            AnimationControl.CmdUpdateGrounded(OnGround);
+
+        LastSpeedRatio = CurrentSpeedRatio;
+        LastTimeOnGround = OnGround;
     }
 
     void FixedUpdate()

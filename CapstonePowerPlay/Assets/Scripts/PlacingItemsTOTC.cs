@@ -155,15 +155,12 @@ public class PlacingItemsTOTC : NetworkBehaviour {
                 if (canPlace)
                 {
                     PlacingItems = false;
-                    ActiveItem = Instantiate(ActiveItem);
                     PlacingScript.PlaceItem();
                     //ActiveItem.transform.parent = null;
                     //ActiveItem.transform.position = PlacingScript.ObjectPosition;
                     //ActiveItem.transform.up = PlacingScript.ObjectNormal;
                     //ActiveItem.transform.forward = PlacingScript.OffsetDirection;
-                    ActiveItem.transform.position = PlacingScript.ItemWorldPosition;
-                    ActiveItem.transform.rotation = PlacingScript.ItemWorldRotation;
-                    CmdSpawnItem(ActiveItem.gameObject);
+                    CmdSpawnItem(ActiveItem.gameObject, PlacingScript.ItemWorldPosition, PlacingScript.ItemWorldRotation);
                     ItemSlots[CurrentSlot].RemoveItem();
                 }
             }
@@ -186,9 +183,13 @@ public class PlacingItemsTOTC : NetworkBehaviour {
     }
 
     [Command]
-    private void CmdSpawnItem(GameObject item)
+    private void CmdSpawnItem(GameObject item, Vector3 Pos, Quaternion Rotation)
     {
-        if (item != null)
+        GameObject temp = Instantiate(item);
+        temp.transform.position = Pos;
+        temp.transform.rotation = Rotation;
+
+        if (temp != null)
             NetworkServer.Spawn(item);
     }
 
