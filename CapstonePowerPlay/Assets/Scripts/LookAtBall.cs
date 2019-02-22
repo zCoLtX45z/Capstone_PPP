@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LookAtBall : MonoBehaviour {
+public class LookAtBall : MonoBehaviour
+{
 
     private Transform lookatBall;
 
@@ -20,13 +21,23 @@ public class LookAtBall : MonoBehaviour {
     [SerializeField]
     private Transform upRotationRootObj;
 
+
+    [SerializeField]
+    private float maxAngle;
+
+    [SerializeField]
+    private float speedRot;
+
+    public bool hardLock = false;
+
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         lookatBall = GameObject.FindGameObjectWithTag("Ball").transform;
 
         foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 1"))
         {
-            if(playerObj != thisPlayerBallHandling.transform)
+            if (playerObj != thisPlayerBallHandling.transform)
                 players.Add(playerObj.transform);
         }
         foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 2"))
@@ -36,16 +47,33 @@ public class LookAtBall : MonoBehaviour {
 
         cMM = transform.GetComponent<CameraModeMedium>();
 
-       
+
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (allow)
         {
+           
             if (lookatBall.GetChild(0).gameObject.activeInHierarchy)
             {
-                transform.LookAt(lookatBall, upRotationRootObj.up);
+                if (!hardLock)
+                {
+                    Vector3 direction = lookatBall.position - transform.position;
+                    float angle = Vector3.Angle(direction, transform.forward);
+                    if (angle >= maxAngle)
+                    {
+                        Quaternion rot = Quaternion.LookRotation(direction);
+                        transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, speedRot * angle * Time.deltaTime);
+                    }
+                    else
+                        hardLock = true;
+                }
+                else
+                {
+                    transform.LookAt(lookatBall, upRotationRootObj.up);
+                }
             }
             else
             {
@@ -55,7 +83,27 @@ public class LookAtBall : MonoBehaviour {
                     {
                         if (players[i].GetComponent<BallHandling>().ball != null)
                         {
-                            transform.LookAt(players[i].GetChild(2), upRotationRootObj.up);
+                            // origin location
+                            if (!hardLock)
+                            {
+                                Vector3 direction = players[i].GetChild(2).position - transform.position;
+                                float angle = Vector3.Angle(direction, transform.forward);
+                                if (angle >= maxAngle)
+                                {
+                                    Quaternion rot = Quaternion.LookRotation(direction);
+                                    transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, speedRot * angle * Time.deltaTime);
+                                }
+                                else
+                                {
+                                    hardLock = true;
+                                }
+                            }
+
+                            else
+                            {
+                                // original
+                                transform.LookAt(players[i].GetChild(2), upRotationRootObj.up);
+                            }
                         }
                     }
                 }
