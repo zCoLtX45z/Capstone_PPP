@@ -4,30 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class PingServer : NetworkBehaviour {
-
-    [SerializeField]
-    private float maxTime;
-
-    private float currentTime;
-
-	// Use this for initialization
-	void Start () {
-        currentTime = maxTime;
-    }
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-		if(currentTime > 0)
-        {
-            currentTime -= Time.time; 
-        }
-        else
-        {
-            currentTime = maxTime;
-
-        }
-
-
+	void Update () {
+        InvokeRepeating("RpcPingFunction", 10, 10);
 	}
 
     [ClientRpc]
@@ -39,8 +17,5 @@ public class PingServer : NetworkBehaviour {
     [Command]
     private void CmdPingFunction()
     {
-
     }
-
-
 }
