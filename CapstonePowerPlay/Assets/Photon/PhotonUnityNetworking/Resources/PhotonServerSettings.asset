@@ -10,15 +10,15 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime:
-    AppIdChat:
-    AppIdVoice:
-    AppVersion:
+    AppIdRealtime: 
+    AppIdChat: 
+    AppIdVoice: 
+    AppVersion: 
     UseNameServer: 1
-    FixedRegion:
-    Server:
+    FixedRegion: 
+    Server: 
     Port: 0
     Protocol: 0
     EnableLobbyStatistics: 0
@@ -27,10 +27,6 @@ MonoBehaviour:
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
-  RpcList:
-  - DestroySpaceship
-  - Fire
-  - RespawnSpaceship
-  - RPC_UpdateRoom
-  DisableAutoOpenWizard: 1
+  RpcList: []
+  DisableAutoOpenWizard: 0
   ShowSettings: 0
