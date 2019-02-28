@@ -33,7 +33,7 @@ public class LookAtBall : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        if (GameObject.FindGameObjectWithTag("Ball").transform != null)
+        if (GameObject.FindGameObjectWithTag("Ball") != null)
             lookatBall = GameObject.FindGameObjectWithTag("Ball").transform;
         if (lookatBall != null)
         {

@@ -150,8 +150,16 @@ public class hoverBoardScript : MonoBehaviour
             {
                 m_currTurn = turnAxis * 4;
             }
-            // Turning Acceleration
+            // Turning Accelerationn
             if (PreviousTurnSpeed * m_currTurn <= 0)
+            {
+                AccelerationAmount = 100;
+            }
+            else if (PreviousTurnSpeed > m_currTurn && AccelerationAmount > 100)
+            {
+                AccelerationAmount -= Time.deltaTime * TurnPercentAcceleration;
+            }
+            else
             {
                 AccelerationAmount = 100;
             }
