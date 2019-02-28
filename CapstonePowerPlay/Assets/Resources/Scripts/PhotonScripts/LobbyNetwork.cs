@@ -14,13 +14,18 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
 
 	// Use this for initialization
 	void Start () {
-        PhotonNetwork.OfflineMode = false;
-        PhotonNetwork.LocalPlayer.NickName = PlayerNetwork.Instance.PlayerName;
-        PhotonNetwork.AutomaticallySyncScene = true;
-        //PhotonNetwork.GameVersion = "1";
+        if (!PhotonNetwork.InLobby && !PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.OfflineMode = false;
+            PhotonNetwork.LocalPlayer.NickName = PlayerNetwork.Instance.PlayerName;
+            PhotonNetwork.AutomaticallySyncScene = true;
+            //PhotonNetwork.GameVersion = "1";
 
-        print("Connecting to Server...");
-        PhotonNetwork.ConnectUsingSettings();
+            print("Connecting to Server...");
+            PhotonNetwork.ConnectUsingSettings();
+        }
+            SceneManager.sceneLoaded += OnSceneFinishedLoading;
+
     }
 
     public override void OnConnected()
@@ -85,6 +90,10 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
     {
         if (RoomIdentifier != "None")
             PhotonNetwork.JoinRoom(RoomIdentifier);
+        else
+        {
+            print("No RoomID - Cannot Rejoin.");
+        }
     }
 
     public void LeavePhotonRoom()
@@ -93,11 +102,12 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
             PhotonNetwork.LeaveRoom();
     }
 
-    public void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
+    private void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
         print(scene.name + ": OnSceneFinhishedLoadingCalled");
-        if (scene.name == "DustinScene" || scene.name == "Marcscene")
+        if (scene.name == "DustinScene" || scene.name == "Marcscene" || scene.name == "MarcsceneDup")
         {
+            print("RPC_CreatePlayer" + ": Attempted");
             PV.RPC("RPC_CreatePlayer", RpcTarget.All);
         }
     }
@@ -105,6 +115,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
     [PunRPC]
     private void RPC_CreatePlayer()
     {
-        PhotonNetwork.Instantiate("PhotonPrefabs/PhotonNetworkPlayer", transform.position, Quaternion.identity, 0);
+        print("RPC_CreatePlayer" + ": Called");
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonNetworkPlayer"), transform.position, Quaternion.identity, 0);
     }
 }

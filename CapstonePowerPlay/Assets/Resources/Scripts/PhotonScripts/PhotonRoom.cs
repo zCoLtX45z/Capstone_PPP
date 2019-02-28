@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
 
@@ -177,11 +178,11 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                             // Load scene and spawn player in
                             if ((string)PhotonNetwork.CurrentRoom.CustomProperties["RoomTypeKey"] == "Custom")
                             {
-                                LoadArena("DustinScene");
+                                LoadArena(5);
                             }
                             else if ((string)PhotonNetwork.CurrentRoom.CustomProperties["RoomTypeKey"] == "TrainingRoom")
                             {
-                                LoadArena("Marcscene");
+                                LoadArena(3);
                             }
                         }
                     }
@@ -209,17 +210,17 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
         PhotonNetwork.CurrentRoom.CustomProperties[key] = value;
     }
 
-    void LoadArena(string Scene)
+    void LoadArena(int scene)
     {
         if (!PhotonNetwork.IsMasterClient)
         {
             Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
-            Debug.Log(Scene + " Attempted to be Loaded");
+            Debug.Log("Scene " + scene + " Attempted to be Loaded");
         }
         else
         {
-            Debug.Log(Scene + " Loaded");
-            PhotonNetwork.LoadLevel(Scene);
+            Debug.Log("Scene " + scene + " Loaded");
+            PhotonNetwork.LoadLevel(scene);
         }
     }
 
