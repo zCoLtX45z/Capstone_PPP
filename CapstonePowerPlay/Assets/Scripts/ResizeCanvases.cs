@@ -5,15 +5,11 @@ using UnityEngine;
 public class ResizeCanvases : MonoBehaviour {
 
     [SerializeField]
-    private RectTransform[] canvasTransform;
+    private Transform canvasTransform;
 
 
 	// Use this for initialization
 	void Start () {
-        for (int i = canvasTransform.Length - 1; i >= 0; i--)
-        {
-            canvasTransform[i].sizeDelta = new Vector2(Screen.width, Screen.height);
-        }
-        
+        canvasTransform.localScale = new Vector3(Screen.width, Screen.height, 1);
 	}
 }
