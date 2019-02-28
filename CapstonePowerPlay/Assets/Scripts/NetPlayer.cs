@@ -40,6 +40,9 @@ public class NetPlayer : MonoBehaviour {
     // Player Child Components
     private hoverBoardScript HBS;
     private BallHandling BH;
+
+    // Variables
+    private bool SkipTeamSelect = false;
     
     // Use this for initialization
     void Start ()
@@ -51,7 +54,10 @@ public class NetPlayer : MonoBehaviour {
         SetPlayerList();
         if (PV.IsMine)
         {
-            StartingCanvas.gameObject.SetActive(true);
+            if ((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != -1)
+                StartingCanvas.gameObject.SetActive(true);
+            else
+                SkipTeamSelect = true;
 
         }
         else
@@ -65,8 +71,26 @@ public class NetPlayer : MonoBehaviour {
     {
         if (PV.IsMine)
         {
+            if (SkipTeamSelect)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    foreach (NetPlayer p in PlayerList)
+                    {
+                        //p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
+                        p.PV.RPC("RPC_ChangeName", RpcTarget.All, p.gameObject.name, p.CodeNumbers);
+                    }
+                }
+                // Set player Team
+                TeamNum = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+
+                // Spawn player character
+                Debug.Log("Spawning player");
+                SpawnPlayer();
+                SkipTeamSelect = false;
+            }
             //Debug.Log(" IT IS MINE");
-            if (StartingCanvas.gameObject.activeSelf)
+            else if (StartingCanvas.gameObject.activeSelf)
             {
                 if (PlayerList == null)
                     SetPlayerList();
@@ -98,8 +122,6 @@ public class NetPlayer : MonoBehaviour {
                             Debug.Log("Spawning player");
                             //PV.RPC("RPC_SpawnPlayer", RpcTarget.All);
                             SpawnPlayer();
-
-
                         }
                     }
                 }
