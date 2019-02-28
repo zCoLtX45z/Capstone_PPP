@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-using Photon.Pun.UtilityScripts;
 
 public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
 
@@ -49,6 +48,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
     private bool IsReadyOld = false;
     // Game starts to play
     private bool StartGame = false;
+    private bool StartedGame = false;
     [SerializeField]
     private float StartTime = 3;
     private float StartTimer = 0;
@@ -112,6 +112,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                 if (P.ActorNumber == ChangedActor)
                 {
                     ChangedPlayer = P;
+                    break;
                 }
             }
 
@@ -163,17 +164,25 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                     }
                     else
                     {
-                        // Start The Game
-                        PV.RPC("RPC_UpdateStartGameTimer", RpcTarget.All, "Start");
-
-                        // Load scene and spawn player in
-                        if ((string)PhotonNetwork.CurrentRoom.CustomProperties["RoomTypeKey"] == "Custom")
+                        if (!StartedGame)
                         {
+                            StartedGame = true;
+                            // Start The Game
+                            PV.RPC("RPC_UpdateStartGameTimer", RpcTarget.All, "Start");
 
-                        }
-                        else if ((string)PhotonNetwork.CurrentRoom.CustomProperties["RoomTypeKey"] == "TrainingRoom")
-                        {
+                            // Update Room Started Bool
+                            PV.RPC("RPC_SetRoomProperty", RpcTarget.All, "StartedGame", true);
 
+
+                            // Load scene and spawn player in
+                            if ((string)PhotonNetwork.CurrentRoom.CustomProperties["RoomTypeKey"] == "Custom")
+                            {
+                                LoadArena("DustinScene");
+                            }
+                            else if ((string)PhotonNetwork.CurrentRoom.CustomProperties["RoomTypeKey"] == "TrainingRoom")
+                            {
+                                LoadArena("Marcscene");
+                            }
                         }
                     }
                 }
@@ -191,6 +200,26 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                     ReadyButtonText.text = "Pause";
                 }
             }
+        }
+    }
+
+    [PunRPC]
+    private void RPC_SetRoomProperty(string key, object value)
+    {
+        PhotonNetwork.CurrentRoom.CustomProperties[key] = value;
+    }
+
+    void LoadArena(string Scene)
+    {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
+            Debug.Log(Scene + " Attempted to be Loaded");
+        }
+        else
+        {
+            Debug.Log(Scene + " Loaded");
+            PhotonNetwork.LoadLevel(Scene);
         }
     }
 

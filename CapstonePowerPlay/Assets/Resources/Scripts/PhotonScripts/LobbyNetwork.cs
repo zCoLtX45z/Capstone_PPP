@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
+using System.IO;
 
-public class LobbyNetwork : MonoBehaviourPunCallbacks {
+public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
 
+    [SerializeField]
+    private PhotonView PV;
     private string RoomIdentifier = "None";
 
 	// Use this for initialization
@@ -87,5 +91,20 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks {
     {
         if (PhotonNetwork.InRoom)
             PhotonNetwork.LeaveRoom();
+    }
+
+    public void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        print(scene.name + ": OnSceneFinhishedLoadingCalled");
+        if (scene.name == "DustinScene" || scene.name == "Marcscene")
+        {
+            PV.RPC("RPC_CreatePlayer", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void RPC_CreatePlayer()
+    {
+        PhotonNetwork.Instantiate("PhotonPrefabs/PhotonNetworkPlayer", transform.position, Quaternion.identity, 0);
     }
 }

@@ -27,6 +27,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
             RO.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
             RO.CustomRoomProperties.Add("RoomNameKey", RoomName);
             RO.CustomRoomProperties.Add("RoomTypeKey", "Custom");
+            RO.CustomRoomProperties.Add("StartedGame", false);
 
             RO.CustomRoomPropertiesForLobby = new string[2];
             RO.CustomRoomPropertiesForLobby[0] = "RoomNameKey";
@@ -51,18 +52,22 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnectedAndReady)
         {
-            RoomName = PlayerNetwork.Instance.name + "'s Training Room";
-            RoomIdentifier = PlayerNetwork.Instance.name + "'s Room";
+            RoomName = RoomInputField.text;
+            RoomIdentifier = PlayerNetwork.Instance.name + "'s Training Room";
 
             RoomOptions RO = new RoomOptions() { IsVisible = false, IsOpen = true, MaxPlayers = 12 };
             RO.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
             RO.CustomRoomProperties.Add("RoomNameKey", RoomName);
             RO.CustomRoomProperties.Add("RoomTypeKey", "Training");
+            RO.CustomRoomProperties.Add("StartedGame", false);
 
             RO.CustomRoomPropertiesForLobby = new string[2];
             RO.CustomRoomPropertiesForLobby[0] = "RoomNameKey";
             RO.CustomRoomPropertiesForLobby[1] = "RoomTypeKey";
-
+            if (RoomName == "")
+            {
+                RoomName = PlayerNetwork.Instance.name + "'s Training Room";
+            }
             if (PhotonNetwork.CreateRoom(RoomIdentifier, RO, TypedLobby.Default))
             {
                 print("Create Room Request Sent.");
