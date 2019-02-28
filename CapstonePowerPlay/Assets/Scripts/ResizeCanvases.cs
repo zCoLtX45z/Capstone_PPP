@@ -16,9 +16,4 @@ public class ResizeCanvases : MonoBehaviour {
         }
         
 	}
-	
-	//// Update is called once per frame
-	//void Update () {
- //       Debug.Log("w: " + Screen.currentResolution.width + " / h: " + Screen.currentResolution.height);
- //   }
 }
