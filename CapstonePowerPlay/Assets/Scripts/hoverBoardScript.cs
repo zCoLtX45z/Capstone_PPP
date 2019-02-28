@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 
-public class hoverBoardScript : NetworkBehaviour
+
+public class hoverBoardScript : MonoBehaviour
 {
     public Rigidbody m_body;
     public float m_deadZone = 0.1f;
@@ -95,7 +95,7 @@ public class hoverBoardScript : NetworkBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        //if (isLocalPlayer)
+        
 
             Physics.gravity = new Vector3(0, -100, 0);
             if (!m_body)
@@ -117,24 +117,14 @@ public class hoverBoardScript : NetworkBehaviour
             }
 
 
-        //playercamera
-        //if (isLocalPlayer)
-        //{
-        //    camGurl1.SetActive(true);
-        //    camGurl2.SetActive(true);
-        //}
-        //else
-        //{
-        //    camGurl1.SetActive(false);
-        //    camGurl2.SetActive(false);
-        //}
+      
     }
 
 	// Update is called once per frame
 	void Update ()
     {
 
-        //if (isLocalPlayer)
+        
         if (BoardHasControl)
         {
             //main thrust
@@ -214,7 +204,7 @@ public class hoverBoardScript : NetworkBehaviour
             AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
 
         if (LastTimeOnGround != OnGround)
-            AnimationControl.CmdUpdateGrounded(OnGround);
+            AnimationControl.UpdateGrounded1(OnGround);
 
         LastSpeedRatio = CurrentSpeedRatio;
         LastTimeOnGround = OnGround;
@@ -222,8 +212,7 @@ public class hoverBoardScript : NetworkBehaviour
 
     void FixedUpdate()
     {
-        //if (isLocalPlayer)
-
+       
         // Non PID Controllers
         //Hover force
         if (m_hoverPoints.Length > 0)
@@ -492,7 +481,7 @@ public class hoverBoardScript : NetworkBehaviour
             m_body.AddForceAtPosition(-temp.transform.right * TargetAdjustForceX * ForwardJumpMultiplier, temp.gameObject.transform.position, ForceMode.Impulse);
             m_body.AddForceAtPosition(temp.transform.forward * TargetAdjustForceZ, temp.gameObject.transform.position, ForceMode.Impulse);
         }
-        AnimationControl.CmdJumpAnimation();
+        AnimationControl.JumpAnimation();
     }
     public float GetMaxSpeed()
     {

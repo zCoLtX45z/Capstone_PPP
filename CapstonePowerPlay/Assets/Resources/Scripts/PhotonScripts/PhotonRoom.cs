@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-using Photon.Pun.UtilityScripts;
+using UnityEngine.SceneManagement;
 
 public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
 
@@ -26,6 +26,12 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
     private RectTransform QueueContent;
     [SerializeField]
     private PlayerRoomUI RPU_Prefab;
+    [SerializeField]
+    private Button ReadyButton;
+    [SerializeField]
+    private Text ReadyButtonText;
+    [SerializeField]
+    private Text CountDownText;
 
     private List<PlayerRoomUI> PlayerRoomUIList = new List<PlayerRoomUI>();
 
@@ -41,6 +47,12 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
     private int TeamNumOld = -1;
     private bool IsReady = false;
     private bool IsReadyOld = false;
+    // Game starts to play
+    private bool StartGame = false;
+    private bool StartedGame = false;
+    [SerializeField]
+    private float StartTime = 3;
+    private float StartTimer = 0;
 
     // Photon
     [SerializeField]
@@ -65,6 +77,11 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                 hash.Add("RoomIndentifier", PhotonNetwork.CurrentRoom.Name);
                 P.SetCustomProperties(hash);
             }
+        }
+
+        if (ReadyButton.enabled)
+        {
+            ReadyButton.enabled = false;
         }
     }
 
@@ -96,6 +113,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                 if (P.ActorNumber == ChangedActor)
                 {
                     ChangedPlayer = P;
+                    break;
                 }
             }
 
@@ -117,6 +135,112 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
         CheckLocalPlayer();
         CheckPlayerTeam();
         UpdateLists();
+        CheckStartGame();
+    }
+
+    [PunRPC]
+    private void RPC_UpdateStartGameTimer(string Countdown)
+    {
+        CountDownText.text = Countdown;
+    }
+
+    private void CheckStartGame()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (CheckIfReady())
+            {
+                if (!ReadyButton.enabled)
+                {
+                    ReadyButton.enabled = true;
+                    ReadyButtonText.text = "Play";
+                }
+                if (StartGame)
+                {
+                    if (StartTimer < StartTime)
+                    {
+                        string tempText = Mathf.CeilToInt(3 - StartTimer) + "";
+                        StartTimer += Time.deltaTime;
+                        PV.RPC("RPC_UpdateStartGameTimer", RpcTarget.All, tempText);
+                    }
+                    else
+                    {
+                        if (!StartedGame)
+                        {
+                            StartedGame = true;
+                            // Start The Game
+                            PV.RPC("RPC_UpdateStartGameTimer", RpcTarget.All, "Start");
+
+                            // Update Room Started Bool
+                            PV.RPC("RPC_SetRoomProperty", RpcTarget.All, "StartedGame", true);
+
+
+                            // Load scene and spawn player in
+                            if ((string)PhotonNetwork.CurrentRoom.CustomProperties["RoomTypeKey"] == "Custom")
+                            {
+                                LoadArena(5);
+                            }
+                            else if ((string)PhotonNetwork.CurrentRoom.CustomProperties["RoomTypeKey"] == "TrainingRoom")
+                            {
+                                LoadArena(3);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    StartTimer = 0;
+                    PV.RPC("RPC_UpdateStartGameTimer", RpcTarget.All, "");
+                }
+            }
+            else
+            {
+                if (ReadyButton.enabled)
+                {
+                    ReadyButton.enabled = false;
+                    ReadyButtonText.text = "Pause";
+                }
+            }
+        }
+    }
+
+    [PunRPC]
+    private void RPC_SetRoomProperty(string key, object value)
+    {
+        PhotonNetwork.CurrentRoom.CustomProperties[key] = value;
+    }
+
+    void LoadArena(int scene)
+    {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
+            Debug.Log("Scene " + scene + " Attempted to be Loaded");
+        }
+        else
+        {
+            Debug.Log("Scene " + scene + " Loaded");
+            PhotonNetwork.LoadLevel(scene);
+        }
+    }
+
+    public void ToggleStartGame()
+    {
+        StartGame = !StartGame;
+    }
+
+    private bool CheckIfReady()
+    {
+        bool IsReady = true;
+        foreach (Player P in RoomPlayerList)
+        {
+            if (!(bool)P.CustomProperties["ReadyToPlay"])
+            {
+                IsReady = false;
+                break;
+            }
+        }
+        return IsReady;
     }
 
     private void CheckPlayerTeam()

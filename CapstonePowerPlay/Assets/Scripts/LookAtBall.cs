@@ -33,118 +33,122 @@ public class LookAtBall : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        lookatBall = GameObject.FindGameObjectWithTag("Ball").transform;
-
-        foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 1"))
+        if (GameObject.FindGameObjectWithTag("Ball").transform != null)
+            lookatBall = GameObject.FindGameObjectWithTag("Ball").transform;
+        if (lookatBall != null)
         {
-            if (playerObj != thisPlayerBallHandling.transform)
+            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 1"))
+            {
+                if (playerObj != thisPlayerBallHandling.transform)
+                    players.Add(playerObj.transform);
+            }
+            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 2"))
+            {
                 players.Add(playerObj.transform);
-        }
-        foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 2"))
-        {
-            players.Add(playerObj.transform);
-        }
+            }
 
-        cMM = transform.GetComponent<CameraModeMedium>();
-
+            cMM = transform.GetComponent<CameraModeMedium>();
+        }
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (allow)
+        if (lookatBall != null)
         {
-           
-            if (lookatBall.GetChild(0).gameObject.activeInHierarchy)
+            if (allow)
             {
-                if (!hardLock)
+
+                if (lookatBall.GetChild(0).gameObject.activeInHierarchy)
                 {
-                    Vector3 direction = lookatBall.position - transform.position;
-                    float angle = Vector3.Angle(direction, transform.forward);
-                    if (angle >= maxAngle)
+                    if (!hardLock)
                     {
-                        Quaternion rot = Quaternion.LookRotation(direction);
-                        transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, speedRot * angle * Time.deltaTime);
+                        Vector3 direction = lookatBall.position - transform.position;
+                        float angle = Vector3.Angle(direction, transform.forward);
+                        if (angle >= maxAngle)
+                        {
+                            Quaternion rot = Quaternion.LookRotation(direction);
+                            transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, speedRot * angle * Time.deltaTime);
+                        }
+                        else
+                            hardLock = true;
                     }
                     else
-                        hardLock = true;
+                    {
+                        transform.LookAt(lookatBall, upRotationRootObj.up);
+                    }
                 }
                 else
                 {
-                    transform.LookAt(lookatBall, upRotationRootObj.up);
-                }
-            }
-            else
-            {
-                if (thisPlayerBallHandling.ball == null)
-                {
-                    for (int i = 0; i < players.Count; i++)
+                    if (thisPlayerBallHandling.ball == null)
                     {
-                        if (players[i].GetComponent<BallHandling>().ball != null)
+                        for (int i = 0; i < players.Count; i++)
                         {
-                            // origin location
-                            if (!hardLock)
+                            if (players[i].GetComponent<BallHandling>().ball != null)
                             {
-                                Vector3 direction = players[i].GetChild(2).position - transform.position;
-                                float angle = Vector3.Angle(direction, transform.forward);
-                                if (angle >= maxAngle)
+                                // origin location
+                                if (!hardLock)
                                 {
-                                    Quaternion rot = Quaternion.LookRotation(direction);
-                                    transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, speedRot * angle * Time.deltaTime);
+                                    Vector3 direction = players[i].GetChild(2).position - transform.position;
+                                    float angle = Vector3.Angle(direction, transform.forward);
+                                    if (angle >= maxAngle)
+                                    {
+                                        Quaternion rot = Quaternion.LookRotation(direction);
+                                        transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, speedRot * angle * Time.deltaTime);
+                                    }
+                                    else
+                                    {
+                                        hardLock = true;
+                                    }
                                 }
+
                                 else
                                 {
-                                    hardLock = true;
+                                    // original
+                                    transform.LookAt(players[i].GetChild(2), upRotationRootObj.up);
                                 }
-                            }
-
-                            else
-                            {
-                                // original
-                                transform.LookAt(players[i].GetChild(2), upRotationRootObj.up);
                             }
                         }
                     }
+                    else
+                    {
+                        Debug.Log("Change");
+                        cMM.ChangeCameraMode();
+                    }
+
                 }
-                else
-                {
-                    Debug.Log("Change");
-                    cMM.ChangeCameraMode();
-                }
 
-            }
+                int numberOfPlayers = 0;
 
-            int numberOfPlayers = 0;
-
-
-            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 1"))
-            {
-                numberOfPlayers++;
-            }
-            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 2"))
-            {
-                numberOfPlayers++;
-            }
-
-            if (numberOfPlayers > players.Count)
-            {
-                for (int i = players.Count - 1; i >= 0; i--)
-                {
-                    players.Remove(players[i]);
-                }
 
                 foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 1"))
                 {
-                    players.Add(playerObj.transform);
+                    numberOfPlayers++;
                 }
-
                 foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 2"))
                 {
-                    players.Add(playerObj.transform);
+                    numberOfPlayers++;
+                }
+
+                if (numberOfPlayers > players.Count)
+                {
+                    for (int i = players.Count - 1; i >= 0; i--)
+                    {
+                        players.Remove(players[i]);
+                    }
+
+                    foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 1"))
+                    {
+                        players.Add(playerObj.transform);
+                    }
+
+                    foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 2"))
+                    {
+                        players.Add(playerObj.transform);
+                    }
                 }
             }
         }
-
     }
 }
