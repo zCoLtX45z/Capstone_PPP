@@ -99,6 +99,7 @@ public class hoverBoardScript : MonoBehaviour
     private float MaxTurnPercentAcceleration = 300;
     private float AccelerationAmount = 100;
     private float PreviousTurnSpeed;
+    private float TurnSpeed;
 
 	// Use this for initialization
 	void Start ()
@@ -129,7 +130,7 @@ public class hoverBoardScript : MonoBehaviour
         if (BoardHasControl)
         {
             // Previous Turn Direction
-            PreviousTurnSpeed = m_currTurn;
+            PreviousTurnSpeed = TurnSpeed;
             //main thrust
             m_currThrust = 0.0f;
             float aclAxis = Input.GetAxis("Vertical");
@@ -153,24 +154,25 @@ public class hoverBoardScript : MonoBehaviour
             // Turning Accelerationn
             if (PreviousTurnSpeed * m_currTurn <= 0)
             {
+                Debug.Log("Set Turn Acceleration to Base");
                 AccelerationAmount = 100;
             }
             else if (PreviousTurnSpeed > m_currTurn && AccelerationAmount > 100)
             {
+                Debug.Log("Lower Turn Acceleration");
                 AccelerationAmount -= Time.deltaTime * TurnPercentAcceleration;
             }
-            else
+            if (AccelerationAmount < MaxTurnPercentAcceleration)
             {
-                AccelerationAmount = 100;
-            }
-            if (AccelerationAmount < MaxTurnAdjustPercent)
-            {
+                Debug.Log("Raise Turn Acceleration");
                 AccelerationAmount += Time.deltaTime * TurnPercentAcceleration;
             }
             else
             {
+                Debug.Log("Set Turn Acceleration to Max");
                 AccelerationAmount = MaxTurnPercentAcceleration;
             }
+            TurnSpeed = m_currTurn;
             m_currTurn *= AccelerationAmount / 100;
 
 
