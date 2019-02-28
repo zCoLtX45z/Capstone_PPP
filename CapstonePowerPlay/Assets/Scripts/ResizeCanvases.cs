@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 public class ResizeCanvases : MonoBehaviour {
-	void Start () {
+	void Update () {
         transform.localScale = new Vector3(Screen.width, Screen.height, 1);
 	}
 }
