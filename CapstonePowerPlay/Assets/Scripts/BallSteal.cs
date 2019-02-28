@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
-public class BallSteal : NetworkBehaviour
+
+public class BallSteal : MonoBehaviour
 {
 
     // the max angle that a teamate must be in between, in order to be an eligable target for passing
@@ -144,7 +144,7 @@ public class BallSteal : NetworkBehaviour
                             Debug.Log("playerHandTransform.gameObject: " + playerHandTransform.gameObject);
                             //Debug.Log("ballTransform: " + ballTransform);
                             //Debug.Log("target: " + target);
-                            target.GetComponent<BallHandling>().CmdSteal(player.gameObject, ballTransform.gameObject, playerHandTransform.position, target);
+                            target.GetComponent<BallHandling>().Steal(player.gameObject, ballTransform.gameObject, playerHandTransform.position, target);
                         }
 
 

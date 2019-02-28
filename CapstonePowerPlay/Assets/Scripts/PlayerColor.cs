@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class PlayerColor : NetworkBehaviour {
+
+public class PlayerColor : MonoBehaviour {
 
     [SerializeField]
     private GameObject BluePlayer;
@@ -32,19 +33,22 @@ public class PlayerColor : NetworkBehaviour {
     [SerializeField]
     private PlayerSoftlockPassSight pSLPS;
 
+    //photon variables
+    private PhotonView PV;
 
     void Start()
     {
+        PV = GetComponent<PhotonView>();
     }
 
-    [Command]
-    public void CmdSetUpPlayer()
+    
+    public void SetUpPlayer1()
     {
-        RpcSetUpPlayer();
+        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
     }
 
-    [ClientRpc]
-    public void RpcSetUpPlayer()
+    [PunRPC]
+    public void RPC_SetUpPlayer()
     {
         ParentPlayer = GetComponentInParent<NetPlayer>();
         LocalPlayer = ParentPlayer.LocalPlayer;
@@ -116,7 +120,7 @@ public class PlayerColor : NetworkBehaviour {
                 SetRedActive();
             }
         }
-        CD.ForcedStart();
+        CD.ForcedStart2();
     }
 
     public void SetBlueActive()

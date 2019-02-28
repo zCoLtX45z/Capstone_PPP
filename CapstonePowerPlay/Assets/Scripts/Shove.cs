@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class Shove : NetworkBehaviour {
+
+public class Shove : MonoBehaviour {
 
     // Player Components
     [SerializeField]
@@ -20,9 +21,9 @@ public class Shove : NetworkBehaviour {
     private PlayerColor PC;
 
     // Shield Components
-    [SyncVar(hook = "ChangeOpacity")]
+    //[SyncVar(hook = "ChangeOpacity")]
     public float ShieldOpacity = 0;
-    [SyncVar(hook = "ChangeShielding")]
+    //[SyncVar(hook = "ChangeShielding")]
     public float ShieldStrength = 0;
     private float StrengthTimer = 0;
     [SerializeField]
@@ -33,8 +34,13 @@ public class Shove : NetworkBehaviour {
     private float MaxShoveForce = 50;
     [SerializeField]
     private float MinSpeedToDropBallPercent = 0.5f;
+
+    //photon variables
+    private PhotonView PV;
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        PV = GetComponent<PhotonView>();
         if (PC.LocalPlayer == PC.ParentPlayer)
         {
             MaxSpeed = Hoverboard.GetMaxSpeed();
@@ -74,12 +80,13 @@ public class Shove : NetworkBehaviour {
                 opacity = 1;
             }
 
-            CmdUpdateShield(opacity, shieldStrenth);
+            //CmdUpdateShield(opacity, shieldStrenth);
+            PV.RPC("RPC_UpdateShield", RpcTarget.All, opacity, shieldStrenth);
         }
 	}
 
-    [Command]
-    private void CmdUpdateShield(float Opacity, float Shielding)
+    [PunRPC]
+    private void RPC_UpdateShield(float Opacity, float Shielding)
     {
         //Debug.Log("Updated Shield: " + Opacity + ", " + Shielding);
         ShieldOpacity = Opacity;
@@ -103,7 +110,8 @@ public class Shove : NetworkBehaviour {
         if (PC.LocalPlayer == PC.ParentPlayer)
         {
             Debug.Log("PC.LocalPlayer == PC.ParentPlayer = " + (PC.LocalPlayer == PC.ParentPlayer));
-            CmdShovePlayer(OtherPlayer.gameObject, Direction);
+            ShovePlayer(OtherPlayer.gameObject, Direction);
+            
         }
     }
 
@@ -111,18 +119,19 @@ public class Shove : NetworkBehaviour {
     {
         if (PC.LocalPlayer == PC.ParentPlayer)
         {
-            CmdCollidePlayer(OtherPlayer.gameObject, Direction);
+            //CmdCollidePlayer(OtherPlayer.gameObject, Direction);
+            PV.RPC("RPC_CollidePlayer", RpcTarget.All, OtherPlayer.gameObject, Direction);
         }
     }
 
-    [Command]
-    private void CmdCollidePlayer(GameObject player, Vector3 Direction)
+    [PunRPC]
+    private void RPC_CollidePlayer(GameObject player, Vector3 Direction)
     {
         Shove shove = player.GetComponent<Shove>();
         if (shove.ShieldStrength / (ShieldStrength + 0.1f) < 0.8f && ShieldStrength > 0.4f)
         {
             BallHandling bh = player.GetComponent<BallHandling>();
-            bh.CmdDropBall();
+            bh.DropBall();
             shove.LaunchPlayer(MaxShoveForce, Direction);
         }
         else
@@ -132,21 +141,22 @@ public class Shove : NetworkBehaviour {
         }
     }
 
-    [Command]
-    private void CmdShovePlayer(GameObject player, Vector3 Direction)
+    
+    private void ShovePlayer(GameObject player, Vector3 Direction)
     {
         Debug.Log("CmdShovePlayer Called");
-        RpcShovePlayer(player, Direction);
+        //RpcShovePlayer(player, Direction);
+        PV.RPC("RPC_ShovePlayer", RpcTarget.All, player, Direction);
     }
 
-    [ClientRpc]
-    private void RpcShovePlayer(GameObject player, Vector3 Direction)
+    [PunRPC]
+    private void RPC_ShovePlayer(GameObject player, Vector3 Direction)
     {
         Debug.Log("RpcShovePlayer Called");
         Shove shove = player.GetComponent<Shove>();
         shove.LaunchPlayer(MaxShoveForce, Direction);
         BallHandling bh = player.GetComponent<BallHandling>();
-        bh.CmdDropBall();
+        bh.DropBall();
     }
 
 

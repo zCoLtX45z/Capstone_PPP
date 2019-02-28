@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class ballHandler : NetworkBehaviour {
+
+
+public class ballHandler : MonoBehaviour {
 
 
     [SerializeField]
@@ -16,8 +18,12 @@ public class ballHandler : NetworkBehaviour {
     {
 
         ballSpawn = GameObject.FindGameObjectWithTag("ballSpawn").GetComponent<Transform>();
-        if (isServer)
-            CmdSpawnBall();
+        //if (isServer)
+        if(PhotonNetwork.IsMasterClient)
+        {
+            SpawnBall();
+        }
+        
     }
 	
 	// Update is called once per frame
@@ -27,16 +33,16 @@ public class ballHandler : NetworkBehaviour {
         if(Input.GetKeyDown(KeyCode.J))
         {
             
-            CmdSpawnBall();
+            SpawnBall();
             
         }
 	}
-   [Command]
-    public void CmdSpawnBall()
+   
+    public void SpawnBall()
     {
         Debug.Log("spawning ball");
-        GameObject ball1 = Instantiate(ball, ballSpawn.position, ballSpawn.rotation);
+        PhotonNetwork.InstantiateSceneObject("Prefabs/Ultra Ball", ballSpawn.position, ballSpawn.rotation);
 
-        NetworkServer.Spawn(ball1);
+        
     }
 }

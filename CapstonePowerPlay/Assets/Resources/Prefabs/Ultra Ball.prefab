@@ -121,12 +121,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4905000802469154}
   - component: {fileID: 135669702163476002}
-  - component: {fileID: 114114624575351294}
   - component: {fileID: 114572916986978946}
   - component: {fileID: 54686814617626606}
-  - component: {fileID: 114117465994004942}
   - component: {fileID: 82362065139856280}
   - component: {fileID: 114622598267205604}
+  - component: {fileID: 114437269489542750}
+  - component: {fileID: 114422970565727160}
   m_Layer: 2
   m_Name: Ultra Ball
   m_TagString: Ball
@@ -449,59 +449,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &114114624575351294
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1434841718529576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 47
-    i1: 72
-    i2: 163
-    i3: 221
-    i4: 124
-    i5: 24
-    i6: 243
-    i7: 52
-    i8: 217
-    i9: 192
-    i10: 175
-    i11: 246
-    i12: 247
-    i13: 154
-    i14: 78
-    i15: 234
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
---- !u!114 &114117465994004942
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1434841718529576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
-  m_SendInterval: 0.033333335
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114124908968306304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -549,6 +496,41 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &114422970565727160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1434841718529576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+--- !u!114 &114437269489542750
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1434841718529576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 114422970565727160}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!114 &114523374424508816
 MonoBehaviour:
   m_ObjectHideFlags: 1

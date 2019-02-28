@@ -116,6 +116,6 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
     private void RPC_CreatePlayer()
     {
         print("RPC_CreatePlayer" + ": Called");
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonNetworkPlayer"), transform.position, Quaternion.identity, 0);
+        PhotonNetwork.Instantiate("PhotonPrefabs/PhotonNetworkPlayer", transform.position, Quaternion.identity, 0);
     }
 }
