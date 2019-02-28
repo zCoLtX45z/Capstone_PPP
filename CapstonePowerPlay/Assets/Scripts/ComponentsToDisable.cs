@@ -20,7 +20,8 @@ public class ComponentsToDisable : MonoBehaviour {
     }
     public void ForcedStart1()
     {
-        PV.RPC("RPC_ForcedStart", RpcTarget.AllBuffered);
+        if (PhotonNetwork.InRoom)
+            PV.RPC("RPC_ForcedStart", RpcTarget.AllBuffered);
     }
 
     [PunRPC]

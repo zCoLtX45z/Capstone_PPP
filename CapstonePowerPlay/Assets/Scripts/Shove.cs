@@ -81,7 +81,8 @@ public class Shove : MonoBehaviour {
             }
 
             //CmdUpdateShield(opacity, shieldStrenth);
-            PV.RPC("RPC_UpdateShield", RpcTarget.All, opacity, shieldStrenth);
+            if (PhotonNetwork.InRoom)
+                PV.RPC("RPC_UpdateShield", RpcTarget.All, opacity, shieldStrenth);
         }
 	}
 
@@ -120,7 +121,8 @@ public class Shove : MonoBehaviour {
         if (PC.LocalPlayer == PC.ParentPlayer)
         {
             //CmdCollidePlayer(OtherPlayer.gameObject, Direction);
-            PV.RPC("RPC_CollidePlayer", RpcTarget.All, OtherPlayer.gameObject, Direction);
+            if (PhotonNetwork.InRoom)
+                PV.RPC("RPC_CollidePlayer", RpcTarget.All, OtherPlayer.gameObject, Direction);
         }
     }
 
@@ -146,7 +148,8 @@ public class Shove : MonoBehaviour {
     {
         Debug.Log("CmdShovePlayer Called");
         //RpcShovePlayer(player, Direction);
-        PV.RPC("RPC_ShovePlayer", RpcTarget.All, player, Direction);
+        if (PhotonNetwork.InRoom)
+            PV.RPC("RPC_ShovePlayer", RpcTarget.All, player, Direction);
     }
 
     [PunRPC]

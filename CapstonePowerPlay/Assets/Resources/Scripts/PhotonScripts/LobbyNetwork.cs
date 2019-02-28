@@ -17,7 +17,8 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
         if (!PhotonNetwork.InLobby && !PhotonNetwork.InRoom)
         {
             PhotonNetwork.OfflineMode = false;
-            PhotonNetwork.LocalPlayer.NickName = PlayerNetwork.Instance.PlayerName;
+            if (PhotonNetwork.InRoom)
+                PhotonNetwork.LocalPlayer.NickName = PlayerNetwork.Instance.PlayerName;
             PhotonNetwork.AutomaticallySyncScene = true;
             //PhotonNetwork.GameVersion = "1";
 

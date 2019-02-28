@@ -40,7 +40,8 @@ public class AnimationController : MonoBehaviour {
     public void UpdateTargetPosition(Vector3 pos)
     {
         //RpcUpdateTargetPosition(pos);
-        PV.RPC("RPC_UpdateTargetPosition", RpcTarget.All, pos);
+        if (PhotonNetwork.InRoom)
+            PV.RPC("RPC_UpdateTargetPosition", RpcTarget.All, pos);
     }
     [PunRPC]
     public void RPC_UpdateTargetPosition(Vector3 pos)
@@ -51,7 +52,8 @@ public class AnimationController : MonoBehaviour {
     public void PassAnimation()
     {
         //RpcPassAnimation();
-        PV.RPC("RPC_PassAnimation", RpcTarget.All);
+        if (PhotonNetwork.InRoom)
+            PV.RPC("RPC_PassAnimation", RpcTarget.All);
     }
     [PunRPC]
     public void RPC_PassAnimation()
@@ -80,7 +82,8 @@ public class AnimationController : MonoBehaviour {
     public void JumpAnimation()
     {
         //RpcJumpAnimation();
-        PV.RPC("RPC_JumpAnimation", RpcTarget.All);
+        if (PhotonNetwork.InRoom)
+            PV.RPC("RPC_JumpAnimation", RpcTarget.All);
     }
     [PunRPC]
     public void RPC_JumpAnimation()
@@ -109,7 +112,8 @@ public class AnimationController : MonoBehaviour {
     public void UpdateSpeedRatio1(float ratio)
     {
         //RpcUpdateSpeedRatio(ratio);
-        PV.RPC("RPC_UpdateSpeedRatio", RpcTarget.All, ratio);
+        if (PhotonNetwork.InRoom)
+            PV.RPC("RPC_UpdateSpeedRatio", RpcTarget.All, ratio);
     }
     [PunRPC]
     public void RPC_UpdateSpeedRatio(float ratio)
@@ -147,7 +151,8 @@ public class AnimationController : MonoBehaviour {
     public void UpdateGrounded1(bool grounded)
     {
         //RpcUpdateGrounded(Grounded);
-        PV.RPC("RPC_UpdateGrounded", RpcTarget.All, grounded);
+        if (PhotonNetwork.InRoom)
+            PV.RPC("RPC_UpdateGrounded", RpcTarget.All, grounded);
     }
     [PunRPC]
     public void RPC_UpdateGrounded(bool grounded)
