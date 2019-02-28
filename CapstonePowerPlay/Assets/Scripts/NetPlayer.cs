@@ -216,6 +216,11 @@ public class NetPlayer : MonoBehaviour {
         ConfirmTeam = true;
     }
 
+    public void ChangeTeam(int i)
+    {
+        PV.RPC("RPC_ChangeTeam", RpcTarget.All, i);
+    }
+
     [PunRPC]
     public void RPC_ChangeTeam(int i)
     {
