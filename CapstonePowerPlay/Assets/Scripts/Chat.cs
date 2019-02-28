@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 
-public class Chat : NetworkBehaviour
+
+public class Chat : MonoBehaviour
 { 
     // Colors
     [SerializeField]
@@ -86,8 +87,12 @@ public class Chat : NetworkBehaviour
     [SerializeField]
     private bool IgnoreCopies = true;
 
+    //photon
+    private PhotonView PV;
+
     void Awake()
     {
+        PV = GetComponent<PhotonView>();
     }
 
     void Start()
@@ -98,7 +103,7 @@ public class Chat : NetworkBehaviour
     }
 	// Update is called once per frame
 	void Update () {
-        if (isLocalPlayer)
+        if (PV.IsMine)
         {
             if (EnabledChat)
             {
@@ -204,12 +209,14 @@ public class Chat : NetworkBehaviour
 
     public void CreateGlobalEntry(string text)
     {
-        CmdCreateEntry(gameObject.name, text, "All", this.gameObject);
+        //CmdCreateEntry(gameObject.name, text, "All", this.gameObject);
+        PV.RPC("RPC_CreateEntry", RpcTarget.All, gameObject.name, text, "All", this.gameObject);
     }
 
     public void CreateTeamEntry(string text)
     {
-        CmdCreateEntry(gameObject.name, text, "Team" + NP.GetTeamNum(), this.gameObject);
+        //CmdCreateEntry(gameObject.name, text, "Team" + NP.GetTeamNum(), this.gameObject);
+        PV.RPC("RPC_CreateEntry", RpcTarget.All, gameObject.name, text, "Team" + NP.GetTeamNum(), this.gameObject);
     }
 
     public void CreateConsoleEntry(string text)
@@ -401,20 +408,20 @@ public class Chat : NetworkBehaviour
             }
         }
     }
-    [Command]
-    public void CmdCreateEntry(string name, string text, string entryType, GameObject WhoEntered)
+    [PunRPC]
+    public void RPC_CreateEntry(string name, string text, string entryType, GameObject WhoEntered)
     {
         if (text != "")
         {
             if (entryType != "Console")
             {
-                RpcCreateEntry(name, text, entryType, WhoEntered);
+                CreateEntry(name, text, entryType, WhoEntered);
             }
         }
     }
 
-    [ClientRpc]
-    public void RpcCreateEntry(string name, string text, string entryType, GameObject WhoEntered)
+    
+    public void CreateEntry(string name, string text, string entryType, GameObject WhoEntered)
     {
         ChatEntry temp = Instantiate(ChatEntryPrefab, ScrollContentStartingPoint);
         if (entryType == "All")

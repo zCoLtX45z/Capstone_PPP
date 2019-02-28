@@ -1,16 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+//using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
-public class SetupLocalPlayer : NetworkBehaviour {
+public class SetupLocalPlayer : MonoBehaviour {
 
-    [SyncVar(hook = "OnChangeName")]
-    public string pname = "player";
-    [SyncVar]
+   // [SyncVar(hook = "OnChangeName")]
+   public string pname = "player";
+    //[SyncVar]
     public Color playerColor = Color.white;
+
+    private PhotonView PV;
+
+
 
     private void OnGUI()
     {
@@ -22,13 +27,13 @@ public class SetupLocalPlayer : NetworkBehaviour {
         //}
     }
 
-    [Command]
-    public void CmdChangeName(string newName)
+    [PunRPC]
+    public void RPC_ChangeName(string newName)
     {
-        RpcChangeName(newName);
+        ChangeName(newName);
     }
-    [ClientRpc]
-    public void RpcChangeName(string newName)
+    
+    public void ChangeName(string newName)
     {
         
         gameObject.name = pname;
@@ -36,7 +41,8 @@ public class SetupLocalPlayer : NetworkBehaviour {
     }
     private void Start()
     {
-        if(isLocalPlayer)
+        PV = GetComponent<PhotonView>();
+        if (PV.IsMine/*isLocalPlayer*/)
         {
             Renderer[] rends = GetComponentsInChildren<Renderer>();
             foreach (Renderer r in rends)
@@ -55,18 +61,19 @@ public class SetupLocalPlayer : NetworkBehaviour {
 
     }
 
-    public override void OnStartLocalPlayer()
-    {
+    //public override void OnStartLocalPlayer()
+    //{
       
-        //CmdChangeName(pname);
-        //base.OnStartLocalPlayer();
-    }
+    //    //CmdChangeName(pname);
+    //    //base.OnStartLocalPlayer();
+    //}
 
 
     private void OnChangeName(string newName)
     {
         pname = newName;
         gameObject.name = pname;
-        CmdChangeName(pname);
+        //CmdChangeName(pname);
+        PV.RPC("RPC_ChangeName", RpcTarget.All, pname);
     }
 }

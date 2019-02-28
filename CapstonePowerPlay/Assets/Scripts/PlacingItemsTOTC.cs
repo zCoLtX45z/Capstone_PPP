@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class PlacingItemsTOTC : NetworkBehaviour {
+
+public class PlacingItemsTOTC : MonoBehaviour
+{
 
     // Placing Script
     [SerializeField]
@@ -34,9 +36,13 @@ public class PlacingItemsTOTC : NetworkBehaviour {
     private float PickUpTime = 0.2f;
     private float PickUpTimer = 0;
     private bool PickedUpItem = false;
+    //photon variables
+    private PhotonView PV;
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        PV = GetComponent<PhotonView>();
         MaxSlots = ItemSlots.Length;
         foreach (ItemSlot IS in ItemSlots)
         {
@@ -160,7 +166,8 @@ public class PlacingItemsTOTC : NetworkBehaviour {
                     //ActiveItem.transform.position = PlacingScript.ObjectPosition;
                     //ActiveItem.transform.up = PlacingScript.ObjectNormal;
                     //ActiveItem.transform.forward = PlacingScript.OffsetDirection;
-                    CmdSpawnItem(ActiveItem.gameObject, PlacingScript.ItemWorldPosition, PlacingScript.ItemWorldRotation);
+                    //CmdSpawnItem(ActiveItem.GetITemID(), PlacingScript.ItemWorldPosition, PlacingScript.ItemWorldRotation);
+                    PV.RPC("RPC_SpawnItem", RpcTarget.All, ActiveItem.GetITemID(), PlacingScript.ItemWorldPosition, PlacingScript.ItemWorldRotation);
                     ItemSlots[CurrentSlot].RemoveItem();
                 }
             }
@@ -182,15 +189,16 @@ public class PlacingItemsTOTC : NetworkBehaviour {
         }
     }
 
-    [Command]
-    private void CmdSpawnItem(GameObject item, Vector3 Pos, Quaternion Rotation)
+    [PunRPC]
+    private void RPC_SpawnItem(string itemID, Vector3 Pos, Quaternion Rotation)
     {
-        GameObject temp = Instantiate(item);
-        temp.transform.position = Pos;
-        temp.transform.rotation = Rotation;
+        //GameObject temp = Instantiate(item);
+        //temp.transform.position = Pos;
+        //temp.transform.rotation = Rotation;
 
-        if (temp != null)
-            NetworkServer.Spawn(item);
+        //if (temp != null)
+            //NetworkServer.Spawn(item);
+            PhotonNetwork.Instantiate(itemID, Pos, Rotation, 0, null);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -209,7 +217,7 @@ public class PlacingItemsTOTC : NetworkBehaviour {
                         break;
                     }
                 }
-                RP.CmdDestroyRune(tempRune.gameObject);
+                RP.DestroyRune(tempRune.gameObject);
             }
         }
     }

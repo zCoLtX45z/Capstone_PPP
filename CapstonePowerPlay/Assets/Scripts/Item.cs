@@ -21,6 +21,15 @@ public class Item : MonoBehaviour {
     public Vector3 BoxSize;
     public Vector3 BoxOffset;
 
+    // Item ID
+    [SerializeField]
+    private string ItemID;
+
+    public string GetITemID()
+    {
+        return ItemID;
+    }
+
     public BoxCollider GetCollider()
     {
         return PlacingCollider;

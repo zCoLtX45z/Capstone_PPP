@@ -89,7 +89,10 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
     public void JoinPhotonRoom()
     {
         if (RoomIdentifier != "None")
+        {
+            print("RoomID: RoomIdentifier Attempted.");
             PhotonNetwork.JoinRoom(RoomIdentifier);
+        }
         else
         {
             print("No RoomID - Cannot Rejoin.");
@@ -108,7 +111,8 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
         if (scene.name == "DustinScene" || scene.name == "Marcscene" || scene.name == "MarcsceneDup")
         {
             print("RPC_CreatePlayer" + ": Attempted");
-            PV.RPC("RPC_CreatePlayer", RpcTarget.All);
+            PhotonNetwork.Instantiate("PhotonPrefabs/PhotonNetworkPlayer", transform.position, Quaternion.identity, 0);
+            //PV.RPC("RPC_CreatePlayer", RpcTarget.All);
         }
     }
 
@@ -116,6 +120,6 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
     private void RPC_CreatePlayer()
     {
         print("RPC_CreatePlayer" + ": Called");
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonNetworkPlayer"), transform.position, Quaternion.identity, 0);
+        PhotonNetwork.Instantiate("PhotonPrefabs/PhotonNetworkPlayer", transform.position, Quaternion.identity, 0);
     }
 }

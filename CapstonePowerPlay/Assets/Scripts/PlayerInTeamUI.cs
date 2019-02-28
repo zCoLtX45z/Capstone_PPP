@@ -52,7 +52,7 @@ public class PlayerInTeamUI : MonoBehaviour {
                     }
                     else
                     {
-                        p.CmdChangeTeam(0);
+                        p.RPC_ChangeTeam(0);
                     }
                 }
                 if (p.GetTeamNum() != TeamNum && PlayersOnTeam.Contains(p))
