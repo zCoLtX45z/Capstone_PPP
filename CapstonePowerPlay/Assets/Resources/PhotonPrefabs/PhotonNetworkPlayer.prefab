@@ -2771,7 +2771,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   viewIdField: 0
-  InstantiationId: 1
+  InstantiationId: 4
   isRuntimeInstantiated: 0
 --- !u!114 &114369447228376398
 MonoBehaviour:
@@ -3984,7 +3984,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114648023564759556}
-        m_MethodName: RPC_ChangeTeam
+        m_MethodName: ChangeTeam
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4480,7 +4480,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114648023564759556}
-        m_MethodName: RPC_ChangeTeam
+        m_MethodName: ChangeTeam
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4531,8 +4531,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: CallCmdChangeTeam
+      - m_Target: {fileID: 114648023564759556}
+        m_MethodName: ChangeTeam
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
