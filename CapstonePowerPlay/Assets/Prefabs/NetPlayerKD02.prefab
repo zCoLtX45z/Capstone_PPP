@@ -674,6 +674,7 @@ GameObject:
   - component: {fileID: 114654068383092964}
   - component: {fileID: 114734562243105510}
   - component: {fileID: 114642887382955858}
+  - component: {fileID: 114900648382177428}
   m_Layer: 0
   m_Name: NetPlayerKD02
   m_TagString: Untagged
@@ -4534,6 +4535,17 @@ MonoBehaviour:
   m_Text: 'Player 1 Name
 
 '
+--- !u!114 &114900648382177428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1505012098189106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21adcc7a598d3f944a3817fbdba0bc49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114904744549414158
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -6,6 +6,6 @@ public class LobbyPlayerInfoResetPos : MonoBehaviour {
 	void Start () {
         rectTransform = transform.GetComponent<RectTransform>();
         rectTransform.localPosition = new Vector3(rectTransform.localPosition.x, rectTransform.localPosition.y, 0);
-        rectTransform.eulerAngles = new Vector3(rectTransform.eulerAngles.x, -90, rectTransform.eulerAngles.z);
+        rectTransform.eulerAngles = new Vector3(rectTransform.eulerAngles.x, 180, rectTransform.eulerAngles.z);
 	}
 }

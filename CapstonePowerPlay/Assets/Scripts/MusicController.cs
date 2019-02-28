@@ -8,11 +8,14 @@ public class MusicController : MonoBehaviour {
 
     private float musicVolume = 0.05f;
 
+    //private float minVol = 0.2f;
+    //private float maxVol = 1f;
+
 	// Use this for initialization
 	void Start () {
         audioSrc = GetComponent<AudioSource>();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
         audioSrc.volume = musicVolume;
@@ -20,6 +23,8 @@ public class MusicController : MonoBehaviour {
 
     public void SetVolume(float vol)
     {
-        musicVolume = vol;
+        //float vol = Random.Range(minVol, maxVol);
+        audioSrc.PlayOneShot(bounce, audioSrc.volume);
+
     }
 }

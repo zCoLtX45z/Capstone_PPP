@@ -8,10 +8,12 @@ public class DollyManager : MonoBehaviour {
 
     [SerializeField]
     private Transform[] c_DollyCarts;
+    [SerializeField]
+    private Transform[] l_DollyCarts;
     /*
      * 0 = Null to start
      * 1 = Start To menu
-     * 2 = Menu to lobby list 
+     * 2 = Menu to lobby list
      * 3 = lobby list To lobby
      */
 
@@ -20,7 +22,7 @@ public class DollyManager : MonoBehaviour {
     /*
      * 0 = Null to start
      * 1 = Start To menu
-     * 2 = Menu to lobby list 
+     * 2 = Menu to lobby list
      * 3 = lobby list To lobby
      */
 
@@ -75,7 +77,7 @@ public class DollyManager : MonoBehaviour {
         }
     }
 
-    public void Menu_And_SettingsButton(bool forwards)
+    public void Menu_And_Setting(bool forwards)
     {
         if (forwards)
         {
@@ -97,12 +99,23 @@ public class DollyManager : MonoBehaviour {
 
         DollyModifier dollyMod = c_DollyCarts[trackInteger].GetComponent<DollyModifier>();
 
+        c_DollyCarts[trackInteger].GetComponent<Cinemachine.CinemachineDollyCart>().m_Position = 0;
+        l_DollyCarts[trackInteger].GetComponent<Cinemachine.CinemachineDollyCart>().m_Position = 0;
+
         dollyMod.reachedSpeedMax = false;
         dollyMod.reachedSpeedMaxRev = false;
         c_virtualCameras[trackInteger].Priority = highPriority;
         dollyMod.reverse = false;
         dollyMod.allowMovement = true;
-        c_DollyCarts[trackInteger].GetComponent<Cinemachine.CinemachineDollyCart>().m_Position = 0;
+
+
+        dollyMod = l_DollyCarts[trackInteger].GetComponent<DollyModifier>();
+
+        dollyMod.reachedSpeedMax = false;
+        dollyMod.reachedSpeedMaxRev = false;
+        c_virtualCameras[trackInteger].Priority = highPriority;
+        dollyMod.reverse = false;
+        dollyMod.allowMovement = true;
     }
 
     private void BackwardMovement(int trackInteger)
@@ -119,7 +132,14 @@ public class DollyManager : MonoBehaviour {
         c_virtualCameras[trackInteger].Priority = highPriority;
         dollyMod.reverse = true;
         dollyMod.allowMovement = true;
-        c_DollyCarts[trackInteger].GetComponent<Cinemachine.CinemachineDollyCart>().m_Position = c_DollyCarts[0].GetComponent<Cinemachine.CinemachineDollyCart>().m_Path.PathLength;
+
+        dollyMod = l_DollyCarts[trackInteger].GetComponent<DollyModifier>();
+
+        dollyMod.reachedSpeedMax = false;
+        dollyMod.reachedSpeedMaxRev = false;
+        c_virtualCameras[trackInteger].Priority = highPriority;
+        dollyMod.reverse = true;
+        dollyMod.allowMovement = true;
     }
 
 

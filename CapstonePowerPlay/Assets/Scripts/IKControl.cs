@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class IKControl : NetworkBehaviour {
+
+public class IKControl : MonoBehaviour {
 
     [SerializeField]
     private AnimationController AC;
@@ -22,17 +23,21 @@ public class IKControl : NetworkBehaviour {
     private Transform LeftShoulderHint;
     [SerializeField]
     private Transform RightShoulderHint;
-    [SyncVar]
+    //[SyncVar]
     private Vector3 TargetPosition;
+    //photon variables
+    [SerializeField]
+    private PhotonView PV;
     // Use this for initialization
+    
 
-    [Command]
-    public void CmdUpdateTargetPosition(Vector3 pos)
+    public void UpdateTargetPosition(Vector3 pos)
     {
-        RpcUpdateTargetPosition(pos);
+        //RpcUpdateTargetPosition(pos);
+        PV.RPC("RPC_UpdateTargetPosition", RpcTarget.All, pos);
     }
-    [ClientCallback]
-    public void RpcUpdateTargetPosition(Vector3 pos)
+    [PunRPC]
+    public void RPC_UpdateTargetPosition(Vector3 pos)
     {
         TargetPosition = pos;
     }
@@ -44,7 +49,7 @@ public class IKControl : NetworkBehaviour {
             if (PC.LocalPlayer == PC.ParentPlayer)
             {
                 TargetPosition = LookAtPos.position;
-                AC.CmdUpdateTargetPosition(TargetPosition);
+                AC.UpdateTargetPosition(TargetPosition);
             }
             Animator.SetLookAtPosition(AC.LookPos);
             Animator.SetLookAtWeight(1);

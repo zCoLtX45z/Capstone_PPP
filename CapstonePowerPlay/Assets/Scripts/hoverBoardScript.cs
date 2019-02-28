@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 
-public class hoverBoardScript : NetworkBehaviour
+
+public class hoverBoardScript : MonoBehaviour
 {
     public Rigidbody m_body;
     public float m_deadZone = 0.1f;
@@ -87,10 +87,15 @@ public class hoverBoardScript : NetworkBehaviour
     //public GameObject camGurl1;
     //public GameObject camGurl2;
 
+    // Speed Ratio for Cmd Send
+    private float CurrentSpeedRatio = 0;
+    private float LastSpeedRatio = 0;
+    private bool LastTimeOnGround = false;
+
 	// Use this for initialization
 	void Start ()
     {
-        //if (isLocalPlayer)
+        
 
             Physics.gravity = new Vector3(0, -100, 0);
             if (!m_body)
@@ -112,24 +117,14 @@ public class hoverBoardScript : NetworkBehaviour
             }
 
 
-        //playercamera
-        //if (isLocalPlayer)
-        //{
-        //    camGurl1.SetActive(true);
-        //    camGurl2.SetActive(true);
-        //}
-        //else
-        //{
-        //    camGurl1.SetActive(false);
-        //    camGurl2.SetActive(false);
-        //}
+      
     }
 
 	// Update is called once per frame
 	void Update ()
     {
 
-        //if (isLocalPlayer)
+        
         if (BoardHasControl)
         {
             //main thrust
@@ -197,14 +192,27 @@ public class hoverBoardScript : NetworkBehaviour
         }
 
         // Update animator
-        AnimationControl.UpdateSpeedRatio(Mathf.Abs(Speed / MaxSpeed));
-        AnimationControl.CmdUpdateGrounded(OnGround);
+        CurrentSpeedRatio = Mathf.Abs(Speed / MaxSpeed);
+
+        if (LastSpeedRatio <= 0.01f && CurrentSpeedRatio >= 0.01)
+            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+        else if (LastSpeedRatio <= 0.75f && CurrentSpeedRatio >= 0.75)
+            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+        else if (LastSpeedRatio >= 0.75f && CurrentSpeedRatio <= 0.75)
+            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+        else if (LastSpeedRatio >= 0.01f && CurrentSpeedRatio <= 0.01)
+            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+
+        if (LastTimeOnGround != OnGround)
+            AnimationControl.UpdateGrounded1(OnGround);
+
+        LastSpeedRatio = CurrentSpeedRatio;
+        LastTimeOnGround = OnGround;
     }
 
     void FixedUpdate()
     {
-        //if (isLocalPlayer)
-
+       
         // Non PID Controllers
         //Hover force
         if (m_hoverPoints.Length > 0)
@@ -473,7 +481,7 @@ public class hoverBoardScript : NetworkBehaviour
             m_body.AddForceAtPosition(-temp.transform.right * TargetAdjustForceX * ForwardJumpMultiplier, temp.gameObject.transform.position, ForceMode.Impulse);
             m_body.AddForceAtPosition(temp.transform.forward * TargetAdjustForceZ, temp.gameObject.transform.position, ForceMode.Impulse);
         }
-        AnimationControl.CmdJumpAnimation();
+        AnimationControl.JumpAnimation();
     }
     public float GetMaxSpeed()
     {

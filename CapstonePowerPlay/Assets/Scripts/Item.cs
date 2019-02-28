@@ -10,6 +10,30 @@ public class Item : MonoBehaviour {
     private MeshFilter ItemMeshFilter;
     [SerializeField]
     private Texture ItemSprite;
+    [SerializeField]
+    private Behaviour[] DisableBehaviours;
+    [SerializeField]
+    private GameObject[] DisableObjects;
+    [SerializeField]
+    private MeshRenderer[] MeshRenderers;
+    [SerializeField]
+    private BoxCollider PlacingCollider;
+    public Vector3 BoxSize;
+    public Vector3 BoxOffset;
+
+    // Item ID
+    [SerializeField]
+    private string ItemID;
+
+    public string GetITemID()
+    {
+        return ItemID;
+    }
+
+    public BoxCollider GetCollider()
+    {
+        return PlacingCollider;
+    }
 
     public Mesh GetMesh()
     {
@@ -26,5 +50,37 @@ public class Item : MonoBehaviour {
     {
         transform.position = pos;
         transform.up = normal;
+    }
+
+    public void Disable()
+    {
+        foreach (Behaviour b in DisableBehaviours)
+        {
+            b.enabled = false;
+        }
+        foreach (GameObject g in DisableObjects)
+        {
+            g.SetActive(false);
+        }
+    }
+
+    public void Enable()
+    {
+        foreach (Behaviour b in DisableBehaviours)
+        {
+            b.enabled = true;
+        }
+        foreach (GameObject g in DisableObjects)
+        {
+            g.SetActive(true);
+        }
+    }
+
+    public void ChangeMaterials(Material mat)
+    {
+        foreach (MeshRenderer MR in MeshRenderers)
+        {
+            MR.material = mat;
+        }
     }
 }

@@ -31,7 +31,7 @@ public class ButtonCallToDollyManager : MonoBehaviour {
         }
         else if (bFect == ButtonEfect.Setting)
         {
-            MenuToSettingButton();
+            LobbyButton();
         }
     }
 
@@ -45,9 +45,9 @@ public class ButtonCallToDollyManager : MonoBehaviour {
     {
         dManager.Menu_And_LobbyList(true);
     }
-    
-    public void MenuToSettingButton()
+
+    public void LobbyButton()
     {
-        dManager.Menu_And_SettingsButton(true);
+        dManager.Menu_And_Setting(true);
     }
 }

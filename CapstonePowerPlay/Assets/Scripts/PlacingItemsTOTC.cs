@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class PlacingItemsTOTC : NetworkBehaviour {
+
+public class PlacingItemsTOTC : MonoBehaviour
+{
 
     // Placing Script
     [SerializeField]
@@ -18,6 +20,8 @@ public class PlacingItemsTOTC : NetworkBehaviour {
     private BallHandling BH;
     [SerializeField]
     private RunePickups RP;
+    [SerializeField]
+    private PlayerColor PC;
 
     // Item Slots
     [SerializeField]
@@ -32,18 +36,28 @@ public class PlacingItemsTOTC : NetworkBehaviour {
     private float PickUpTime = 0.2f;
     private float PickUpTimer = 0;
     private bool PickedUpItem = false;
+    //photon variables
+    private PhotonView PV;
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        PV = GetComponent<PhotonView>();
         MaxSlots = ItemSlots.Length;
         foreach (ItemSlot IS in ItemSlots)
         {
             IS.SetImage();
         }
     }
-	
+
 	// Update is called once per frame
 	void Update () {
+
+        if (PC.LocalPlayer != PC.ParentPlayer)
+        {
+            return;
+        }
+
 		if (Input.GetKeyDown(KeyCode.Tab))
         {
             // Toggle placing items
@@ -75,8 +89,39 @@ public class PlacingItemsTOTC : NetworkBehaviour {
             if (MaxSlots > 0)
             {
                 ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
-                PlacingScript.SetMesh(ActiveItem.GetMesh());
-                PlacingTransform.localScale = ActiveItem.transform.localScale;
+                PlacingScript.UpdatePlacement(ActiveItem, ActiveItem.transform.localScale.x);
+                if (ItemSlots[CurrentSlot].ItemHeld)
+                {
+                    //PlacingScript.SetMesh(ActiveItem.GetMesh());
+                    //PlacingTransform.localScale = ActiveItem.transform.localScale;
+                }
+                else
+                {
+                    int initialInt = CurrentSlot;
+                    while (ItemSlots[CurrentSlot].ItemHeld == false)
+                    {
+                        CurrentSlot++;
+                        if (CurrentSlot == MaxSlots)
+                        {
+                            CurrentSlot = 0;
+                        }
+
+                        if (initialInt == CurrentSlot)
+                        {
+                            break;
+                        }
+                    }
+                    ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
+                    if (ItemSlots[CurrentSlot].ItemHeld)
+                    {
+                        //PlacingScript.SetMesh(ActiveItem.GetMesh());
+                        //PlacingTransform.localScale = ActiveItem.transform.localScale;
+                    }
+                }
+                if (!ItemSlots[CurrentSlot].ItemHeld)
+                {
+                    PlacingItems = false;
+                }
             }
             if (Input.GetMouseButtonDown(1))
             {
@@ -107,18 +152,20 @@ public class PlacingItemsTOTC : NetworkBehaviour {
             else if (Input.GetMouseButtonDown(0))
             {
                 // place item
-                bool canPlace = PlacingScript.UpdatePlacement(ActiveItem.transform.localScale.x);
+                bool canPlace = PlacingScript.UpdatePlacement(ActiveItem, ActiveItem.transform.localScale.x);
                 if (canPlace)
                 {
                     PlacingItems = false;
-                    ActiveItem = Instantiate(ActiveItem);
-                    ActiveItem.transform.parent = null;
-                    ActiveItem.Place(PlacingScript.ObjectPosition, PlacingScript.ObjectNormal);
-                    NetworkServer.Spawn(ActiveItem.gameObject);
+                    PlacingScript.PlaceItem();
+                    //ActiveItem.transform.parent = null;
+                    //ActiveItem.transform.position = PlacingScript.ObjectPosition;
+                    //ActiveItem.transform.up = PlacingScript.ObjectNormal;
+                    //ActiveItem.transform.forward = PlacingScript.OffsetDirection;
+                    //CmdSpawnItem(ActiveItem.GetITemID(), PlacingScript.ItemWorldPosition, PlacingScript.ItemWorldRotation);
+                    PV.RPC("RPC_SpawnItem", RpcTarget.All, ActiveItem.GetITemID(), PlacingScript.ItemWorldPosition, PlacingScript.ItemWorldRotation);
                     ItemSlots[CurrentSlot].RemoveItem();
                 }
             }
-            PlacingScript.UpdatePlacement(ActiveItem.transform.localScale.x);
         }
         else
         {
@@ -137,6 +184,18 @@ public class PlacingItemsTOTC : NetworkBehaviour {
         }
     }
 
+    [PunRPC]
+    private void RPC_SpawnItem(string itemID, Vector3 Pos, Quaternion Rotation)
+    {
+        //GameObject temp = Instantiate(item);
+        //temp.transform.position = Pos;
+        //temp.transform.rotation = Rotation;
+
+        //if (temp != null)
+            //NetworkServer.Spawn(item);
+            PhotonNetwork.Instantiate(itemID, Pos, Rotation, 0, null);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "BlueRune" || other.gameObject.tag == "RedRune" || other.gameObject.tag == "GreenRune" || other.gameObject.tag == "Rune")
@@ -153,7 +212,7 @@ public class PlacingItemsTOTC : NetworkBehaviour {
                         break;
                     }
                 }
-                RP.CmdDestroyRune(tempRune.gameObject);
+                RP.DestroyRune(tempRune.gameObject);
             }
         }
     }
