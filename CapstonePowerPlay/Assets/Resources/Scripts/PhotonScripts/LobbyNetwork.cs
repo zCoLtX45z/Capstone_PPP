@@ -111,8 +111,9 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
         if (scene.name == "DustinScene" || scene.name == "Marcscene" || scene.name == "MarcsceneDup")
         {
             print("RPC_CreatePlayer" + ": Attempted");
-            PhotonNetwork.Instantiate("PhotonPrefabs/PhotonNetworkPlayer", transform.position, Quaternion.identity, 0);
-            //PV.RPC("RPC_CreatePlayer", RpcTarget.All);
+            //PhotonNetwork.Instantiate("PhotonPrefabs/PhotonNetworkPlayer", transform.position, Quaternion.identity, 0);
+            if (PhotonNetwork.IsMasterClient)
+                PV.RPC("RPC_CreatePlayer", RpcTarget.All);
         }
     }
 
