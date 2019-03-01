@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 
+    AppIdRealtime: 4fd59198-c625-4617-9e22-70c7498f1127
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
@@ -32,5 +32,38 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - RPC_UpdateRoom
+  - RPC_UpdateStartGameTimer
+  - RPC_CreatePlayer
+  - RPC_SetRoomProperty
+  - RPC_ChangeName
+  - RPC_ChangeTeam
+  - RPC_CollidePlayer
+  - RPC_CreateEntry
+  - RPC_DestroyRune
+  - RPC_ForcedStart
+  - RPC_JumpAnimation
+  - RPC_LoadedGameScene
+  - RPC_MakeBallDisapear
+  - RPC_MakeBallReapear
+  - RPC_ParentChild
+  - RPC_Pass
+  - RPC_PassAnimation
+  - RPC_PlayPassEffect
+  - RPC_SetBall
+  - RPC_SetBallHandling
+  - RPC_SetPass
+  - RPC_SetSteal
+  - RPC_SetUpPlayer
+  - RPC_Shoot
+  - RPC_ShovePlayer
+  - RPC_SpawnItem
+  - RPC_Steal
+  - RPC_TurnOnBall
+  - RPC_TurnOnFakeBall
+  - RPC_UpdateGrounded
+  - RPC_UpdateHandTransform
+  - RPC_UpdateShield
+  - RPC_UpdateSpeedRatio
+  - RPC_UpdateTargetPosition
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1

@@ -1,20 +1,20 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class Ball : NetworkBehaviour
+public class Ball : MonoBehaviour
 {
     [SerializeField]
     private Transform Handle;
     [SerializeField]
     public BallHandling BH;
-    [SyncVar]
+   //OLD SYNC VAR
     public GameObject WhoTossedTheBall = null;
     [SerializeField]
     public Transform Hand;
-    [SyncVar]
+    //OLD SYNC VAR
     public bool Held = false;
     private Rigidbody RB;
 
@@ -40,7 +40,7 @@ public class Ball : NetworkBehaviour
     [SerializeField]
     private float KonstantForce = 900.0f;
 
-    [SyncVar]
+   
     private float CanBeCaughtTimer = 1;
     private bool Thrown = false;
     //private float SlerpRatio = 0;
@@ -60,9 +60,13 @@ public class Ball : NetworkBehaviour
     [SerializeField]
     private RectTransform UiCanvas;
 
+    //PHOTON VARIABLES
+    private PhotonView PV;
+
     // Use this for initialization
     void Start ()
     {
+        PV = GetComponent<PhotonView>();
         Handle = GetComponent<Transform>();
         RB = GetComponent<Rigidbody>();
         
@@ -207,15 +211,15 @@ public class Ball : NetworkBehaviour
 
         // Set who has the the ball
         BH = thiefTransform.GetComponent<BallHandling>();
-        CmdSetBallHandling(BH.gameObject);
+        SetBallHandling(BH.gameObject);
 
         if (BH.canHold)
         {
             Hand = BH.ReturnHand();
-            CmdUpdateHandTransform(BH.gameObject);
-            BH.CmdSetBall(gameObject);
-            BH.CmdTurnOnFakeBall(true);
-            CmdMakeBallDisapear();
+            UpdateHandTransform(BH.gameObject);
+            BH.SetBall(gameObject);
+            BH.TurnOnFakeBall(true);
+            MakeBallDisapear();
         }
         else
         {
@@ -249,21 +253,21 @@ public class Ball : NetworkBehaviour
 
             // Set who has the the ball
             BH = c.GetComponent<BallHandling>();
-            CmdSetBallHandling(BH.gameObject);
+            SetBallHandling(BH.gameObject);
             //transform.gameObject.layer = 2;
 
 
             if (BH.canHold )
             {
-                CmdMakeBallDisapear();
+                MakeBallDisapear();
                 Hand = BH.ReturnHand();
-                CmdUpdateHandTransform(BH.gameObject);
+                UpdateHandTransform(BH.gameObject);
                 //Handle.position = Hand.position;
                 //Handle.parent = Hand.parent;
 
-                BH.CmdSetBall(gameObject);
+                BH.SetBall(gameObject);
                 //RBS.CmdSetPlayerHolding(BH.gameObject);
-                BH.CmdTurnOnFakeBall(true);
+                BH.TurnOnFakeBall(true);
                 //CmdTurnOnBall(false);
             }
             else
@@ -285,18 +289,19 @@ public class Ball : NetworkBehaviour
 
     public void ShootBall(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
     {
-        CmdShoot(power, tag, HandPos, WhoThrew);
+        Shoot(power, tag, HandPos, WhoThrew);
     }
 
-    [Command]
-    public void CmdShoot(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
+    
+    public void Shoot(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
     {
         //transform.gameObject.layer = 0;
-        RpcShoot(power, tag, HandPos, WhoThrew);
+        //RpcShoot(power, tag, HandPos, WhoThrew);
+        PV.RPC("RPC_Shoot", RpcTarget.All, power, tag, HandPos, WhoThrew);
     }
 
-    [ClientRpc]
-    public void RpcShoot(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
+    [PunRPC]
+    public void RPC_Shoot(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
     {
         //transform.gameObject.layer = 0;
         Thrown = true;
@@ -315,18 +320,19 @@ public class Ball : NetworkBehaviour
         WhoTossedTheBall = WhoThrew;
         Hand = null;
         BH = null;
-        CmdMakeBallReapear();
+        MakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
     }
 
-    [Command]
-    public void CmdSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
+    
+    public void SetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
-        RpcSetPass(Passing, Target, Force, HandPos, WhoThrew);
+        //RpcSetPass(Passing, Target, Force, HandPos, WhoThrew);
+        PV.RPC("RPC_SetPass", RpcTarget.All, Passing, Target, Force, HandPos, WhoThrew);
     }
 
-    [ClientRpc]
-    public void RpcSetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
+    [PunRPC]
+    public void RPC_SetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
         Thrown = true;
 
@@ -344,23 +350,24 @@ public class Ball : NetworkBehaviour
         WhoTossedTheBall = WhoThrew;
         Hand = null;
         BH = null;
-        CmdMakeBallReapear();
+        MakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
     }
 
 
 
 
-    [Command]
-    public void CmdSetSteal(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
+    
+    public void SetSteal(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
-        RpcSetPass(Passing, Target, Force, HandPos, WhoThrew);
+        //RpcSetPass(Passing, Target, Force, HandPos, WhoThrew);
+        PV.RPC("RPC_SetSteal", RpcTarget.All, Passing, Target, Force, HandPos, WhoThrew);
     }
 
-    [ClientRpc]
-    public void RpcSetSteal(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
+    [PunRPC]
+    public void RPC_SetSteal(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
-        CmdMakeBallReapear();
+        MakeBallReapear();
         Thrown = true;
 
         passedTarget = Target;
@@ -386,26 +393,28 @@ public class Ball : NetworkBehaviour
         return Thrown;
     }
 
-    [Command]
-    public void CmdTurnOnBall(bool b)
+    
+    public void TurnOnBall(bool b)
     {
-        RpcTurnOnBall(b);
+        //RpcTurnOnBall(b);
+        PV.RPC("RPC_TurnOnBall", RpcTarget.All, b);
     }
 
-    [ClientRpc]
-    public void RpcTurnOnBall(bool b)
+    [PunRPC]
+    public void RPC_TurnOnBall(bool b)
     {
         gameObject.SetActive(b);
     }
 
-    [Command]
-    public void CmdMakeBallDisapear()
+    
+    public void MakeBallDisapear()
     {
-        RpcMakeBallDisapear();
+        //RpcMakeBallDisapear();
+        PV.RPC("RPC_MakeBallDisapear", RpcTarget.All);
     }
 
-    [ClientRpc]
-    public void RpcMakeBallDisapear()
+    [PunRPC]
+    public void RPC_MakeBallDisapear()
     {
         ChildObject.SetActive(false);
         HardCol.enabled = false;
@@ -414,14 +423,15 @@ public class Ball : NetworkBehaviour
         RB.isKinematic = true;
     }
 
-    [Command]
-    public void CmdMakeBallReapear()
+    
+    public void MakeBallReapear()
     {
-        RpcMakeBallReapear();
+        //RpcMakeBallReapear();
+        PV.RPC("RPC_MakeBallReapear", RpcTarget.All);
     }
 
-    [ClientRpc]
-    public void RpcMakeBallReapear()
+    [PunRPC]
+    public void RPC_MakeBallReapear()
     {
         HardCol.enabled = true;
         SoftCol.enabled = true;
@@ -430,14 +440,15 @@ public class Ball : NetworkBehaviour
         ChildObject.SetActive(true);
     }
 
-    [Command]
-    private void CmdUpdateHandTransform(GameObject HandParent)
+    
+    private void UpdateHandTransform(GameObject HandParent)
     {
-        RpcUpdateHandTransform(HandParent);
+        //RpcUpdateHandTransform(HandParent);
+        PV.RPC("RPC_UpdateHandTransform", RpcTarget.All, HandParent);
     }
 
-    [ClientRpc]
-    private void RpcUpdateHandTransform(GameObject HandParent)
+    [PunRPC]
+    private void RPC_UpdateHandTransform(GameObject HandParent)
     {
         BallHandling bh = HandParent.GetComponent<BallHandling>();
         Hand = bh.ReturnHand();
@@ -445,14 +456,15 @@ public class Ball : NetworkBehaviour
 
 
 
-    [Command]
-    private void CmdSetBallHandling(GameObject bhObject)
+    
+    private void SetBallHandling(GameObject bhObject)
     {
-        RpcSetBallHandling(bhObject);
+        //RpcSetBallHandling(bhObject);
+        PV.RPC("RPC_SetBallHandling", RpcTarget.All, bhObject);
     }
 
-    [ClientRpc]
-    private void RpcSetBallHandling(GameObject bhObject)
+    [PunRPC]
+    private void RPC_SetBallHandling(GameObject bhObject)
     {
         BH = bhObject.GetComponent<BallHandling>();
     }

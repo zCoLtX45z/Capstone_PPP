@@ -1,25 +1,32 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class ComponentsToDisable : NetworkBehaviour {
+
+public class ComponentsToDisable : MonoBehaviour {
 
     public Behaviour[] DisabledComponents;
     //[HideInInspector]
     public NetPlayer LocalPlayer;
     public NetPlayer ParentPlayer;
-
+    [SerializeField]
+    private PhotonView PV;
     // Use this for initialization
-    [Command]
-    public void CmdForcedStart()
+    private void Start()
     {
-        RpcForcedStart();
+        Debug.Log("disbaling behaviors");
+        ForcedStart1();
+    }
+    public void ForcedStart1()
+    {
+        if (PhotonNetwork.InRoom)
+            PV.RPC("RPC_ForcedStart", RpcTarget.AllBuffered);
     }
 
-    [ClientRpc]
-	public void RpcForcedStart () {
-		if(!isLocalPlayer)
+    [PunRPC]
+	public void RPC_ForcedStart () {
+		if(!PV.IsMine)
         {
             for(int i = 0; i < DisabledComponents.Length; i++)
             {
@@ -35,7 +42,7 @@ public class ComponentsToDisable : NetworkBehaviour {
         }
 	}
 
-    public void ForcedStart()
+    public void ForcedStart2()
     {
         if (LocalPlayer.PlayerCode != ParentPlayer.PlayerCode)
         {

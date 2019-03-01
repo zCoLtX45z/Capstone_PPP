@@ -3,20 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
+using System.IO;
 
-public class LobbyNetwork : MonoBehaviourPunCallbacks {
+public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
 
+    [SerializeField]
+    private PhotonView PV;
     private string RoomIdentifier = "None";
 
 	// Use this for initialization
 	void Start () {
-        PhotonNetwork.OfflineMode = false;
-        PhotonNetwork.LocalPlayer.NickName = PlayerNetwork.Instance.PlayerName;
-        PhotonNetwork.AutomaticallySyncScene = true;
-        //PhotonNetwork.GameVersion = "1";
+        if (!PhotonNetwork.InLobby && !PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.OfflineMode = false;
+            if (PhotonNetwork.InRoom)
+                PhotonNetwork.LocalPlayer.NickName = PlayerNetwork.Instance.PlayerName;
+            PhotonNetwork.AutomaticallySyncScene = true;
+            //PhotonNetwork.GameVersion = "1";
 
-        print("Connecting to Server...");
-        PhotonNetwork.ConnectUsingSettings();
+            print("Connecting to Server...");
+            PhotonNetwork.ConnectUsingSettings();
+        }
+            SceneManager.sceneLoaded += OnSceneFinishedLoading;
+
     }
 
     public override void OnConnected()
@@ -80,12 +90,38 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks {
     public void JoinPhotonRoom()
     {
         if (RoomIdentifier != "None")
+        {
+            print("RoomID: RoomIdentifier Attempted.");
             PhotonNetwork.JoinRoom(RoomIdentifier);
+        }
+        else
+        {
+            print("No RoomID - Cannot Rejoin.");
+        }
     }
 
     public void LeavePhotonRoom()
     {
         if (PhotonNetwork.InRoom)
             PhotonNetwork.LeaveRoom();
+    }
+
+    private void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        print(scene.name + ": OnSceneFinhishedLoadingCalled");
+        if (scene.name == "DustinScene" || scene.name == "Marcscene" || scene.name == "MarcsceneDup")
+        {
+            print("RPC_CreatePlayer" + ": Attempted");
+            //PhotonNetwork.Instantiate("PhotonPrefabs/PhotonNetworkPlayer", transform.position, Quaternion.identity, 0);
+            if (PhotonNetwork.IsMasterClient)
+                PV.RPC("RPC_CreatePlayer", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void RPC_CreatePlayer()
+    {
+        print("RPC_CreatePlayer" + ": Called");
+        PhotonNetwork.Instantiate("PhotonPrefabs/PhotonNetworkPlayer", transform.position, Quaternion.identity, 0);
     }
 }

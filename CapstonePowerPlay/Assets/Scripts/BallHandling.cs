@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class BallHandling : NetworkBehaviour {
+
+public class BallHandling : MonoBehaviour {
 
     // Set Shoot force
     [SerializeField]
@@ -34,7 +35,7 @@ public class BallHandling : NetworkBehaviour {
     // get from input manager
     private float PassShootAxis = 0;
 
-    [SyncVar]
+    //OLD SYNCVAR
     public bool canHold = true;
 
     // can hold timer
@@ -65,10 +66,14 @@ public class BallHandling : NetworkBehaviour {
     //effects
     public ParticleSystem PassEffectBlue;
     public ParticleSystem PassEffectRed;
+
+    //photon variables
+    private PhotonView PV;
     // Use this for initialization
     void Start() {
         canHold = true;
         playerTag = transform.root.tag;
+        PV = GetComponent<PhotonView>();
     }
 
     // Update is called once per frame
@@ -77,7 +82,7 @@ public class BallHandling : NetworkBehaviour {
         {
             if (ball != null)
             {
-                ball.CmdMakeBallDisapear();
+                ball.MakeBallDisapear();
                 ball.BH = this;
                 ball.Hand = Hand;
                 ball.Held = true;
@@ -105,8 +110,8 @@ public class BallHandling : NetworkBehaviour {
                             //Debug.Log("jadaadadadadadad");
                             //Debug.Log(gameObject.name + " Passes");
                             //  Debug.Log("target: " + Target.name);
-                            CmdPass(Target, ball.gameObject, Hand.position, this.gameObject);
-                            AnimationControl.CmdPassAnimation();
+                            Pass(Target, ball.gameObject, Hand.position, this.gameObject);
+                            AnimationControl.PassAnimation();
                             ball = null;
                         }
                     }
@@ -126,8 +131,8 @@ public class BallHandling : NetworkBehaviour {
                         //}
                         //Debug.DrawLine(Cam.transform.position + Cam.transform.forward * 100, Hand.position, Color.blue, 6f);
                         //Debug.DrawRay(Hand.position, Cam.transform.position + Cam.transform.forward * 100 - Hand.position, Color.red, 3.75f);
-                        CmdShoot(ball.gameObject, Hand.position, direction.normalized * ShootForce, this.gameObject);
-                        AnimationControl.CmdPassAnimation();
+                        Shoot(ball.gameObject, Hand.position, direction.normalized * ShootForce, this.gameObject);
+                        AnimationControl.PassAnimation();
                         ball = null;
                     }
 
@@ -162,59 +167,63 @@ public class BallHandling : NetworkBehaviour {
         return Hand;
     }
 
-    [Command]
-    private void CmdPass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    
+    private void Pass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
-        RpcPlayPassEffect();
-        RpcPass(Target, ballObject, HandPos, WhoThrew);
+        PV.RPC("RPC_PlayPassEffect", RpcTarget.All);
+        //RpcPass(Target, ballObject, HandPos, WhoThrew);
+        PV.RPC("RPC_Pass", RpcTarget.AllBuffered, Target, ballObject, HandPos, WhoThrew);
     }
 
-    [ClientRpc]
-    private void RpcPass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    [PunRPC]
+    private void RPC_Pass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
 
         Ball temp = ballObject.GetComponent<Ball>();
-        temp.CmdSetPass(true, Target, PassForce, HandPos, WhoThrew);
-        CmdTurnOnFakeBall(false);
+        temp.SetPass(true, Target, PassForce, HandPos, WhoThrew);
+        TurnOnFakeBall(false);
     }
 
-    [Command]
-    private void CmdShoot(GameObject ballObject, Vector3 HandPos, Vector3 Direction, GameObject WhoThrew)
+    
+    private void Shoot(GameObject ballObject, Vector3 HandPos, Vector3 Direction, GameObject WhoThrew)
     {
-        CmdTurnOnFakeBall(false);
-        RpcPlayPassEffect();
-        RpcShoot(Direction, ballObject, HandPos, WhoThrew);
+        TurnOnFakeBall(false);
+        PV.RPC("RPC_PlayPassEffect", RpcTarget.All);
+        //RpcShoot(Direction, ballObject, HandPos, WhoThrew);
+        PV.RPC("RPC_Shoot", RpcTarget.All, Direction, ballObject, HandPos, WhoThrew);
     }
 
-    [ClientRpc]
-    private void RpcShoot(Vector3 Direction, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    [PunRPC]
+    private void RPC_Shoot(Vector3 Direction, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
         Ball temp = ballObject.GetComponent<Ball>();
-        temp.CmdShoot(Direction, playerTag, HandPos, WhoThrew);
-        CmdTurnOnFakeBall(false);
+        temp.Shoot(Direction, playerTag, HandPos, WhoThrew);
+        TurnOnFakeBall(false);
     }
 
-    [Command]
-    public void CmdSetBall(GameObject ballObject)
+    
+    public void SetBall(GameObject ballObject)
     {
-        RpcSetBall(ballObject);
+        //RpcSetBall(ballObject);
+        PV.RPC("RPC_SetBall", RpcTarget.All, ballObject);
     }
 
-    [ClientRpc]
-    public void RpcSetBall(GameObject ballObjectb)
+    [PunRPC]
+    public void RPC_SetBall(GameObject ballObjectb)
     {
         Ball b = ballObjectb.GetComponent<Ball>();
         ball = b;
     }
 
-    [Command]
-    public void CmdTurnOnFakeBall(bool b)
+    
+    public void TurnOnFakeBall(bool b)
     {
-        RpcTurnOnFakeBall(gameObject, b);
+        //RpcTurnOnFakeBall(gameObject, b);
+        PV.RPC("RPC_TurnOnFakeBall", RpcTarget.All, gameObject, b);
     }
 
-    [ClientRpc]
-    public void RpcTurnOnFakeBall(GameObject playerObject, bool b)
+    [PunRPC]
+    public void RPC_TurnOnFakeBall(GameObject playerObject, bool b)
     {
         BallHandling bh = playerObject.GetComponent<BallHandling>();
         bh.FakeBall.SetActive(b);
@@ -222,8 +231,8 @@ public class BallHandling : NetworkBehaviour {
     /// <summary>
     /// /passing effects
     /// </summary>
-    [ClientRpc]
-    public void RpcPlayPassEffect()
+    [PunRPC]
+    public void RPC_PlayPassEffect()
     {
         if (PC.LocalPlayer == PC.ParentPlayer)
         {
@@ -250,33 +259,34 @@ public class BallHandling : NetworkBehaviour {
 
 
 
-    [Command]
-    public void CmdSteal(GameObject TargetHand, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    
+    public void Steal(GameObject TargetHand, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
         //Debug.Log("CmdSteal");
-        RpcSteal(TargetHand, ballObject, HandPos, WhoThrew);
+        //RpcSteal(TargetHand, ballObject, HandPos, WhoThrew);
+        PV.RPC("RPC_Steal", RpcTarget.All, TargetHand, ballObject, HandPos, WhoThrew);
     }
 
-    [ClientRpc]
-    private void RpcSteal(GameObject TargetHand, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    [PunRPC]
+    private void RPC_Steal(GameObject TargetHand, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
         //Debug.Log("RpcSteal");
         Ball temp = ballObject.GetComponent<Ball>();
         temp.thiefTransform = TargetHand.transform;
         temp.stolenInProgress = true;
-        temp.CmdSetSteal(true, TargetHand, PassForce, HandPos, WhoThrew);
-        CmdTurnOnFakeBall(false);
+        temp.SetSteal(true, TargetHand, PassForce, HandPos, WhoThrew);
+        TurnOnFakeBall(false);
     }
 
-    [Command]
-    public void CmdDropBall()
+    
+    public void DropBall()
     {
         if (ball != null)
         {
             float randomX = Random.Range(-1f, 1f);
             float randomZ = Random.Range(-1f, 1f);
             Vector3 DropPower = new Vector3(randomX, 1, randomZ) * ShootForce * 0.1f;
-            CmdShoot(ball.gameObject, Hand.position, DropPower, this.gameObject);
+            Shoot(ball.gameObject, Hand.position, DropPower, this.gameObject);
         }
     }
 }

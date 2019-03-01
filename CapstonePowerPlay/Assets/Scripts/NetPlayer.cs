@@ -1,16 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
+using Photon.Pun;
 
-[RequireComponent(typeof(NetworkIdentity))]
-public class NetPlayer : NetworkBehaviour {
+public class NetPlayer : MonoBehaviour {
 
     // Player Components
     [SerializeField]
     private Chat ChatSystem;
-
+    private PhotonView PV;
     // Spawninng Player Object
     [SerializeField]
     private GameObject PlayerObject;
@@ -33,112 +32,153 @@ public class NetPlayer : NetworkBehaviour {
 
     // Player Indetifiers
     //[HideInInspector]
-    [SyncVar]
+   
     public string CodeNumbers = "";
-    [SyncVar]
+    
     public string PlayerCode = "";
 
     // Player Child Components
     private hoverBoardScript HBS;
     private BallHandling BH;
 
+    // Variables
+    private bool SkipTeamSelect = false;
+    
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        PV = GetComponent<PhotonView>();
         int randNum = Random.Range(1000, 99999);
         CodeNumbers = "#" + randNum;
         PlayerCode = gameObject.name + CodeNumbers;
         SetPlayerList();
-        if (isLocalPlayer)
+        if (PV.IsMine)
         {
-            StartingCanvas.gameObject.SetActive(true);
+            if ((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != -1)
+                StartingCanvas.gameObject.SetActive(true);
+            else
+                SkipTeamSelect = true;
+
+        }
+        else
+        {
+            StartingCanvas.gameObject.SetActive(false);
         }
 	}
 
     // Update is called once per frame
     void Update()
     {
-        if (StartingCanvas.gameObject.activeSelf)
+        if (PV.IsMine)
         {
-            if (PlayerList == null)
-                SetPlayerList();
-
-            if (isServer)
+            if (SkipTeamSelect)
             {
-                foreach (NetPlayer p in PlayerList)
+                if (PhotonNetwork.IsMasterClient)
                 {
-                    p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
+                    foreach (NetPlayer p in PlayerList)
+                    {
+                        //p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
+                        p.PV.RPC("RPC_ChangeName", RpcTarget.All, p.gameObject.name, p.CodeNumbers);
+                    }
+                }
+                // Set player Team
+                TeamNum = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+
+                // Spawn player character
+                Debug.Log("Spawning player");
+                SpawnPlayer();
+                SkipTeamSelect = false;
+            }
+            //Debug.Log(" IT IS MINE");
+            else if (StartingCanvas.gameObject.activeSelf)
+            {
+                if (PlayerList == null)
+                    SetPlayerList();
+
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    foreach (NetPlayer p in PlayerList)
+                    {
+                        //p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
+                        p.PV.RPC("RPC_ChangeName", RpcTarget.All, p.gameObject.name, p.CodeNumbers);
+                    }
+                }
+
+                if (PV.IsMine)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+
+                    if (ConfirmTeam)
+                    {
+                        if (TeamNum == 0)
+                        {
+                            ConfirmTeam = false;
+                        }
+                        else
+                        {
+                            StartingCanvas.gameObject.SetActive(false);
+                            //CmdSpawnPlayer();
+                            Debug.Log("Spawning player");
+                            //PV.RPC("RPC_SpawnPlayer", RpcTarget.All);
+                            SpawnPlayer();
+                        }
+                    }
                 }
             }
-
-            if (isLocalPlayer)
+            else
             {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-
-                if (ConfirmTeam)
+                if (PV.IsMine)
                 {
-                    if (TeamNum == 0)
+                    if (Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.RightShift))
                     {
-                        ConfirmTeam = false;
+                        if (!ChatSystem.GetEnabled())
+                            ChatSystem.ToggleChat();
+                    }
+                    if (ChatSystem.GetEnabled() && HBS != null)
+                    {
+                        HBS.BoardHasControl = false;
+                    }
+                    else if (!ChatSystem.GetEnabled() && HBS != null)
+                    {
+                        HBS.BoardHasControl = true;
+                    }
+
+                    // If the curser should be active or not
+                    if (ChatSystem.GetEnabled())
+                    {
+                        Cursor.visible = true;
+                        Cursor.lockState = CursorLockMode.None;
                     }
                     else
                     {
-                        CmdSpawnPlayer();
-                        StartingCanvas.gameObject.SetActive(false);
+                        Cursor.visible = false;
+                        Cursor.lockState = CursorLockMode.Locked;
                     }
                 }
             }
         }
-        else
-        {
-            if (isLocalPlayer)
-            {
-                if (Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.RightShift))
-                {
-                    if (!ChatSystem.GetEnabled())
-                        ChatSystem.ToggleChat();
-                }
-                if (ChatSystem.GetEnabled() && HBS != null)
-                {
-                    HBS.BoardHasControl = false;
-                }
-                else if (!ChatSystem.GetEnabled() && HBS != null)
-                {
-                    HBS.BoardHasControl = true;
-                }
-
-                // If the curser should be active or not
-                if (ChatSystem.GetEnabled())
-                {
-                    Cursor.visible = true;
-                    Cursor.lockState = CursorLockMode.None;
-                }
-                else
-                {
-                    Cursor.visible = false;
-                    Cursor.lockState = CursorLockMode.Locked;
-                }
-            }
-        }
-
     }
 
-    [Command]
-    public void CmdSpawnPlayer()
+    //[PunRPC]
+    public void SpawnPlayer()
     {
         SetPlayerList();
-        GameObject GO = Instantiate(PlayerObject, transform);
+        int spawnPicker = Random.Range(0, GameSetup.GS.playerSpawns.Length);
+        GameObject GO = PhotonNetwork.Instantiate("PhotonPrefabs/PhotonPlayer", GameSetup.GS.playerSpawns[spawnPicker].transform.position, GameSetup.GS.playerSpawns[spawnPicker].transform.rotation, 0, null);
+        GO.transform.parent = transform;
         GO.name = PlayerCode;
-        NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
+        //NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
         if (GO != null)
         {
-            RpcParentChild(GO);
-            RpcSpawnPlayer(GO);
+            //ParentChild(GO);
+            PV.RPC("RPC_ParentChild", RpcTarget.All, GO);
+            SetPlayer(GO);
         }
     }
 
-    [ClientRpc]
-    private void RpcSpawnPlayer(GameObject spawningObject)
+    
+    private void SetPlayer(GameObject spawningObject)
     {
         PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
         PC.SetUpPlayer();
@@ -149,7 +189,7 @@ public class NetPlayer : NetworkBehaviour {
     public void SetPlayerList()
     {
         PlayerList = FindObjectsOfType<NetPlayer>();
-        if (isLocalPlayer)
+        if (PV.IsMine)
         {
             LocalPlayer = this;
             foreach (NetPlayer p in PlayerList)
@@ -159,14 +199,14 @@ public class NetPlayer : NetworkBehaviour {
         }
     }
 
-    [Command]
-    private void CmdParentChild(GameObject child)
+    [PunRPC]
+    private void RPC_ParentChild(GameObject child)
     {
-        RpcParentChild(child);
+        ParentChild(child);
     }
 
-    [ClientRpc]
-    private void RpcParentChild(GameObject child)
+    
+    private void ParentChild(GameObject child)
     {
         child.transform.parent = this.transform;
     }
@@ -176,31 +216,33 @@ public class NetPlayer : NetworkBehaviour {
         ConfirmTeam = true;
     }
 
-    [Command]
-    public void CmdChangeTeam(int i)
+    public void ChangeTeam(int i)
     {
-        RpcChangeTeam(i);
+        PV.RPC("RPC_ChangeTeam", RpcTarget.All, i);
     }
 
-    [ClientRpc]
-    public void RpcChangeTeam(int i)
+    [PunRPC]
+    public void RPC_ChangeTeam(int i)
     {
         TeamNum = i;
     }
+
+    
+   
 
     public int GetTeamNum()
     {
         return TeamNum;
     }
 
-    [Command]
-    private void CmdChangeName(string name, string code)
+    [PunRPC]
+    private void RPC_ChangeName(string name, string code)
     {
-        RpcChangeName(name, code);
+        ChangeName(name, code);
     }
 
-    [ClientRpc]
-    private void RpcChangeName(string name, string code)
+    
+    private void ChangeName(string name, string code)
     {
         gameObject.name = name;
         CodeNumbers = code;

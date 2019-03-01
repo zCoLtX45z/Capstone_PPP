@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class RunePickups : NetworkBehaviour {
+
+public class RunePickups : MonoBehaviour {
 
     public int red;
     public int blue;
@@ -16,8 +17,12 @@ public class RunePickups : NetworkBehaviour {
     
     public bool Opendoor = false;
 
+    private PhotonView PV;
+
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
+        PV = GetComponent<PhotonView>();
         Door = FindObjectOfType<DoorScript>();
 	}
 
@@ -83,14 +88,14 @@ public class RunePickups : NetworkBehaviour {
     }
 
     
-    [Command]
-    public void CmdDestroyRune(GameObject rune)
+    
+    public void DestroyRune(GameObject rune)
     {
-        Destroy(rune);
+        PV.RPC("RPC_DestroyRune", RpcTarget.All, rune);
     }
 
-    [ClientRpc]
-    void RpcDestroyRune(GameObject rune)
+    [PunRPC]
+    void RPC_DestroyRune(GameObject rune)
     {
         Destroy(rune);
     }

@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class AnimationController : NetworkBehaviour {
+
+public class AnimationController : MonoBehaviour {
 
     // Player Components
     [SerializeField]
@@ -20,36 +21,42 @@ public class AnimationController : NetworkBehaviour {
     private PlayerColor PC;
 
     // Animation Components
-    [SyncVar(hook = "PassAnimation")]
+    //[SyncVar(hook = "PassAnimation")]
     private bool Pass = false;
-    [SyncVar(hook = "JumpAnimation")]
+    //[SyncVar(hook = "JumpAnimation")]
     private bool Jump = false;
-    [SyncVar(hook = "UpdateGrounded")]
+    //[SyncVar(hook = "UpdateGrounded")]
     private bool Grounded = true;
-    [SyncVar(hook = "UpdateSpeedRatio")]
+    //[SyncVar(hook = "UpdateSpeedRatio")]
     private float SpeedRatio = 0;
     [SerializeField]
     private Transform LookAtPosition;
     [HideInInspector]
     public Vector3 LookPos;
+    [SerializeField]
+    private PhotonView PV;
 
-    [Command]
-    public void CmdUpdateTargetPosition(Vector3 pos)
+    
+    public void UpdateTargetPosition(Vector3 pos)
     {
-        RpcUpdateTargetPosition(pos);
+        //RpcUpdateTargetPosition(pos);
+        if (PhotonNetwork.InRoom)
+            PV.RPC("RPC_UpdateTargetPosition", RpcTarget.All, pos);
     }
-    [ClientRpc]
-    public void RpcUpdateTargetPosition(Vector3 pos)
+    [PunRPC]
+    public void RPC_UpdateTargetPosition(Vector3 pos)
     {
         LookPos = pos;
     }
-    [Command]
-    public void CmdPassAnimation()
+    
+    public void PassAnimation()
     {
-        RpcPassAnimation();
+        //RpcPassAnimation();
+        if (PhotonNetwork.InRoom)
+            PV.RPC("RPC_PassAnimation", RpcTarget.All);
     }
-    [ClientRpc]
-    public void RpcPassAnimation()
+    [PunRPC]
+    public void RPC_PassAnimation()
     {
         Pass = true;
         PassAnimation(Pass);
@@ -71,13 +78,15 @@ public class AnimationController : NetworkBehaviour {
         Pass = false;
     }
 
-    [Command]
-    public void CmdJumpAnimation()
+    
+    public void JumpAnimation()
     {
-        RpcJumpAnimation();
+        //RpcJumpAnimation();
+        if (PhotonNetwork.InRoom)
+            PV.RPC("RPC_JumpAnimation", RpcTarget.All);
     }
-    [ClientRpc]
-    public void RpcJumpAnimation()
+    [PunRPC]
+    public void RPC_JumpAnimation()
     {
         Jump = true;
         JumpAnimation(Jump);
@@ -99,13 +108,15 @@ public class AnimationController : NetworkBehaviour {
         Jump = false;
     }
 
-    [Command]
-    public void CmdUpdateSpeedRatio(float ratio)
+    
+    public void UpdateSpeedRatio1(float ratio)
     {
-        RpcUpdateSpeedRatio(ratio);
+        //RpcUpdateSpeedRatio(ratio);
+        if (PhotonNetwork.InRoom)
+            PV.RPC("RPC_UpdateSpeedRatio", RpcTarget.All, ratio);
     }
-    [ClientRpc]
-    public void RpcUpdateSpeedRatio(float ratio)
+    [PunRPC]
+    public void RPC_UpdateSpeedRatio(float ratio)
     {
         SpeedRatio = ratio;
         UpdateSpeedRatio(SpeedRatio);
@@ -136,13 +147,15 @@ public class AnimationController : NetworkBehaviour {
             BlueAnimator.SetBool("Grounded", Grounded);
         }
     }
-    [Command]
-    public void CmdUpdateGrounded(bool grounded)
+    
+    public void UpdateGrounded1(bool grounded)
     {
-        RpcUpdateGrounded(Grounded);
+        //RpcUpdateGrounded(Grounded);
+        if (PhotonNetwork.InRoom)
+            PV.RPC("RPC_UpdateGrounded", RpcTarget.All, grounded);
     }
-    [ClientRpc]
-    public void RpcUpdateGrounded(bool grounded)
+    [PunRPC]
+    public void RPC_UpdateGrounded(bool grounded)
     {
         Grounded = grounded;
         UpdateGrounded(Grounded);

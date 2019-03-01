@@ -15,11 +15,11 @@ public class DollyModifier : MonoBehaviour {
     //[SerializeField]
    // private float slowDownModifier;
 
-    [SerializeField]
-    private float trackSlowDownDistanceModifier;
+    //[SerializeField]
+    //private float trackSlowDownDistanceModifier;
 
-    [SerializeField]
-    private float trackSpeedUpDistanceModifier;
+    //[SerializeField]
+    //private float trackSpeedUpDistanceModifier;
 
     //[SerializeField]
     private float trackLength;
@@ -36,8 +36,12 @@ public class DollyModifier : MonoBehaviour {
 
 
     [SerializeField]
-    private float acceleration;
-    
+    private float fAcceleration = 10;
+
+    [SerializeField]
+    private float bAcceleration = 10;
+
+
     public bool reachedSpeedMax;
     public bool reachedSpeedMaxRev;
 
@@ -67,8 +71,6 @@ public class DollyModifier : MonoBehaviour {
     void Update () {
         if (allowMovement)
         {
-            
-
             if (!reverse)
             {
                 if (m_speed >= m_maxSpeed)
@@ -77,7 +79,7 @@ public class DollyModifier : MonoBehaviour {
                 }
                 if (!reachedSpeedMax)
                 {
-                    m_speed +=(acceleration * Time.deltaTime);
+                    m_speed +=(fAcceleration * Time.deltaTime);
                     m_speed = Mathf.Clamp(m_speed, 0, m_maxSpeed);
                 }
                 else
@@ -95,16 +97,16 @@ public class DollyModifier : MonoBehaviour {
 
                 if (!reachedSpeedMaxRev)
                 {
-                    m_speed -= (acceleration * Time.deltaTime);
+                    m_speed -= (bAcceleration * Time.deltaTime);
                     m_speed = Mathf.Clamp(m_speed, -m_maxSpeed, 0);
                 }
 
                 else
                 {
-                    Debug.Log("achieved reverse max speed");
+                    //Debug.Log("achieved reverse max speed");
                     m_speed = Mathf.Clamp((0 - cameraDollyCart.m_Position), -m_maxSpeed, 0);
                 }
-                Debug.Log("Speed rev: " + (0 - cameraDollyCart.m_Position));
+                //Debug.Log("Speed rev: " + (0 - cameraDollyCart.m_Position));
             }
             cameraDollyCart.m_Speed = m_speed;
         }

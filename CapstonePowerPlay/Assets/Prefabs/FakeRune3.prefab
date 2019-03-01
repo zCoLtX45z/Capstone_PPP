@@ -22,8 +22,6 @@ GameObject:
   - component: {fileID: 33878402209310644}
   - component: {fileID: 23388661499502180}
   - component: {fileID: 65878283419588946}
-  - component: {fileID: 114014834709858690}
-  - component: {fileID: 114316316529636812}
   - component: {fileID: 114903983299505148}
   m_Layer: 0
   m_Name: FakeRune3
@@ -99,59 +97,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114014834709858690
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1111440962559610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 185
-    i1: 255
-    i2: 84
-    i3: 13
-    i4: 244
-    i5: 169
-    i6: 115
-    i7: 228
-    i8: 171
-    i9: 249
-    i10: 10
-    i11: 26
-    i12: 126
-    i13: 182
-    i14: 72
-    i15: 181
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &114316316529636812
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1111440962559610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114903983299505148
 MonoBehaviour:
   m_ObjectHideFlags: 1
