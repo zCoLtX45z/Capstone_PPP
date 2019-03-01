@@ -16,13 +16,21 @@ public class RoomLayoutGroup : MonoBehaviourPunCallbacks
     private List<RoomListing> RoomListings = new List<RoomListing>();
     private List<RoomInfo> RoomList = new List<RoomInfo>();
 
+    public void RefreshRoomlist()
+    {
+        print("RefreshRoomlist Called, " + PhotonNetwork.CountOfRooms + " Room Count");
+        OnRecievedRoomListUpdate();
+        OnRoomListUpdate(RoomList);
+    }
     public void OnRecievedRoomListUpdate()
     {
+        print("OnRecievedRoomListUpdate Called");
         PhotonNetwork.GetCustomRoomList(PhotonNetwork.CurrentLobby, "");
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        print("OnRoomListUpdate Called");
         RoomList = roomList;
         foreach (RoomInfo RoomInfomation in RoomList)
         {
@@ -60,6 +68,7 @@ public class RoomLayoutGroup : MonoBehaviourPunCallbacks
 
     private void RemoveOldRooms()
     {
+        print("RemoveOldRooms Called");
         List<RoomListing> removeRooms = new List<RoomListing>();
         
         foreach (RoomListing rl in RoomListings)

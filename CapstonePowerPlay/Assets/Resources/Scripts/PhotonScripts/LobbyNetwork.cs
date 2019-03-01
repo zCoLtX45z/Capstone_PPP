@@ -16,9 +16,9 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
 	void Start () {
         if (!PhotonNetwork.InLobby && !PhotonNetwork.InRoom)
         {
+            
             PhotonNetwork.OfflineMode = false;
-            if (PhotonNetwork.InRoom)
-                PhotonNetwork.LocalPlayer.NickName = PlayerNetwork.Instance.PlayerName;
+            PhotonNetwork.LocalPlayer.NickName = PlayerNetwork.Instance.PlayerName;
             PhotonNetwork.AutomaticallySyncScene = true;
             //PhotonNetwork.GameVersion = "1";
 
@@ -49,6 +49,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
     public override void OnJoinedLobby()
     {
         print("Connected to Lobby.");
+        print("Lobby: " + PhotonNetwork.CurrentLobby);
     }
 
     public override void OnLeftLobby()
