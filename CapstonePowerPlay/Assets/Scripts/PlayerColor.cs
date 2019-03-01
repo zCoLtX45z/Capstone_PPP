@@ -34,6 +34,7 @@ public class PlayerColor : MonoBehaviour {
     private PlayerSoftlockPassSight pSLPS;
 
     //photon variables
+    [SerializeField]
     private PhotonView PV;
 
     void Start()
@@ -50,6 +51,7 @@ public class PlayerColor : MonoBehaviour {
     [PunRPC]
     public void RPC_SetUpPlayer()
     {
+        print("RPC_SetUpPlayer Called");
         ParentPlayer = GetComponentInParent<NetPlayer>();
         LocalPlayer = ParentPlayer.LocalPlayer;
         TeamNum = ParentPlayer.GetTeamNum();
