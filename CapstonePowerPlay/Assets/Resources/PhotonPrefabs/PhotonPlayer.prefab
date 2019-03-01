@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 65676175893148080}
   - component: {fileID: 114027717465583432}
   - component: {fileID: 114981085440214258}
+  - component: {fileID: 114559822743833478}
   - component: {fileID: 95954402950338354}
   - component: {fileID: 114359316240184688}
   m_Layer: 8
@@ -8305,6 +8306,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114981085440214258}
   - {fileID: 114359316240184688}
+  - {fileID: 114559822743833478}
   viewIdField: 0
   InstantiationId: 4
   isRuntimeInstantiated: 0
@@ -8820,6 +8822,21 @@ MonoBehaviour:
   - {fileID: 114861138183220302}
   - {fileID: 114305946182988612}
   PickUpTime: 0.2
+--- !u!114 &114559822743833478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1063158160534168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &114590559410722000
 MonoBehaviour:
   m_ObjectHideFlags: 1
