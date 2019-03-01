@@ -57,7 +57,7 @@ public class NetPlayer : MonoBehaviour {
         if (PV.IsMine)
         {
             Debug.Log(PhotonNetwork.LocalPlayer.NickName);
-            gameObject.name = PhotonNetwork.LocalPlayer.NickName;
+            gameObject.name = PhotonNetwork.LocalPlayer.NickName.Split('#')[0];
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != -1)
             {
                 UpdateTeamNum(TeamNum);
@@ -206,7 +206,7 @@ public class NetPlayer : MonoBehaviour {
         {
             print("PC not found: ");
         }
-        PC.SetUpPlayer1(this.gameObject);
+        PC.SetUpPlayer1(spawningObject);
         HBS = spawningObject.GetComponent<hoverBoardScript>();
         BH = spawningObject.GetComponent<BallHandling>();
     }
