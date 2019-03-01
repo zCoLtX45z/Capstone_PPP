@@ -52,7 +52,7 @@ public class NetPlayer : MonoBehaviour {
             PV = GetComponent<PhotonView>();
         string randNum = PhotonNetwork.LocalPlayer.NickName.Split('#')[1];
         CodeNumbers = "#" + randNum;
-        PlayerCode = PhotonNetwork.LocalPlayer.NickName + CodeNumbers;
+        PlayerCode = PhotonNetwork.LocalPlayer.NickName.Split('#')[0] + CodeNumbers;
         SetPlayerList();
         if (PV.IsMine)
         {

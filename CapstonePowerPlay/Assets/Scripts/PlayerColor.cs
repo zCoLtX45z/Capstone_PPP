@@ -48,7 +48,14 @@ public class PlayerColor : MonoBehaviour {
         ParentPlayer = GetComponentInParent<NetPlayer>();
         LocalPlayer = ParentPlayer.LocalPlayer;
         TeamNum = ParentPlayer.GetTeamNum();
-        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered, ParentObject);
+        try
+        {
+            PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered, ParentObject);
+        }
+        catch
+        {
+            Debug.Log("Silly Photon Error Here");
+        }
     }
 
     [PunRPC]
