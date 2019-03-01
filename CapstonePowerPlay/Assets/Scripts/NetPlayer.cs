@@ -168,7 +168,7 @@ public class NetPlayer : MonoBehaviour {
             }
         }
     }
-
+    [PunRPC]
     public void RPC_UpdateTeamNum(int i)
     {
         TeamNum = i;
