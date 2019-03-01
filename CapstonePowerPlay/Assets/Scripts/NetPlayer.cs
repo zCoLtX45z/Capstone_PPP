@@ -80,14 +80,8 @@ public class NetPlayer : MonoBehaviour {
         {
             if (SkipTeamSelect)
             {
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    foreach (NetPlayer p in PlayerList)
-                    {
-                        //p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
-                        p.PV.RPC("RPC_ChangeName", RpcTarget.All, p.gameObject.name, p.CodeNumbers);
-                    }
-                }
+                //p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
+                PV.RPC("RPC_ChangeName", RpcTarget.All, gameObject.name, CodeNumbers);
                 // Set player Team
                 TeamNum = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
 
