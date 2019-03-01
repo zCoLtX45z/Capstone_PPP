@@ -52,14 +52,17 @@ public class NetPlayer : MonoBehaviour {
             PV = GetComponent<PhotonView>();
         string randNum = PhotonNetwork.LocalPlayer.NickName.Split('#')[1];
         CodeNumbers = "#" + randNum;
-        PlayerCode = PhotonNetwork.LocalPlayer.NickName + CodeNumbers;
+        PlayerCode = PhotonNetwork.LocalPlayer.NickName.Split('#')[0] + CodeNumbers;
         SetPlayerList();
         if (PV.IsMine)
         {
             Debug.Log(PhotonNetwork.LocalPlayer.NickName);
-            gameObject.name = PhotonNetwork.LocalPlayer.NickName;
+            gameObject.name = PhotonNetwork.LocalPlayer.NickName.Split('#')[0];
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != -1)
+            {
+                UpdateTeamNum(TeamNum);
                 SkipTeamSelect = true;
+            }
             else
                 StartingCanvas.gameObject.SetActive(true);
 
@@ -122,6 +125,7 @@ public class NetPlayer : MonoBehaviour {
                         }
                         else
                         {
+                            UpdateTeamNum(TeamNum);
                             StartingCanvas.gameObject.SetActive(false);
                             //CmdSpawnPlayer();
                             Debug.Log("Spawning player Starting Canvas");
@@ -164,7 +168,16 @@ public class NetPlayer : MonoBehaviour {
             }
         }
     }
+    [PunRPC]
+    public void RPC_UpdateTeamNum(int i)
+    {
+        TeamNum = i;
+    }
 
+    public void UpdateTeamNum(int i)
+    {
+        PV.RPC("RPC_UpdateTeamNum", RpcTarget.AllBuffered, i);
+    }
     //[PunRPC]
     public void SpawnPlayer()
     {
@@ -193,7 +206,7 @@ public class NetPlayer : MonoBehaviour {
         {
             print("PC not found: ");
         }
-        PC.SetUpPlayer1();
+        PC.SetUpPlayer1(spawningObject);
         HBS = spawningObject.GetComponent<hoverBoardScript>();
         BH = spawningObject.GetComponent<BallHandling>();
     }
