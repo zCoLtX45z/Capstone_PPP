@@ -43,17 +43,19 @@ public class PlayerColor : MonoBehaviour {
     }
 
     
-    public void SetUpPlayer1()
+    public void SetUpPlayer1(GameObject ParentObject)
     {
-        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
+        ParentPlayer = GetComponentInParent<NetPlayer>();
+        LocalPlayer = ParentPlayer.LocalPlayer;
+        TeamNum = ParentPlayer.GetTeamNum();
+        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered, ParentObject);
     }
 
     [PunRPC]
-    public void RPC_SetUpPlayer()
+    public void RPC_SetUpPlayer(GameObject ParentObject)
     {
         print("RPC_SetUpPlayer Called");
-        ParentPlayer = GetComponentInParent<NetPlayer>();
-        LocalPlayer = ParentPlayer.LocalPlayer;
+        ParentPlayer = ParentObject.GetComponentInParent<NetPlayer>();
         TeamNum = ParentPlayer.GetTeamNum();
         SetTeamNum(TeamNum);
         TextName.text = ParentPlayer.name;
