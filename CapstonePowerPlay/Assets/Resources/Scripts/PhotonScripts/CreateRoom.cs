@@ -55,7 +55,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
             RoomName = RoomInputField.text;
             RoomIdentifier = PlayerNetwork.Instance.name + "'s Training Room";
 
-            RoomOptions RO = new RoomOptions() { IsVisible = false, IsOpen = true, MaxPlayers = 12 };
+            RoomOptions RO = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 12 };
             RO.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
             RO.CustomRoomProperties.Add("RoomNameKey", RoomName);
             RO.CustomRoomProperties.Add("RoomTypeKey", "TrainingRoom");

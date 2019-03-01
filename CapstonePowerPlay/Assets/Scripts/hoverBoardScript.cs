@@ -154,22 +154,22 @@ public class hoverBoardScript : MonoBehaviour
             // Turning Accelerationn
             if (PreviousTurnSpeed * m_currTurn <= 0)
             {
-                Debug.Log("Set Turn Acceleration to Base");
+                //Debug.Log("Set Turn Acceleration to Base");
                 AccelerationAmount = 100;
             }
             else if (PreviousTurnSpeed > m_currTurn && AccelerationAmount > 100)
             {
-                Debug.Log("Lower Turn Acceleration");
+                //Debug.Log("Lower Turn Acceleration");
                 AccelerationAmount -= Time.deltaTime * TurnPercentAcceleration;
             }
             if (AccelerationAmount < MaxTurnPercentAcceleration)
             {
-                Debug.Log("Raise Turn Acceleration");
+                //Debug.Log("Raise Turn Acceleration");
                 AccelerationAmount += Time.deltaTime * TurnPercentAcceleration;
             }
             else
             {
-                Debug.Log("Set Turn Acceleration to Max");
+                //Debug.Log("Set Turn Acceleration to Max");
                 AccelerationAmount = MaxTurnPercentAcceleration;
             }
             TurnSpeed = m_currTurn;
