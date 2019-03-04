@@ -695,9 +695,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114346324435133216, guid: ae0023c710cfcf04eba0ecc64c5fe25c, type: 2}
-    - {fileID: 114920977934949034, guid: ae0023c710cfcf04eba0ecc64c5fe25c, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ae0023c710cfcf04eba0ecc64c5fe25c, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &464174712 stripped
@@ -913,9 +911,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114061234589055070, guid: e88cdbf08aac1814082bdcefef4143df, type: 2}
-    - {fileID: 114011106916936674, guid: e88cdbf08aac1814082bdcefef4143df, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e88cdbf08aac1814082bdcefef4143df, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &694137901 stripped
@@ -1416,36 +1412,14 @@ Prefab:
       propertyPath: netSpawn
       value: 
       objectReference: {fileID: 464174712}
-    m_RemovedComponents:
-    - {fileID: 114501865645189334, guid: 0c3ed07c3af6ade418e520c86a389e7a, type: 2}
+    - target: {fileID: 114437669479280870, guid: 0c3ed07c3af6ade418e520c86a389e7a,
+        type: 2}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0c3ed07c3af6ade418e520c86a389e7a, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1063787256 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1967605288544186, guid: 0c3ed07c3af6ade418e520c86a389e7a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1063787255}
---- !u!114 &1063787257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1063787256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 1
-  InstantiationId: 1
-  isRuntimeInstantiated: 0
 --- !u!1 &1078221237
 GameObject:
   m_ObjectHideFlags: 0
