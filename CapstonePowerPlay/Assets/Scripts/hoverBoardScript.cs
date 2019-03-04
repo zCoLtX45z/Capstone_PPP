@@ -92,41 +92,45 @@ public class hoverBoardScript : MonoBehaviour
     private float LastSpeedRatio = 0;
     private bool LastTimeOnGround = false;
 
+    // Turn Acceleration
+    [SerializeField]
+    private float TurnPercentAcceleration = 50;
+    [SerializeField]
+    private float MaxTurnPercentAcceleration = 300;
+    private float AccelerationAmount = 100;
+    private float PreviousTurnSpeed;
+    private float TurnSpeed;
+
 	// Use this for initialization
 	void Start ()
     {
-        
+        Physics.gravity = new Vector3(0, -100, 0);
+        if (!m_body)
+            m_body = GetComponent<Rigidbody>();
 
-            Physics.gravity = new Vector3(0, -100, 0);
-            if (!m_body)
-                m_body = GetComponent<Rigidbody>();
-
-            //m_layerMask = 1 << LayerMask.NameToLayer("Characters");
-            //m_layerMask = ~m_layerMask;
-            if (PIDHoverPoints.Length > 0)
+        //m_layerMask = 1 << LayerMask.NameToLayer("Characters");
+        //m_layerMask = ~m_layerMask;
+        if (PIDHoverPoints.Length > 0)
+        {
+            float KAdjust = m_maxHoverForce / m_hoverHeight;
+            ToggleStabilizers = new bool[PIDHoverPoints.Length];
+            for (int i = 0; i < PIDHoverPoints.Length; i++)
             {
-                float KAdjust = m_maxHoverForce / m_hoverHeight;
-                ToggleStabilizers = new bool[PIDHoverPoints.Length];
-                for (int i = 0; i < PIDHoverPoints.Length; i++)
-                {
-                    ToggleStabilizers[i] = true;
-                    PIDHoverPoints[i].setGains(Kp * KAdjust, Ki * KAdjust, Kd * KAdjust);
-                    PIDHoverPoints[i].EnableClamp(m_minHoverForce, m_maxHoverForce);
-                    //PIDHoverPoints[i].transform.localPosition = new Vector3(PIDHoverPoints[i].transform.localPosition.x, 0, PIDHoverPoints[i].transform.localPosition.z);
-                }
+                ToggleStabilizers[i] = true;
+                PIDHoverPoints[i].setGains(Kp * KAdjust, Ki * KAdjust, Kd * KAdjust);
+                PIDHoverPoints[i].EnableClamp(m_minHoverForce, m_maxHoverForce);
+                //PIDHoverPoints[i].transform.localPosition = new Vector3(PIDHoverPoints[i].transform.localPosition.x, 0, PIDHoverPoints[i].transform.localPosition.z);
             }
-
-
-      
+        }
     }
 
 	// Update is called once per frame
 	void Update ()
     {
-
-        
         if (BoardHasControl)
         {
+            // Previous Turn Direction
+            PreviousTurnSpeed = TurnSpeed;
             //main thrust
             m_currThrust = 0.0f;
             float aclAxis = Input.GetAxis("Vertical");
@@ -147,6 +151,31 @@ public class hoverBoardScript : MonoBehaviour
             {
                 m_currTurn = turnAxis * 4;
             }
+            // Turning Accelerationn
+            if (PreviousTurnSpeed * m_currTurn <= 0)
+            {
+                //Debug.Log("Set Turn Acceleration to Base");
+                AccelerationAmount = 100;
+            }
+            else if (PreviousTurnSpeed > m_currTurn && AccelerationAmount > 100)
+            {
+                //Debug.Log("Lower Turn Acceleration");
+                AccelerationAmount -= Time.deltaTime * TurnPercentAcceleration;
+            }
+            if (AccelerationAmount < MaxTurnPercentAcceleration)
+            {
+                //Debug.Log("Raise Turn Acceleration");
+                AccelerationAmount += Time.deltaTime * TurnPercentAcceleration;
+            }
+            else
+            {
+                //Debug.Log("Set Turn Acceleration to Max");
+                AccelerationAmount = MaxTurnPercentAcceleration;
+            }
+            TurnSpeed = m_currTurn;
+            m_currTurn *= AccelerationAmount / 100;
+
+
             // Adjust turning height adjustment
             CurrentAdjust = Speed < SpeedDeadZone ? 0.0f
                 : Speed < MaxSpeed ? m_hoverHeight * MaxTurnAdjustPercent * (Speed - SpeedDeadZone) / ((MaxSpeed - SpeedDeadZone) * 100f)
@@ -212,7 +241,6 @@ public class hoverBoardScript : MonoBehaviour
 
     void FixedUpdate()
     {
-       
         // Non PID Controllers
         //Hover force
         if (m_hoverPoints.Length > 0)

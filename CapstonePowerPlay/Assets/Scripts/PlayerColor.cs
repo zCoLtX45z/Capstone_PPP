@@ -34,6 +34,7 @@ public class PlayerColor : MonoBehaviour {
     private PlayerSoftlockPassSight pSLPS;
 
     //photon variables
+    [SerializeField]
     private PhotonView PV;
 
     void Start()
@@ -42,16 +43,26 @@ public class PlayerColor : MonoBehaviour {
     }
 
     
-    public void SetUpPlayer1()
-    {
-        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
-    }
-
-    [PunRPC]
-    public void RPC_SetUpPlayer()
+    public void SetUpPlayer1(GameObject ParentObject)
     {
         ParentPlayer = GetComponentInParent<NetPlayer>();
         LocalPlayer = ParentPlayer.LocalPlayer;
+        TeamNum = ParentPlayer.GetTeamNum();
+        try
+        {
+            PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered, ParentObject);
+        }
+        catch
+        {
+            Debug.Log("Silly Photon Error Here");
+        }
+    }
+
+    [PunRPC]
+    public void RPC_SetUpPlayer(GameObject ParentObject)
+    {
+        print("RPC_SetUpPlayer Called");
+        ParentPlayer = ParentObject.GetComponentInParent<NetPlayer>();
         TeamNum = ParentPlayer.GetTeamNum();
         SetTeamNum(TeamNum);
         TextName.text = ParentPlayer.name;

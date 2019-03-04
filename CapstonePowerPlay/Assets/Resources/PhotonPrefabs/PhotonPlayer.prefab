@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 65676175893148080}
   - component: {fileID: 114027717465583432}
   - component: {fileID: 114981085440214258}
+  - component: {fileID: 114559822743833478}
   - component: {fileID: 95954402950338354}
   - component: {fileID: 114359316240184688}
   m_Layer: 8
@@ -8305,6 +8306,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114981085440214258}
   - {fileID: 114359316240184688}
+  - {fileID: 114559822743833478}
   viewIdField: 0
   InstantiationId: 4
   isRuntimeInstantiated: 0
@@ -8820,6 +8822,21 @@ MonoBehaviour:
   - {fileID: 114861138183220302}
   - {fileID: 114305946182988612}
   PickUpTime: 0.2
+--- !u!114 &114559822743833478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1063158160534168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &114590559410722000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8926,6 +8943,7 @@ MonoBehaviour:
   ParentPlayer: {fileID: 0}
   CD: {fileID: 114814734872167172}
   pSLPS: {fileID: 114719974573292268}
+  PV: {fileID: 114027717465583432}
 --- !u!114 &114690874661877230
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9289,7 +9307,7 @@ MonoBehaviour:
   m_forwardAcl: 4000
   m_backwardAcl: 2000
   m_currThrust: 0
-  m_turnStrength: 200
+  m_turnStrength: 67
   m_currTurn: 0
   m_layerMask:
     serializedVersion: 2
@@ -9326,6 +9344,8 @@ MonoBehaviour:
   SpeedBoosted: 0
   AnimationControl: {fileID: 114737435730248738}
   BoardHasControl: 1
+  TurnPercentAcceleration: 50
+  MaxTurnPercentAcceleration: 300
 --- !u!114 &114952097488344022
 MonoBehaviour:
   m_ObjectHideFlags: 1

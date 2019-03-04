@@ -243,10 +243,11 @@ public class Ball : MonoBehaviour
     }
     private void OnTriggerEnter(Collider c)
     {
+        Debug.Log("Ball Collided with: " + c.tag);
         //Debug.Log("triged: " + c.name + " tag: " + c.tag);
         if((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
         {
-            //Debug.Log("PLAYER HAS ENTERED THE AREA!!!1");
+            Debug.Log("PLAYER HAS ENTERED THE AREA!!!");
             gameObject.layer = 2;
             HardCol.isTrigger = true;
             Held = true;

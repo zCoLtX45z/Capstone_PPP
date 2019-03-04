@@ -48,7 +48,7 @@ public class PlayerToMenuInteraction : MonoBehaviour {
 
                 if (Physics.Raycast(ray, out hit))
                 {
-                    Debug.Log("Hit: " + hit.transform.gameObject.name);
+                    //Debug.Log("Hit: " + hit.transform.gameObject.name);
                     Transform objectHit = hit.transform;
 
                     hit.transform.GetComponent<ButtonCallToDollyManager>().CallEffect();
