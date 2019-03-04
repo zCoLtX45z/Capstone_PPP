@@ -64,7 +64,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
     {
 
         //set player object (parent object that this script is attached to)
-        player = transform.parent.gameObject;
+        //player = transform.parent.gameObject;
 
         // get the tag of the player
         teamTag = player.tag;

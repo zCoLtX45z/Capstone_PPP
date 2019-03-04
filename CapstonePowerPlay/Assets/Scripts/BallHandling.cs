@@ -82,10 +82,22 @@ public class BallHandling : MonoBehaviour {
         {
             if (ball != null)
             {
-                ball.MakeBallDisapear();
-                ball.BH = this;
-                ball.Hand = Hand;
-                ball.Held = true;
+                if (ball.BH != this)
+                {
+                    //ball.MakeBallDisapear();
+                    ball.BH = this;
+                    ball.UpdateBH(this);
+                }
+                else if (ball.Hand != Hand)
+                {
+                    ball.Hand = Hand;
+                    ball.UpdateHand(this);
+                }
+                else
+                {
+                    ball.Held = true;
+                    ball.UpdateHeld(true);
+                }
             }
 
 
@@ -172,46 +184,50 @@ public class BallHandling : MonoBehaviour {
     {
         PV.RPC("RPC_PlayPassEffect", RpcTarget.All);
         //RpcPass(Target, ballObject, HandPos, WhoThrew);
-        PV.RPC("RPC_Pass", RpcTarget.AllBuffered, Target, ballObject, HandPos, WhoThrew);
+        PV.RPC("RPC_Pass", RpcTarget.AllBuffered, Target.GetPhotonView().ViewID, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
     }
 
     [PunRPC]
-    private void RPC_Pass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    private void RPC_Pass(int Target, int ballObject, Vector3 HandPos, int WhoThrew)
     {
 
-        Ball temp = ballObject.GetComponent<Ball>();
-        temp.SetPass(true, Target, PassForce, HandPos, WhoThrew);
-        TurnOnFakeBall(false);
+        Ball temp = PhotonView.Find(ballObject).gameObject.GetComponent<Ball>();
+        temp.SetPass(true, PhotonView.Find(Target).gameObject, PassForce, HandPos, PhotonView.Find(WhoThrew).gameObject);
+        //TurnOnFakeBall(false);
     }
 
     
     private void Shoot(GameObject ballObject, Vector3 HandPos, Vector3 Direction, GameObject WhoThrew)
     {
-        TurnOnFakeBall(false);
-        PV.RPC("RPC_PlayPassEffect", RpcTarget.All);
+        //TurnOnFakeBall(false);
+        //PV.RPC("RPC_PlayPassEffect", RpcTarget.All);
         //RpcShoot(Direction, ballObject, HandPos, WhoThrew);
-        PV.RPC("RPC_Shoot", RpcTarget.All, Direction, ballObject, HandPos, WhoThrew);
+
+        Debug.Log("Direction: " + Direction + " ballObject: " + ballObject + " HandPos: " + HandPos + " WhoThrew: " + WhoThrew);
+        Debug.Log("PV: " + PV);
+        
+        PV.RPC("RPC_Shoot", RpcTarget.All, Direction, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
     }
 
     [PunRPC]
-    private void RPC_Shoot(Vector3 Direction, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    private void RPC_Shoot(Vector3 Direction, int ballObject, Vector3 HandPos, int WhoThrew)
     {
-        Ball temp = ballObject.GetComponent<Ball>();
-        temp.Shoot(Direction, playerTag, HandPos, WhoThrew);
-        TurnOnFakeBall(false);
+        Ball temp = PhotonView.Find(ballObject).gameObject.GetComponent<Ball>();
+        temp.Shoot(Direction, playerTag, HandPos, PhotonView.Find(WhoThrew).gameObject);
+        //TurnOnFakeBall(false);
     }
 
     
     public void SetBall(GameObject ballObject)
     {
         //RpcSetBall(ballObject);
-        PV.RPC("RPC_SetBall", RpcTarget.All, ballObject);
+        PV.RPC("RPC_SetBall", RpcTarget.All, ballObject.GetPhotonView().ViewID);
     }
 
     [PunRPC]
-    public void RPC_SetBall(GameObject ballObjectb)
+    public void RPC_SetBall(int ballObjectb)
     {
-        Ball b = ballObjectb.GetComponent<Ball>();
+        Ball b = PhotonView.Find(ballObjectb).GetComponent<Ball>();
         ball = b;
     }
 
@@ -219,13 +235,13 @@ public class BallHandling : MonoBehaviour {
     public void TurnOnFakeBall(bool b)
     {
         //RpcTurnOnFakeBall(gameObject, b);
-        PV.RPC("RPC_TurnOnFakeBall", RpcTarget.All, gameObject, b);
+        PV.RPC("RPC_TurnOnFakeBall", RpcTarget.All, gameObject.GetPhotonView().ViewID, b);
     }
 
     [PunRPC]
-    public void RPC_TurnOnFakeBall(GameObject playerObject, bool b)
+    public void RPC_TurnOnFakeBall(int playerObject, bool b)
     {
-        BallHandling bh = playerObject.GetComponent<BallHandling>();
+        BallHandling bh = PhotonView.Find(playerObject).gameObject.GetComponent<BallHandling>();
         bh.FakeBall.SetActive(b);
     }
     /// <summary>
@@ -264,17 +280,17 @@ public class BallHandling : MonoBehaviour {
     {
         //Debug.Log("CmdSteal");
         //RpcSteal(TargetHand, ballObject, HandPos, WhoThrew);
-        PV.RPC("RPC_Steal", RpcTarget.All, TargetHand, ballObject, HandPos, WhoThrew);
+        PV.RPC("RPC_Steal", RpcTarget.All, TargetHand.GetPhotonView().ViewID, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
     }
 
     [PunRPC]
-    private void RPC_Steal(GameObject TargetHand, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    private void RPC_Steal(int TargetHand, int ballObject, Vector3 HandPos, int WhoThrew)
     {
         //Debug.Log("RpcSteal");
-        Ball temp = ballObject.GetComponent<Ball>();
-        temp.thiefTransform = TargetHand.transform;
+        Ball temp = (PhotonView.Find(ballObject).gameObject.GetComponent<Ball>());
+        temp.thiefTransform = PhotonView.Find(TargetHand).gameObject.transform;
         temp.stolenInProgress = true;
-        temp.SetSteal(true, TargetHand, PassForce, HandPos, WhoThrew);
+        temp.SetSteal(true, PhotonView.Find(TargetHand).gameObject, PassForce, HandPos, PhotonView.Find(WhoThrew).gameObject);
         TurnOnFakeBall(false);
     }
 
