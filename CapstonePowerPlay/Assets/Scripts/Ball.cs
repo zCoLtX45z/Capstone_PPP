@@ -338,6 +338,12 @@ public class Ball : MonoBehaviour
         {
             PV.RPC("RPC_OnTriggerEnter", RpcTarget.All);
 
+
+
+            //c.GetComponent<PhotonView>().TransferOwnership(GetComponent<PhotonView>()..ID);
+           
+
+
             // Set who has the the ball
             PlayerColor pc = c.GetComponent<PlayerColor>();
             // Every persons code has to be shared
@@ -431,46 +437,8 @@ public class Ball : MonoBehaviour
     {
         //RpcSetPass(Passing, Target, Force, HandPos, WhoThrew);
         PV.RPC("RPC_SetPass", RpcTarget.All, Passing, Target.GetPhotonView().ViewID, Force, HandPos, WhoThrew.GetPhotonView().ViewID);
-
-
-        RB.velocity = Vector3.zero;
-        RB.angularVelocity = Vector3.zero;
-        transform.position = HandPos;
-        float distance = (transform.position - Target.transform.position).magnitude;
-        transform.LookAt(Target.transform);
-        RB.AddForce(transform.up * Force, ForceMode.Impulse);
     }
 
-
-    [PunRPC]
-    public void RPC_SetPass(bool Passing, int Target, float Force, Vector3 HandPos, int WhoThrew)
-    {
-        Thrown = true;
-
-        Handle.SetParent(null);
-
-
-        CanBeCaughtTimer = 0.15f;
-        passedTarget = PhotonView.Find(Target).gameObject;
-        transform.SetParent(null);
-        //Handle.position = HandPos;
-        //Handle.parent = null;
-        isInPassing = true;
-       
-        Held = false;
-        WhoTossedTheBall = PhotonView.Find(WhoThrew).gameObject;
-        Hand = null;
-        BH = null;
-        HardCol.isTrigger = false;
-        RB.detectCollisions = true;
-
-        Debug.Log("can not hold pass");
-        //MakeBallReapear();
-        //RBS.CmdSetPlayerHolding(null);
-    }
-
-
-    /*
     [PunRPC]
     public void RPC_SetPass(bool Passing, int Target, float Force, Vector3 HandPos, int WhoThrew)
     {
@@ -480,7 +448,7 @@ public class Ball : MonoBehaviour
         passedTarget = PhotonView.Find(Target).gameObject;
         transform.SetParent(null);
         //Handle.position = HandPos;
-        //Handle.parent = null;
+        Handle.parent = null;
         isInPassing = true;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
@@ -499,12 +467,11 @@ public class Ball : MonoBehaviour
         //MakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
     }
-    */
 
 
 
 
-
+    
     public void SetSteal(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
         //RpcSetPass(Passing, Target, Force, HandPos, WhoThrew);
