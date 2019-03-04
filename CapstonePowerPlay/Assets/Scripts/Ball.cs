@@ -455,6 +455,8 @@ public class Ball : MonoBehaviour
         Hand = null;
         BH = null;
         HardCol.isTrigger = false;
+        RB.detectCollisions = true;
+
         Debug.Log("can not hold pass");
         //MakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
