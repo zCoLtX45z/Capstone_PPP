@@ -1,20 +1,22 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class KeepNetRotation : NetworkBehaviour {
+
+public class KeepNetRotation : MonoBehaviour {
 
     [SerializeField]
     private Animator AN;
-    [SyncVar(hook = "UpdateRotation")]
+    //[SyncVar(hook = "UpdateRotation")]
     private bool IsRotating = false;
 
     private NetPlayer[] NetPlayerList;
     private hoverBoardScript[] HoverboardList;
+    private PhotonView PV;
     private void Start()
     {
-        
+        PV = GetComponent<PhotonView>();
     }
 
     // Update is called once per frame
@@ -29,8 +31,9 @@ public class KeepNetRotation : NetworkBehaviour {
                 {
                     if (NetPlayerList.Length == HoverboardList.Length)
                     {
-                        if (isServer)
-                            CmdUpdateRotation(true);
+                        if (PhotonNetwork.IsMasterClient)
+                            //CmdUpdateRotation(true);
+                            PV.RPC("RPC_UpdateRotation", RpcTarget.AllBuffered, IsRotating);
                     }
                 }
             }
@@ -44,8 +47,8 @@ public class KeepNetRotation : NetworkBehaviour {
         }
 	}
 
-    [Command]
-    private void CmdUpdateRotation(bool rotating)
+    [PunRPC]
+    private void RPC_UpdateRotation(bool rotating)
     {
         IsRotating = rotating;
     }

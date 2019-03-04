@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class Scoring : NetworkBehaviour
+public class Scoring : MonoBehaviour
 {
     [SerializeField]
     private Text scoreDisplay;
@@ -37,8 +37,10 @@ public class Scoring : NetworkBehaviour
     private AudioSource Src;
     public AudioClip Score;
 
+    private PhotonView PV;
     private void Start()
     {
+        PV = GetComponent<PhotonView>();
         Src = GetComponent<AudioSource>();
 
         sTracker = GameObject.FindGameObjectWithTag("ScoreUI").GetComponent<ScoreTracker>();
@@ -137,37 +139,37 @@ public class Scoring : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdTeam1Score()
+    [PunRPC]
+    public void RPC_Team1Score()
     {
         Debug.Log("Cmd team1");
-        RpcPlayGoaleffect();
-        RpcTeam1Score();
+        PlayGoaleffect();
+        Team1Score();
     }
-    [ClientRpc]
-    public void RpcTeam1Score()
+    
+    public void Team1Score()
     {
         Debug.Log("add point to team 1");
         team1Score++;
         HandleScoreCanvas();
     }
-   [ClientRpc]
-   public void RpcPlayGoaleffect()
+   //[ClientRpc]
+   public void PlayGoaleffect()
     {
        GoalEffects.Play();
     }
 
 
 
-    [Command]
-    public void CmdTeam2Score()
+    [PunRPC]
+    public void RPC_Team2Score()
     {
         Debug.Log("Cmd team2");
-        RpcPlayGoaleffect();
-        RpcTeam2Score();
+        PlayGoaleffect();
+        Team2Score();
     }
-    [ClientRpc]
-    public void RpcTeam2Score()
+    
+    public void Team2Score()
     {
         Debug.Log("add point to team 2");
         team2Score++;
@@ -274,7 +276,8 @@ public class Scoring : NetworkBehaviour
             {
                 Src.PlayOneShot(Score, 1f);
                 Debug.Log("Team1 Scored!");
-                CmdTeam1Score();
+                //CmdTeam1Score();
+                PV.RPC("RPC_Team1Score", RpcTarget.AllBuffered);
                 timeUntilScoreReset = maxTimeUntilScoreReset;
                 scored = true;
             }
@@ -282,7 +285,8 @@ public class Scoring : NetworkBehaviour
             {
                 Src.PlayOneShot(Score, 1f);
                 Debug.Log("Team2 Scored!");
-                CmdTeam2Score();
+                //CmdTeam2Score();
+                PV.RPC("RPC_Team2Score", RpcTarget.AllBuffered);
                 timeUntilScoreReset = maxTimeUntilScoreReset;
                 scored = true;
             }
