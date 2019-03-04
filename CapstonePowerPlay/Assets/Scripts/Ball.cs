@@ -442,7 +442,7 @@ public class Ball : MonoBehaviour
         passedTarget = PhotonView.Find(Target).gameObject;
         transform.SetParent(null);
         //Handle.position = HandPos;
-        Handle.parent = null;
+        //Handle.parent = null;
         isInPassing = true;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
