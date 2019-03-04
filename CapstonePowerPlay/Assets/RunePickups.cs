@@ -91,7 +91,14 @@ public class RunePickups : MonoBehaviour {
     
     public void DestroyRune(GameObject rune)
     {
-        PV.RPC("RPC_DestroyRune", RpcTarget.All, rune);
+        try
+        {
+            PV.RPC("RPC_DestroyRune", RpcTarget.All, rune);
+        }
+        catch
+        {
+            Debug.Log("Silly Photon Error Here 2");
+        }
     }
 
     [PunRPC]

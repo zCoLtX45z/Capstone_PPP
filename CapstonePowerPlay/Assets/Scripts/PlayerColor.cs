@@ -68,7 +68,7 @@ public class PlayerColor : MonoBehaviourPun
         //{
         //    PV.RPC("RPC_UpdateTag", RpcTarget.AllBuffered);
         //}
-        
+
     }
 
     //[PunRPC]
@@ -119,11 +119,11 @@ public class PlayerColor : MonoBehaviourPun
         CD.LocalPlayer = LocalPlayer;
         CD.ParentPlayer = ParentPlayer;
         TeamNum = team;
-        
-        
 
 
-        // 
+
+
+        //
         if (TeamNum == 1)
         {
             transform.tag = "Team 1";
@@ -155,10 +155,10 @@ public class PlayerColor : MonoBehaviourPun
                 SetRedActive();
             }
         }
-       
+
         PV.RPC("RPC_UpdateTag", RpcTarget.All, gameObject.tag);
-        
-        
+
+
         CD.ForcedStart2();
     }
 

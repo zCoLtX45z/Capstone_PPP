@@ -17,7 +17,7 @@ public class NetPlayer : MonoBehaviour {
     // Player Team
     private int TeamNum = 0;
 
-    // Player and Other Player 
+    // Player and Other Player
     [HideInInspector]
     public NetPlayer LocalPlayer;
     [HideInInspector]
@@ -32,9 +32,9 @@ public class NetPlayer : MonoBehaviour {
 
     // Player Indetifiers
     //[HideInInspector]
-   
+
     public string CodeNumbers = "";
-    
+
     public string PlayerCode = "";
 
     // Player Child Components
@@ -57,7 +57,10 @@ public class NetPlayer : MonoBehaviour {
         {
             gameObject.name = PhotonNetwork.LocalPlayer.NickName;
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != -1)
+            {
+                UpdateTeamNum(TeamNum);
                 SkipTeamSelect = true;
+            }
             else
                 StartingCanvas.gameObject.SetActive(true);
 
@@ -121,6 +124,7 @@ public class NetPlayer : MonoBehaviour {
                         }
                         else
                         {
+                            UpdateTeamNum(TeamNum);
                             StartingCanvas.gameObject.SetActive(false);
                             //CmdSpawnPlayer();
                             Debug.Log("Spawning player Starting Canvas");
@@ -163,7 +167,16 @@ public class NetPlayer : MonoBehaviour {
             }
         }
     }
+    [PunRPC]
+    public void RPC_UpdateTeamNum(int i)
+    {
+        TeamNum = i;
+    }
 
+    public void UpdateTeamNum(int i)
+    {
+        PV.RPC("RPC_UpdateTeamNum", RpcTarget.AllBuffered, i);
+    }
     //[PunRPC]
     public void SpawnPlayer()
     {
@@ -179,12 +192,12 @@ public class NetPlayer : MonoBehaviour {
             Debug.Log("GO != null");
             SetPlayer(GO);
             PV.RPC("RPC_ParentChild", RpcTarget.All, GO.GetPhotonView().ViewID);
-            
-            
+
+
         }
     }
 
-    
+
     private void SetPlayer(GameObject spawningObject)
     {
         Debug.Log("setting up player");
@@ -214,7 +227,7 @@ public class NetPlayer : MonoBehaviour {
         ParentChild(PhotonView.Find(child).gameObject);
     }
 
-    
+
     private void ParentChild(GameObject child)
     {
         child.transform.parent = this.transform;
@@ -231,8 +244,8 @@ public class NetPlayer : MonoBehaviour {
         TeamNum = i;
     }
 
-    
-   
+
+
 
     public int GetTeamNum()
     {
@@ -245,7 +258,7 @@ public class NetPlayer : MonoBehaviour {
         ChangeName(name, code);
     }
 
-    
+
     private void ChangeName(string name, string code)
     {
         gameObject.name = name;
