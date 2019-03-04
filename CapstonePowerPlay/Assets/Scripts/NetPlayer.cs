@@ -9,7 +9,6 @@ public class NetPlayer : MonoBehaviour {
     // Player Components
     [SerializeField]
     private Chat ChatSystem;
-    [SerializeField]
     private PhotonView PV;
     // Spawninng Player Object
     [SerializeField]
@@ -42,26 +41,26 @@ public class NetPlayer : MonoBehaviour {
     private hoverBoardScript HBS;
     private BallHandling BH;
 
+
     // Variables
     private bool SkipTeamSelect = false;
-    
+
     // Use this for initialization
     void Start ()
     {
-        if (!PV)
-            PV = GetComponent<PhotonView>();
-        string randNum = PhotonNetwork.LocalPlayer.NickName.Split('#')[1];
+        PV = GetComponent<PhotonView>();
+        int randNum = Random.Range(1000, 99999);
         CodeNumbers = "#" + randNum;
-        PlayerCode = PhotonNetwork.LocalPlayer.NickName + CodeNumbers;
+        PlayerCode = gameObject.name + CodeNumbers;
         SetPlayerList();
         if (PV.IsMine)
         {
-            Debug.Log(PhotonNetwork.LocalPlayer.NickName);
             gameObject.name = PhotonNetwork.LocalPlayer.NickName;
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != -1)
                 SkipTeamSelect = true;
             else
                 StartingCanvas.gameObject.SetActive(true);
+
 
         }
         else
@@ -170,32 +169,30 @@ public class NetPlayer : MonoBehaviour {
     {
         SetPlayerList();
         int spawnPicker = Random.Range(0, GameSetup.GS.playerSpawns.Length);
-        GameObject GO = PhotonNetwork.Instantiate("PhotonPrefabs/PhotonPlayer", GameSetup.GS.playerSpawns[spawnPicker].transform.position, GameSetup.GS.playerSpawns[spawnPicker].transform.rotation, 0, null);
+        GameObject GO = PhotonNetwork.Instantiate("PhotonPlayer", GameSetup.GS.playerSpawns[spawnPicker].transform.position, GameSetup.GS.playerSpawns[spawnPicker].transform.rotation, 0, null);
         GO.transform.parent = transform;
         GO.name = PlayerCode;
         //NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
         if (GO != null)
         {
             //ParentChild(GO);
+            Debug.Log("GO != null");
             SetPlayer(GO);
-            ParentChild(GO);
+            PV.RPC("RPC_ParentChild", RpcTarget.All, GO.GetPhotonView().ViewID);
+            
+            
         }
     }
 
     
     private void SetPlayer(GameObject spawningObject)
     {
-        print("SetPlayer Called: " + PhotonNetwork.LocalPlayer.NickName);
-        PlayerColor PC = null;
-
-        PC = spawningObject.GetComponent<PlayerColor>();
-        if (PC == null)
-        {
-            print("PC not found: ");
-        }
+        Debug.Log("setting up player");
+        PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
         PC.SetUpPlayer1();
         HBS = spawningObject.GetComponent<hoverBoardScript>();
         BH = spawningObject.GetComponent<BallHandling>();
+        Debug.Log("finished setting up player");
     }
 
     public void SetPlayerList()
@@ -212,25 +209,20 @@ public class NetPlayer : MonoBehaviour {
     }
 
     [PunRPC]
-    private void RPC_ParentChild(GameObject child)
+    private void RPC_ParentChild(int child)
     {
-        ParentChild(child);
+        ParentChild(PhotonView.Find(child).gameObject);
     }
 
     
     private void ParentChild(GameObject child)
     {
-        child.transform.SetParent(this.transform);
+        child.transform.parent = this.transform;
     }
 
     public void ConfirmTeamPlacement()
     {
         ConfirmTeam = true;
-    }
-
-    public void ChangeTeam(int i)
-    {
-        PV.RPC("RPC_ChangeTeam", RpcTarget.All, i);
     }
 
     [PunRPC]
