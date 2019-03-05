@@ -268,7 +268,8 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                     // set currentClossestAngle as the  currentAngle;
                     currentClossestAngle = currentAngle;
                     // set the target as the currently checked gameObject in the currentAcceptedTargets list 
-                    target = currentAcceptedTargets[i].transform; 
+                    target = currentAcceptedTargets[i].transform;
+                    Debug.Log("Target set as: " + target);
                     // set target position to center the players
                     targetPosition = target.position + ((new Vector3(target.up.x, target.up.y, target.up.z) / 4) * 3);
                 }

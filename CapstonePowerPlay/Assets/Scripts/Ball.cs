@@ -63,14 +63,26 @@ public class Ball : MonoBehaviour
     //PHOTON VARIABLES
     private PhotonView PV;
 
+
+    // Net Spawner Script
+    private netSpawner nSpawner;
+
+    private bool hasBeenPickedUpBefore;
+
+
+    private RoundTimer rTimerScript;
+
+
     // Use this for initialization
     void Start ()
     {
         PV = GetComponent<PhotonView>();
         Handle = GetComponent<Transform>();
         RB = GetComponent<Rigidbody>();
-        
-	}
+
+        nSpawner = FindObjectOfType<netSpawner>();
+        rTimerScript = FindObjectOfType<RoundTimer>();
+    }
 
     private void Update()
     {
@@ -287,6 +299,7 @@ public class Ball : MonoBehaviour
                     Debug.Log("BH Can Hold");
                     Hand = BH.ReturnHand();
                     transform.SetParent(Hand);
+                    Debug.Log("the parent is: " + transform.parent);
                     transform.localPosition = Vector3.zero;
                     BH.canHold = false;
                     Held = true;
@@ -318,6 +331,7 @@ public class Ball : MonoBehaviour
                 RB.detectCollisions = false;
                 Debug.Log("Hand Set");
                 transform.SetParent(BH.ReturnHand());
+                Debug.Log("the parent is: " + transform.parent);
                 BH.SetBall(this.gameObject);
             }else
             {
@@ -336,13 +350,35 @@ public class Ball : MonoBehaviour
         //Debug.Log("triged: " + c.name + " tag: " + c.tag);
         if((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
         {
+
+
+            if(!hasBeenPickedUpBefore)
+            {
+                Debug.Log("has not been will be");
+                hasBeenPickedUpBefore = true;
+
+
+
+                //if (PhotonNetwork.IsMasterClient)
+                //{
+                nSpawner.CallMoveNetUp();
+                rTimerScript.BeginCountdown();
+                    //Debug.Log("IsMasterCilent");
+                   
+               // }
+            }
+
+
             PV.RPC("RPC_OnTriggerEnter", RpcTarget.All);
+            
+            //c.GetComponent<PhotonView>().TransferOwnership(GetComponent<PhotonView>()..ID);
+           
 
             // Set who has the the ball
             PlayerColor pc = c.GetComponent<PlayerColor>();
             // Every persons code has to be shared
             string PlayerCode = pc.GetCode();
-            PV.RPC("RPC_SetPlayerBH", RpcTarget.All, PlayerCode);
+            PV.RPC("RPC_SetPlayerBH", RpcTarget.AllViaServer, PlayerCode);
             //transform.gameObject.layer = 2;
             
             //if (BH.canHold )
@@ -401,6 +437,10 @@ public class Ball : MonoBehaviour
     public void RPC_Shoot(Vector3 power, string tag, Vector3 HandPos, int WhoThrew)
     {
         //transform.gameObject.layer = 0;
+        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
+        Debug.Log("Hand: " + Hand);
+        //transform.GetComponentInParent<BallHandling>().ReturnHand().DetachChildren();
+        //Hand.DetachChildren();
         transform.SetParent(null);
         Thrown = true;
         CanBeCaughtTimer = 0.15f;
@@ -421,7 +461,7 @@ public class Ball : MonoBehaviour
         Hand = null;
         BH = null;
         HardCol.isTrigger = false;
-        Debug.Log("can not hold shoot");
+        
         //MakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
     }
@@ -440,6 +480,7 @@ public class Ball : MonoBehaviour
 
         CanBeCaughtTimer = 0.15f;
         passedTarget = PhotonView.Find(Target).gameObject;
+        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
         transform.SetParent(null);
         //Handle.position = HandPos;
         Handle.parent = null;
@@ -455,6 +496,8 @@ public class Ball : MonoBehaviour
         Hand = null;
         BH = null;
         HardCol.isTrigger = false;
+        RB.detectCollisions = true;
+
         Debug.Log("can not hold pass");
         //MakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
@@ -619,6 +662,7 @@ public class Ball : MonoBehaviour
             {
                 Hand = pc.GetComponent<BallHandling>().ReturnHand();
                 transform.SetParent(Hand);
+                Debug.Log("the parent is: " + transform.parent);
                 transform.localPosition = Vector3.zero;
                 break;
             }
@@ -651,6 +695,7 @@ public class Ball : MonoBehaviour
         BH = null;
         Hand = null;
         transform.parent = null;
+        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
         transform.SetParent(null);
     }
 }
