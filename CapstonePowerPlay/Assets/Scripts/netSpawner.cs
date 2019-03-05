@@ -1,26 +1,32 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
-public class netSpawner : NetworkBehaviour
+
+public class netSpawner : MonoBehaviour
 {
     [SerializeField]
     private Transform netSpawn;
     [SerializeField]
     private GameObject netPrefab;
+    private PhotonView PV;
 	// Use this for initialization
 	void Start ()
     {
-       if (isServer)
-            CmdSpawnNet();
+        PV = GetComponent<PhotonView>();
+       if (PhotonNetwork.IsMasterClient)
+        {
+            PV.RPC("RPC_SpawnNet", RpcTarget.AllBuffered);
+        }
+            
 
     }
 	
-    [Command]
-    public void CmdSpawnNet()
+    [PunRPC]
+    public void RPC_SpawnNet()
     {
-        GameObject TempNet;
-        TempNet = Instantiate(netPrefab, netSpawn.position, netSpawn.rotation);
-        NetworkServer.Spawn(TempNet);
+        
+        PhotonNetwork.InstantiateSceneObject("NetObject", netSpawn.position, netSpawn.rotation);
+        
     }
 }

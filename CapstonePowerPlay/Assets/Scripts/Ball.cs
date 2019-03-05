@@ -74,128 +74,142 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        if (timer > 0)
+        if (PhotonNetwork.IsMasterClient)
         {
-            timer -= Time.deltaTime;
-            Held = false;
-        }
-
-        if (Thrown)
-        {
-            CanBeCaughtTimer -= Time.deltaTime;
-            if (CanBeCaughtTimer <= 0)
+            if (timer > 0)
             {
-                Thrown = false;
-                CanBeCaughtTimer = 0.1f;
+                timer -= Time.deltaTime;
+                Held = false;
             }
-        }
 
-        if(isInPassing)
-        {
-            if (RB.useGravity)
+            if (Thrown)
+            {
+                if (BH != null || Hand != null || Held)
+                    ResetBall();
+                CanBeCaughtTimer -= Time.deltaTime;
+                if (CanBeCaughtTimer <= 0)
+                {
+                    Thrown = false;
+                    CanBeCaughtTimer = 0.2f;
+                }
+            }
+
+            if (isInPassing)
+            {
+                if (RB.useGravity)
+                    RB.useGravity = false;
+
+
+                timePassTimer += Time.deltaTime;
+
+                if (timePassTimer >= maxTimePass)
+                {
+                    timePassTimer = 0;
+                    isInPassing = false;
+
+                    RB.useGravity = true;
+                }
+
+                Vector3 forwardVector = transform.forward;
+                float lengthOfForwardV = forwardVector.magnitude;
+                Debug.Log("passTarget: " + passedTarget);
+
+                //
+                Vector3 posOffset = (new Vector3(passedTarget.transform.up.x, passedTarget.transform.up.y, passedTarget.transform.up.z) / 4) * 3;
+                //
+
+                float angle = Mathf.Acos(Vector3.Dot(transform.forward, ((passedTarget.transform.position + posOffset) - transform.position)) / (Mathf.Abs(lengthOfForwardV * ((passedTarget.transform.position + posOffset) - transform.position).magnitude)));
+
+                angle *= 180 / Mathf.PI;
+
+                angle = Mathf.Abs(angle);
+                Debug.Log("Within angle");
+                //
+                Vector3 lookPos = (passedTarget.transform.position + posOffset) - transform.position;
+                Vector3 direction = lookPos.normalized;
+
+                //var rotation = Quaternion.LookRotation(passedTarget.transform.position);
+                //SlerpRatio = Time.deltaTime * RotSpeed;
+                //
+                // float angle = Vector3.Angle(directionFromPlayer, transform.forward);
+                if (angle <= maxDegree)
+                {
+
+
+
+                    //if (SlerpRatio > 1)
+                    //{
+                    //    SlerpRatio = 0;
+                    //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1);
+                    //    isInPassing = false;
+                    //    RB.useGravity = true;
+                    //}
+                    //else
+                    //{
+                    //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, SlerpRatio);
+                    //}
+
+                    //transform.rotation = rotation;
+                    //transform.LookAt(passedTarget);
+                    RB.velocity = Vector3.zero;
+                    RB.AddForce(direction * KonstantForce, ForceMode.Acceleration);
+
+                }
+                else
+                {
+                    //transform.rotation = rotation;
+                    //transform.LookAt(passedTarget);
+                    RB.velocity = Vector3.zero;
+                    RB.AddForce(direction * KonstantForce / 2, ForceMode.Acceleration);
+                }
+                //RB.velocity = (transform.forward * constantForce);
+            }
+
+            if (!Held)
+            {
+                if (RB.useGravity == false)
+                {
+                    if (!isInPassing)
+                    {
+                        gameObject.layer = 10;
+                        RB.useGravity = true;
+                    }
+                }
+            }
+
+            if (Held && !Thrown)
+            {
+                transform.localPosition = Vector3.zero;
                 RB.useGravity = false;
-
-
-            timePassTimer += Time.deltaTime;
-
-            if(timePassTimer >= maxTimePass)
-            {
-                timePassTimer = 0;
-                isInPassing = false;
-
-                RB.useGravity = true;
+                //if (Hand != null)
+                //    UiCanvas.position = Hand.transform.position;
             }
-
-            Vector3 forwardVector = transform.forward;
-            float lengthOfForwardV = forwardVector.magnitude;
-            Debug.Log("passTarget: " + passedTarget);
-
-            //
-            Vector3 posOffset = (new Vector3(passedTarget.transform.up.x, passedTarget.transform.up.y, passedTarget.transform.up.z) / 4) * 3;
-            //
-
-            float angle = Mathf.Acos(Vector3.Dot(transform.forward, ((passedTarget.transform.position + posOffset) - transform.position))/(Mathf.Abs(lengthOfForwardV * ((passedTarget.transform.position + posOffset) - transform.position).magnitude)));
-
-            angle *= 180 / Mathf.PI;
-
-            angle = Mathf.Abs(angle);
-            Debug.Log("Within angle");
-            //
-            Vector3 lookPos = (passedTarget.transform.position + posOffset) - transform.position;
-            Vector3 direction = lookPos.normalized;
-
-            //var rotation = Quaternion.LookRotation(passedTarget.transform.position);
-            //SlerpRatio = Time.deltaTime * RotSpeed;
-            //
-            // float angle = Vector3.Angle(directionFromPlayer, transform.forward);
-            if (angle <= maxDegree)
+            else if (UiCanvas.localPosition != Vector3.zero)
             {
-
-
-
-                //if (SlerpRatio > 1)
-                //{
-                //    SlerpRatio = 0;
-                //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1);
-                //    isInPassing = false;
-                //    RB.useGravity = true;
-                //}
-                //else
-                //{
-                //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, SlerpRatio);
-                //}
-
-                //transform.rotation = rotation;
-                //transform.LookAt(passedTarget);
-                RB.velocity = Vector3.zero;
-                RB.AddForce(direction * KonstantForce, ForceMode.Acceleration);
+                UiCanvas.localPosition = Vector3.zero;
+            }
+            if (stolenInProgress)
+            {
+                Debug.Log("stolenInProgress");
+                if ((thiefTransform.position - transform.position).magnitude <= thiefCatchDistance)
+                {
+                    Debug.Log("witin range");
+                    CatchThief();
+                }
 
             }
-            else
-            {
-                //transform.rotation = rotation;
-                //transform.LookAt(passedTarget);
-                RB.velocity = Vector3.zero;
-                RB.AddForce(direction * KonstantForce / 2, ForceMode.Acceleration);
-            }
-            //RB.velocity = (transform.forward * constantForce);
         }
-        
-        if (RB.useGravity == false)
-        { 
-            if (!isInPassing)
-            {
-                gameObject.layer = 10;
-                RB.useGravity = true;
-            }
-        }
-
-        if (Held)
-        {
-            if (Hand != null)
-                UiCanvas.position = Hand.transform.position;
-        }
-        else if (UiCanvas.localPosition != Vector3.zero)
-        {
-            UiCanvas.localPosition = Vector3.zero;
-        }
-
-
-        if(stolenInProgress)
-        {
-            Debug.Log("stolenInProgress");
-            if((thiefTransform.position - transform.position).magnitude <= thiefCatchDistance)
-            {
-                Debug.Log("witin range");
-                CatchThief();
-            }
-
-        }
-
-
-
     }
 
+    public void SendData(string Func, string Indentifier)
+    {
+        // Sett Who picked Up The Ball
+        if(Func == "SetBall")
+        {
+
+        }
+
+    }
     public bool stolenInProgress;
     public Transform thiefTransform;
 
@@ -219,11 +233,12 @@ public class Ball : MonoBehaviour
             UpdateHandTransform(BH.gameObject);
             BH.SetBall(gameObject);
             BH.TurnOnFakeBall(true);
-            MakeBallDisapear();
+            //MakeBallDisapear();
         }
         else
         {
             BH = null;
+            Debug.Log("Can not hold catch thief");
         }
        // Debug.Log("End of catch thief");
         stolenInProgress = false;
@@ -235,46 +250,121 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter(Collision c)
     {
-        if (c.gameObject.tag == "Default")
+        if (Thrown)
         {
-            isInPassing = false;
-            RB.useGravity = true;
+            if (c.gameObject.tag == "Default" || c.gameObject.tag == "Ground")
+            {
+                isInPassing = false;
+                RB.useGravity = true;
+            }
+        }
+    }
+
+    [PunRPC]
+    private void RPC_OnTriggerEnter()
+    {
+        Debug.Log("PLAYER HAS ENTERED THE AREA!!!");
+        gameObject.layer = 2;
+        HardCol.isTrigger = true;
+        Held = true;
+    }
+
+    [PunRPC]
+    private void RPC_SetPlayerBH(string Code)
+    {
+        Debug.Log("RPC_SetPlayer Called");
+        PlayerColor[] Players = FindObjectsOfType<PlayerColor>();
+        foreach (PlayerColor pc in Players)
+        {
+            if (pc.GetCode() == Code)
+            {
+                BH = pc.GetComponent<BallHandling>();
+                //SetBallHandling(BH.gameObject);
+                BH.ball = this;
+                Debug.Log("BH: " + BH);
+                if (BH.canHold)
+                {
+                    Debug.Log("BH Can Hold");
+                    Hand = BH.ReturnHand();
+                    transform.SetParent(Hand);
+                    transform.localPosition = Vector3.zero;
+                    BH.canHold = false;
+                    Held = true;
+                    RB.useGravity = false;
+                    RB.isKinematic = true;
+                    RB.detectCollisions = false;
+                    HardCol.isTrigger = true;
+                }
+                else
+                {
+                    //Hand = null;
+                    //Held = false;
+                    //BH = null;
+                    Debug.Log("BH Can't Hold");
+                }
+                break;
+            }
+        }
+    }
+    [PunRPC]
+    private void RPC_SetHand(bool set = true)
+    {
+        if (BH != null)
+        {
+            if (set)
+            {
+                RB.useGravity = false;
+                RB.isKinematic = true;
+                RB.detectCollisions = false;
+                Debug.Log("Hand Set");
+                transform.SetParent(BH.ReturnHand());
+                BH.SetBall(this.gameObject);
+            }else
+            {
+                Debug.Log("Hand UnSet");
+                transform.SetParent(null);
+                BH.SetBall(null);
+            }
+        }
+        else
+        {
+            transform.SetParent(null);
         }
     }
     private void OnTriggerEnter(Collider c)
     {
-        Debug.Log("Ball Collided with: " + c.tag);
         //Debug.Log("triged: " + c.name + " tag: " + c.tag);
         if((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
         {
-            Debug.Log("PLAYER HAS ENTERED THE AREA!!!");
-            gameObject.layer = 2;
-            HardCol.isTrigger = true;
-            Held = true;
+            PV.RPC("RPC_OnTriggerEnter", RpcTarget.All);
 
             // Set who has the the ball
-            BH = c.GetComponent<BallHandling>();
-            SetBallHandling(BH.gameObject);
+            PlayerColor pc = c.GetComponent<PlayerColor>();
+            // Every persons code has to be shared
+            string PlayerCode = pc.GetCode();
+            PV.RPC("RPC_SetPlayerBH", RpcTarget.All, PlayerCode);
             //transform.gameObject.layer = 2;
+            
+            //if (BH.canHold )
+            //{
+            //    Debug.Log("BH can hold");
+            //    //MakeBallDisapear();
+            //    //Hand = BH.ReturnHand();
+            //    //UpdateHandTransform(BH.gameObject);
+            //    //PV.RPC("RPC_SetHand", RpcTarget.All);
+            //    //Handle.position = Hand.position;
+            //    //Handle.parent = Hand.parent;
 
-
-            if (BH.canHold )
-            {
-                MakeBallDisapear();
-                Hand = BH.ReturnHand();
-                UpdateHandTransform(BH.gameObject);
-                //Handle.position = Hand.position;
-                //Handle.parent = Hand.parent;
-
-                BH.SetBall(gameObject);
-                //RBS.CmdSetPlayerHolding(BH.gameObject);
-                BH.TurnOnFakeBall(true);
-                //CmdTurnOnBall(false);
-            }
-            else
-            { 
-                BH = null;
-            }
+            //    //BH.SetBall(gameObject);
+            //    //RBS.CmdSetPlayerHolding(BH.gameObject);
+            //    //BH.TurnOnFakeBall(true);
+            //    //CmdTurnOnBall(false);
+            //}
+            //else
+            //{ 
+            //    BH = null;
+            //    Debug.Log("can not hold tag of team");
+            //}
         }
     }
 
@@ -282,10 +372,16 @@ public class Ball : MonoBehaviour
     {
         if (!stolenInProgress)
         {
-            timer = 1;
-            BH = null;
-            HardCol.isTrigger = false;
+            PV.RPC("RPC_OnTriggerExit", RpcTarget.All);
         }
+    }
+
+    [PunRPC]
+    private void RPC_OnTriggerExit()
+    {
+        Debug.Log("PLAYER HAS LEFT THE AREA!!!");
+        HardCol.isTrigger = false;
+        timer = 1;
     }
 
     public void ShootBall(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
@@ -298,30 +394,35 @@ public class Ball : MonoBehaviour
     {
         //transform.gameObject.layer = 0;
         //RpcShoot(power, tag, HandPos, WhoThrew);
-        PV.RPC("RPC_Shoot", RpcTarget.All, power, tag, HandPos, WhoThrew);
+        PV.RPC("RPC_Shoot", RpcTarget.All, power, tag, HandPos, WhoThrew.GetPhotonView().ViewID);
     }
 
     [PunRPC]
-    public void RPC_Shoot(Vector3 power, string tag, Vector3 HandPos, GameObject WhoThrew)
+    public void RPC_Shoot(Vector3 power, string tag, Vector3 HandPos, int WhoThrew)
     {
         //transform.gameObject.layer = 0;
+        transform.SetParent(null);
         Thrown = true;
         CanBeCaughtTimer = 0.15f;
-        Handle.position = HandPos;
+        //Handle.position = HandPos;
         //Debug.Log("power is " + power);
         RB.useGravity = false;
         RB.isKinematic = false;
+        RB.detectCollisions = true;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
+        transform.position = HandPos;
         RB.AddForce(power, ForceMode.Impulse);
         //Debug.Log("teamTag: " + tag);
         teamTag = tag;
         gameObject.layer = 10;
         Held = false;
-        WhoTossedTheBall = WhoThrew;
+        WhoTossedTheBall = PhotonView.Find(WhoThrew).gameObject;
         Hand = null;
         BH = null;
-        MakeBallReapear();
+        HardCol.isTrigger = false;
+        Debug.Log("can not hold shoot");
+        //MakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
     }
 
@@ -329,29 +430,33 @@ public class Ball : MonoBehaviour
     public void SetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
         //RpcSetPass(Passing, Target, Force, HandPos, WhoThrew);
-        PV.RPC("RPC_SetPass", RpcTarget.All, Passing, Target, Force, HandPos, WhoThrew);
+        PV.RPC("RPC_SetPass", RpcTarget.All, Passing, Target.GetPhotonView().ViewID, Force, HandPos, WhoThrew.GetPhotonView().ViewID);
     }
 
     [PunRPC]
-    public void RPC_SetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
+    public void RPC_SetPass(bool Passing, int Target, float Force, Vector3 HandPos, int WhoThrew)
     {
         Thrown = true;
 
         CanBeCaughtTimer = 0.15f;
-        passedTarget = Target;
-        Handle.position = HandPos;
+        passedTarget = PhotonView.Find(Target).gameObject;
+        transform.SetParent(null);
+        //Handle.position = HandPos;
         Handle.parent = null;
         isInPassing = true;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
-        float distance = (transform.position - Target.transform.position).magnitude;
-        transform.LookAt(Target.transform);
+        transform.position = HandPos;
+        float distance = (transform.position - PhotonView.Find(Target).gameObject.transform.position).magnitude;
+        transform.LookAt(PhotonView.Find(Target).gameObject.transform);
         RB.AddForce(transform.up * Force, ForceMode.Impulse);
         Held = false;
-        WhoTossedTheBall = WhoThrew;
+        WhoTossedTheBall = PhotonView.Find(WhoThrew).gameObject;
         Hand = null;
         BH = null;
-        MakeBallReapear();
+        HardCol.isTrigger = false;
+        Debug.Log("can not hold pass");
+        //MakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
     }
 
@@ -362,28 +467,30 @@ public class Ball : MonoBehaviour
     public void SetSteal(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
         //RpcSetPass(Passing, Target, Force, HandPos, WhoThrew);
-        PV.RPC("RPC_SetSteal", RpcTarget.All, Passing, Target, Force, HandPos, WhoThrew);
+        PV.RPC("RPC_SetSteal", RpcTarget.All, Passing, Target.GetPhotonView().ViewID, Force, HandPos, WhoThrew.GetPhotonView().ViewID);
     }
 
     [PunRPC]
-    public void RPC_SetSteal(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
+    public void RPC_SetSteal(bool Passing, int Target, float Force, Vector3 HandPos, int WhoThrew)
     {
-        MakeBallReapear();
+        //MakeBallReapear();
         Thrown = true;
-
-        passedTarget = Target;
-        Handle.position = HandPos;
+        ResetBall();
+        passedTarget = PhotonView.Find(Target).gameObject;
+        transform.parent = null;
+        //Handle.position = HandPos;
         Handle.parent = null;
         isInPassing = true;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
-        float distance = (transform.position - Target.transform.position).magnitude;
-        transform.LookAt(Target.transform);
+        float distance = (transform.position - PhotonView.Find(Target).gameObject.transform.position).magnitude;
+        transform.LookAt(PhotonView.Find(Target).gameObject.transform);
         RB.AddForce(transform.up * Force, ForceMode.Impulse);
         Held = false;
-        WhoTossedTheBall = WhoThrew;
+        WhoTossedTheBall = PhotonView.Find(WhoThrew).gameObject;
         Hand = null;
         BH = null;
+        Debug.Log("can not hold steal");
     }
 
 
@@ -410,13 +517,15 @@ public class Ball : MonoBehaviour
     
     public void MakeBallDisapear()
     {
+        Debug.Log("MakeDisapear");
         //RpcMakeBallDisapear();
-        PV.RPC("RPC_MakeBallDisapear", RpcTarget.All);
+        //PV.RPC("RPC_MakeBallDisapear", RpcTarget.All);
     }
 
     [PunRPC]
     public void RPC_MakeBallDisapear()
     {
+        Debug.Log("RPC_Disapear");
         ChildObject.SetActive(false);
         HardCol.enabled = false;
         SoftCol.enabled = false;
@@ -428,7 +537,7 @@ public class Ball : MonoBehaviour
     public void MakeBallReapear()
     {
         //RpcMakeBallReapear();
-        PV.RPC("RPC_MakeBallReapear", RpcTarget.All);
+        //PV.RPC("RPC_MakeBallReapear", RpcTarget.All);
     }
 
     [PunRPC]
@@ -436,7 +545,7 @@ public class Ball : MonoBehaviour
     {
         HardCol.enabled = true;
         SoftCol.enabled = true;
-        RB.useGravity = true;
+        //RB.useGravity = true;
         RB.isKinematic = false;
         ChildObject.SetActive(true);
     }
@@ -444,14 +553,16 @@ public class Ball : MonoBehaviour
     
     private void UpdateHandTransform(GameObject HandParent)
     {
+        Debug.Log("running update hand transform");
         //RpcUpdateHandTransform(HandParent);
-        PV.RPC("RPC_UpdateHandTransform", RpcTarget.All, HandParent);
+        PV.RPC("RPC_UpdateHandTransform", RpcTarget.All, HandParent.GetPhotonView().ViewID);
+        Debug.Log("finished running update hand transform");
     }
 
     [PunRPC]
-    private void RPC_UpdateHandTransform(GameObject HandParent)
+    private void RPC_UpdateHandTransform(int HandParent)
     {
-        BallHandling bh = HandParent.GetComponent<BallHandling>();
+        BallHandling bh = PhotonView.Find(HandParent).gameObject.GetComponent<BallHandling>();
         Hand = bh.ReturnHand();
     }
 
@@ -461,13 +572,85 @@ public class Ball : MonoBehaviour
     private void SetBallHandling(GameObject bhObject)
     {
         //RpcSetBallHandling(bhObject);
-        PV.RPC("RPC_SetBallHandling", RpcTarget.All, bhObject);
+        PV.RPC("RPC_SetBallHandling", RpcTarget.All, bhObject.GetPhotonView().ViewID);
     }
 
     [PunRPC]
-    private void RPC_SetBallHandling(GameObject bhObject)
+    private void RPC_SetBallHandling(int bhObject)
     {
-        BH = bhObject.GetComponent<BallHandling>();
+        BH = PhotonView.Find(bhObject).gameObject.GetComponent<BallHandling>();
     }
 
+    public void UpdateBH(BallHandling bh)
+    {
+        BH = bh;
+        PlayerColor pc = BH.GetComponent<PlayerColor>();
+        PV.RPC("RPC_UpdateBH", RpcTarget.All, pc.GetCode());
+    }
+
+    [PunRPC]
+    public void RPC_UpdateBH(string Code)
+    {
+        PlayerColor[] Players = FindObjectsOfType<PlayerColor>();
+        foreach (PlayerColor pc in Players)
+        {
+            if (pc.GetCode() == Code)
+            {
+                BH = pc.GetComponent<BallHandling>();
+                break;
+            }
+        }
+    }
+
+    public void UpdateHand(BallHandling bh)
+    {
+        BH = bh;
+        PlayerColor pc = BH.GetComponent<PlayerColor>();
+        PV.RPC("RPC_UpdateHand", RpcTarget.All, pc.GetCode());
+    }
+
+    [PunRPC]
+    public void RPC_UpdateHand(string Code)
+    {
+        PlayerColor[] Players = FindObjectsOfType<PlayerColor>();
+        foreach (PlayerColor pc in Players)
+        {
+            if (pc.GetCode() == Code)
+            {
+                Hand = pc.GetComponent<BallHandling>().ReturnHand();
+                transform.SetParent(Hand);
+                transform.localPosition = Vector3.zero;
+                break;
+            }
+        }
+    }
+
+    public void UpdateHeld(bool IsHeld)
+    {
+        PV.RPC("RPC_UpdateHeld", RpcTarget.All, IsHeld);
+    }
+
+    [PunRPC]
+    public void RPC_UpdateHeld(bool IsHeld)
+    {
+        Held = IsHeld;
+    }
+
+    public void ResetBall()
+    {
+        PV.RPC("RPC_ResetBall", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RPC_ResetBall()
+    {
+        print("Ball Reset");
+        if (BH != null)
+            BH.ReturnHand().DetachChildren();
+        Held = false;
+        BH = null;
+        Hand = null;
+        transform.parent = null;
+        transform.SetParent(null);
+    }
 }
