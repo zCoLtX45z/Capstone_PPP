@@ -220,15 +220,15 @@ Prefab:
       propertyPath: scoreCanvases.Array.data[2]
       value: 
       objectReference: {fileID: 1807890403}
+    - target: {fileID: 114970048215623626, guid: ad84ef93c3accba44867e281fe18c750,
+        type: 2}
+      propertyPath: ballSpawnLocation
+      value: 
+      objectReference: {fileID: 694137902}
     - target: {fileID: 114123515314207832, guid: ad84ef93c3accba44867e281fe18c750,
         type: 2}
       propertyPath: viewIdField
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 114970048215623626, guid: ad84ef93c3accba44867e281fe18c750,
-        type: 2}
-      propertyPath: maxRoundTime
-      value: 500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad84ef93c3accba44867e281fe18c750, type: 2}
@@ -922,6 +922,11 @@ Prefab:
 --- !u!4 &694137901 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4618559414786298, guid: e88cdbf08aac1814082bdcefef4143df,
+    type: 2}
+  m_PrefabInternal: {fileID: 694137900}
+--- !u!1 &694137902 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1216907798181762, guid: e88cdbf08aac1814082bdcefef4143df,
     type: 2}
   m_PrefabInternal: {fileID: 694137900}
 --- !u!1 &735523430

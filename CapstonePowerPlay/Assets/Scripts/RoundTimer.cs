@@ -31,6 +31,8 @@ public class RoundTimer : MonoBehaviour {
     [SerializeField]
     private Text textCountDown;
 
+    [SerializeField]
+    private float maxRoundNumber = 3;
 
     private float roundNumber = 0;
 
@@ -45,12 +47,31 @@ public class RoundTimer : MonoBehaviour {
 
     private ballHandler bhandler;
 
+    [SerializeField]
+    private GameObject ballSpawnLocation;
+
+
+
+
+
+
+    [SerializeField]
+    private GameObject drawGameText;
+
+    [SerializeField]
+    private GameObject winGameText;
+
+    [SerializeField]
+    private GameObject loseGameText;
+
+    private Scoring scoring;
 
     private void Start()
     {
         PV = GetComponent<PhotonView>();
         nSPawner = FindObjectOfType<netSpawner>();
         bhandler = FindObjectOfType<ballHandler>();
+        scoring = FindObjectOfType<Scoring>();
     }
 
     public void AllowTime(bool allow)
@@ -78,7 +99,7 @@ public class RoundTimer : MonoBehaviour {
     public void RPC_BeginCountdown()
     {
         ball = FindObjectOfType<Ball>().gameObject;
-        //net = FindObjectOfType<Scoring>().gameObject;
+        
         //Debug.Log("net: " + net.name);
 
         nSPawner.CallMoveNetUp();
@@ -141,20 +162,92 @@ public class RoundTimer : MonoBehaviour {
     [PunRPC]
     public void RPC_ResetRound()
     {
-        Destroy(ball);
-        //Destroy(net);
-        ball = null;
-        //net = null;
 
-        nSPawner.CallMoveNetDown();
-
-
-
-        if (PhotonNetwork.IsMasterClient)
+        roundNumber++;
+        if(roundNumber >= maxRoundNumber)
         {
-            bhandler.SpawnBall();
+            Debug.Log("End");
+            PV.RPC("RPC_End", RpcTarget.All);
         }
-        Debug.Log("ResetPos");
+        else
+        {
+            ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            ball.transform.position = ballSpawnLocation.transform.position;
+            nSPawner.CallMoveNetDown();
+
+
+            Debug.Log("ResetPos");
+        }
     }
 
+    [PunRPC]
+    public void RPC_End()
+    {
+        Debug.Log("End_RPC");
+
+        if(scoring.team1Score > scoring.team2Score)
+        {
+            ShowTheWinner(1);
+        }
+        else if (scoring.team1Score < scoring.team2Score)
+        {
+            ShowTheWinner(2);
+        }
+        else 
+        {
+            ShowTheWinner(0);
+        }
+
+        
+    }
+
+    public void ShowTheWinner(int teamNum)
+    {
+        Transform localPlayer = null;
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 1"))
+        {
+            if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
+            {
+                Debug.Log(player.name + " is the local player");
+                localPlayer = player.transform;
+            }
+        }
+        if (localPlayer == null)
+        {
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 2"))
+            {
+                if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
+                {
+                    Debug.Log(player.name + " is the local player");
+                    localPlayer = player.transform;
+                }
+            }
+        }
+
+        if (teamNum == 0)
+        {
+            drawGameText.SetActive(true);
+        }
+
+        else if (localPlayer.GetComponent<PlayerColor>().TeamNum == teamNum)
+        {
+            // win
+            winGameText.SetActive(true);
+        }
+        else
+        {
+            // lose
+            loseGameText.SetActive(true);
+        }
+
+
+        Invoke("ReturnToMenu", 5);
+
+    }
+
+    public void ReturnToMenu()
+    {
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LoadLevel(0);
+    }
 }
