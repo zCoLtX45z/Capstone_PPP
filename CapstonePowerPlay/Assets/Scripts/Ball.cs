@@ -438,6 +438,8 @@ public class Ball : MonoBehaviour
     {
         //transform.gameObject.layer = 0;
         Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
+        Debug.Log("Hand: " + Hand);
+
         Hand.DetachChildren();
         transform.SetParent(null);
         Thrown = true;
