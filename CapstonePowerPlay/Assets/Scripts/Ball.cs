@@ -299,6 +299,7 @@ public class Ball : MonoBehaviour
                     Debug.Log("BH Can Hold");
                     Hand = BH.ReturnHand();
                     transform.SetParent(Hand);
+                    Debug.Log("the parent is: " + transform.parent);
                     transform.localPosition = Vector3.zero;
                     BH.canHold = false;
                     Held = true;
@@ -330,6 +331,7 @@ public class Ball : MonoBehaviour
                 RB.detectCollisions = false;
                 Debug.Log("Hand Set");
                 transform.SetParent(BH.ReturnHand());
+                Debug.Log("the parent is: " + transform.parent);
                 BH.SetBall(this.gameObject);
             }else
             {
@@ -376,7 +378,7 @@ public class Ball : MonoBehaviour
             PlayerColor pc = c.GetComponent<PlayerColor>();
             // Every persons code has to be shared
             string PlayerCode = pc.GetCode();
-            PV.RPC("RPC_SetPlayerBH", RpcTarget.All, PlayerCode);
+            PV.RPC("RPC_SetPlayerBH", RpcTarget.AllViaServer, PlayerCode);
             //transform.gameObject.layer = 2;
             
             //if (BH.canHold )
@@ -658,6 +660,7 @@ public class Ball : MonoBehaviour
             {
                 Hand = pc.GetComponent<BallHandling>().ReturnHand();
                 transform.SetParent(Hand);
+                Debug.Log("the parent is: " + transform.parent);
                 transform.localPosition = Vector3.zero;
                 break;
             }
