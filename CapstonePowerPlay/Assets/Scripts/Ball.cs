@@ -435,6 +435,7 @@ public class Ball : MonoBehaviour
     public void RPC_Shoot(Vector3 power, string tag, Vector3 HandPos, int WhoThrew)
     {
         //transform.gameObject.layer = 0;
+        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
         transform.SetParent(null);
         Thrown = true;
         CanBeCaughtTimer = 0.15f;
@@ -455,7 +456,7 @@ public class Ball : MonoBehaviour
         Hand = null;
         BH = null;
         HardCol.isTrigger = false;
-        Debug.Log("can not hold shoot");
+        
         //MakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
     }
@@ -474,6 +475,7 @@ public class Ball : MonoBehaviour
 
         CanBeCaughtTimer = 0.15f;
         passedTarget = PhotonView.Find(Target).gameObject;
+        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
         transform.SetParent(null);
         //Handle.position = HandPos;
         Handle.parent = null;
@@ -687,6 +689,7 @@ public class Ball : MonoBehaviour
         BH = null;
         Hand = null;
         transform.parent = null;
+        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
         transform.SetParent(null);
     }
 }
