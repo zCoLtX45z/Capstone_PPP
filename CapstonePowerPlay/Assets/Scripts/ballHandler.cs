@@ -41,7 +41,7 @@ public class ballHandler : MonoBehaviour {
     public void SpawnBall()
     {
         Debug.Log("spawning ball");
-        PhotonNetwork.InstantiateSceneObject("Prefabs/Ultra Ball", ballSpawn.position, ballSpawn.rotation);
+        PhotonNetwork.Instantiate("Prefabs/Ultra Ball", ballSpawn.position, ballSpawn.rotation);
 
         
     }

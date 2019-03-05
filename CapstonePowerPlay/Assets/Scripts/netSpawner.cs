@@ -1,26 +1,70 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
-public class netSpawner : NetworkBehaviour
+
+public class netSpawner : MonoBehaviour
 {
     [SerializeField]
     private Transform netSpawn;
     [SerializeField]
     private GameObject netPrefab;
+    private PhotonView PV;
+
+    private GameObject net;
+
 	// Use this for initialization
 	void Start ()
     {
-       if (isServer)
-            CmdSpawnNet();
+       PV = GetComponent<PhotonView>();
+        CallSpawnNet();
+    }
 
+
+    private void CallSpawnNet()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PV.RPC("RPC_SpawnNet", RpcTarget.AllBuffered);
+        }
     }
 	
-    [Command]
-    public void CmdSpawnNet()
+    [PunRPC]
+    public void RPC_SpawnNet()
     {
-        GameObject TempNet;
-        TempNet = Instantiate(netPrefab, netSpawn.position, netSpawn.rotation);
-        NetworkServer.Spawn(TempNet);
+        net = PhotonNetwork.InstantiateSceneObject("NetObject", netSpawn.position, netSpawn.rotation);
     }
+
+
+
+    public void CallMoveNetUp()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PV.RPC("RPC_MoveNetUp", RpcTarget.AllBuffered);
+        }
+    }
+
+    [PunRPC]
+    public void RPC_MoveNetUp()
+    {
+        net.transform.position = new Vector3(net.transform.position.x, 67, net.transform.position.z);
+    }
+
+
+    public void CallMoveNetDown()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PV.RPC("RPC_MoveNetUp", RpcTarget.AllBuffered);
+        }
+    }
+
+    [PunRPC]
+    public void RPC_MoveNetDown()
+    {
+        net.transform.position = new Vector3(net.transform.position.x, 45, net.transform.position.z);
+    }
+
+
 }
