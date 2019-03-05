@@ -63,14 +63,26 @@ public class Ball : MonoBehaviour
     //PHOTON VARIABLES
     private PhotonView PV;
 
+
+    // Net Spawner Script
+    private netSpawner nSpawner;
+
+    private bool hasBeenPickedUpBefore;
+
+
+    private RoundTimer rTimerScript;
+
+
     // Use this for initialization
     void Start ()
     {
         PV = GetComponent<PhotonView>();
         Handle = GetComponent<Transform>();
         RB = GetComponent<Rigidbody>();
-        
-	}
+
+        nSpawner = FindObjectOfType<netSpawner>();
+        rTimerScript = FindObjectOfType<RoundTimer>();
+    }
 
     private void Update()
     {
@@ -336,13 +348,29 @@ public class Ball : MonoBehaviour
         //Debug.Log("triged: " + c.name + " tag: " + c.tag);
         if((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
         {
+
+
+            if(!hasBeenPickedUpBefore)
+            {
+                Debug.Log("has not been will be");
+                hasBeenPickedUpBefore = true;
+
+
+
+                //if (PhotonNetwork.IsMasterClient)
+                //{
+                nSpawner.CallMoveNetUp();
+                rTimerScript.BeginCountdown();
+                    //Debug.Log("IsMasterCilent");
+                   
+               // }
+            }
+
+
             PV.RPC("RPC_OnTriggerEnter", RpcTarget.All);
-
-
-
+            
             //c.GetComponent<PhotonView>().TransferOwnership(GetComponent<PhotonView>()..ID);
            
-
 
             // Set who has the the ball
             PlayerColor pc = c.GetComponent<PlayerColor>();
