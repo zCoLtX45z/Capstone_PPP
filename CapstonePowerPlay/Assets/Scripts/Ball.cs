@@ -439,8 +439,8 @@ public class Ball : MonoBehaviour
         //transform.gameObject.layer = 0;
         Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
         Debug.Log("Hand: " + Hand);
-        transform.GetComponentInParent<BallHandling>().ReturnHand().DetachChildren();
-        Hand.DetachChildren();
+        //transform.GetComponentInParent<BallHandling>().ReturnHand().DetachChildren();
+        //Hand.DetachChildren();
         transform.SetParent(null);
         Thrown = true;
         CanBeCaughtTimer = 0.15f;
