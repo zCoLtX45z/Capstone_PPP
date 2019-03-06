@@ -92,6 +92,8 @@ public class Shove : MonoBehaviour {
         //Debug.Log("Updated Shield: " + Opacity + ", " + Shielding);
         ShieldOpacity = Opacity;
         ShieldStrength = Shielding;
+        ChangeOpacity(ShieldOpacity);
+        ChangeShielding(ShieldStrength);
     }
 
     private void ChangeOpacity(float Opacity)
