@@ -29,6 +29,8 @@ public class LookAtBall : MonoBehaviour
     private float speedRot;
 
     public bool hardLock = false;
+    [SerializeField]
+    private Transform handTransform;
 
     // Use this for initialization
     void Start()
@@ -60,7 +62,7 @@ public class LookAtBall : MonoBehaviour
             if (allow)
             {
 
-                if (lookatBall.GetChild(0).gameObject.activeInHierarchy)
+                if (lookatBall.parent != handTransform)
                 {
                     if (!hardLock)
                     {
@@ -78,6 +80,10 @@ public class LookAtBall : MonoBehaviour
                     {
                         transform.LookAt(lookatBall, upRotationRootObj.up);
                     }
+                }
+                else
+                {
+                    cMM.ChangeCameraMode();
                 }
                 /*
                 else
