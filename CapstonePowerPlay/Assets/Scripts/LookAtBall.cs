@@ -79,6 +79,7 @@ public class LookAtBall : MonoBehaviour
                         transform.LookAt(lookatBall, upRotationRootObj.up);
                     }
                 }
+                /*
                 else
                 {
                     if (thisPlayerBallHandling.ball == null)
@@ -118,7 +119,8 @@ public class LookAtBall : MonoBehaviour
                     }
 
                 }
-
+                */
+                /*
                 int numberOfPlayers = 0;
 
 
@@ -148,6 +150,7 @@ public class LookAtBall : MonoBehaviour
                         players.Add(playerObj.transform);
                     }
                 }
+                */
             }
         }
     }
