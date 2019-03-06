@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 114559822743833478}
   - component: {fileID: 95954402950338354}
   - component: {fileID: 114359316240184688}
+  - component: {fileID: 114698898859575294}
   m_Layer: 8
   m_Name: PhotonPlayer
   m_TagString: Player
@@ -8126,18 +8127,18 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 5d470c42ff2656c46b3565e17b29359f, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 5
+  MaxDistance: 25
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -8172,7 +8173,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -8469,7 +8470,7 @@ MonoBehaviour:
   cameraObject: {fileID: 20854297743268884}
   hbs: {fileID: 114934221510051980}
   deadZone: 1
-  fovTransiSpeed: 0.69
+  fovTransiSpeed: 3
   minFOV: 40
   maxFOV: 60
   boostMultiplication: 3
@@ -8992,6 +8993,18 @@ MonoBehaviour:
   isClamp: 1
   min: -12000
   max: 12000
+--- !u!114 &114698898859575294
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1063158160534168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3305e8c35ab763459b2cb5fe5afc276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hover: {fileID: 0}
 --- !u!114 &114719974573292268
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9393,6 +9406,7 @@ MonoBehaviour:
   maxAngle: 0.1
   speedRot: 6
   hardLock: 0
+  handTransform: {fileID: 4411937708012688}
 --- !u!114 &114972583121775586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -20314,9 +20328,9 @@ RectTransform:
   m_Father: {fileID: 224536553565324364}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 94.79999, y: 35.600098}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -34.4, y: 33.6}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224297445881715002
@@ -20422,7 +20436,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1860444105067318}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.000023634133}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224075580492100744}
@@ -20430,9 +20444,9 @@ RectTransform:
   m_Father: {fileID: 224536553565324364}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 34.81006, y: 35.600098}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -90.70004, y: 33.600006}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224718390952454172
