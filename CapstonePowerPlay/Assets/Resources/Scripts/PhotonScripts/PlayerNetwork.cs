@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class PlayerNetwork : MonoBehaviour {
 
@@ -7,6 +9,6 @@ public class PlayerNetwork : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
         Instance = this;
-        PlayerName = "Temp#" + Random.Range(1000, 99999);
+        PlayerName = "Player-" + PhotonNetwork.LocalPlayer.ActorNumber + "#" + Random.Range(1000, 99999);
     }
 }
