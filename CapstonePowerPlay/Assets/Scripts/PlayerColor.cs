@@ -138,6 +138,7 @@ public class PlayerColor : MonoBehaviourPun
 
         if (LocalPlayer.PlayerCode == ParentPlayer.PlayerCode)
         {
+            print("Set Blue Avatar - Local = Parent");
             SetBlueActive();
             //
             pSLPS.enabled = true;
@@ -148,10 +149,12 @@ public class PlayerColor : MonoBehaviourPun
         {
             if (LocalPlayer.GetTeamNum() == TeamNum)
             {
+                print("Set Blue Avatar - Local != Parent");
                 SetBlueActive();
             }
             else
             {
+                print("Set Red Avatar - Local != Parent");
                 SetRedActive();
             }
         }
