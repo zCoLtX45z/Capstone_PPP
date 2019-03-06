@@ -107,6 +107,7 @@ public class RoundTimer : MonoBehaviour {
         nSPawner.CallMoveNetUp();
 
         ResetIntroTimer();
+        ResetTime();
         allowCountDown = true;
     }
 
@@ -173,13 +174,15 @@ public class RoundTimer : MonoBehaviour {
         }
         else
         {
+            
             ball.GetComponent<Ball>().ResetBall();
+            ball.transform.position = ballSpawnLocation.transform.position;
             //ball.GetComponent<Ball>().hasBeenPickedUpBefore = false;
             //ball.transform.SetParent(null);
             //ball.GetComponent<Rigidbody>().isKinematic = false;
             //ball.GetComponent<Rigidbody>().useGravity = true;
             //ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            //ball.transform.position = ballSpawnLocation.transform.position;
+
             nSPawner.CallMoveNetDown();
             textTime.text = "";
 

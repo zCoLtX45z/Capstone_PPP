@@ -645,7 +645,7 @@ public class Ball : MonoBehaviour
         }
     }
 
-    public void UpdateHand(BallHandling bh)
+    private void UpdateHand(BallHandling bh)
     {
         BH = bh;
         PlayerColor pc = BH.GetComponent<PlayerColor>();
@@ -688,7 +688,29 @@ public class Ball : MonoBehaviour
     [PunRPC]
     public void RPC_ResetBall()
     {
-        print("Ball Reset");
+
+        //MakeBallReapear();
+        Thrown = true;
+        //ResetBall();
+        
+        transform.parent = null;
+        //Handle.position = HandPos;
+        //Handle.parent = null;
+        isInPassing = true;
+        RB.velocity = Vector3.zero;
+        RB.angularVelocity = Vector3.zero;
+        
+        Held = false;
+       
+        Hand = null;
+        BH = null;
+       
+
+
+        
+        RB.velocity = Vector3.zero;
+        RB.angularVelocity = Vector3.zero;
+        //print("Ball Reset");
         if (BH != null)
             BH.ReturnHand().DetachChildren();
         Held = false;
@@ -697,5 +719,6 @@ public class Ball : MonoBehaviour
         transform.parent = null;
         Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
         transform.SetParent(null);
+        
     }
 }
