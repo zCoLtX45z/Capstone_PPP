@@ -63,141 +63,154 @@ public class Ball : MonoBehaviour
     //PHOTON VARIABLES
     private PhotonView PV;
 
+
+    // Net Spawner Script
+    private netSpawner nSpawner;
+
+    private bool hasBeenPickedUpBefore;
+
+
+    private RoundTimer rTimerScript;
+
+
     // Use this for initialization
     void Start ()
     {
         PV = GetComponent<PhotonView>();
         Handle = GetComponent<Transform>();
         RB = GetComponent<Rigidbody>();
-        
-	}
+
+        nSpawner = FindObjectOfType<netSpawner>();
+        rTimerScript = FindObjectOfType<RoundTimer>();
+    }
 
     private void Update()
     {
-        if (timer > 0)
+        if (PhotonNetwork.IsMasterClient)
         {
-            timer -= Time.deltaTime;
-            Held = false;
-        }
-
-        if (Thrown)
-        {
-            CanBeCaughtTimer -= Time.deltaTime;
-            if (CanBeCaughtTimer <= 0)
+            if (timer > 0)
             {
-                Thrown = false;
-                CanBeCaughtTimer = 0.1f;
-            }
-        }
-
-        if(isInPassing)
-        {
-            if (RB.useGravity)
-                RB.useGravity = false;
-
-
-            timePassTimer += Time.deltaTime;
-
-            if(timePassTimer >= maxTimePass)
-            {
-                timePassTimer = 0;
-                isInPassing = false;
-
-                RB.useGravity = true;
+                timer -= Time.deltaTime;
+                Held = false;
             }
 
-            Vector3 forwardVector = transform.forward;
-            float lengthOfForwardV = forwardVector.magnitude;
-            Debug.Log("passTarget: " + passedTarget);
-
-            //
-            Vector3 posOffset = (new Vector3(passedTarget.transform.up.x, passedTarget.transform.up.y, passedTarget.transform.up.z) / 4) * 3;
-            //
-
-            float angle = Mathf.Acos(Vector3.Dot(transform.forward, ((passedTarget.transform.position + posOffset) - transform.position))/(Mathf.Abs(lengthOfForwardV * ((passedTarget.transform.position + posOffset) - transform.position).magnitude)));
-
-            angle *= 180 / Mathf.PI;
-
-            angle = Mathf.Abs(angle);
-            Debug.Log("Within angle");
-            //
-            Vector3 lookPos = (passedTarget.transform.position + posOffset) - transform.position;
-            Vector3 direction = lookPos.normalized;
-
-            //var rotation = Quaternion.LookRotation(passedTarget.transform.position);
-            //SlerpRatio = Time.deltaTime * RotSpeed;
-            //
-            // float angle = Vector3.Angle(directionFromPlayer, transform.forward);
-            if (angle <= maxDegree)
+            if (Thrown)
             {
-
-
-
-                //if (SlerpRatio > 1)
-                //{
-                //    SlerpRatio = 0;
-                //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1);
-                //    isInPassing = false;
-                //    RB.useGravity = true;
-                //}
-                //else
-                //{
-                //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, SlerpRatio);
-                //}
-
-                //transform.rotation = rotation;
-                //transform.LookAt(passedTarget);
-                RB.velocity = Vector3.zero;
-                RB.AddForce(direction * KonstantForce, ForceMode.Acceleration);
-
+                if (BH != null || Hand != null || Held)
+                    ResetBall();
+                CanBeCaughtTimer -= Time.deltaTime;
+                if (CanBeCaughtTimer <= 0)
+                {
+                    Thrown = false;
+                    CanBeCaughtTimer = 0.2f;
+                }
             }
-            else
+
+            if (isInPassing)
             {
-                //transform.rotation = rotation;
-                //transform.LookAt(passedTarget);
-                RB.velocity = Vector3.zero;
-                RB.AddForce(direction * KonstantForce / 2, ForceMode.Acceleration);
-            }
-            //RB.velocity = (transform.forward * constantForce);
-        }
-        
-        if (RB.useGravity == false)
-        { 
-            if (!isInPassing)
-            {
-                gameObject.layer = 10;
-                RB.useGravity = true;
-            }
-        }
+                if (RB.useGravity)
+                    RB.useGravity = false;
 
-        if (Held)
-        {
-            if (transform.localPosition != Vector3.zero)
+
+                timePassTimer += Time.deltaTime;
+
+                if (timePassTimer >= maxTimePass)
+                {
+                    timePassTimer = 0;
+                    isInPassing = false;
+
+                    RB.useGravity = true;
+                }
+
+                Vector3 forwardVector = transform.forward;
+                float lengthOfForwardV = forwardVector.magnitude;
+                Debug.Log("passTarget: " + passedTarget);
+
+                //
+                Vector3 posOffset = (new Vector3(passedTarget.transform.up.x, passedTarget.transform.up.y, passedTarget.transform.up.z) / 4) * 3;
+                //
+
+                float angle = Mathf.Acos(Vector3.Dot(transform.forward, ((passedTarget.transform.position + posOffset) - transform.position)) / (Mathf.Abs(lengthOfForwardV * ((passedTarget.transform.position + posOffset) - transform.position).magnitude)));
+
+                angle *= 180 / Mathf.PI;
+
+                angle = Mathf.Abs(angle);
+                Debug.Log("Within angle");
+                //
+                Vector3 lookPos = (passedTarget.transform.position + posOffset) - transform.position;
+                Vector3 direction = lookPos.normalized;
+
+                //var rotation = Quaternion.LookRotation(passedTarget.transform.position);
+                //SlerpRatio = Time.deltaTime * RotSpeed;
+                //
+                // float angle = Vector3.Angle(directionFromPlayer, transform.forward);
+                if (angle <= maxDegree)
+                {
+
+
+
+                    //if (SlerpRatio > 1)
+                    //{
+                    //    SlerpRatio = 0;
+                    //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1);
+                    //    isInPassing = false;
+                    //    RB.useGravity = true;
+                    //}
+                    //else
+                    //{
+                    //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, SlerpRatio);
+                    //}
+
+                    //transform.rotation = rotation;
+                    //transform.LookAt(passedTarget);
+                    RB.velocity = Vector3.zero;
+                    RB.AddForce(direction * KonstantForce, ForceMode.Acceleration);
+
+                }
+                else
+                {
+                    //transform.rotation = rotation;
+                    //transform.LookAt(passedTarget);
+                    RB.velocity = Vector3.zero;
+                    RB.AddForce(direction * KonstantForce / 2, ForceMode.Acceleration);
+                }
+                //RB.velocity = (transform.forward * constantForce);
+            }
+
+            if (!Held)
+            {
+                if (RB.useGravity == false)
+                {
+                    if (!isInPassing)
+                    {
+                        gameObject.layer = 10;
+                        RB.useGravity = true;
+                    }
+                }
+            }
+
+            if (Held && !Thrown)
             {
                 transform.localPosition = Vector3.zero;
+                RB.useGravity = false;
+                //if (Hand != null)
+                //    UiCanvas.position = Hand.transform.position;
             }
-            //if (Hand != null)
-            //    UiCanvas.position = Hand.transform.position;
-        }
-        else if (UiCanvas.localPosition != Vector3.zero)
-        {
-            UiCanvas.localPosition = Vector3.zero;
-        }
-
-
-        if(stolenInProgress)
-        {
-            Debug.Log("stolenInProgress");
-            if((thiefTransform.position - transform.position).magnitude <= thiefCatchDistance)
+            else if (UiCanvas.localPosition != Vector3.zero)
             {
-                Debug.Log("witin range");
-                CatchThief();
+                UiCanvas.localPosition = Vector3.zero;
             }
+            if (stolenInProgress)
+            {
+                Debug.Log("stolenInProgress");
+                if ((thiefTransform.position - transform.position).magnitude <= thiefCatchDistance)
+                {
+                    Debug.Log("witin range");
+                    CatchThief();
+                }
 
+            }
         }
-
-
-
     }
 
     public void SendData(string Func, string Indentifier)
@@ -249,10 +262,13 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter(Collision c)
     {
-        if (c.gameObject.tag == "Default" || c.gameObject.tag == "Ground")
+        if (Thrown)
         {
-            isInPassing = false;
-            RB.useGravity = true;
+            if (c.gameObject.tag == "Default" || c.gameObject.tag == "Ground")
+            {
+                isInPassing = false;
+                RB.useGravity = true;
+            }
         }
     }
 
@@ -283,19 +299,20 @@ public class Ball : MonoBehaviour
                     Debug.Log("BH Can Hold");
                     Hand = BH.ReturnHand();
                     transform.SetParent(Hand);
+                    Debug.Log("the parent is: " + transform.parent);
                     transform.localPosition = Vector3.zero;
                     BH.canHold = false;
                     Held = true;
                     RB.useGravity = false;
                     RB.isKinematic = true;
+                    RB.detectCollisions = false;
                     HardCol.isTrigger = true;
                 }
                 else
                 {
-                    BH.canHold = true;
-                    Hand = null;
-                    Held = false;
-                    BH = null;
+                    //Hand = null;
+                    //Held = false;
+                    //BH = null;
                     Debug.Log("BH Can't Hold");
                 }
                 break;
@@ -311,8 +328,10 @@ public class Ball : MonoBehaviour
             {
                 RB.useGravity = false;
                 RB.isKinematic = true;
+                RB.detectCollisions = false;
                 Debug.Log("Hand Set");
                 transform.SetParent(BH.ReturnHand());
+                Debug.Log("the parent is: " + transform.parent);
                 BH.SetBall(this.gameObject);
             }else
             {
@@ -321,19 +340,45 @@ public class Ball : MonoBehaviour
                 BH.SetBall(null);
             }
         }
+        else
+        {
+            transform.SetParent(null);
+        }
     }
     private void OnTriggerEnter(Collider c)
     {
         //Debug.Log("triged: " + c.name + " tag: " + c.tag);
         if((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
         {
+
+
+            if(!hasBeenPickedUpBefore)
+            {
+                Debug.Log("has not been will be");
+                hasBeenPickedUpBefore = true;
+
+
+
+                //if (PhotonNetwork.IsMasterClient)
+                //{
+                nSpawner.CallMoveNetUp();
+                rTimerScript.BeginCountdown();
+                    //Debug.Log("IsMasterCilent");
+                   
+               // }
+            }
+
+
             PV.RPC("RPC_OnTriggerEnter", RpcTarget.All);
+            
+            //c.GetComponent<PhotonView>().TransferOwnership(GetComponent<PhotonView>()..ID);
+           
 
             // Set who has the the ball
             PlayerColor pc = c.GetComponent<PlayerColor>();
             // Every persons code has to be shared
             string PlayerCode = pc.GetCode();
-            PV.RPC("RPC_SetPlayerBH", RpcTarget.All, PlayerCode);
+            PV.RPC("RPC_SetPlayerBH", RpcTarget.AllViaServer, PlayerCode);
             //transform.gameObject.layer = 2;
             
             //if (BH.canHold )
@@ -392,14 +437,21 @@ public class Ball : MonoBehaviour
     public void RPC_Shoot(Vector3 power, string tag, Vector3 HandPos, int WhoThrew)
     {
         //transform.gameObject.layer = 0;
+        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
+        Debug.Log("Hand: " + Hand);
+        //transform.GetComponentInParent<BallHandling>().ReturnHand().DetachChildren();
+        //Hand.DetachChildren();
+        transform.SetParent(null);
         Thrown = true;
         CanBeCaughtTimer = 0.15f;
         //Handle.position = HandPos;
         //Debug.Log("power is " + power);
         RB.useGravity = false;
         RB.isKinematic = false;
+        RB.detectCollisions = true;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
+        transform.position = HandPos;
         RB.AddForce(power, ForceMode.Impulse);
         //Debug.Log("teamTag: " + tag);
         teamTag = tag;
@@ -407,10 +459,9 @@ public class Ball : MonoBehaviour
         Held = false;
         WhoTossedTheBall = PhotonView.Find(WhoThrew).gameObject;
         Hand = null;
-        transform.parent = null;
         BH = null;
         HardCol.isTrigger = false;
-        Debug.Log("can not hold shoot");
+        
         //MakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
     }
@@ -429,12 +480,14 @@ public class Ball : MonoBehaviour
 
         CanBeCaughtTimer = 0.15f;
         passedTarget = PhotonView.Find(Target).gameObject;
-        transform.parent = null;
+        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
+        transform.SetParent(null);
         //Handle.position = HandPos;
         Handle.parent = null;
         isInPassing = true;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
+        transform.position = HandPos;
         float distance = (transform.position - PhotonView.Find(Target).gameObject.transform.position).magnitude;
         transform.LookAt(PhotonView.Find(Target).gameObject.transform);
         RB.AddForce(transform.up * Force, ForceMode.Impulse);
@@ -443,6 +496,8 @@ public class Ball : MonoBehaviour
         Hand = null;
         BH = null;
         HardCol.isTrigger = false;
+        RB.detectCollisions = true;
+
         Debug.Log("can not hold pass");
         //MakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
@@ -463,7 +518,7 @@ public class Ball : MonoBehaviour
     {
         //MakeBallReapear();
         Thrown = true;
-
+        ResetBall();
         passedTarget = PhotonView.Find(Target).gameObject;
         transform.parent = null;
         //Handle.position = HandPos;
@@ -533,7 +588,7 @@ public class Ball : MonoBehaviour
     {
         HardCol.enabled = true;
         SoftCol.enabled = true;
-        RB.useGravity = true;
+        //RB.useGravity = true;
         RB.isKinematic = false;
         ChildObject.SetActive(true);
     }
@@ -607,6 +662,7 @@ public class Ball : MonoBehaviour
             {
                 Hand = pc.GetComponent<BallHandling>().ReturnHand();
                 transform.SetParent(Hand);
+                Debug.Log("the parent is: " + transform.parent);
                 transform.localPosition = Vector3.zero;
                 break;
             }
@@ -622,5 +678,24 @@ public class Ball : MonoBehaviour
     public void RPC_UpdateHeld(bool IsHeld)
     {
         Held = IsHeld;
+    }
+
+    public void ResetBall()
+    {
+        PV.RPC("RPC_ResetBall", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RPC_ResetBall()
+    {
+        print("Ball Reset");
+        if (BH != null)
+            BH.ReturnHand().DetachChildren();
+        Held = false;
+        BH = null;
+        Hand = null;
+        transform.parent = null;
+        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
+        transform.SetParent(null);
     }
 }
