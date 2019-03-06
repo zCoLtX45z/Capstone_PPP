@@ -353,6 +353,7 @@ public class Ball : MonoBehaviour
             if(!PV.IsMine)
             {
                 PV.TransferOwnership(c.gameObject.GetPhotonView().ViewID);
+                Debug.Log("transfering ownership");
             }
 
             if(!hasBeenPickedUpBefore)
