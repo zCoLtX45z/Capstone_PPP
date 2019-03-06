@@ -175,6 +175,8 @@ public class RoundTimer : MonoBehaviour {
         {
             ball.GetComponent<Ball>().hasBeenPickedUpBefore = true;
 
+            ball.GetComponent<Rigidbody>().isKinematic = false;
+            ball.GetComponent<Rigidbody>().useGravity = true;
             ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
             ball.transform.position = ballSpawnLocation.transform.position;
             nSPawner.CallMoveNetDown();
