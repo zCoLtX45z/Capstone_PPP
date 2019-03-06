@@ -31,8 +31,11 @@ public class PhotonTransform : MonoBehaviourPun, IPunObservable {
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(PT.position);
-            stream.SendNext(PT.rotation);
+            if (transform.parent == null)
+            {
+                stream.SendNext(PT.position);
+                stream.SendNext(PT.rotation);
+            }
         }
         else
         {
@@ -48,20 +51,24 @@ public class PhotonTransform : MonoBehaviourPun, IPunObservable {
 	
 	// Update is called once per frame
 	void Update () {
-		
-        if(PV.IsMine)
+
+        if (transform.parent == null)
         {
-            // Local Player
-        }
-        else
-        {
-            // Smooth Player
-            SmoothMovement();
+            if (PV.IsMine)
+            {
+                // Local Player
+            }
+            else
+            {
+                // Smooth Player
+                SmoothMovement();
+            }
         }
 	}
 
     private void SmoothMovement()
     {
+        print("Smoothing Movement");
         PT.position = Vector3.Lerp(PT.position, TargetPosition, SmoothingPositionPercent);
         PT.rotation = Quaternion.Lerp(PT.rotation, TargetRotation, SmoothingPositionPercent);
     }
