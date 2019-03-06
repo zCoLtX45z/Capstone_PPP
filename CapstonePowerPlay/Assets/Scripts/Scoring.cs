@@ -9,9 +9,9 @@ public class Scoring : MonoBehaviour
     [SerializeField]
     private Text scoreDisplay;
     [SerializeField]
-    private int team1Score = 0;
+    public int team1Score = 0;
     [SerializeField]
-    private int team2Score = 0;
+    public int team2Score = 0;
     private bool scored = false;
 
     [SerializeField]
