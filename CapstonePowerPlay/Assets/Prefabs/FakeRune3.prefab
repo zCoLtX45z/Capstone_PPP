@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23388661499502180}
   - component: {fileID: 65878283419588946}
   - component: {fileID: 114903983299505148}
+  - component: {fileID: 114077815706936332}
   m_Layer: 0
   m_Name: FakeRune3
   m_TagString: RedRune
@@ -97,6 +98,27 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114077815706936332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1111440962559610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!114 &114903983299505148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -110,3 +132,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemPrefab: {fileID: 114152028983248786, guid: 38ae860f419132c45aefed750d03cfb1,
     type: 2}
+  PV: {fileID: 114077815706936332}

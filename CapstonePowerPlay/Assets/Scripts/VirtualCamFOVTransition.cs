@@ -37,6 +37,11 @@ public class VirtualCamFOVTransition : MonoBehaviour {
         {
             cameraObject = transform.GetComponent<Camera>();
         }
+
+
+        currentNumber = minFOV;
+
+
     }
 
     // Update is called once per frame
@@ -46,6 +51,9 @@ public class VirtualCamFOVTransition : MonoBehaviour {
         //float tempNumberSet = Mathf.Clamp((((hbs.Speed) - 23) / 100 * 50) + 40, 40, 60);
         float tempNumberSet = Mathf.Clamp((((hbs.Speed) - 23) * boostMultiplication) + minFOV, minFOV, maxFOV);
 
+       // Debug.Log("tempNumberSet: " + tempNumberSet);
+
+        //Debug.Log("tempNumberSet: " + tempNumberSet + " greater: " + (tempNumberSet - deadZone));
 
         if (currentNumber < tempNumberSet - deadZone)
         {
@@ -56,6 +64,8 @@ public class VirtualCamFOVTransition : MonoBehaviour {
         {
             currentNumber -= Time.deltaTime * fovTransiSpeed;
         }
+
+        Debug.Log("current number: " + currentNumber);
 
         if (cameraObject != null)
             cameraObject.fieldOfView = Mathf.Clamp(currentNumber, 40, 60);

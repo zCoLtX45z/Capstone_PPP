@@ -180,7 +180,7 @@ public class RoundTimer : MonoBehaviour {
             ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
             ball.transform.position = ballSpawnLocation.transform.position;
             nSPawner.CallMoveNetDown();
-
+            textTime.text = "";
 
             Debug.Log("ResetPos");
         }
