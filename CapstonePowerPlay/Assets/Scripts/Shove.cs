@@ -92,6 +92,8 @@ public class Shove : MonoBehaviour {
         //Debug.Log("Updated Shield: " + Opacity + ", " + Shielding);
         ShieldOpacity = Opacity;
         ShieldStrength = Shielding;
+        ChangeOpacity(ShieldOpacity);
+        ChangeShielding(ShieldStrength);
     }
 
     private void ChangeOpacity(float Opacity)
@@ -122,7 +124,7 @@ public class Shove : MonoBehaviour {
         {
             //CmdCollidePlayer(OtherPlayer.gameObject, Direction);
             if (PhotonNetwork.InRoom)
-                PV.RPC("RPC_CollidePlayer", RpcTarget.All, OtherPlayer.gameObject, Direction);
+                PV.RPC("RPC_CollidePlayer", RpcTarget.All, OtherPlayer.gameObject.GetPhotonView().ViewID, Direction);
         }
     }
 
@@ -149,16 +151,17 @@ public class Shove : MonoBehaviour {
         Debug.Log("CmdShovePlayer Called");
         //RpcShovePlayer(player, Direction);
         if (PhotonNetwork.InRoom)
-            PV.RPC("RPC_ShovePlayer", RpcTarget.All, player, Direction);
+            PV.RPC("RPC_ShovePlayer", RpcTarget.All, player.GetPhotonView().ViewID, Direction);
     }
 
     [PunRPC]
-    private void RPC_ShovePlayer(GameObject player, Vector3 Direction)
+    private void RPC_ShovePlayer(int player, Vector3 Direction)
     {
         Debug.Log("RpcShovePlayer Called");
-        Shove shove = player.GetComponent<Shove>();
+        Shove shove = PhotonView.Find(player).GetComponent<Shove>();
+        
         shove.LaunchPlayer(MaxShoveForce, Direction);
-        BallHandling bh = player.GetComponent<BallHandling>();
+        BallHandling bh = PhotonView.Find(player).GetComponent<BallHandling>();
         bh.DropBall();
     }
 

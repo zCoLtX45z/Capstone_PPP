@@ -18,7 +18,7 @@ public class RoomLayoutGroup : MonoBehaviourPunCallbacks
 
     public void RefreshRoomlist()
     {
-        print("RefreshRoomlist Called, " + PhotonNetwork.CountOfRooms + " Room Count");
+        print("RefreshRoomlist Called, " + PhotonNetwork.CountOfRooms + " Room Count, Players: " + PhotonNetwork.CountOfPlayersOnMaster );
         OnRecievedRoomListUpdate();
         OnRoomListUpdate(RoomList);
     }

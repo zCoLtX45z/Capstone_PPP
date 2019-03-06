@@ -350,7 +350,11 @@ public class Ball : MonoBehaviour
         //Debug.Log("triged: " + c.name + " tag: " + c.tag);
         if((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
         {
-
+            if(!PV.IsMine)
+            {
+                PV.TransferOwnership(c.gameObject.GetPhotonView().ViewID);
+                Debug.Log("transfering ownership");
+            }
 
             if(!hasBeenPickedUpBefore)
             {
