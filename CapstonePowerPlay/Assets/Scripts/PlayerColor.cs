@@ -48,11 +48,11 @@ public class PlayerColor : MonoBehaviourPun
         if (stream.IsWriting)
         {
             Debug.Log("Writing data");
-            stream.SendNext(TeamNum);
+            //stream.SendNext(TeamNum);
         }
         else
         {
-            TeamNum = (int)stream.ReceiveNext();
+            //TeamNum = (int)stream.ReceiveNext();
 
         }
     }
@@ -95,7 +95,23 @@ public class PlayerColor : MonoBehaviourPun
     //    }
     //}
 
+    [PunRPC]
+    private void RPC_SetUpPlayer()
+    {
+        ParentPlayer = GetComponentInParent<NetPlayer>();
+        LocalPlayer = ParentPlayer.LocalPlayer;
+        SetTeamNum(TeamNum);
 
+        TextName.text = ParentPlayer.name;
+        if (LocalPlayer == ParentPlayer)
+        {
+            TextName.gameObject.SetActive(false);
+        }
+        if (LocalPlayer.GetTeamNum() != ParentPlayer.GetTeamNum())
+        {
+            TextName.gameObject.SetActive(false);
+        }
+    }
     public void SetUpPlayer()
     {
         ParentPlayer = GetComponentInParent<NetPlayer>();
@@ -112,6 +128,8 @@ public class PlayerColor : MonoBehaviourPun
         {
             TextName.gameObject.SetActive(false);
         }
+
+        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
     }
 
     public void SetTeamNum(int team)
@@ -135,6 +153,7 @@ public class PlayerColor : MonoBehaviourPun
         //
         Code = gameObject.name.Split('#')[1];
         PV.RPC("RPC_UpdateCode", RpcTarget.All, Code);
+        PV.RPC("RPC_UpdateTeamNum", RpcTarget.All, team);
 
         if (LocalPlayer.PlayerCode == ParentPlayer.PlayerCode)
         {
@@ -163,6 +182,13 @@ public class PlayerColor : MonoBehaviourPun
 
 
         CD.ForcedStart2();
+    }
+
+    [PunRPC]
+    public void RPC_UpdateTeamNum(int Team)
+    {
+        TeamNum = Team;
+
     }
 
     [PunRPC]

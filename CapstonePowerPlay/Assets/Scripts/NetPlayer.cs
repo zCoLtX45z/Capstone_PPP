@@ -186,8 +186,6 @@ public class NetPlayer : MonoBehaviour {
             Debug.Log("GO != null");
             SetPlayer(GO);
             PV.RPC("RPC_ParentChild", RpcTarget.All, GO.GetPhotonView().ViewID);
-
-
         }
     }
 
@@ -238,9 +236,6 @@ public class NetPlayer : MonoBehaviour {
         TeamNum = i;
     }
 
-
-
-
     public int GetTeamNum()
     {
         return TeamNum;
@@ -259,6 +254,4 @@ public class NetPlayer : MonoBehaviour {
         CodeNumbers = code;
         // this.GetComponentInChildren<TextMesh>().text = name;
     }
-
-
 }
