@@ -645,7 +645,7 @@ public class Ball : MonoBehaviour
         }
     }
 
-    private void UpdateHand(BallHandling bh)
+    public void UpdateHand(BallHandling bh)
     {
         BH = bh;
         PlayerColor pc = BH.GetComponent<PlayerColor>();
@@ -689,24 +689,29 @@ public class Ball : MonoBehaviour
     public void RPC_ResetBall()
     {
 
-        //MakeBallReapear();
-        Thrown = true;
-        //ResetBall();
-        
-        transform.parent = null;
-        //Handle.position = HandPos;
-        //Handle.parent = null;
-        isInPassing = true;
-        RB.velocity = Vector3.zero;
-        RB.angularVelocity = Vector3.zero;
-        
-        Held = false;
-       
-        Hand = null;
-        BH = null;
-       
+        ////MakeBallReapear();
+        //Thrown = true;
+        ////ResetBall();
 
+        //transform.parent = null;
+        ////Handle.position = HandPos;
+        ////Handle.parent = null;
+        //isInPassing = true;
+        //RB.velocity = Vector3.zero;
+        //RB.angularVelocity = Vector3.zero;
 
+        //Held = false;
+
+        //Hand = null;
+        //BH = null;
+
+        //Thrown = true;
+
+        //CanBeCaughtTimer = 0.15f;
+
+        BH.ball = null;
+
+        BH.HasControl = false;
         
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;

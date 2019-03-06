@@ -177,6 +177,8 @@ public class RoundTimer : MonoBehaviour {
             
             ball.GetComponent<Ball>().ResetBall();
             ball.transform.position = ballSpawnLocation.transform.position;
+            ball.GetComponent<Rigidbody>().isKinematic = false;
+            ball.GetComponent<Rigidbody>().useGravity = true;
             //ball.GetComponent<Ball>().hasBeenPickedUpBefore = false;
             //ball.transform.SetParent(null);
             //ball.GetComponent<Rigidbody>().isKinematic = false;
