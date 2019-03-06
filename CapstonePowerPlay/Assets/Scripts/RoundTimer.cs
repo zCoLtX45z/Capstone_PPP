@@ -98,8 +98,10 @@ public class RoundTimer : MonoBehaviour {
     [PunRPC]
     public void RPC_BeginCountdown()
     {
+
         ball = FindObjectOfType<Ball>().gameObject;
-        
+        ball.GetComponent<Ball>().hasBeenPickedUpBefore = true;
+
         //Debug.Log("net: " + net.name);
 
         nSPawner.CallMoveNetUp();
@@ -171,10 +173,15 @@ public class RoundTimer : MonoBehaviour {
         }
         else
         {
-            ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            ball.transform.position = ballSpawnLocation.transform.position;
+            ball.GetComponent<Ball>().ResetBall();
+            //ball.GetComponent<Ball>().hasBeenPickedUpBefore = false;
+            //ball.transform.SetParent(null);
+            //ball.GetComponent<Rigidbody>().isKinematic = false;
+            //ball.GetComponent<Rigidbody>().useGravity = true;
+            //ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            //ball.transform.position = ballSpawnLocation.transform.position;
             nSPawner.CallMoveNetDown();
-
+            textTime.text = "";
 
             Debug.Log("ResetPos");
         }

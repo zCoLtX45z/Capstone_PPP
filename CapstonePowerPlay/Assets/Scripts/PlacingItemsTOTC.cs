@@ -217,7 +217,7 @@ public class PlacingItemsTOTC : MonoBehaviour
                         break;
                     }
                 }
-                RP.DestroyRune(tempRune.gameObject);
+                tempRune.TurnOffRune();
             }
         }
     }
