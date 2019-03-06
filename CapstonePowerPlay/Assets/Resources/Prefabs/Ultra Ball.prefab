@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 82362065139856280}
   - component: {fileID: 114622598267205604}
   - component: {fileID: 114437269489542750}
-  - component: {fileID: 114422970565727160}
+  - component: {fileID: 114877025115008858}
   m_Layer: 2
   m_Name: Ultra Ball
   m_TagString: Ball
@@ -496,20 +496,6 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &114422970565727160
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1434841718529576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
 --- !u!114 &114437269489542750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -527,7 +513,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 1
   ObservedComponents:
-  - {fileID: 114422970565727160}
+  - {fileID: 114877025115008858}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -608,6 +594,7 @@ MonoBehaviour:
   ChildObject: {fileID: 1911494930807168}
   SoftCol: {fileID: 135669702163476002}
   UiCanvas: {fileID: 224882637250804296}
+  hasBeenPickedUpBefore: 0
   stolenInProgress: 0
   thiefTransform: {fileID: 0}
   thiefCatchDistance: 0.5
@@ -680,6 +667,23 @@ MonoBehaviour:
   ReferenceDistance: 2.5
   MaxScale: 10
   UseMaxScale: 1
+--- !u!114 &114877025115008858
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1434841718529576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce00ad83e32c89488d4257abb35575a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SmoothingPositionPercent: 0.25
+  SmoothingRotationPercent: 0.9
+  PhotonSendRate: 60
+  PhotonSerializeRate: 45
+  PT: {fileID: 4905000802469154}
+  PV: {fileID: 114437269489542750}
 --- !u!114 &114903602473200794
 MonoBehaviour:
   m_ObjectHideFlags: 1

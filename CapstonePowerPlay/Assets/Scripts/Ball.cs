@@ -67,7 +67,7 @@ public class Ball : MonoBehaviour
     // Net Spawner Script
     private netSpawner nSpawner;
 
-    private bool hasBeenPickedUpBefore;
+    public bool hasBeenPickedUpBefore;
 
 
     private RoundTimer rTimerScript;
@@ -355,7 +355,7 @@ public class Ball : MonoBehaviour
             if(!hasBeenPickedUpBefore)
             {
                 Debug.Log("has not been will be");
-                hasBeenPickedUpBefore = true;
+               
 
 
 
