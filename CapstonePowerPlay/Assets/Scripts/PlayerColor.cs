@@ -101,7 +101,6 @@ public class PlayerColor : MonoBehaviourPun
         ParentPlayer = GetComponentInParent<NetPlayer>();
         LocalPlayer = ParentPlayer.LocalPlayer;
         SetTeamNum(TeamNum);
-
         TextName.text = ParentPlayer.name;
         if (LocalPlayer == ParentPlayer)
         {
@@ -116,7 +115,13 @@ public class PlayerColor : MonoBehaviourPun
     {
         ParentPlayer = GetComponentInParent<NetPlayer>();
         LocalPlayer = ParentPlayer.LocalPlayer;
+        gameObject.name = ParentPlayer.name.Split('#')[0];
+        Code = ParentPlayer.CodeNumbers;
+        UpdateName(gameObject.name);
+        PV.RPC("RPC_UpdateCode", RpcTarget.All, Code);
         TeamNum = ParentPlayer.GetTeamNum();
+        PV.RPC("RPC_UpdateTeamNum", RpcTarget.All, TeamNum);
+        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
         SetTeamNum(TeamNum);
 
         TextName.text = ParentPlayer.name;
@@ -129,7 +134,6 @@ public class PlayerColor : MonoBehaviourPun
             TextName.gameObject.SetActive(false);
         }
 
-        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
     }
 
     public void SetTeamNum(int team)
@@ -151,9 +155,6 @@ public class PlayerColor : MonoBehaviourPun
             transform.tag = "Team 2";
         }
         //
-        Code = gameObject.name.Split('#')[1];
-        PV.RPC("RPC_UpdateCode", RpcTarget.All, Code);
-        PV.RPC("RPC_UpdateTeamNum", RpcTarget.All, team);
 
         if (LocalPlayer.PlayerCode == ParentPlayer.PlayerCode)
         {
@@ -191,11 +192,30 @@ public class PlayerColor : MonoBehaviourPun
 
     }
 
+    public void UpdateName(string name)
+    {
+        PV.RPC("RPC_UpdateName", RpcTarget.AllBuffered, name);
+    }
+    [PunRPC]
+    public void RPC_UpdateName(string name)
+    {
+        gameObject.name = name;
+    }
+
     [PunRPC]
     public void RPC_UpdateCode(string code)
     {
         Code = code;
-
+        NetPlayer[] Players = FindObjectsOfType<NetPlayer>();
+        foreach (NetPlayer NP in Players)
+        {
+            string parentCode = "#" + NP.gameObject.name.Split('#')[1];
+            if (Code == code)
+            {
+                transform.SetParent(NP.gameObject.transform);
+                break;
+            }
+        }
     }
 
     public string GetCode()
