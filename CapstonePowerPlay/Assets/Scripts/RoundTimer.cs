@@ -45,7 +45,7 @@ public class RoundTimer : MonoBehaviour {
 
     private netSpawner nSPawner;
 
-    private ballHandler bhandler;
+    private ballHandler bHandler;
 
     [SerializeField]
     private GameObject ballSpawnLocation;
@@ -70,7 +70,7 @@ public class RoundTimer : MonoBehaviour {
     {
         PV = GetComponent<PhotonView>();
         nSPawner = FindObjectOfType<netSpawner>();
-        bhandler = FindObjectOfType<ballHandler>();
+        bHandler = FindObjectOfType<ballHandler>();
         scoring = FindObjectOfType<Scoring>();
     }
 
@@ -107,6 +107,7 @@ public class RoundTimer : MonoBehaviour {
         nSPawner.CallMoveNetUp();
 
         ResetIntroTimer();
+        ResetTime();
         allowCountDown = true;
     }
 
@@ -164,7 +165,7 @@ public class RoundTimer : MonoBehaviour {
     [PunRPC]
     public void RPC_ResetRound()
     {
-
+        Debug.Log("Reseting round");
         roundNumber++;
         if(roundNumber >= maxRoundNumber)
         {
@@ -173,13 +174,13 @@ public class RoundTimer : MonoBehaviour {
         }
         else
         {
-            ball.GetComponent<Ball>().ResetBall();
-            //ball.GetComponent<Ball>().hasBeenPickedUpBefore = false;
-            //ball.transform.SetParent(null);
-            //ball.GetComponent<Rigidbody>().isKinematic = false;
-            //ball.GetComponent<Rigidbody>().useGravity = true;
-            //ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            //ball.transform.position = ballSpawnLocation.transform.position;
+
+            Destroy(ball.gameObject);
+
+            bHandler.SpawnBall();
+            ball = FindObjectOfType<Ball>().gameObject;
+            
+
             nSPawner.CallMoveNetDown();
             textTime.text = "";
 
