@@ -21,17 +21,22 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnectedAndReady)
         {
             RoomName = RoomInputField.text;
-            RoomIdentifier = PlayerNetwork.Instance.name + "'s Room";
+            int RoomNum = PhotonNetwork.CountOfRooms + 1;
+            int RndInt = Random.Range(1000, 99999);
+            RoomIdentifier = PlayerNetwork.Instance.name + "'s Room#" + RoomNum;
 
             RoomOptions RO = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 12 };
             RO.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
             RO.CustomRoomProperties.Add("RoomNameKey", RoomName);
             RO.CustomRoomProperties.Add("RoomTypeKey", "Custom");
             RO.CustomRoomProperties.Add("StartedGame", false);
+            RO.CustomRoomProperties.Add("RoomNumber", RoomNum);
+            RO.CustomRoomProperties.Add("RoomIdentifier", RoomName + RndInt);
 
-            RO.CustomRoomPropertiesForLobby = new string[2];
+            RO.CustomRoomPropertiesForLobby = new string[3];
             RO.CustomRoomPropertiesForLobby[0] = "RoomNameKey";
             RO.CustomRoomPropertiesForLobby[1] = "RoomTypeKey";
+            RO.CustomRoomPropertiesForLobby[2] = "RoomNum";
 
             if (RoomName == "")
             {
@@ -53,17 +58,22 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnectedAndReady)
         {
             RoomName = RoomInputField.text;
-            RoomIdentifier = PlayerNetwork.Instance.name + "'s Training Room";
+            int RoomNum = PhotonNetwork.CountOfRooms + 1;
+            int RndInt = Random.Range(1000, 99999);
+            RoomIdentifier = PlayerNetwork.Instance.name + "'s Training Room#" + RoomNum;
 
             RoomOptions RO = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 12 };
             RO.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
             RO.CustomRoomProperties.Add("RoomNameKey", RoomName);
             RO.CustomRoomProperties.Add("RoomTypeKey", "TrainingRoom");
             RO.CustomRoomProperties.Add("StartedGame", false);
+            RO.CustomRoomProperties.Add("RoomNumber", RoomNum);
+            RO.CustomRoomProperties.Add("RoomIdentifier", RoomName + RndInt);
 
-            RO.CustomRoomPropertiesForLobby = new string[2];
+            RO.CustomRoomPropertiesForLobby = new string[3];
             RO.CustomRoomPropertiesForLobby[0] = "RoomNameKey";
             RO.CustomRoomPropertiesForLobby[1] = "RoomTypeKey";
+            RO.CustomRoomPropertiesForLobby[2] = "RoomNum";
             if (RoomName == "")
             {
                 RoomName = PlayerNetwork.Instance.name + "'s Training Room";

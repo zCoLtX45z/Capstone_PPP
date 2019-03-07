@@ -3701,7 +3701,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChatSystem: {fileID: 114190936669570270}
-  PlayerObject: {fileID: 1612317655870148, guid: 6ed9901fc8cfb2c48983bb9a6a338aed,
+  PV: {fileID: 114363348533705184}
+  PlayerObject: {fileID: 1063158160534168, guid: fe6eac10c19ea4343a3902668a292ef2,
     type: 2}
   LocalPlayer: {fileID: 0}
   PlayerList: []
@@ -3709,6 +3710,8 @@ MonoBehaviour:
   ConfirmTeam: 0
   CodeNumbers: 
   PlayerCode: 
+  ChildPlayer: {fileID: 0}
+  ReadyToSetPlayer: 0
 --- !u!114 &114652033551106502
 MonoBehaviour:
   m_ObjectHideFlags: 1
