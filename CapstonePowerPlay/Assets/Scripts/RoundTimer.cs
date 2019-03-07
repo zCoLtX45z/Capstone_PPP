@@ -135,7 +135,7 @@ public class RoundTimer : MonoBehaviour {
             }
             else
             {
-                if (PhotonNetwork.IsMasterClient)
+                //if (PhotonNetwork.IsMasterClient)
                 {
                     NextRound();
                     allowTime = false;
@@ -159,7 +159,7 @@ public class RoundTimer : MonoBehaviour {
 
     public void NextRound()
     {
-        PV.RPC("RPC_ResetRound", RpcTarget.All);
+        PV.RPC("RPC_ResetRound", RpcTarget.MasterClient);
     }
 
     [PunRPC]
@@ -174,8 +174,8 @@ public class RoundTimer : MonoBehaviour {
         }
         else
         {
-
-            Destroy(ball.gameObject);
+            Debug.Log("Destroy ball");
+            PhotonNetwork.Destroy(ball.gameObject);
 
             bHandler.SpawnBall();
             ball = FindObjectOfType<Ball>().gameObject;
@@ -189,7 +189,7 @@ public class RoundTimer : MonoBehaviour {
 
             if(PhotonNetwork.IsMasterClient)
             {
-                ResetPlayerPositions();
+                PV.RPC("ResetPlayerPositions", RpcTarget.All);
             }
         }
     }
@@ -278,7 +278,7 @@ public class RoundTimer : MonoBehaviour {
     //[SerializeField]
     private List<Transform> team2Players = new List<Transform>();
 
-
+    [PunRPC]
     public void ResetPlayerPositions()
     {
         foreach (GameObject team1 in GameObject.FindGameObjectsWithTag("Team 1"))
