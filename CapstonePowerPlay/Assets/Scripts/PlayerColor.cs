@@ -35,8 +35,19 @@ public class PlayerColor : MonoBehaviourPun
     private PlayerSoftlockPassSight pSLPS;
 
     //photon variables
+    [SerializeField]
     private PhotonView PV;
     private string Code = "None";
+
+    // Setting up players
+    [HideInInspector]
+    public bool PlayerLocalSet = false;
+
+    [PunRPC]
+    private void RPC_UpdateLocalSet(bool ready)
+    {
+        PlayerLocalSet = ready;
+    }
 
     //void Start()
     //{
@@ -95,13 +106,17 @@ public class PlayerColor : MonoBehaviourPun
     //    }
     //}
 
+    public void FinalPlayerSet()
+    {
+        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
+    }
     [PunRPC]
     private void RPC_SetUpPlayer()
     {
         ParentPlayer = GetComponentInParent<NetPlayer>();
-        if (LocalPlayer == null)
+        if (LocalPlayer == null && ParentPlayer.LocalPlayer != null)
             LocalPlayer = ParentPlayer.LocalPlayer;
-        SetTeamNum(TeamNum);
+        //SetTeamNum(TeamNum);
         TextName.text = ParentPlayer.name;
         if (LocalPlayer == ParentPlayer)
         {
@@ -111,11 +126,12 @@ public class PlayerColor : MonoBehaviourPun
         {
             TextName.gameObject.SetActive(false);
         }
+        SetTeamNum(TeamNum);
     }
     public void SetUpPlayer()
     {
         ParentPlayer = GetComponentInParent<NetPlayer>();
-        if (LocalPlayer == null)
+        if (LocalPlayer == null && ParentPlayer.LocalPlayer != null)
             LocalPlayer = ParentPlayer.LocalPlayer;
         gameObject.name = ParentPlayer.name.Split('#')[0];
         Code = ParentPlayer.CodeNumbers;
@@ -123,8 +139,8 @@ public class PlayerColor : MonoBehaviourPun
         PV.RPC("RPC_UpdateCode", RpcTarget.All, Code);
         TeamNum = ParentPlayer.GetTeamNum();
         PV.RPC("RPC_UpdateTeamNum", RpcTarget.All, TeamNum);
-        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
-        SetTeamNum(TeamNum);
+        //PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
+        //SetTeamNum(TeamNum);
 
         TextName.text = ParentPlayer.name;
         if (LocalPlayer == ParentPlayer)
@@ -136,9 +152,18 @@ public class PlayerColor : MonoBehaviourPun
             TextName.gameObject.SetActive(false);
         }
 
+        if (LocalPlayer != null)
+        {
+            PlayerLocalSet = true;
+            PV.RPC("RPC_UpdateLocalSet", RpcTarget.AllBuffered, PlayerLocalSet);
+        }
+        else
+        {
+            LocalPlayer = ParentPlayer.LocalPlayer;
+        }
     }
 
-    public void SetTeamNum(int team)
+    private void SetTeamNum(int team)
     {
         if (LocalPlayer == null)
             LocalPlayer = ParentPlayer.LocalPlayer;
