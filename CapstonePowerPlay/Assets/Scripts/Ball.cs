@@ -693,14 +693,8 @@ public class Ball : MonoBehaviour
     [PunRPC]
     public void RPC_ResetBall()
     {
-        print("Ball Reset");
-        if (BH != null)
-            BH.ReturnHand().DetachChildren();
-        Held = false;
-        BH = null;
-        Hand = null;
-        transform.parent = null;
-        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
-        transform.SetParent(null);
+
+        // just destroy 
+        
     }
 }
