@@ -86,8 +86,8 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
+        //if (PhotonNetwork.IsMasterClient)
+        //{
             if (timer > 0)
             {
                 timer -= Time.deltaTime;
@@ -135,7 +135,7 @@ public class Ball : MonoBehaviour
                 angle *= 180 / Mathf.PI;
 
                 angle = Mathf.Abs(angle);
-                Debug.Log("Within angle");
+                //Debug.Log("Within angle");
                 //
                 Vector3 lookPos = (passedTarget.transform.position + posOffset) - transform.position;
                 Vector3 direction = lookPos.normalized;
@@ -210,7 +210,7 @@ public class Ball : MonoBehaviour
                 }
 
             }
-        }
+        
     }
 
     public void SendData(string Func, string Indentifier)
@@ -244,7 +244,7 @@ public class Ball : MonoBehaviour
             Hand = BH.ReturnHand();
             UpdateHandTransform(BH.gameObject);
             BH.SetBall(gameObject);
-            BH.TurnOnFakeBall(true);
+            //BH.TurnOnFakeBall(true);
             //MakeBallDisapear();
         }
         else
@@ -350,11 +350,11 @@ public class Ball : MonoBehaviour
         //Debug.Log("triged: " + c.name + " tag: " + c.tag);
         if((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
         {
-            if(!PV.IsMine)
-            {
-                PV.TransferOwnership(c.gameObject.GetPhotonView().ViewID);
-                Debug.Log("transfering ownership");
-            }
+            //if(!PV.IsMine)
+            //{
+            //    PV.TransferOwnership(c.gameObject.GetPhotonView().ViewID);
+            //    Debug.Log("transfering ownership");
+            //}
 
             if(!hasBeenPickedUpBefore)
             {
@@ -473,7 +473,7 @@ public class Ball : MonoBehaviour
     
     public void SetPass(bool Passing, GameObject Target, float Force, Vector3 HandPos, GameObject WhoThrew)
     {
-        //RpcSetPass(Passing, Target, Force, HandPos, WhoThrew);
+        //RPC_SetPass(Passing, Target.GetPhotonView().ViewID, Force, HandPos, WhoThrew.GetPhotonView().ViewID);
         PV.RPC("RPC_SetPass", RpcTarget.All, Passing, Target.GetPhotonView().ViewID, Force, HandPos, WhoThrew.GetPhotonView().ViewID);
     }
 
@@ -569,39 +569,39 @@ public class Ball : MonoBehaviour
         //PV.RPC("RPC_MakeBallDisapear", RpcTarget.All);
     }
 
-    [PunRPC]
-    public void RPC_MakeBallDisapear()
-    {
-        Debug.Log("RPC_Disapear");
-        ChildObject.SetActive(false);
-        HardCol.enabled = false;
-        SoftCol.enabled = false;
-        RB.useGravity = false;
-        RB.isKinematic = true;
-    }
+    //[PunRPC]
+    //public void RPC_MakeBallDisapear()
+    //{
+    //    Debug.Log("RPC_Disapear");
+    //    ChildObject.SetActive(false);
+    //    HardCol.enabled = false;
+    //    SoftCol.enabled = false;
+    //    RB.useGravity = false;
+    //    RB.isKinematic = true;
+    //}
 
     
-    public void MakeBallReapear()
-    {
-        //RpcMakeBallReapear();
-        //PV.RPC("RPC_MakeBallReapear", RpcTarget.All);
-    }
+    //public void MakeBallReapear()
+    //{
+    //    //RpcMakeBallReapear();
+    //    //PV.RPC("RPC_MakeBallReapear", RpcTarget.All);
+    //}
 
-    [PunRPC]
-    public void RPC_MakeBallReapear()
-    {
-        HardCol.enabled = true;
-        SoftCol.enabled = true;
-        //RB.useGravity = true;
-        RB.isKinematic = false;
-        ChildObject.SetActive(true);
-    }
+    //[PunRPC]
+    //public void RPC_MakeBallReapear()
+    //{
+    //    HardCol.enabled = true;
+    //    SoftCol.enabled = true;
+    //    //RB.useGravity = true;
+    //    RB.isKinematic = false;
+    //    ChildObject.SetActive(true);
+    //}
 
     
     private void UpdateHandTransform(GameObject HandParent)
     {
         Debug.Log("running update hand transform");
-        //RpcUpdateHandTransform(HandParent);
+        //RPC_UpdateHandTransform(HandParent.GetPhotonView().ViewID);
         PV.RPC("RPC_UpdateHandTransform", RpcTarget.All, HandParent.GetPhotonView().ViewID);
         Debug.Log("finished running update hand transform");
     }
@@ -618,7 +618,7 @@ public class Ball : MonoBehaviour
     
     private void SetBallHandling(GameObject bhObject)
     {
-        //RpcSetBallHandling(bhObject);
+        //RPC_SetBallHandling(bhObject.GetPhotonView().ViewID);
         PV.RPC("RPC_SetBallHandling", RpcTarget.All, bhObject.GetPhotonView().ViewID);
     }
 
@@ -635,7 +635,7 @@ public class Ball : MonoBehaviour
         PV.RPC("RPC_UpdateBH", RpcTarget.All, pc.GetCode());
     }
 
-    [PunRPC]
+    [PunRPC]  
     public void RPC_UpdateBH(string Code)
     {
         PlayerColor[] Players = FindObjectsOfType<PlayerColor>();
@@ -654,6 +654,7 @@ public class Ball : MonoBehaviour
         BH = bh;
         PlayerColor pc = BH.GetComponent<PlayerColor>();
         PV.RPC("RPC_UpdateHand", RpcTarget.All, pc.GetCode());
+        //RPC_UpdateHand(pc.GetCode());
     }
 
     [PunRPC]
