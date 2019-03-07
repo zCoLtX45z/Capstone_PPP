@@ -42,6 +42,7 @@ public class PlayerColor : MonoBehaviourPun
     // Setting up players
     [HideInInspector]
     public bool PlayerLocalSet = false;
+    public GameObject ParentObject;
 
     [PunRPC]
     private void RPC_UpdateLocalSet(bool ready)
@@ -69,12 +70,12 @@ public class PlayerColor : MonoBehaviourPun
     }
 
 
-    public void SetUpPlayer1()
+    public void SetUpPlayer1(NetPlayer parent)
     {
         PV = GetComponent<PhotonView>();
         Debug.Log("PV: S" + PV);
         Debug.Log("SetUpPlayer Called");
-        SetUpPlayer();
+        SetUpPlayer(parent);
         //if (PV.IsMine)
         //{
         //    PV.RPC("RPC_UpdateTag", RpcTarget.AllBuffered);
@@ -106,16 +107,22 @@ public class PlayerColor : MonoBehaviourPun
     //    }
     //}
 
-    public void FinalPlayerSet()
+    public void FinalPlayerSet(int ParentIndex)
     {
-        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
+        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered, ParentIndex);
     }
     [PunRPC]
-    private void RPC_SetUpPlayer()
+    private void RPC_SetUpPlayer(int ParentIndex)
     {
-        ParentPlayer = GetComponentInParent<NetPlayer>();
-        if (LocalPlayer == null && ParentPlayer.LocalPlayer != null)
+        //Debug.LogError("Dummy Error");
+        ParentObject = PhotonView.Find(ParentIndex).gameObject;
+        if (ParentPlayer == null)
+            ParentPlayer = ParentObject.GetComponent<NetPlayer>();
+        if (LocalPlayer == null)
             LocalPlayer = ParentPlayer.LocalPlayer;
+        //ParentPlayer = GetComponentInParent<NetPlayer>();
+        //if (LocalPlayer == null && ParentPlayer.LocalPlayer != null)
+        //    LocalPlayer = ParentPlayer.LocalPlayer;
         //SetTeamNum(TeamNum);
         TextName.text = ParentPlayer.name;
         if (LocalPlayer == ParentPlayer)
@@ -128,11 +135,13 @@ public class PlayerColor : MonoBehaviourPun
         }
         SetTeamNum(TeamNum);
     }
-    public void SetUpPlayer()
+    public void SetUpPlayer(NetPlayer ParentNetObject)
     {
-        ParentPlayer = GetComponentInParent<NetPlayer>();
+        ParentPlayer = ParentNetObject;
         if (LocalPlayer == null && ParentPlayer.LocalPlayer != null)
             LocalPlayer = ParentPlayer.LocalPlayer;
+        PV.RPC("RPC_UpdateLocalPlayer", RpcTarget.AllBuffered, ParentNetObject.GetComponent<PhotonView>().ViewID);
+
         gameObject.name = ParentPlayer.name.Split('#')[0];
         Code = ParentPlayer.CodeNumbers;
         UpdateName(gameObject.name);
@@ -157,9 +166,23 @@ public class PlayerColor : MonoBehaviourPun
             PlayerLocalSet = true;
             PV.RPC("RPC_UpdateLocalSet", RpcTarget.AllBuffered, PlayerLocalSet);
         }
-        else
+    }
+
+    [PunRPC]
+    private void RPC_UpdateLocalPlayer(int PV_Index_Parent)
+    {
+        SetLocalPlayer(PhotonView.Find(PV_Index_Parent).gameObject);
+    }
+
+    private void SetLocalPlayer(GameObject LP)
+    {
+        ParentObject = LP;
+        ParentPlayer = LP.GetComponent<NetPlayer>();
+        LocalPlayer = ParentPlayer.LocalPlayer;
+
+        if (transform.parent == null || transform.parent != ParentObject.transform)
         {
-            LocalPlayer = ParentPlayer.LocalPlayer;
+            transform.SetParent(ParentObject.transform);
         }
     }
 
@@ -235,7 +258,7 @@ public class PlayerColor : MonoBehaviourPun
         NetPlayer[] Players = FindObjectsOfType<NetPlayer>();
         foreach (NetPlayer NP in Players)
         {
-            string parentCode = "#" + NP.gameObject.name.Split('#')[1];
+            string parentCode = NP.CodeNumbers;
             if (Code == code)
             {
                 transform.SetParent(NP.gameObject.transform);

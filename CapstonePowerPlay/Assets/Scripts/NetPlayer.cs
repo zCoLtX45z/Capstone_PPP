@@ -41,7 +41,7 @@ public class NetPlayer : MonoBehaviour {
     // Player Child Components
     private hoverBoardScript HBS;
     private BallHandling BH;
-    private GameObject ChildPlayer;
+    public GameObject ChildPlayer;
     private PlayerColor PC;
     [HideInInspector]
     public bool ReadyToSetPlayer = false;
@@ -60,8 +60,9 @@ public class NetPlayer : MonoBehaviour {
             gameObject.name = PhotonNetwork.LocalPlayer.NickName;
             CodeNumbers = "#" + gameObject.name.Split('#')[1];
             PV.RPC("RPC_UpdateCode", RpcTarget.AllBuffered, CodeNumbers);
+            PV.RPC("RPC_ChangeName", RpcTarget.All, gameObject.name, CodeNumbers);
         }
-        PlayerCode = gameObject.name + CodeNumbers;
+        PlayerCode = gameObject.name.Split('#')[0] + CodeNumbers;
         if (PV.IsMine)
         {
             SetPlayerList();
@@ -73,8 +74,6 @@ public class NetPlayer : MonoBehaviour {
             }
             else
                 StartingCanvas.gameObject.SetActive(true);
-
-
         }
         else
         {
@@ -90,7 +89,7 @@ public class NetPlayer : MonoBehaviour {
             if (SkipTeamSelect)
             {
                 //p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
-                PV.RPC("RPC_ChangeName", RpcTarget.All, gameObject.name, CodeNumbers);
+                //PV.RPC("RPC_ChangeName", RpcTarget.All, gameObject.name, CodeNumbers);
                 // Set player Team
                 TeamNum = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
 
@@ -106,14 +105,14 @@ public class NetPlayer : MonoBehaviour {
                 if (PlayerList == null)
                     SetPlayerList();
 
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    foreach (NetPlayer p in PlayerList)
-                    {
-                        //p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
-                        p.PV.RPC("RPC_ChangeName", RpcTarget.All, p.gameObject.name, p.CodeNumbers);
-                    }
-                }
+                //if (PhotonNetwork.IsMasterClient)
+                //{
+                //    foreach (NetPlayer p in PlayerList)
+                //    {
+                //        p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
+                //        p.PV.RPC("RPC_ChangeName", RpcTarget.All, p.gameObject.name, p.CodeNumbers);
+                //    }
+                //}
 
                 if (PV.IsMine)
                 {
@@ -156,7 +155,7 @@ public class NetPlayer : MonoBehaviour {
                 if (SetUpThePlayers && !PC.PlayerLocalSet)
                 {
                     // Set Local Player for everyone
-                    PC.SetUpPlayer();
+                    PC.SetUpPlayer(this);
                     PlayerColor[] PlayerColorList = FindObjectsOfType<PlayerColor>();
                     bool FinalSetPlayers = true;
                     foreach(PlayerColor P in PlayerColorList)
@@ -170,7 +169,7 @@ public class NetPlayer : MonoBehaviour {
                     }
                     if (FinalSetPlayers)
                     {
-                        PC.FinalPlayerSet();
+                        PC.FinalPlayerSet(PV.ViewID);
                         SetPlayerBool = true;
                     }
                 }
@@ -215,6 +214,7 @@ public class NetPlayer : MonoBehaviour {
         BH = ChildPlayer.GetComponent<BallHandling>();
         HBS = ChildPlayer.GetComponent<hoverBoardScript>();
         PC = ChildPlayer.GetComponent<PlayerColor>();
+        ChildPlayer.transform.SetParent(this.transform);
     }
 
     [PunRPC]
@@ -238,15 +238,15 @@ public class NetPlayer : MonoBehaviour {
     {
         SetPlayerList();
         int spawnPicker = Random.Range(0, GameSetup.GS.playerSpawns.Length);
-        ChildPlayer = PhotonNetwork.Instantiate("PhotonPlayer", GameSetup.GS.playerSpawns[spawnPicker].transform.position, GameSetup.GS.playerSpawns[spawnPicker].transform.rotation, 0, null);
-        ChildPlayer.transform.parent = transform;
+        ChildPlayer = PhotonNetwork.Instantiate("PhotonPlayer", GameSetup.GS.playerSpawns[spawnPicker].transform.position, GameSetup.GS.playerSpawns[spawnPicker].transform.rotation);
+        ChildPlayer.transform.SetParent(transform);
         ChildPlayer.name = PlayerCode;
         //NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
         if (ChildPlayer != null)
         {
             //ParentChild(GO);
             Debug.Log("GO != null");
-            PV.RPC("RPC_ParentChild", RpcTarget.All, ChildPlayer.GetPhotonView().ViewID);
+            PV.RPC("RPC_ParentChild", RpcTarget.All, ChildPlayer.GetPhotonView().ViewID, PV.ViewID);
             ReadyToSetPlayer = true;
             PV.RPC("RPC_UpdateReady", RpcTarget.AllBuffered, ReadyToSetPlayer);
             // Set Components
@@ -264,7 +264,7 @@ public class NetPlayer : MonoBehaviour {
         Debug.Log("setting up player");
         PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
         PC.LocalPlayer = LocalPlayer;
-        PC.SetUpPlayer1();
+        PC.SetUpPlayer1(this);
         HBS = spawningObject.GetComponent<hoverBoardScript>();
         BH = spawningObject.GetComponent<BallHandling>();
         Debug.Log("finished setting up player");
@@ -286,16 +286,17 @@ public class NetPlayer : MonoBehaviour {
     }
 
     [PunRPC]
-    private void RPC_ParentChild(int child)
+    private void RPC_ParentChild(int child, int parent)
     {
-        ParentChild(PhotonView.Find(child).gameObject);
+        ParentChild(PhotonView.Find(child).gameObject, PhotonView.Find(parent).gameObject);
     }
 
 
-    private void ParentChild(GameObject child)
+    private void ParentChild(GameObject child, GameObject parent)
     {
-        child.transform.parent = this.transform;
-        ChildPlayer = child;
+        child.transform.SetParent(parent.transform);
+        child.GetComponent<PlayerColor>().ParentPlayer = this;
+        parent.GetComponent<NetPlayer>().ChildPlayer = child;
     }
 
     public void ConfirmTeamPlacement()
