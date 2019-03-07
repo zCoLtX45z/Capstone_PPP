@@ -140,6 +140,8 @@ public class PlayerColor : MonoBehaviourPun
 
     public void SetTeamNum(int team)
     {
+        if (LocalPlayer == null)
+            LocalPlayer = ParentPlayer.LocalPlayer;
         CD.LocalPlayer = LocalPlayer;
         CD.ParentPlayer = ParentPlayer;
         TeamNum = team;
@@ -155,7 +157,7 @@ public class PlayerColor : MonoBehaviourPun
         }
         //
 
-        if (LocalPlayer.PlayerCode == ParentPlayer.PlayerCode)
+        if (LocalPlayer == ParentPlayer)
         {
             print("Set Blue Avatar - Local = Parent");
             SetBlueActive();

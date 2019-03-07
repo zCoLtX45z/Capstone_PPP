@@ -9,47 +9,47 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1036102240882684}
+  m_RootGameObject: {fileID: 1111440962559610}
   m_IsPrefabParent: 1
---- !u!1 &1036102240882684
+--- !u!1 &1111440962559610
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4821390428488702}
-  - component: {fileID: 33632920551164266}
-  - component: {fileID: 23549177814856180}
-  - component: {fileID: 65108851741510502}
-  - component: {fileID: 114950713453564978}
-  - component: {fileID: 114315094778630454}
+  - component: {fileID: 4174112223833446}
+  - component: {fileID: 33878402209310644}
+  - component: {fileID: 23388661499502180}
+  - component: {fileID: 65878283419588946}
+  - component: {fileID: 114903983299505148}
+  - component: {fileID: 114077815706936332}
   m_Layer: 0
-  m_Name: FakeRune2
-  m_TagString: GreenRune
+  m_Name: FakeRune3
+  m_TagString: RedRune
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4821390428488702
+--- !u!4 &4174112223833446
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1036102240882684}
+  m_GameObject: {fileID: 1111440962559610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.2342772, y: 6.24, z: -5.12}
+  m_LocalPosition: {x: 5.2342772, y: 6.24, z: -3.04}
   m_LocalScale: {x: 1, y: 1.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23549177814856180
+--- !u!23 &23388661499502180
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1036102240882684}
+  m_GameObject: {fileID: 1111440962559610}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -59,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: c13aef5d0d9bbec4d83f5d9877f8eb05, type: 2}
+  - {fileID: 2100000, guid: 33100f5deab6e8648bd2a7fc48d094a2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,31 +79,31 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33632920551164266
+--- !u!33 &33878402209310644
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1036102240882684}
+  m_GameObject: {fileID: 1111440962559610}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65108851741510502
+--- !u!65 &65878283419588946
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1036102240882684}
+  m_GameObject: {fileID: 1111440962559610}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114315094778630454
+--- !u!114 &114077815706936332
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1036102240882684}
+  m_GameObject: {fileID: 1111440962559610}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
@@ -119,12 +119,12 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &114950713453564978
+--- !u!114 &114903983299505148
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1036102240882684}
+  m_GameObject: {fileID: 1111440962559610}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f98265bf2f9e6445a1f4eeaab19bc3e, type: 3}
@@ -132,4 +132,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemPrefab: {fileID: 114152028983248786, guid: 38ae860f419132c45aefed750d03cfb1,
     type: 2}
-  PV: {fileID: 114315094778630454}
+  PV: {fileID: 114077815706936332}
+  RuneID: Prefabs/FakeRune3
