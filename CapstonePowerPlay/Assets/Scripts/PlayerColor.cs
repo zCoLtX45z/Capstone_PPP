@@ -99,7 +99,8 @@ public class PlayerColor : MonoBehaviourPun
     private void RPC_SetUpPlayer()
     {
         ParentPlayer = GetComponentInParent<NetPlayer>();
-        LocalPlayer = ParentPlayer.LocalPlayer;
+        if (LocalPlayer == null)
+            LocalPlayer = ParentPlayer.LocalPlayer;
         SetTeamNum(TeamNum);
         TextName.text = ParentPlayer.name;
         if (LocalPlayer == ParentPlayer)
@@ -114,7 +115,8 @@ public class PlayerColor : MonoBehaviourPun
     public void SetUpPlayer()
     {
         ParentPlayer = GetComponentInParent<NetPlayer>();
-        LocalPlayer = ParentPlayer.LocalPlayer;
+        if (LocalPlayer == null)
+            LocalPlayer = ParentPlayer.LocalPlayer;
         gameObject.name = ParentPlayer.name.Split('#')[0];
         Code = ParentPlayer.CodeNumbers;
         UpdateName(gameObject.name);
@@ -141,9 +143,6 @@ public class PlayerColor : MonoBehaviourPun
         CD.LocalPlayer = LocalPlayer;
         CD.ParentPlayer = ParentPlayer;
         TeamNum = team;
-
-
-
 
         //
         if (TeamNum == 1)

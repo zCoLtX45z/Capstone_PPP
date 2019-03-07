@@ -18,7 +18,7 @@ public class NetPlayer : MonoBehaviour {
     private int TeamNum = 0;
 
     // Player and Other Player
-    [HideInInspector]
+   // [HideInInspector]
     public NetPlayer LocalPlayer;
     [HideInInspector]
     public NetPlayer[] PlayerList = null;
@@ -49,15 +49,19 @@ public class NetPlayer : MonoBehaviour {
     void Start ()
     {
         PV = GetComponent<PhotonView>();
-        int randNum = Random.Range(1000, 99999);
-        CodeNumbers = "#" + randNum;
-        PlayerCode = gameObject.name + CodeNumbers;
-        SetPlayerList();
         if (PV.IsMine)
         {
             gameObject.name = PhotonNetwork.LocalPlayer.NickName;
+            CodeNumbers = "#" + gameObject.name.Split('#')[1];
+            PV.RPC("RPC_UpdateCode", RpcTarget.AllBuffered, CodeNumbers);
+        }
+        PlayerCode = gameObject.name + CodeNumbers;
+        if (PV.IsMine)
+        {
+            SetPlayerList();
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != -1)
             {
+                TeamNum = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
                 UpdateTeamNum(TeamNum);
                 SkipTeamSelect = true;
             }
@@ -161,6 +165,13 @@ public class NetPlayer : MonoBehaviour {
             }
         }
     }
+
+    [PunRPC]
+    public void RPC_UpdateCode(string code)
+    {
+        CodeNumbers = code;
+    }
+
     [PunRPC]
     public void RPC_UpdateTeamNum(int i)
     {
@@ -194,6 +205,7 @@ public class NetPlayer : MonoBehaviour {
     {
         Debug.Log("setting up player");
         PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
+        PC.LocalPlayer = LocalPlayer;
         PC.SetUpPlayer1();
         HBS = spawningObject.GetComponent<hoverBoardScript>();
         BH = spawningObject.GetComponent<BallHandling>();
