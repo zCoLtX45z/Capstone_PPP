@@ -485,17 +485,20 @@ public class Ball : MonoBehaviour
 
         CanBeCaughtTimer = 0.15f;
         passedTarget = PhotonView.Find(Target).gameObject;
-        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
+        //Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
         transform.SetParent(null);
         //Handle.position = HandPos;
         Handle.parent = null;
         isInPassing = true;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
+        RB.isKinematic = false;
         transform.position = HandPos;
+        Debug.Log("about to pass");
         float distance = (transform.position - PhotonView.Find(Target).gameObject.transform.position).magnitude;
         transform.LookAt(PhotonView.Find(Target).gameObject.transform);
         RB.AddForce(transform.up * Force, ForceMode.Impulse);
+        Debug.Log("pass force applied");
         Held = false;
         WhoTossedTheBall = PhotonView.Find(WhoThrew).gameObject;
         Hand = null;
