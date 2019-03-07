@@ -246,7 +246,7 @@ public class NetPlayer : MonoBehaviour {
         {
             //ParentChild(GO);
             Debug.Log("GO != null");
-            PV.RPC("RPC_ParentChild", RpcTarget.All, ChildPlayer.GetPhotonView().ViewID);
+            PV.RPC("RPC_ParentChild", RpcTarget.All, ChildPlayer.GetPhotonView().ViewID, PV.ViewID);
             ReadyToSetPlayer = true;
             PV.RPC("RPC_UpdateReady", RpcTarget.AllBuffered, ReadyToSetPlayer);
             // Set Components
@@ -286,16 +286,17 @@ public class NetPlayer : MonoBehaviour {
     }
 
     [PunRPC]
-    private void RPC_ParentChild(int child)
+    private void RPC_ParentChild(int child, int parent)
     {
-        ParentChild(PhotonView.Find(child).gameObject);
+        ParentChild(PhotonView.Find(child).gameObject, PhotonView.Find(parent).gameObject);
     }
 
 
-    private void ParentChild(GameObject child)
+    private void ParentChild(GameObject child, GameObject parent)
     {
-        child.transform.SetParent(this.transform);
-        ChildPlayer = child;
+        child.transform.SetParent(parent.transform);
+        child.GetComponent<PlayerColor>().ParentPlayer = this;
+        parent.GetComponent<NetPlayer>().ChildPlayer = child;
     }
 
     public void ConfirmTeamPlacement()

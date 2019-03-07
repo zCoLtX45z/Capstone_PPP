@@ -42,6 +42,7 @@ public class PlayerColor : MonoBehaviourPun
     // Setting up players
     [HideInInspector]
     public bool PlayerLocalSet = false;
+    public GameObject ParentObject;
 
     [PunRPC]
     private void RPC_UpdateLocalSet(bool ready)
@@ -133,6 +134,8 @@ public class PlayerColor : MonoBehaviourPun
         ParentPlayer = GetComponentInParent<NetPlayer>();
         if (LocalPlayer == null && ParentPlayer.LocalPlayer != null)
             LocalPlayer = ParentPlayer.LocalPlayer;
+        PV.RPC("RPC_UpdateLocalPlayer", RpcTarget.AllBuffered, ParentPlayer.GetComponent<PhotonView>().ViewID);
+
         gameObject.name = ParentPlayer.name.Split('#')[0];
         Code = ParentPlayer.CodeNumbers;
         UpdateName(gameObject.name);
@@ -161,6 +164,18 @@ public class PlayerColor : MonoBehaviourPun
         {
             LocalPlayer = ParentPlayer.LocalPlayer;
         }
+    }
+
+    [PunRPC]
+    private void RPC_UpdateLocalPlayer(int PV_Index_Parent)
+    {
+        SetLocalPlayer(PhotonView.Find(PV_Index_Parent).gameObject);
+    }
+
+    private void SetLocalPlayer(GameObject LP)
+    {
+        ParentPlayer = LP.GetComponent<NetPlayer>();
+        LocalPlayer = ParentPlayer.LocalPlayer;
     }
 
     private void SetTeamNum(int team)
