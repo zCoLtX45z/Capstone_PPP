@@ -185,6 +185,12 @@ public class RoundTimer : MonoBehaviour {
             textTime.text = "";
 
             Debug.Log("ResetPos");
+
+
+            if(PhotonNetwork.IsMasterClient)
+            {
+                ResetPlayerPositions();
+            }
         }
     }
 
@@ -258,4 +264,53 @@ public class RoundTimer : MonoBehaviour {
         PhotonNetwork.LeaveRoom();
         PhotonNetwork.LoadLevel(0);
     }
+
+
+    [SerializeField]
+    private Transform[] spawnLocationsTeam1;
+
+    [SerializeField]
+    private Transform[] spawnLocationsTeam2;
+
+
+    //[SerializeField]
+    private List<Transform> team1Players = new List<Transform>();
+    //[SerializeField]
+    private List<Transform> team2Players = new List<Transform>();
+
+
+    public void ResetPlayerPositions()
+    {
+        foreach (GameObject team1 in GameObject.FindGameObjectsWithTag("Team 1"))
+        {
+            team1Players.Add(team1.transform);
+        }
+
+        foreach (GameObject team2 in GameObject.FindGameObjectsWithTag("Team 2"))
+        {
+            team1Players.Add(team2.transform);
+        }
+
+        for (int i = 0; i < team1Players.Count; i++)
+        {
+            team1Players[i].position = spawnLocationsTeam1[i].position;
+            team1Players[i].rotation = spawnLocationsTeam1[i].rotation;
+        }
+        for (int i = team1Players.Count - 1; i >= 0; i--)
+        {
+            team1Players.RemoveAt(i);
+        }
+        
+        for (int i = 0; i < team2Players.Count; i++)
+        {
+            team2Players[i].position = spawnLocationsTeam2[i].position;
+            team2Players[i].rotation = spawnLocationsTeam2[i].rotation;
+        }
+
+        for (int i = team2Players.Count - 1; i >= 0; i--)
+        {
+            team2Players.RemoveAt(i);
+        }
+    }
+
 }
