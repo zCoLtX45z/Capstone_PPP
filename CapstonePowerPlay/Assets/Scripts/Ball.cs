@@ -124,7 +124,7 @@ public class Ball : MonoBehaviour
 
             Vector3 forwardVector = transform.forward;
             float lengthOfForwardV = forwardVector.magnitude;
-            Debug.Log("passTarget: " + passedTarget);
+            //Debug.Log("passTarget: " + passedTarget);
 
             //
             Vector3 posOffset = (new Vector3(passedTarget.transform.up.x, passedTarget.transform.up.y, passedTarget.transform.up.z) / 4) * 3;
@@ -202,10 +202,10 @@ public class Ball : MonoBehaviour
         }
         if (stolenInProgress)
         {
-            Debug.Log("stolenInProgress");
+            //Debug.Log("stolenInProgress");
             if ((thiefTransform.position - transform.position).magnitude <= thiefCatchDistance)
             {
-                Debug.Log("witin range");
+                //Debug.Log("witin range");
                 CatchThief();
             }
 
@@ -250,7 +250,7 @@ public class Ball : MonoBehaviour
         else
         {
             BH = null;
-            Debug.Log("Can not hold catch thief");
+            //Debug.Log("Can not hold catch thief");
         }
         // Debug.Log("End of catch thief");
         stolenInProgress = false;
@@ -275,7 +275,7 @@ public class Ball : MonoBehaviour
     [PunRPC]
     private void RPC_OnTriggerEnter()
     {
-        Debug.Log("PLAYER HAS ENTERED THE AREA!!!");
+        //Debug.Log("PLAYER HAS ENTERED THE AREA!!!");
         gameObject.layer = 2;
         HardCol.isTrigger = true;
         Held = true;
@@ -284,7 +284,7 @@ public class Ball : MonoBehaviour
     [PunRPC]
     private void RPC_SetPlayerBH(string Code)
     {
-        Debug.Log("RPC_SetPlayer Called");
+        //Debug.Log("RPC_SetPlayer Called");
         PlayerColor[] Players = FindObjectsOfType<PlayerColor>();
         foreach (PlayerColor pc in Players)
         {
@@ -293,13 +293,13 @@ public class Ball : MonoBehaviour
                 BH = pc.GetComponent<BallHandling>();
                 //SetBallHandling(BH.gameObject);
                 BH.ball = this;
-                Debug.Log("BH: " + BH);
+                //Debug.Log("BH: " + BH);
                 if (BH.canHold)
                 {
-                    Debug.Log("BH Can Hold");
+                    //Debug.Log("BH Can Hold");
                     Hand = BH.ReturnHand();
                     transform.SetParent(Hand);
-                    Debug.Log("the parent is: " + transform.parent);
+                    //Debug.Log("the parent is: " + transform.parent);
                     transform.localPosition = Vector3.zero;
                     BH.canHold = false;
                     Held = true;
@@ -313,7 +313,7 @@ public class Ball : MonoBehaviour
                     //Hand = null;
                     //Held = false;
                     //BH = null;
-                    Debug.Log("BH Can't Hold");
+                    //Debug.Log("BH Can't Hold");
                 }
                 break;
             }
@@ -329,14 +329,14 @@ public class Ball : MonoBehaviour
                 RB.useGravity = false;
                 RB.isKinematic = true;
                 RB.detectCollisions = false;
-                Debug.Log("Hand Set");
+                //Debug.Log("Hand Set");
                 transform.SetParent(BH.ReturnHand());
-                Debug.Log("the parent is: " + transform.parent);
+                //Debug.Log("the parent is: " + transform.parent);
                 BH.SetBall(this.gameObject);
             }
             else
             {
-                Debug.Log("Hand UnSet");
+                //Debug.Log("Hand UnSet");
                 transform.SetParent(null);
                 BH.SetBall(null);
             }
@@ -359,7 +359,7 @@ public class Ball : MonoBehaviour
 
             if (!hasBeenPickedUpBefore)
             {
-                Debug.Log("has not been will be");
+                //Debug.Log("has not been will be");
 
 
 
@@ -420,7 +420,7 @@ public class Ball : MonoBehaviour
     [PunRPC]
     private void RPC_OnTriggerExit()
     {
-        Debug.Log("PLAYER HAS LEFT THE AREA!!!");
+        //Debug.Log("PLAYER HAS LEFT THE AREA!!!");
         HardCol.isTrigger = false;
         timer = 1;
     }
@@ -442,8 +442,8 @@ public class Ball : MonoBehaviour
     public void RPC_Shoot(Vector3 power, string tag, Vector3 HandPos, int WhoThrew)
     {
         //transform.gameObject.layer = 0;
-        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
-        Debug.Log("Hand: " + Hand);
+        //Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
+        //Debug.Log("Hand: " + Hand);
         //transform.GetComponentInParent<BallHandling>().ReturnHand().DetachChildren();
         //Hand.DetachChildren();
         transform.SetParent(null);
@@ -485,17 +485,20 @@ public class Ball : MonoBehaviour
 
         CanBeCaughtTimer = 0.15f;
         passedTarget = PhotonView.Find(Target).gameObject;
-        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
+        //Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
         transform.SetParent(null);
         //Handle.position = HandPos;
         Handle.parent = null;
         isInPassing = true;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
+        RB.isKinematic = false;
         transform.position = HandPos;
+        //Debug.Log("about to pass");
         float distance = (transform.position - PhotonView.Find(Target).gameObject.transform.position).magnitude;
         transform.LookAt(PhotonView.Find(Target).gameObject.transform);
         RB.AddForce(transform.up * Force, ForceMode.Impulse);
+        //Debug.Log("pass force applied");
         Held = false;
         WhoTossedTheBall = PhotonView.Find(WhoThrew).gameObject;
         Hand = null;
@@ -503,7 +506,7 @@ public class Ball : MonoBehaviour
         HardCol.isTrigger = false;
         RB.detectCollisions = true;
 
-        Debug.Log("can not hold pass");
+        //Debug.Log("can not hold pass");
         //MakeBallReapear();
         //RBS.CmdSetPlayerHolding(null);
     }
@@ -538,7 +541,7 @@ public class Ball : MonoBehaviour
         WhoTossedTheBall = PhotonView.Find(WhoThrew).gameObject;
         Hand = null;
         BH = null;
-        Debug.Log("can not hold steal");
+        //Debug.Log("can not hold steal");
     }
 
 
@@ -563,12 +566,12 @@ public class Ball : MonoBehaviour
     }
 
 
-    public void MakeBallDisapear()
-    {
-        Debug.Log("MakeDisapear");
-        //RpcMakeBallDisapear();
-        //PV.RPC("RPC_MakeBallDisapear", RpcTarget.All);
-    }
+    //public void MakeBallDisapear()
+    //{
+    //    Debug.Log("MakeDisapear");
+    //    //RpcMakeBallDisapear();
+    //    //PV.RPC("RPC_MakeBallDisapear", RpcTarget.All);
+    //}
 
     //[PunRPC]
     //public void RPC_MakeBallDisapear()
@@ -601,10 +604,10 @@ public class Ball : MonoBehaviour
 
     private void UpdateHandTransform(GameObject HandParent)
     {
-        Debug.Log("running update hand transform");
+        //Debug.Log("running update hand transform");
         //RPC_UpdateHandTransform(HandParent.GetPhotonView().ViewID);
         PV.RPC("RPC_UpdateHandTransform", RpcTarget.All, HandParent.GetPhotonView().ViewID);
-        Debug.Log("finished running update hand transform");
+        //Debug.Log("finished running update hand transform");
     }
 
     [PunRPC]
@@ -668,7 +671,7 @@ public class Ball : MonoBehaviour
             {
                 Hand = pc.GetComponent<BallHandling>().ReturnHand();
                 transform.SetParent(Hand);
-                Debug.Log("the parent is: " + transform.parent);
+                //Debug.Log("the parent is: " + transform.parent);
                 transform.localPosition = Vector3.zero;
                 break;
             }
@@ -701,7 +704,7 @@ public class Ball : MonoBehaviour
         BH = null;
         Hand = null;
         transform.parent = null;
-        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
+        //Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
         transform.SetParent(null);
     }
 }
