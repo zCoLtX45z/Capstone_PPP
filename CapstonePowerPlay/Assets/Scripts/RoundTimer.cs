@@ -165,7 +165,7 @@ public class RoundTimer : MonoBehaviour {
     [PunRPC]
     public void RPC_ResetRound()
     {
-
+        Debug.Log("Reseting round");
         roundNumber++;
         if(roundNumber >= maxRoundNumber)
         {
