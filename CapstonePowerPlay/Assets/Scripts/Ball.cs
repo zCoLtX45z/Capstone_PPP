@@ -693,41 +693,7 @@ public class Ball : MonoBehaviour
     public void RPC_ResetBall()
     {
 
-        ////MakeBallReapear();
-        //Thrown = true;
-        ////ResetBall();
-
-        //transform.parent = null;
-        ////Handle.position = HandPos;
-        ////Handle.parent = null;
-        //isInPassing = true;
-        //RB.velocity = Vector3.zero;
-        //RB.angularVelocity = Vector3.zero;
-
-        //Held = false;
-
-        //Hand = null;
-        //BH = null;
-
-        //Thrown = true;
-
-        //CanBeCaughtTimer = 0.15f;
-
-        BH.ball = null;
-
-        BH.HasControl = false;
-        
-        RB.velocity = Vector3.zero;
-        RB.angularVelocity = Vector3.zero;
-        //print("Ball Reset");
-        if (BH != null)
-            BH.ReturnHand().DetachChildren();
-        Held = false;
-        BH = null;
-        Hand = null;
-        transform.parent = null;
-        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
-        transform.SetParent(null);
+        // just destroy 
         
     }
 }
