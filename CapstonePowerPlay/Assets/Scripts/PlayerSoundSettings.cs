@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerSoundSettings : MonoBehaviour {
 
+
+    public float musicVol;
+
 	// Use this for initialization
 	void Start () {
 		

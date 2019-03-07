@@ -8,7 +8,7 @@ public class HoverBoardSounds : MonoBehaviour {
     public AudioClip Hover;
     private hoverBoardScript HV;
 
-    private float HovVol;
+    private float HovVol = 0.3f;
     private float minPitch = 1f;
     private float maxPitch = 2f;
 
