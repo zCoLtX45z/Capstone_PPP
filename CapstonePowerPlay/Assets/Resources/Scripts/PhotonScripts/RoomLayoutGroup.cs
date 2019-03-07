@@ -83,10 +83,16 @@ public class RoomLayoutGroup : MonoBehaviourPunCallbacks
             }
         }
 
-        foreach (RoomListing rl in removeRooms)
+        int roomCount = removeRooms.Count;
+        while (removeRooms.Count > 0 || roomCount > 0)
         {
-            removeRooms.Remove(rl);
-            Destroy(rl.gameObject, 0.1f);
+            roomCount--;
+            RoomListing temp = removeRooms[removeRooms.Count - 1];
+            if (temp != null)
+            {
+                removeRooms.Remove(temp);
+                Destroy(temp.gameObject, 0.1f);
+            }
         }
     }
 }
