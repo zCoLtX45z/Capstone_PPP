@@ -62,7 +62,7 @@ public class NetPlayer : MonoBehaviour {
             PV.RPC("RPC_UpdateCode", RpcTarget.AllBuffered, CodeNumbers);
             PV.RPC("RPC_ChangeName", RpcTarget.All, gameObject.name, CodeNumbers);
         }
-        PlayerCode = gameObject.name + CodeNumbers;
+        PlayerCode = gameObject.name.Split('#')[0] + CodeNumbers;
         if (PV.IsMine)
         {
             SetPlayerList();
@@ -155,7 +155,7 @@ public class NetPlayer : MonoBehaviour {
                 if (SetUpThePlayers && !PC.PlayerLocalSet)
                 {
                     // Set Local Player for everyone
-                    PC.SetUpPlayer();
+                    PC.SetUpPlayer(this);
                     PlayerColor[] PlayerColorList = FindObjectsOfType<PlayerColor>();
                     bool FinalSetPlayers = true;
                     foreach(PlayerColor P in PlayerColorList)
@@ -169,7 +169,7 @@ public class NetPlayer : MonoBehaviour {
                     }
                     if (FinalSetPlayers)
                     {
-                        PC.FinalPlayerSet();
+                        PC.FinalPlayerSet(PV.ViewID);
                         SetPlayerBool = true;
                     }
                 }
@@ -264,7 +264,7 @@ public class NetPlayer : MonoBehaviour {
         Debug.Log("setting up player");
         PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
         PC.LocalPlayer = LocalPlayer;
-        PC.SetUpPlayer1();
+        PC.SetUpPlayer1(this);
         HBS = spawningObject.GetComponent<hoverBoardScript>();
         BH = spawningObject.GetComponent<BallHandling>();
         Debug.Log("finished setting up player");
