@@ -9,6 +9,7 @@ public class NetPlayer : MonoBehaviour {
     // Player Components
     [SerializeField]
     private Chat ChatSystem;
+    [SerializeField]
     private PhotonView PV;
     // Spawninng Player Object
     [SerializeField]
@@ -18,7 +19,7 @@ public class NetPlayer : MonoBehaviour {
     private int TeamNum = 0;
 
     // Player and Other Player
-    [HideInInspector]
+   // [HideInInspector]
     public NetPlayer LocalPlayer;
     [HideInInspector]
     public NetPlayer[] PlayerList = null;
@@ -40,24 +41,33 @@ public class NetPlayer : MonoBehaviour {
     // Player Child Components
     private hoverBoardScript HBS;
     private BallHandling BH;
-
-
+    private GameObject ChildPlayer;
+    private PlayerColor PC;
+    [HideInInspector]
+    public bool ReadyToSetPlayer = false;
+    private bool SetPlayerBool = false;
+    private bool SetUpThePlayers = false;
     // Variables
     private bool SkipTeamSelect = false;
 
     // Use this for initialization
     void Start ()
     {
-        PV = GetComponent<PhotonView>();
-        int randNum = Random.Range(1000, 99999);
-        CodeNumbers = "#" + randNum;
-        PlayerCode = gameObject.name + CodeNumbers;
-        SetPlayerList();
+        if (!PV)
+            PV = GetComponent<PhotonView>();
         if (PV.IsMine)
         {
             gameObject.name = PhotonNetwork.LocalPlayer.NickName;
+            CodeNumbers = "#" + gameObject.name.Split('#')[1];
+            PV.RPC("RPC_UpdateCode", RpcTarget.AllBuffered, CodeNumbers);
+        }
+        PlayerCode = gameObject.name + CodeNumbers;
+        if (PV.IsMine)
+        {
+            SetPlayerList();
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != -1)
             {
+                TeamNum = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
                 UpdateTeamNum(TeamNum);
                 SkipTeamSelect = true;
             }
@@ -128,6 +138,43 @@ public class NetPlayer : MonoBehaviour {
                     }
                 }
             }
+            else if (!SetPlayerBool)
+            {
+                SetPlayerList();
+                if (!SetUpThePlayers)
+                {
+                    SetUpThePlayers = true;
+                    foreach (NetPlayer NP in PlayerList)
+                    {
+                        if (!NP.ReadyToSetPlayer)
+                        {
+                            SetUpThePlayers = false;
+                            break;
+                        }
+                    }
+                }
+                if (SetUpThePlayers && !PC.PlayerLocalSet)
+                {
+                    // Set Local Player for everyone
+                    PC.SetUpPlayer();
+                    PlayerColor[] PlayerColorList = FindObjectsOfType<PlayerColor>();
+                    bool FinalSetPlayers = true;
+                    foreach(PlayerColor P in PlayerColorList)
+                    {
+                        P.LocalPlayer = this;
+                        if (!P.PlayerLocalSet)
+                        {
+                            FinalSetPlayers = false;
+                            break;
+                        }
+                    }
+                    if (FinalSetPlayers)
+                    {
+                        PC.FinalPlayerSet();
+                        SetPlayerBool = true;
+                    }
+                }
+            }
             else
             {
                 if (PV.IsMine)
@@ -161,6 +208,21 @@ public class NetPlayer : MonoBehaviour {
             }
         }
     }
+
+    [PunRPC]
+    private void RPC_GetPlayerComponents()
+    {
+        BH = ChildPlayer.GetComponent<BallHandling>();
+        HBS = ChildPlayer.GetComponent<hoverBoardScript>();
+        PC = ChildPlayer.GetComponent<PlayerColor>();
+    }
+
+    [PunRPC]
+    public void RPC_UpdateCode(string code)
+    {
+        CodeNumbers = code;
+    }
+
     [PunRPC]
     public void RPC_UpdateTeamNum(int i)
     {
@@ -176,26 +238,32 @@ public class NetPlayer : MonoBehaviour {
     {
         SetPlayerList();
         int spawnPicker = Random.Range(0, GameSetup.GS.playerSpawns.Length);
-        GameObject GO = PhotonNetwork.Instantiate("PhotonPlayer", GameSetup.GS.playerSpawns[spawnPicker].transform.position, GameSetup.GS.playerSpawns[spawnPicker].transform.rotation, 0, null);
-        GO.transform.parent = transform;
-        GO.name = PlayerCode;
+        ChildPlayer = PhotonNetwork.Instantiate("PhotonPlayer", GameSetup.GS.playerSpawns[spawnPicker].transform.position, GameSetup.GS.playerSpawns[spawnPicker].transform.rotation, 0, null);
+        ChildPlayer.transform.parent = transform;
+        ChildPlayer.name = PlayerCode;
         //NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
-        if (GO != null)
+        if (ChildPlayer != null)
         {
             //ParentChild(GO);
             Debug.Log("GO != null");
-            SetPlayer(GO);
-            PV.RPC("RPC_ParentChild", RpcTarget.All, GO.GetPhotonView().ViewID);
-
-
+            PV.RPC("RPC_ParentChild", RpcTarget.All, ChildPlayer.GetPhotonView().ViewID);
+            ReadyToSetPlayer = true;
+            PV.RPC("RPC_UpdateReady", RpcTarget.AllBuffered, ReadyToSetPlayer);
+            // Set Components
+            PV.RPC("RPC_GetPlayerComponents", RpcTarget.AllBuffered);
         }
     }
 
-
+    [PunRPC]
+    private void RPC_UpdateReady(bool ready)
+    {
+        ReadyToSetPlayer = ready;
+    }
     private void SetPlayer(GameObject spawningObject)
     {
         Debug.Log("setting up player");
         PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
+        PC.LocalPlayer = LocalPlayer;
         PC.SetUpPlayer1();
         HBS = spawningObject.GetComponent<hoverBoardScript>();
         BH = spawningObject.GetComponent<BallHandling>();
@@ -211,6 +279,8 @@ public class NetPlayer : MonoBehaviour {
             foreach (NetPlayer p in PlayerList)
             {
                 p.LocalPlayer = this;
+                if (p.PC != null)
+                    p.PC.LocalPlayer = this;
             }
         }
     }
@@ -225,6 +295,7 @@ public class NetPlayer : MonoBehaviour {
     private void ParentChild(GameObject child)
     {
         child.transform.parent = this.transform;
+        ChildPlayer = child;
     }
 
     public void ConfirmTeamPlacement()
@@ -237,9 +308,6 @@ public class NetPlayer : MonoBehaviour {
     {
         TeamNum = i;
     }
-
-
-
 
     public int GetTeamNum()
     {
@@ -259,6 +327,4 @@ public class NetPlayer : MonoBehaviour {
         CodeNumbers = code;
         // this.GetComponentInChildren<TextMesh>().text = name;
     }
-
-
 }

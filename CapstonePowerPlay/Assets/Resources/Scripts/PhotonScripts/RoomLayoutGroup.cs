@@ -86,7 +86,7 @@ public class RoomLayoutGroup : MonoBehaviourPunCallbacks
         foreach (RoomListing rl in removeRooms)
         {
             removeRooms.Remove(rl);
-            Destroy(rl.gameObject);
+            Destroy(rl.gameObject, 0.1f);
         }
     }
 }
