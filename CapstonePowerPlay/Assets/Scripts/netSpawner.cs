@@ -56,7 +56,7 @@ public class netSpawner : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PV.RPC("RPC_MoveNetUp", RpcTarget.AllBuffered);
+            PV.RPC("RPC_MoveNetDown", RpcTarget.AllBuffered);
         }
     }
 
