@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4075484650696162}
   - component: {fileID: 114692783534194876}
+  - component: {fileID: 114810860235432932}
   m_Layer: 0
   m_Name: levelManager
   m_TagString: Untagged
@@ -53,3 +54,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ball: {fileID: 1434841718529576, guid: 2f48a3dd7c18f334d9c0aff6f79a4eea, type: 2}
   ballSpawn: {fileID: 0}
+--- !u!114 &114810860235432932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1200981328132632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00dfaf4fefdf6b246bf1810f9bf80b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RuneSpawns:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
