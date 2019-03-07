@@ -93,13 +93,14 @@ public class BallSteal : MonoBehaviour
 
             if (ballTransform == null)
             {
-                ballTransform = GameObject.FindGameObjectWithTag("Ball").transform;
+                if(GameObject.FindGameObjectWithTag("Ball").transform != null)
+                    ballTransform = GameObject.FindGameObjectWithTag("Ball").transform;
                 if (ballTransform != null)
                 {
                     ballScript = ballTransform.GetComponent<Ball>();
                 }
             }
-            else
+            if (ballTransform != null)
             {
                 if (ballScript.Hand && target == null)
                 {
