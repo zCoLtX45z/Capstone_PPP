@@ -23,48 +23,48 @@ public class netSpawner : MonoBehaviour
 
     private void CallSpawnNet()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PV.RPC("RPC_SpawnNet", RpcTarget.AllBuffered);
-        }
+
+        PV.RPC("RPC_SpawnNet", RpcTarget.AllBuffered);
+
     }
-	
+
     [PunRPC]
     public void RPC_SpawnNet()
     {
-        net = PhotonNetwork.InstantiateSceneObject("NetObject", netSpawn.position, netSpawn.rotation);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            net = PhotonNetwork.InstantiateSceneObject("NetObject", netSpawn.position, netSpawn.rotation);
+        }
     }
 
 
 
     public void CallMoveNetUp()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PV.RPC("RPC_MoveNetUp", RpcTarget.AllBuffered);
-        }
+        PV.RPC("RPC_MoveNetUp", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
     public void RPC_MoveNetUp()
     {
-        net.transform.position = new Vector3(net.transform.position.x, 67, net.transform.position.z);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            net.transform.position = new Vector3(net.transform.position.x, 67, net.transform.position.z);
+        }
     }
 
 
     public void CallMoveNetDown()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PV.RPC("RPC_MoveNetDown", RpcTarget.AllBuffered);
-        }
+        PV.RPC("RPC_MoveNetDown", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
     public void RPC_MoveNetDown()
     {
-        net.transform.position = new Vector3(net.transform.position.x, 45, net.transform.position.z);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            net.transform.position = new Vector3(net.transform.position.x, 45, net.transform.position.z);
+        }
     }
-
-
 }
