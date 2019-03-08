@@ -9,6 +9,13 @@ public class Rune : MonoBehaviour {
     private Item ItemPrefab;
     [SerializeField]
     private PhotonView PV;
+    [SerializeField]
+    private string RuneID;
+
+    public string GetRuneID()
+    {
+        return RuneID;
+    }
 
     public Item GetItemPrefab()
     {

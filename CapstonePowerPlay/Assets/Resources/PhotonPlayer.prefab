@@ -1953,6 +1953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4139089029513530}
   - component: {fileID: 82269476206781652}
+  - component: {fileID: 114994177162319264}
   m_Layer: 0
   m_Name: playermusic
   m_TagString: Untagged
@@ -8157,7 +8158,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 3d0fc54a64f7c624a87cf1ad712a36a9, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8283786cec05e93469c071a3150199a8, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.8
   m_Pitch: 1
@@ -8252,7 +8253,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5d470c42ff2656c46b3565e17b29359f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: dbd4ccf90a3f3d4418362d2319fb4a22, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -8595,7 +8596,7 @@ MonoBehaviour:
   cameraObject: {fileID: 20854297743268884}
   hbs: {fileID: 114934221510051980}
   deadZone: 1
-  fovTransiSpeed: 3
+  fovTransiSpeed: 10
   minFOV: 40
   maxFOV: 60
   boostMultiplication: 3
@@ -9069,6 +9070,10 @@ MonoBehaviour:
   ParentPlayer: {fileID: 0}
   CD: {fileID: 114814734872167172}
   pSLPS: {fileID: 114719974573292268}
+  PV: {fileID: 114027717465583432}
+  PlayerLocalSet: 0
+  SetLocalPlayerCalled: 0
+  ParentObject: {fileID: 0}
 --- !u!114 &114690874661877230
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9129,7 +9134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3305e8c35ab763459b2cb5fe5afc276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hover: {fileID: 0}
+  Hover: {fileID: 8300000, guid: dbd4ccf90a3f3d4418362d2319fb4a22, type: 3}
 --- !u!114 &114719974573292268
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9512,7 +9517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxRotSpeed: 125
-  acceleration: 4.5
+  acceleration: 3
 --- !u!114 &114963437477762288
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9573,6 +9578,17 @@ MonoBehaviour:
   green: 0
   insureOneType: 1
   Opendoor: 0
+--- !u!114 &114994177162319264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1533310855293558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c755f0d01c304087d921256c583af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!124 &124887889504229076
 Behaviour:
   m_ObjectHideFlags: 1

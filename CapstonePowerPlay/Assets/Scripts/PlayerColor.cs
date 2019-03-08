@@ -35,8 +35,22 @@ public class PlayerColor : MonoBehaviourPun
     private PlayerSoftlockPassSight pSLPS;
 
     //photon variables
+    [SerializeField]
     private PhotonView PV;
     private string Code = "None";
+
+    // Setting up players
+    [HideInInspector]
+    public bool PlayerLocalSet = false;
+    [HideInInspector]
+    public bool SetLocalPlayerCalled = false;
+    public GameObject ParentObject;
+
+    [PunRPC]
+    private void RPC_UpdateLocalSet(bool ready)
+    {
+        PlayerLocalSet = ready;
+    }
 
     //void Start()
     //{
@@ -48,22 +62,22 @@ public class PlayerColor : MonoBehaviourPun
         if (stream.IsWriting)
         {
             Debug.Log("Writing data");
-            stream.SendNext(TeamNum);
+            //stream.SendNext(TeamNum);
         }
         else
         {
-            TeamNum = (int)stream.ReceiveNext();
+            //TeamNum = (int)stream.ReceiveNext();
 
         }
     }
 
 
-    public void SetUpPlayer1()
+    public void SetUpPlayer1(NetPlayer parent)
     {
         PV = GetComponent<PhotonView>();
         Debug.Log("PV: S" + PV);
         Debug.Log("SetUpPlayer Called");
-        SetUpPlayer();
+        SetUpPlayer(parent);
         //if (PV.IsMine)
         //{
         //    PV.RPC("RPC_UpdateTag", RpcTarget.AllBuffered);
@@ -95,13 +109,49 @@ public class PlayerColor : MonoBehaviourPun
     //    }
     //}
 
-
-    public void SetUpPlayer()
+    public void FinalPlayerSet(int ParentIndex)
     {
-        ParentPlayer = GetComponentInParent<NetPlayer>();
-        LocalPlayer = ParentPlayer.LocalPlayer;
-        TeamNum = ParentPlayer.GetTeamNum();
+        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered, ParentIndex);
+    }
+    [PunRPC]
+    private void RPC_SetUpPlayer(int ParentIndex)
+    {
+        //Debug.LogError("Dummy Error");
+        ParentObject = PhotonView.Find(ParentIndex).gameObject;
+        if (ParentPlayer == null)
+            ParentPlayer = ParentObject.GetComponent<NetPlayer>();
+        if (LocalPlayer == null)
+            LocalPlayer = ParentPlayer.LocalPlayer;
+        //ParentPlayer = GetComponentInParent<NetPlayer>();
+        //if (LocalPlayer == null && ParentPlayer.LocalPlayer != null)
+        //    LocalPlayer = ParentPlayer.LocalPlayer;
+        //SetTeamNum(TeamNum);
+        TextName.text = ParentPlayer.name;
+        if (LocalPlayer == ParentPlayer)
+        {
+            TextName.gameObject.SetActive(false);
+        }
+        if (LocalPlayer.GetTeamNum() != ParentPlayer.GetTeamNum())
+        {
+            TextName.gameObject.SetActive(false);
+        }
         SetTeamNum(TeamNum);
+    }
+    public void SetUpPlayer(NetPlayer ParentNetObject)
+    {
+        ParentPlayer = ParentNetObject;
+        if (LocalPlayer == null && ParentPlayer.LocalPlayer != null)
+            LocalPlayer = ParentPlayer.LocalPlayer;
+        PV.RPC("RPC_UpdateLocalPlayer", RpcTarget.AllBuffered, ParentNetObject.GetComponent<PhotonView>().ViewID);
+
+        gameObject.name = ParentPlayer.name.Split('#')[0];
+        Code = ParentPlayer.CodeNumbers;
+        UpdateName(gameObject.name);
+        PV.RPC("RPC_UpdateCode", RpcTarget.All, Code);
+        TeamNum = ParentPlayer.GetTeamNum();
+        PV.RPC("RPC_UpdateTeamNum", RpcTarget.All, TeamNum);
+        //PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
+        //SetTeamNum(TeamNum);
 
         TextName.text = ParentPlayer.name;
         if (LocalPlayer == ParentPlayer)
@@ -112,16 +162,40 @@ public class PlayerColor : MonoBehaviourPun
         {
             TextName.gameObject.SetActive(false);
         }
+
+        if (LocalPlayer != null && SetLocalPlayerCalled)
+        {
+            PlayerLocalSet = true;
+            PV.RPC("RPC_UpdateLocalSet", RpcTarget.AllBuffered, PlayerLocalSet);
+        }
+    }
+
+    [PunRPC]
+    private void RPC_UpdateLocalPlayer(int PV_Index_Parent)
+    {
+        SetLocalPlayer(PhotonView.Find(PV_Index_Parent).gameObject);
+    }
+
+    private void SetLocalPlayer(GameObject LP)
+    {
+        ParentObject = LP;
+        ParentPlayer = LP.GetComponent<NetPlayer>();
+        LocalPlayer = ParentPlayer.LocalPlayer;
+
+        if (transform.parent == null || transform.parent != ParentObject.transform)
+        {
+            transform.SetParent(ParentObject.transform);
+        }
+        SetLocalPlayerCalled = true;
     }
 
     public void SetTeamNum(int team)
     {
+        if (LocalPlayer == null)
+            LocalPlayer = ParentPlayer.LocalPlayer;
         CD.LocalPlayer = LocalPlayer;
         CD.ParentPlayer = ParentPlayer;
         TeamNum = team;
-
-
-
 
         //
         if (TeamNum == 1)
@@ -133,10 +207,8 @@ public class PlayerColor : MonoBehaviourPun
             transform.tag = "Team 2";
         }
         //
-        Code = gameObject.name.Split('#')[1];
-        PV.RPC("RPC_UpdateCode", RpcTarget.All, Code);
 
-        if (LocalPlayer.PlayerCode == ParentPlayer.PlayerCode)
+        if (LocalPlayer == ParentPlayer)
         {
             print("Set Blue Avatar - Local = Parent");
             SetBlueActive();
@@ -166,10 +238,36 @@ public class PlayerColor : MonoBehaviourPun
     }
 
     [PunRPC]
+    public void RPC_UpdateTeamNum(int Team)
+    {
+        TeamNum = Team;
+
+    }
+
+    public void UpdateName(string name)
+    {
+        PV.RPC("RPC_UpdateName", RpcTarget.AllBuffered, name);
+    }
+    [PunRPC]
+    public void RPC_UpdateName(string name)
+    {
+        gameObject.name = name;
+    }
+
+    [PunRPC]
     public void RPC_UpdateCode(string code)
     {
         Code = code;
-
+        NetPlayer[] Players = FindObjectsOfType<NetPlayer>();
+        foreach (NetPlayer NP in Players)
+        {
+            string parentCode = NP.CodeNumbers;
+            if (Code == code)
+            {
+                transform.SetParent(NP.gameObject.transform);
+                break;
+            }
+        }
     }
 
     public string GetCode()

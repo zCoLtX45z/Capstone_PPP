@@ -9,6 +9,7 @@ public class NetPlayer : MonoBehaviour {
     // Player Components
     [SerializeField]
     private Chat ChatSystem;
+    [SerializeField]
     private PhotonView PV;
     // Spawninng Player Object
     [SerializeField]
@@ -18,7 +19,7 @@ public class NetPlayer : MonoBehaviour {
     private int TeamNum = 0;
 
     // Player and Other Player
-    [HideInInspector]
+   // [HideInInspector]
     public NetPlayer LocalPlayer;
     [HideInInspector]
     public NetPlayer[] PlayerList = null;
@@ -26,6 +27,8 @@ public class NetPlayer : MonoBehaviour {
     // Team Select Canvas
     [SerializeField]
     private Canvas StartingCanvas;
+    [SerializeField]
+    private Canvas LoadingCanvas;
 
     [HideInInspector]
     public bool ConfirmTeam = false;
@@ -40,31 +43,46 @@ public class NetPlayer : MonoBehaviour {
     // Player Child Components
     private hoverBoardScript HBS;
     private BallHandling BH;
-
+    public GameObject ChildPlayer;
+    private PlayerColor PC;
+    [HideInInspector]
+    public bool ReadyToSetPlayer = false;
+    private bool SetPlayerBool = false;
+    private bool SetUpThePlayers = false;
+    private bool PC_SetLocalSent = false;
 
     // Variables
     private bool SkipTeamSelect = false;
+    private bool LoadingScreenOn = true;
+
+    // Player Spawn Points
+    private GameSetup GS;
 
     // Use this for initialization
     void Start ()
     {
-        PV = GetComponent<PhotonView>();
-        int randNum = Random.Range(1000, 99999);
-        CodeNumbers = "#" + randNum;
-        PlayerCode = gameObject.name + CodeNumbers;
-        SetPlayerList();
+        GS = FindObjectOfType<GameSetup>();
+        if (!PV)
+            PV = GetComponent<PhotonView>();
         if (PV.IsMine)
         {
             gameObject.name = PhotonNetwork.LocalPlayer.NickName;
+            CodeNumbers = "#" + gameObject.name.Split('#')[1];
+            PV.RPC("RPC_UpdateCode", RpcTarget.AllBuffered, CodeNumbers);
+            PV.RPC("RPC_ChangeName", RpcTarget.All, gameObject.name, CodeNumbers);
+        }
+        PlayerCode = gameObject.name.Split('#')[0] + CodeNumbers;
+        if (PV.IsMine)
+        {
+            SetPlayerList();
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != -1)
             {
+                TeamNum = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
                 UpdateTeamNum(TeamNum);
                 SkipTeamSelect = true;
             }
             else
                 StartingCanvas.gameObject.SetActive(true);
-
-
         }
         else
         {
@@ -80,7 +98,7 @@ public class NetPlayer : MonoBehaviour {
             if (SkipTeamSelect)
             {
                 //p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
-                PV.RPC("RPC_ChangeName", RpcTarget.All, gameObject.name, CodeNumbers);
+                //PV.RPC("RPC_ChangeName", RpcTarget.All, gameObject.name, CodeNumbers);
                 // Set player Team
                 TeamNum = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
 
@@ -96,14 +114,14 @@ public class NetPlayer : MonoBehaviour {
                 if (PlayerList == null)
                     SetPlayerList();
 
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    foreach (NetPlayer p in PlayerList)
-                    {
-                        //p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
-                        p.PV.RPC("RPC_ChangeName", RpcTarget.All, p.gameObject.name, p.CodeNumbers);
-                    }
-                }
+                //if (PhotonNetwork.IsMasterClient)
+                //{
+                //    foreach (NetPlayer p in PlayerList)
+                //    {
+                //        p.CmdChangeName(p.gameObject.name, p.CodeNumbers);
+                //        p.PV.RPC("RPC_ChangeName", RpcTarget.All, p.gameObject.name, p.CodeNumbers);
+                //    }
+                //}
 
                 if (PV.IsMine)
                 {
@@ -128,10 +146,95 @@ public class NetPlayer : MonoBehaviour {
                     }
                 }
             }
+            else if (!SetPlayerBool)
+            {
+                SetPlayerList();
+                if (!SetUpThePlayers)
+                {
+                    if (PhotonNetwork.CurrentRoom.PlayerCount == PlayerList.Length)
+                    {
+                        SetUpThePlayers = true;
+                        foreach (NetPlayer NP in PlayerList)
+                        {
+                            if (!NP.ReadyToSetPlayer)
+                            {
+                                SetUpThePlayers = false;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("Current Players: " + PhotonNetwork.CurrentRoom.PlayerCount + ", Current Net Players: " + PlayerList.Length);
+                    }
+                }
+                if (SetUpThePlayers)
+                {
+                    // Set Local Player for everyone
+                    if (!PC_SetLocalSent)
+                    {
+                        Debug.Log("Set Player Child Player");
+                        PC_SetLocalSent = true;
+                        PC.SetUpPlayer(this);
+                    }
+                    PlayerColor[] PlayerColorList = FindObjectsOfType<PlayerColor>();
+                    if (PhotonNetwork.CurrentRoom.PlayerCount == PlayerColorList.Length)
+                    {
+                        Debug.Log("Final Set Players Check");
+                        bool FinalSetPlayers = true;
+                        foreach (PlayerColor P in PlayerColorList)
+                        {
+                            P.LocalPlayer = this;
+                            if (!P.PlayerLocalSet)
+                            {
+                                FinalSetPlayers = false;
+                                break;
+                            }
+                        }
+                        if (FinalSetPlayers)
+                        {
+                            Debug.Log("Final Set Players Do");
+                            PC.FinalPlayerSet(PV.ViewID);
+                            SetPlayerBool = true;
+                            foreach (PlayerColor P in PlayerColorList)
+                            {
+                                P.SetTeamNum(P.TeamNum);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("Current Players: " + PhotonNetwork.CurrentRoom.PlayerCount + ", Current PlayerColor Players: " + PlayerList.Length);
+                    }
+                }
+            }
+            else if (LoadingScreenOn)
+            {
+                // In case GS wasn't grabbed by this point
+                if (!GS)
+                    GS = FindObjectOfType<GameSetup>();
+
+                Transform spawn = GS.GrabSpawnPoint(PV.ViewID);
+                if (spawn != null)
+                {
+                    ChildPlayer.transform.position = spawn.position;
+                    ChildPlayer.transform.rotation = spawn.rotation;
+                    LoadingScreenOn = false;
+                    if (TeamNum == 1)
+                        Debug.Log("Spawn Point Selected(Team 1): " + spawn.name);
+                    else if (TeamNum == 2)
+                        Debug.Log("Spawn Point Selected(Team 2): " + spawn.name);
+
+                }
+            }
             else
             {
                 if (PV.IsMine)
                 {
+                    // Turn Loading Screen Off
+                    if (LoadingCanvas.gameObject.activeSelf)
+                        LoadingCanvas.gameObject.SetActive(false);
+
                     if (Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.RightShift))
                     {
                         if (!ChatSystem.GetEnabled())
@@ -161,6 +264,22 @@ public class NetPlayer : MonoBehaviour {
             }
         }
     }
+
+    [PunRPC]
+    private void RPC_GetPlayerComponents()
+    {
+        BH = ChildPlayer.GetComponent<BallHandling>();
+        HBS = ChildPlayer.GetComponent<hoverBoardScript>();
+        PC = ChildPlayer.GetComponent<PlayerColor>();
+        ChildPlayer.transform.SetParent(this.transform);
+    }
+
+    [PunRPC]
+    public void RPC_UpdateCode(string code)
+    {
+        CodeNumbers = code;
+    }
+
     [PunRPC]
     public void RPC_UpdateTeamNum(int i)
     {
@@ -176,27 +295,33 @@ public class NetPlayer : MonoBehaviour {
     {
         SetPlayerList();
         int spawnPicker = Random.Range(0, GameSetup.GS.playerSpawns.Length);
-        GameObject GO = PhotonNetwork.Instantiate("PhotonPlayer", GameSetup.GS.playerSpawns[spawnPicker].transform.position, GameSetup.GS.playerSpawns[spawnPicker].transform.rotation, 0, null);
-        GO.transform.parent = transform;
-        GO.name = PlayerCode;
+        ChildPlayer = PhotonNetwork.Instantiate("PhotonPlayer", GameSetup.GS.playerSpawns[spawnPicker].transform.position, GameSetup.GS.playerSpawns[spawnPicker].transform.rotation);
+        ChildPlayer.transform.SetParent(transform);
+        ChildPlayer.name = PlayerCode;
         //NetworkServer.SpawnWithClientAuthority(GO, connectionToClient);
-        if (GO != null)
+        if (ChildPlayer != null)
         {
             //ParentChild(GO);
             Debug.Log("GO != null");
-            SetPlayer(GO);
-            PV.RPC("RPC_ParentChild", RpcTarget.All, GO.GetPhotonView().ViewID);
-
-
+            PV.RPC("RPC_ParentChild", RpcTarget.All, ChildPlayer.GetPhotonView().ViewID, PV.ViewID);
+            ReadyToSetPlayer = true;
+            //PV.RPC("RPC_UpdateReady", RpcTarget.AllBuffered, ReadyToSetPlayer);
+            // Set Components
+            PV.RPC("RPC_GetPlayerComponents", RpcTarget.AllBuffered);
         }
     }
 
-
+    [PunRPC]
+    private void RPC_UpdateReady(bool ready)
+    {
+        ReadyToSetPlayer = ready;
+    }
     private void SetPlayer(GameObject spawningObject)
     {
         Debug.Log("setting up player");
         PlayerColor PC = spawningObject.GetComponent<PlayerColor>();
-        PC.SetUpPlayer1();
+        PC.LocalPlayer = LocalPlayer;
+        PC.SetUpPlayer1(this);
         HBS = spawningObject.GetComponent<hoverBoardScript>();
         BH = spawningObject.GetComponent<BallHandling>();
         Debug.Log("finished setting up player");
@@ -211,20 +336,26 @@ public class NetPlayer : MonoBehaviour {
             foreach (NetPlayer p in PlayerList)
             {
                 p.LocalPlayer = this;
+                if (p.PC != null)
+                    p.PC.LocalPlayer = this;
             }
         }
     }
 
     [PunRPC]
-    private void RPC_ParentChild(int child)
+    private void RPC_ParentChild(int child, int parent)
     {
-        ParentChild(PhotonView.Find(child).gameObject);
+        ParentChild(PhotonView.Find(child).gameObject, PhotonView.Find(parent).gameObject);
     }
 
 
-    private void ParentChild(GameObject child)
+    private void ParentChild(GameObject child, GameObject parent)
     {
-        child.transform.parent = this.transform;
+        child.transform.SetParent(parent.transform);
+        child.GetComponent<PlayerColor>().ParentPlayer = this;
+        parent.GetComponent<NetPlayer>().ChildPlayer = child;
+
+        ReadyToSetPlayer = true;
     }
 
     public void ConfirmTeamPlacement()
@@ -237,9 +368,6 @@ public class NetPlayer : MonoBehaviour {
     {
         TeamNum = i;
     }
-
-
-
 
     public int GetTeamNum()
     {
@@ -259,6 +387,4 @@ public class NetPlayer : MonoBehaviour {
         CodeNumbers = code;
         // this.GetComponentInChildren<TextMesh>().text = name;
     }
-
-
 }

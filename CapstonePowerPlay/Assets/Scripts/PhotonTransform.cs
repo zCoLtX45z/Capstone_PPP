@@ -68,7 +68,7 @@ public class PhotonTransform : MonoBehaviourPun, IPunObservable {
 
     private void SmoothMovement()
     {
-        print("Smoothing Movement");
+        //print("Smoothing Movement");
         PT.position = Vector3.Lerp(PT.position, TargetPosition, SmoothingPositionPercent);
         PT.rotation = Quaternion.Lerp(PT.rotation, TargetRotation, SmoothingPositionPercent);
     }
