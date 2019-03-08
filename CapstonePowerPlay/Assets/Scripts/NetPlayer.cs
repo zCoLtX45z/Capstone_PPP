@@ -47,6 +47,7 @@ public class NetPlayer : MonoBehaviour {
     public bool ReadyToSetPlayer = false;
     private bool SetPlayerBool = false;
     private bool SetUpThePlayers = false;
+    private bool PC_SetLocalSent = false;
     // Variables
     private bool SkipTeamSelect = false;
 
@@ -142,35 +143,60 @@ public class NetPlayer : MonoBehaviour {
                 SetPlayerList();
                 if (!SetUpThePlayers)
                 {
-                    SetUpThePlayers = true;
-                    foreach (NetPlayer NP in PlayerList)
+                    if (PhotonNetwork.CurrentRoom.PlayerCount == PlayerList.Length)
                     {
-                        if (!NP.ReadyToSetPlayer)
+                        SetUpThePlayers = true;
+                        foreach (NetPlayer NP in PlayerList)
                         {
-                            SetUpThePlayers = false;
-                            break;
+                            if (!NP.ReadyToSetPlayer)
+                            {
+                                SetUpThePlayers = false;
+                                break;
+                            }
                         }
+                    }
+                    else
+                    {
+                        Debug.Log("Current Players: " + PhotonNetwork.CurrentRoom.PlayerCount + ", Current Net Players: " + PlayerList.Length);
                     }
                 }
-                if (SetUpThePlayers && !PC.PlayerLocalSet)
+                if (SetUpThePlayers)
                 {
                     // Set Local Player for everyone
-                    PC.SetUpPlayer(this);
-                    PlayerColor[] PlayerColorList = FindObjectsOfType<PlayerColor>();
-                    bool FinalSetPlayers = true;
-                    foreach(PlayerColor P in PlayerColorList)
+                    if (!PC_SetLocalSent)
                     {
-                        P.LocalPlayer = this;
-                        if (!P.PlayerLocalSet)
+                        Debug.Log("Set Player Child Player");
+                        PC_SetLocalSent = true;
+                        PC.SetUpPlayer(this);
+                    }
+                    PlayerColor[] PlayerColorList = FindObjectsOfType<PlayerColor>();
+                    if (PhotonNetwork.CurrentRoom.PlayerCount == PlayerColorList.Length)
+                    {
+                        Debug.Log("Final Set Players Check");
+                        bool FinalSetPlayers = true;
+                        foreach (PlayerColor P in PlayerColorList)
                         {
-                            FinalSetPlayers = false;
-                            break;
+                            P.LocalPlayer = this;
+                            if (!P.PlayerLocalSet)
+                            {
+                                FinalSetPlayers = false;
+                                break;
+                            }
+                        }
+                        if (FinalSetPlayers)
+                        {
+                            Debug.Log("Final Set Players Do");
+                            PC.FinalPlayerSet(PV.ViewID);
+                            SetPlayerBool = true;
+                            foreach (PlayerColor P in PlayerColorList)
+                            {
+                                P.SetTeamNum(P.TeamNum);
+                            }
                         }
                     }
-                    if (FinalSetPlayers)
+                    else
                     {
-                        PC.FinalPlayerSet(PV.ViewID);
-                        SetPlayerBool = true;
+                        Debug.Log("Current Players: " + PhotonNetwork.CurrentRoom.PlayerCount + ", Current PlayerColor Players: " + PlayerList.Length);
                     }
                 }
             }
@@ -248,7 +274,7 @@ public class NetPlayer : MonoBehaviour {
             Debug.Log("GO != null");
             PV.RPC("RPC_ParentChild", RpcTarget.All, ChildPlayer.GetPhotonView().ViewID, PV.ViewID);
             ReadyToSetPlayer = true;
-            PV.RPC("RPC_UpdateReady", RpcTarget.AllBuffered, ReadyToSetPlayer);
+            //PV.RPC("RPC_UpdateReady", RpcTarget.AllBuffered, ReadyToSetPlayer);
             // Set Components
             PV.RPC("RPC_GetPlayerComponents", RpcTarget.AllBuffered);
         }
@@ -297,6 +323,8 @@ public class NetPlayer : MonoBehaviour {
         child.transform.SetParent(parent.transform);
         child.GetComponent<PlayerColor>().ParentPlayer = this;
         parent.GetComponent<NetPlayer>().ChildPlayer = child;
+
+        ReadyToSetPlayer = true;
     }
 
     public void ConfirmTeamPlacement()
