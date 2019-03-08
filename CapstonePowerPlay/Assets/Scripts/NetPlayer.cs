@@ -214,7 +214,18 @@ public class NetPlayer : MonoBehaviour {
                 if (!GS)
                     GS = FindObjectOfType<GameSetup>();
 
+                Transform spawn = GS.GrabSpawnPoint(PV.ViewID);
+                if (spawn != null)
+                {
+                    ChildPlayer.transform.position = spawn.position;
+                    ChildPlayer.transform.rotation = spawn.rotation;
+                    LoadingScreenOn = false;
+                    if (TeamNum == 1)
+                        Debug.Log("Spawn Point Selected(Team 1): " + spawn.name);
+                    else if (TeamNum == 2)
+                        Debug.Log("Spawn Point Selected(Team 2): " + spawn.name);
 
+                }
             }
             else
             {
