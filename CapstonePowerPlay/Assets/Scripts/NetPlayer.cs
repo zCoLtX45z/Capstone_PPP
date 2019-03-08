@@ -57,6 +57,7 @@ public class NetPlayer : MonoBehaviour {
 
     // Player Spawn Points
     private GameSetup GS;
+    private Transform SpawnPoint;
 
     // Use this for initialization
     void Start ()
@@ -215,17 +216,17 @@ public class NetPlayer : MonoBehaviour {
                 if (!GS)
                     GS = FindObjectOfType<GameSetup>();
 
-                Transform spawn = GS.GrabSpawnPoint(PV.ViewID);
-                if (spawn != null)
+                SpawnPoint = GS.GrabSpawnPoint(PV.ViewID);
+                if (SpawnPoint != null)
                 {
-                    ChildPlayer.transform.position = spawn.position;
-                    ChildPlayer.transform.rotation = spawn.rotation;
+                    ChildPlayer.transform.position = SpawnPoint.position;
+                    ChildPlayer.transform.rotation = SpawnPoint.rotation;
                     LoadingScreenOn = false;
                     LoadingCanvas.gameObject.SetActive(false);
                     if (TeamNum == 1)
-                        Debug.Log("Spawn Point Selected(Team 1): " + spawn.name);
+                        Debug.Log("Spawn Point Selected(Team 1): " + SpawnPoint.name);
                     else if (TeamNum == 2)
-                        Debug.Log("Spawn Point Selected(Team 2): " + spawn.name);
+                        Debug.Log("Spawn Point Selected(Team 2): " + SpawnPoint.name);
 
                 }
             }
