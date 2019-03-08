@@ -13,7 +13,7 @@ public class GameSetup : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        if (playerSpawns.Length > 0)
+        if (playerSpawns.Length == 0)
         {
             BlueSpawns = GameObject.FindGameObjectsWithTag("BlueSpawn");
             RedSpawns = GameObject.FindGameObjectsWithTag("RedSpawn");

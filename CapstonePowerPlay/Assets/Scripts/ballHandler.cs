@@ -19,10 +19,10 @@ public class ballHandler : MonoBehaviour {
 
         ballSpawn = GameObject.FindGameObjectWithTag("ballSpawn").GetComponent<Transform>();
         //if (isServer)
-        if(PhotonNetwork.IsMasterClient)
-        {
-            SpawnBall();
-        }
+        //if(PhotonNetwork.IsMasterClient)
+        //{
+        //    SpawnBall();
+        //}
         
     }
 	
@@ -40,9 +40,11 @@ public class ballHandler : MonoBehaviour {
    
     public void SpawnBall()
     {
-        Debug.Log("spawning ball");
-        PhotonNetwork.Instantiate("Prefabs/Ultra Ball", ballSpawn.position, ballSpawn.rotation);
-
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("spawning ball");
+            PhotonNetwork.Instantiate("Prefabs/Ultra Ball", ballSpawn.position, ballSpawn.rotation);
+        }
         
     }
 }
