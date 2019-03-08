@@ -235,14 +235,14 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                             // if it equals to the gameObject referenced in listOfTeamates
                             if (currentAcceptedTargets[j] == listOfTeamates[i])
                             {
-                                Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by raycast not connecting");
+                               // Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by raycast not connecting");
                                 // remove the gameObject referenced in listOfTeamates from currentAcceptedTargets
                                 currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
                                 // just added...
                                 break;
                             }
                         }
-                        Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
+                        //Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
                     }
                 }
             }
@@ -269,7 +269,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                     currentClossestAngle = currentAngle;
                     // set the target as the currently checked gameObject in the currentAcceptedTargets list 
                     target = currentAcceptedTargets[i].transform;
-                    Debug.Log("Target set as: " + target);
+                    //Debug.Log("Target set as: " + target);
                     // set target position to center the players
                     targetPosition = target.position + ((new Vector3(target.up.x, target.up.y, target.up.z) / 4) * 3);
                 }
