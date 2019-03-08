@@ -10,7 +10,8 @@ public class GameSetup : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        playerSpawns = GameObject.FindGameObjectsWithTag("playerSpawn");
+        if (playerSpawns.Length > 0)
+            playerSpawns = GameObject.FindGameObjectsWithTag("playerSpawn");
     }
 
 
