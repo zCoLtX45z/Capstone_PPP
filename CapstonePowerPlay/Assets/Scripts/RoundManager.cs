@@ -200,7 +200,7 @@ public class RoundManager : MonoBehaviour {
 
     public void NextRound()
     {
-        PV.RPC("RPC_ResetRound", RpcTarget.MasterClient);
+        PV.RPC("RPC_ResetRound", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
