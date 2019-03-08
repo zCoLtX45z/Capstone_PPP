@@ -70,7 +70,7 @@ public class Ball : MonoBehaviour
     public bool hasBeenPickedUpBefore;
 
 
-    private RoundTimer rTimerScript;
+    private RoundManager rTimerScript;
 
 
     // Use this for initialization
@@ -81,7 +81,7 @@ public class Ball : MonoBehaviour
         RB = GetComponent<Rigidbody>();
 
         nSpawner = FindObjectOfType<netSpawner>();
-        rTimerScript = FindObjectOfType<RoundTimer>();
+        rTimerScript = FindObjectOfType<RoundManager>();
     }
 
     private void Update()

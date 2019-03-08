@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RoundTimer : MonoBehaviour {
+public class RoundManager : MonoBehaviour {
 
     [SerializeField]
     private float maxRoundTime;
@@ -69,6 +69,13 @@ public class RoundTimer : MonoBehaviour {
 
 
     [SerializeField]
+    private Transform[] spawnLocationsTeam1;
+
+    [SerializeField]
+    private Transform[] spawnLocationsTeam2;
+
+
+    [SerializeField]
     private GameObject[] objectGroup_Round1;
 
     [SerializeField]
@@ -76,6 +83,9 @@ public class RoundTimer : MonoBehaviour {
 
     [SerializeField]
     private GameObject[] objectGroup_Round3;
+
+   
+
 
 
     private void Start()
@@ -339,13 +349,6 @@ public class RoundTimer : MonoBehaviour {
         PhotonNetwork.LeaveRoom();
         PhotonNetwork.LoadLevel(0);
     }
-
-
-    [SerializeField]
-    private Transform[] spawnLocationsTeam1;
-
-    [SerializeField]
-    private Transform[] spawnLocationsTeam2;
 
 
     //[SerializeField]
