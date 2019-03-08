@@ -8,7 +8,7 @@ public class RuneSpawnQueue : MonoBehaviour {
     [SerializeField]
     private Rune RunePrefab;
     [HideInInspector]
-    public Queue<Rune> SpawnedRunes;
+    public Queue<Rune> SpawnedRunes = new Queue<Rune>();
 
     public void SpawnRune()
     {
