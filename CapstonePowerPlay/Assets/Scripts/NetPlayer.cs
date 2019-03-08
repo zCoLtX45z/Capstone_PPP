@@ -87,6 +87,7 @@ public class NetPlayer : MonoBehaviour {
         else
         {
             StartingCanvas.gameObject.SetActive(false);
+            LoadingCanvas.gameObject.SetActive(false);
         }
 	}
 
@@ -220,6 +221,7 @@ public class NetPlayer : MonoBehaviour {
                     ChildPlayer.transform.position = spawn.position;
                     ChildPlayer.transform.rotation = spawn.rotation;
                     LoadingScreenOn = false;
+                    LoadingCanvas.gameObject.SetActive(false);
                     if (TeamNum == 1)
                         Debug.Log("Spawn Point Selected(Team 1): " + spawn.name);
                     else if (TeamNum == 2)
