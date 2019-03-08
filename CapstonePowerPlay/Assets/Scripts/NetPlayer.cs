@@ -229,6 +229,11 @@ public class NetPlayer : MonoBehaviour {
                         Debug.Log("Spawn Point Selected(Team 2): " + SpawnPoint.name);
 
                 }
+
+                // spawn ball
+                FindObjectOfType<ballHandler>().SpawnBall();
+
+
             }
             else
             {
