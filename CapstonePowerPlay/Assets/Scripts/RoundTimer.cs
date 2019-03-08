@@ -66,12 +66,43 @@ public class RoundTimer : MonoBehaviour {
 
     private Scoring scoring;
 
+
+
+    [SerializeField]
+    private GameObject[] objectGroup_Round1;
+
+    [SerializeField]
+    private GameObject[] objectGroup_Round2;
+
+    [SerializeField]
+    private GameObject[] objectGroup_Round3;
+
+
     private void Start()
     {
         PV = GetComponent<PhotonView>();
         nSPawner = FindObjectOfType<netSpawner>();
         bHandler = FindObjectOfType<ballHandler>();
         scoring = FindObjectOfType<Scoring>();
+
+
+        // set round 1 level layout
+        for (int i = objectGroup_Round1.Length - 1; i >= 0; i--)
+        {
+            objectGroup_Round1[i].SetActive(true);
+        }
+
+        for (int i = objectGroup_Round2.Length - 1; i >= 0; i--)
+        {
+            objectGroup_Round2[i].SetActive(false);
+        }
+
+        for (int i = objectGroup_Round3.Length - 1; i >= 0; i--)
+        {
+            objectGroup_Round3[i].SetActive(false);
+        }
+
+
     }
 
     public void AllowTime(bool allow)
@@ -174,6 +205,50 @@ public class RoundTimer : MonoBehaviour {
         }
         else
         {
+            // round 2
+            if(roundNumber == 1)
+            {
+                for (int i = objectGroup_Round1.Length - 1; i >= 0; i--)
+                {
+                    objectGroup_Round1[i].SetActive(false);
+                }
+
+                for (int i = objectGroup_Round2.Length - 1; i >= 0; i--)
+                {
+                    objectGroup_Round2[i].SetActive(true);
+                }
+
+                for (int i = objectGroup_Round3.Length - 1; i >= 0; i--)
+                {
+                    objectGroup_Round3[i].SetActive(false);
+                }
+            }
+
+            if (roundNumber == 2)
+            {
+                for (int i = objectGroup_Round1.Length - 1; i >= 0; i--)
+                {
+                    objectGroup_Round1[i].SetActive(false);
+                }
+
+                for (int i = objectGroup_Round2.Length - 1; i >= 0; i--)
+                {
+                    objectGroup_Round2[i].SetActive(false);
+                }
+
+                for (int i = objectGroup_Round3.Length - 1; i >= 0; i--)
+                {
+                    objectGroup_Round3[i].SetActive(true);
+                }
+            }
+
+
+            // round 3
+            if (roundNumber == 2)
+            {
+
+            }
+
             Debug.Log("Destroy ball");
             PhotonNetwork.Destroy(ball.gameObject);
 
