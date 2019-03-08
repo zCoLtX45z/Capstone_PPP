@@ -93,7 +93,7 @@ public class BallSteal : MonoBehaviour
 
             if (ballTransform == null)
             {
-                if(GameObject.FindGameObjectWithTag("Ball").transform != null)
+                if(GameObject.FindGameObjectWithTag("Ball") != null)
                     ballTransform = GameObject.FindGameObjectWithTag("Ball").transform;
                 if (ballTransform != null)
                 {
