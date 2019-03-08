@@ -297,8 +297,8 @@ GameObject:
   m_Component:
   - component: {fileID: 147161315}
   m_Layer: 0
-  m_Name: SpawnPoint
-  m_TagString: playerSpawn
+  m_Name: 1
+  m_TagString: RedSpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -439,8 +439,8 @@ GameObject:
   m_Component:
   - component: {fileID: 197624840}
   m_Layer: 0
-  m_Name: SpawnPoint (2)
-  m_TagString: playerSpawn
+  m_Name: 3
+  m_TagString: BlueSpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -467,8 +467,8 @@ GameObject:
   m_Component:
   - component: {fileID: 204024310}
   m_Layer: 0
-  m_Name: SpawnPoint (2)
-  m_TagString: playerSpawn
+  m_Name: 3
+  m_TagString: RedSpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1372,11 +1372,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114361448252237088, guid: de68ed713a1a59e4a9038d25cc009216,
-        type: 2}
-      propertyPath: playerSpawns.Array.size
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 4957952685007168, guid: de68ed713a1a59e4a9038d25cc009216, type: 2}
       propertyPath: m_LocalPosition.x
       value: 112.89746
@@ -1449,6 +1444,46 @@ Prefab:
       propertyPath: playerSpawns.Array.data[7]
       value: 
       objectReference: {fileID: 943719435}
+    - target: {fileID: 114361448252237088, guid: de68ed713a1a59e4a9038d25cc009216,
+        type: 2}
+      propertyPath: BlueSpawns.Array.data[0]
+      value: 
+      objectReference: {fileID: 1159163952}
+    - target: {fileID: 114361448252237088, guid: de68ed713a1a59e4a9038d25cc009216,
+        type: 2}
+      propertyPath: BlueSpawns.Array.data[1]
+      value: 
+      objectReference: {fileID: 1699474576}
+    - target: {fileID: 114361448252237088, guid: de68ed713a1a59e4a9038d25cc009216,
+        type: 2}
+      propertyPath: BlueSpawns.Array.data[2]
+      value: 
+      objectReference: {fileID: 197624839}
+    - target: {fileID: 114361448252237088, guid: de68ed713a1a59e4a9038d25cc009216,
+        type: 2}
+      propertyPath: BlueSpawns.Array.data[3]
+      value: 
+      objectReference: {fileID: 1685079865}
+    - target: {fileID: 114361448252237088, guid: de68ed713a1a59e4a9038d25cc009216,
+        type: 2}
+      propertyPath: RedSpawns.Array.data[0]
+      value: 
+      objectReference: {fileID: 147161314}
+    - target: {fileID: 114361448252237088, guid: de68ed713a1a59e4a9038d25cc009216,
+        type: 2}
+      propertyPath: RedSpawns.Array.data[1]
+      value: 
+      objectReference: {fileID: 1773276316}
+    - target: {fileID: 114361448252237088, guid: de68ed713a1a59e4a9038d25cc009216,
+        type: 2}
+      propertyPath: RedSpawns.Array.data[2]
+      value: 
+      objectReference: {fileID: 204024309}
+    - target: {fileID: 114361448252237088, guid: de68ed713a1a59e4a9038d25cc009216,
+        type: 2}
+      propertyPath: RedSpawns.Array.data[3]
+      value: 
+      objectReference: {fileID: 943719435}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: de68ed713a1a59e4a9038d25cc009216, type: 2}
   m_IsPrefabParent: 0
@@ -1461,8 +1496,8 @@ GameObject:
   m_Component:
   - component: {fileID: 943719436}
   m_Layer: 0
-  m_Name: SpawnPoint (3)
-  m_TagString: playerSpawn
+  m_Name: 4
+  m_TagString: RedSpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2437,8 +2472,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1159163953}
   m_Layer: 0
-  m_Name: SpawnPoint
-  m_TagString: playerSpawn
+  m_Name: 1
+  m_TagString: BlueSpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3323,8 +3358,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1685079866}
   m_Layer: 0
-  m_Name: SpawnPoint (3)
-  m_TagString: playerSpawn
+  m_Name: 4
+  m_TagString: BlueSpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3351,8 +3386,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1699474577}
   m_Layer: 0
-  m_Name: SpawnPoint (1)
-  m_TagString: playerSpawn
+  m_Name: 2
+  m_TagString: BlueSpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3470,8 +3505,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1773276317}
   m_Layer: 0
-  m_Name: SpawnPoint (1)
-  m_TagString: playerSpawn
+  m_Name: 2
+  m_TagString: RedSpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
