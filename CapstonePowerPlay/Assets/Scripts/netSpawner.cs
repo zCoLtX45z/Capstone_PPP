@@ -23,14 +23,15 @@ public class netSpawner : MonoBehaviour
 
     private void CallSpawnNet()
     {
-
-        PV.RPC("RPC_SpawnNet", RpcTarget.AllBuffered);
-
+        //if(PhotonNetwork.IsMasterClient)
+        // PV.RPC("RPC_SpawnNet", RpcTarget.MasterClient);
+        SpawnNet();
     }
 
-    [PunRPC]
-    public void RPC_SpawnNet()
+   // [PunRPC]
+    public void SpawnNet()
     {
+        Debug.Log("SpawnNet");
         if (PhotonNetwork.IsMasterClient)
         {
             net = PhotonNetwork.InstantiateSceneObject("NetObject", netSpawn.position, netSpawn.rotation);
