@@ -27,6 +27,8 @@ public class NetPlayer : MonoBehaviour {
     // Team Select Canvas
     [SerializeField]
     private Canvas StartingCanvas;
+    [SerializeField]
+    private Canvas LoadingCanvas;
 
     [HideInInspector]
     public bool ConfirmTeam = false;
@@ -48,12 +50,18 @@ public class NetPlayer : MonoBehaviour {
     private bool SetPlayerBool = false;
     private bool SetUpThePlayers = false;
     private bool PC_SetLocalSent = false;
+
     // Variables
     private bool SkipTeamSelect = false;
+    private bool LoadingScreenOn = true;
+
+    // Player Spawn Points
+    private GameSetup GS;
 
     // Use this for initialization
     void Start ()
     {
+        GS = FindObjectOfType<GameSetup>();
         if (!PV)
             PV = GetComponent<PhotonView>();
         if (PV.IsMine)
@@ -200,10 +208,22 @@ public class NetPlayer : MonoBehaviour {
                     }
                 }
             }
+            else if (LoadingScreenOn)
+            {
+                // In case GS wasn't grabbed by this point
+                if (!GS)
+                    GS = FindObjectOfType<GameSetup>();
+
+
+            }
             else
             {
                 if (PV.IsMine)
                 {
+                    // Turn Loading Screen Off
+                    if (LoadingCanvas.gameObject.activeSelf)
+                        LoadingCanvas.gameObject.SetActive(false);
+
                     if (Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.RightShift))
                     {
                         if (!ChatSystem.GetEnabled())
