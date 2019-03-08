@@ -42,6 +42,8 @@ public class PlayerColor : MonoBehaviourPun
     // Setting up players
     [HideInInspector]
     public bool PlayerLocalSet = false;
+    [HideInInspector]
+    public bool SetLocalPlayerCalled = false;
     public GameObject ParentObject;
 
     [PunRPC]
@@ -161,7 +163,7 @@ public class PlayerColor : MonoBehaviourPun
             TextName.gameObject.SetActive(false);
         }
 
-        if (LocalPlayer != null)
+        if (LocalPlayer != null && SetLocalPlayerCalled)
         {
             PlayerLocalSet = true;
             PV.RPC("RPC_UpdateLocalSet", RpcTarget.AllBuffered, PlayerLocalSet);
@@ -184,9 +186,10 @@ public class PlayerColor : MonoBehaviourPun
         {
             transform.SetParent(ParentObject.transform);
         }
+        SetLocalPlayerCalled = true;
     }
 
-    private void SetTeamNum(int team)
+    public void SetTeamNum(int team)
     {
         if (LocalPlayer == null)
             LocalPlayer = ParentPlayer.LocalPlayer;
