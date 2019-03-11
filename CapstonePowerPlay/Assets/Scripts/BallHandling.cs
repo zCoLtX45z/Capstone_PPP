@@ -203,8 +203,8 @@ public class BallHandling : MonoBehaviour {
         //PV.RPC("RPC_PlayPassEffect", RpcTarget.All);
         //RPC_Shoot(Direction, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
 
-        Debug.Log("Direction: " + Direction + " ballObject: " + ballObject + " HandPos: " + HandPos + " WhoThrew: " + WhoThrew);
-        Debug.Log("PV: " + PV);
+        //Debug.Log("Direction: " + Direction + " ballObject: " + ballObject + " HandPos: " + HandPos + " WhoThrew: " + WhoThrew);
+        //Debug.Log("PV: " + PV);
 
         PV.RPC("RPC_Shoot", RpcTarget.All, Direction, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
     }

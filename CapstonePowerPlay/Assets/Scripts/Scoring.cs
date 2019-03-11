@@ -142,14 +142,14 @@ public class Scoring : MonoBehaviour
     [PunRPC]
     public void RPC_Team1Score()
     {
-        Debug.Log("Cmd team1");
+        //Debug.Log("Cmd team1");
         PlayGoaleffect();
         Team1Score();
     }
     
     public void Team1Score()
     {
-        Debug.Log("add point to team 1");
+        //Debug.Log("add point to team 1");
         team1Score++;
         HandleScoreCanvas();
     }
@@ -164,14 +164,14 @@ public class Scoring : MonoBehaviour
     [PunRPC]
     public void RPC_Team2Score()
     {
-        Debug.Log("Cmd team2");
+        //Debug.Log("Cmd team2");
         PlayGoaleffect();
         Team2Score();
     }
     
     public void Team2Score()
     {
-        Debug.Log("add point to team 2");
+        //Debug.Log("add point to team 2");
         team2Score++;
         HandleScoreCanvas();
     }
@@ -266,16 +266,16 @@ public class Scoring : MonoBehaviour
     private void OnTriggerEnter(Collider c)
     {
 
-        Debug.Log("Net Triggered");
+        //Debug.Log("Net Triggered");
 
         if(c.gameObject.tag == "Ball_Score_Trigger" && !scored)
         {
             int teamScored = c.transform.parent.GetComponent<Ball>().WhoTossedTheBall.GetComponent<PlayerColor>().TeamNum;
-            Debug.Log("Ball has triggered the net");
+            //Debug.Log("Ball has triggered the net");
             if(teamScored == 1)
             {
                 Src.PlayOneShot(Score, 1f);
-                Debug.Log("Team1 Scored!");
+                //Debug.Log("Team1 Scored!");
                 //CmdTeam1Score();
                 PV.RPC("RPC_Team1Score", RpcTarget.AllBuffered);
                 timeUntilScoreReset = maxTimeUntilScoreReset;
@@ -284,7 +284,7 @@ public class Scoring : MonoBehaviour
             else if (teamScored == 2)
             {
                 Src.PlayOneShot(Score, 1f);
-                Debug.Log("Team2 Scored!");
+                //Debug.Log("Team2 Scored!");
                 //CmdTeam2Score();
                 PV.RPC("RPC_Team2Score", RpcTarget.AllBuffered);
                 timeUntilScoreReset = maxTimeUntilScoreReset;
