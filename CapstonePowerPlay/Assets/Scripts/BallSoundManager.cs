@@ -8,12 +8,17 @@ public class BallSoundManager : MonoBehaviour {
 
     public AudioClip bounce;
 
+    private PlayerSoundSettings PS;
+
     //private float minVol = 0.2f;
     //private float maxVol = 1f;
 
 	// Use this for initialization
 	void Start () {
+        PS = FindObjectOfType<PlayerSoundSettings>();
         audioSrc = GetComponent<AudioSource>();
+
+        audioSrc.volume = PS.SoundFXVol;
 	}
 	
 	// Update is called once per frame

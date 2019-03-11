@@ -7,6 +7,7 @@ public class HoverBoardSounds : MonoBehaviour {
     private AudioSource Src;
     public AudioClip Hover;
     private hoverBoardScript HV;
+    private PlayerSoundSettings PS;
 
     private float HovVol = 0.3f;
     private float minPitch = 1f;
@@ -16,6 +17,8 @@ public class HoverBoardSounds : MonoBehaviour {
 	void Start () {
         HV = GetComponent<hoverBoardScript>();
         Src = GetComponent<AudioSource>();
+        PS = FindObjectOfType<PlayerSoundSettings>();
+        HovVol = PS.SoundFXVol;
         
 	}
 	
