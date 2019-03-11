@@ -31,7 +31,7 @@ public class netSpawner : MonoBehaviour
    // [PunRPC]
     public void SpawnNet()
     {
-        Debug.Log("SpawnNet");
+        //Debug.Log("SpawnNet");
         if (PhotonNetwork.IsMasterClient)
         {
             net = PhotonNetwork.InstantiateSceneObject("NetObject", netSpawn.position, netSpawn.rotation);

@@ -29,6 +29,8 @@ public class NetPlayer : MonoBehaviour {
     private Canvas StartingCanvas;
     [SerializeField]
     private Canvas LoadingCanvas;
+    [SerializeField]
+    private InGameMenu ArenaMenu;
 
     [HideInInspector]
     public bool ConfirmTeam = false;
@@ -105,7 +107,7 @@ public class NetPlayer : MonoBehaviour {
                 TeamNum = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
 
                 // Spawn player character
-                Debug.Log("Spawning player Skip");
+                //Debug.Log("Spawning player Skip");
                 SkipTeamSelect = false;
                 StartingCanvas.gameObject.SetActive(false);
                 SpawnPlayer();
@@ -165,24 +167,24 @@ public class NetPlayer : MonoBehaviour {
                             }
                         }
                     }
-                    else
-                    {
-                        Debug.Log("Current Players: " + PhotonNetwork.CurrentRoom.PlayerCount + ", Current Net Players: " + PlayerList.Length);
-                    }
+                    //else
+                    //{
+                    //    Debug.Log("Current Players: " + PhotonNetwork.CurrentRoom.PlayerCount + ", Current Net Players: " + PlayerList.Length);
+                    //}
                 }
                 if (SetUpThePlayers)
                 {
                     // Set Local Player for everyone
                     if (!PC_SetLocalSent)
                     {
-                        Debug.Log("Set Player Child Player");
+                        //Debug.Log("Set Player Child Player");
                         PC_SetLocalSent = true;
                         PC.SetUpPlayer(this);
                     }
                     PlayerColor[] PlayerColorList = FindObjectsOfType<PlayerColor>();
                     if (PhotonNetwork.CurrentRoom.PlayerCount == PlayerColorList.Length)
                     {
-                        Debug.Log("Final Set Players Check");
+                        //Debug.Log("Final Set Players Check");
                         bool FinalSetPlayers = true;
                         foreach (PlayerColor P in PlayerColorList)
                         {
@@ -195,7 +197,7 @@ public class NetPlayer : MonoBehaviour {
                         }
                         if (FinalSetPlayers)
                         {
-                            Debug.Log("Final Set Players Do");
+                            //Debug.Log("Final Set Players Do");
                             PC.FinalPlayerSet(PV.ViewID);
                             SetPlayerBool = true;
                             foreach (PlayerColor P in PlayerColorList)
@@ -223,10 +225,10 @@ public class NetPlayer : MonoBehaviour {
                     ChildPlayer.transform.rotation = SpawnPoint.rotation;
                     LoadingScreenOn = false;
                     LoadingCanvas.gameObject.SetActive(false);
-                    if (TeamNum == 1)
-                        Debug.Log("Spawn Point Selected(Team 1): " + SpawnPoint.name);
-                    else if (TeamNum == 2)
-                        Debug.Log("Spawn Point Selected(Team 2): " + SpawnPoint.name);
+                    //if (TeamNum == 1)
+                    //    Debug.Log("Spawn Point Selected(Team 1): " + SpawnPoint.name);
+                    //else if (TeamNum == 2)
+                    //    Debug.Log("Spawn Point Selected(Team 2): " + SpawnPoint.name);
 
                 }
 
@@ -234,6 +236,22 @@ public class NetPlayer : MonoBehaviour {
                 FindObjectOfType<ballHandler>().SpawnBall();
 
 
+            }
+            else if (ArenaMenu.gameObject.activeSelf)
+            {
+
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+
+                if (HBS != null)
+                {
+                    HBS.BoardHasControl = false;
+                }
+
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    ArenaMenu.gameObject.SetActive(false);
+                }
             }
             else
             {
@@ -255,6 +273,11 @@ public class NetPlayer : MonoBehaviour {
                     else if (!ChatSystem.GetEnabled() && HBS != null)
                     {
                         HBS.BoardHasControl = true;
+                    }
+
+                    if (!ChatSystem.GetEnabled() && Input.GetKeyDown(KeyCode.Escape))
+                    {
+                        ArenaMenu.gameObject.SetActive(true);
                     }
 
                     // If the curser should be active or not
@@ -310,7 +333,7 @@ public class NetPlayer : MonoBehaviour {
         if (ChildPlayer != null)
         {
             //ParentChild(GO);
-            Debug.Log("GO != null");
+            //Debug.Log("GO != null");
             PV.RPC("RPC_ParentChild", RpcTarget.All, ChildPlayer.GetPhotonView().ViewID, PV.ViewID);
             ReadyToSetPlayer = true;
             //PV.RPC("RPC_UpdateReady", RpcTarget.AllBuffered, ReadyToSetPlayer);

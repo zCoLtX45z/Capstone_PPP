@@ -109,10 +109,10 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
 
     private void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        print(scene.name + ": OnSceneFinhishedLoadingCalled");
+        //print(scene.name + ": OnSceneFinhishedLoadingCalled");
         if (scene.name == "DustinScene" || scene.name == "Marcscene" || scene.name == "MarcsceneDup")
         {
-            print("RPC_CreatePlayer" + ": Attempted");
+            //print("RPC_CreatePlayer" + ": Attempted");
             //PhotonNetwork.Instantiate("PhotonPrefabs/PhotonNetworkPlayer", transform.position, Quaternion.identity, 0);
             if (PhotonNetwork.IsMasterClient)
                 PV.RPC("RPC_CreatePlayer", RpcTarget.All);
@@ -122,7 +122,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
     [PunRPC]
     private void RPC_CreatePlayer()
     {
-        print("RPC_CreatePlayer" + ": Called");
+        //print("RPC_CreatePlayer" + ": Called");
         PhotonNetwork.Instantiate("PhotonPrefabs/PhotonNetworkPlayer", transform.position, Quaternion.identity, 0);
     }
 }

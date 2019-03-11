@@ -130,6 +130,7 @@ public class Chat : MonoBehaviour
                 if (DisableTimer > TimeToDiableElements)
                 {
                     DisableTimer = 0;
+                    timerActive = false;
                     DisableComponents();
                 }
             }
@@ -181,25 +182,25 @@ public class Chat : MonoBehaviour
         if (type == LogType.Error)
         {
             if(!IgnoreErrors)
-                CreateConsoleEntry("Error", " -LogString- " + logString + " -StackTrace- ");
+                CreateConsoleEntry("Error", " -LogString- " + logString + " -StackTrace- " + stackTrace);
         }
         else if (type == LogType.Log)
         {
             if(!IgnoreLogs)
-                CreateConsoleEntry("Log", " -LogString- " + logString + " -StackTrace- ");
+                CreateConsoleEntry("Log", " -LogString- " + logString + " -StackTrace- " + stackTrace);
         }
         else if (type == LogType.Warning)
         {
             if (!IgnoreWarnings)
-                CreateConsoleEntry("Warning", " -LogString- " + logString + " -StackTrace- ");
+                CreateConsoleEntry("Warning", " -LogString- " + logString + " -StackTrace- " + stackTrace);
         }
         else if (type == LogType.Assert)
         {
-            CreateConsoleEntry("Assert", " -LogString- " + logString + " -StackTrace- ");
+            CreateConsoleEntry("Assert", " -LogString- " + logString + " -StackTrace- " + stackTrace);
         }
         else if (type == LogType.Exception)
         {
-            CreateConsoleEntry("Exception", " -LogString- " + logString + " -StackTrace- ");
+            CreateConsoleEntry("Exception", " -LogString- " + logString + " -StackTrace- " + stackTrace);
         }
     }
     public bool GetEnabled()
@@ -209,12 +210,14 @@ public class Chat : MonoBehaviour
 
     public void CreateGlobalEntry(string text)
     {
+        //print("Create Entry Global");
         //CmdCreateEntry(gameObject.name, text, "All", this.gameObject);
         PV.RPC("RPC_CreateEntry", RpcTarget.All, gameObject.name, text, "All", PV.ViewID);
     }
 
     public void CreateTeamEntry(string text)
     {
+        //print("Create Entry Team");
         //CmdCreateEntry(gameObject.name, text, "Team" + NP.GetTeamNum(), this.gameObject);
         PV.RPC("RPC_CreateEntry", RpcTarget.All, gameObject.name, text, "Team" + NP.GetTeamNum(), PV.ViewID);
     }
@@ -283,6 +286,7 @@ public class Chat : MonoBehaviour
 
         UpdateDisplay();
     }
+
     public void BroadcastEntry(ChatEntry Entry, Chat WhoBroadcasted)
     {
         //Debug.Log("Broadcast Entry");
@@ -317,9 +321,24 @@ public class Chat : MonoBehaviour
         }
     }
 
+    private void TurnOffAllEntries()
+    {
+        foreach(ChatEntry c in EveryEntry)
+        {
+            c.gameObject.SetActive(false);
+        }
+
+        foreach(ChatEntry c in ConsoleEntries)
+        {
+            c.gameObject.SetActive(false);
+        }
+    }
+
     public void UpdateDisplay()
     {
         int count = 0;
+        //CheckForNewEntries();
+        TurnOffAllEntries();
         if (EntryList == 0)
         {
             count = EveryEntry.Count;
@@ -382,6 +401,41 @@ public class Chat : MonoBehaviour
         }
     }
 
+    private void CheckForNewEntries()
+    {
+        ChatEntry[] CEList = ChatParent.GetComponentsInChildren<ChatEntry>();
+        foreach(ChatEntry c in CEList)
+        {
+            if (!EveryEntry.Contains(c) && c.EntryType != "Console")
+            {
+                if (c.EntryType == "All")
+                    EveryEntry.Enqueue(c);
+                else if (NP.GetTeamNum() == c.EntryPerson.GetComponent<NetPlayer>().GetTeamNum())
+                    EveryEntry.Enqueue(c);
+            }
+            else if (NP.GetTeamNum() == 1)
+            {
+                if (c.EntryPerson.GetComponent<NetPlayer>().GetTeamNum() == 1)
+                {
+                    if (!TeamChatEntries.Contains(c))
+                    {
+                        TeamChatEntries.Enqueue(c);
+                    }
+                }
+            }
+            else if (NP.GetTeamNum() == 2)
+            {
+                if (c.EntryPerson.GetComponent<NetPlayer>().GetTeamNum() == 2)
+                {
+                    if (!TeamChatEntries.Contains(c))
+                    {
+                        TeamChatEntries.Enqueue(c);
+                    }
+                }
+            }
+        }
+    }
+
     public void CreateConsoleEntry(string name, string text)
     {
         if (IgnoreCopies)
@@ -399,7 +453,7 @@ public class Chat : MonoBehaviour
             {
                 ChatEntry temp = Instantiate(ChatEntryPrefab, ScrollContentStartingPoint);
                 EntryCount++;
-                temp.CreateMessege(name + ": " + text, ConsoleColor, "Console", EntryCount, gameObject.name);
+                temp.CreateMessege(name + ": " + text, ConsoleColor, "Console", EntryCount, gameObject);
                 ConsoleEntries.Enqueue(temp);
                 if (EntryList != 3)
                 {
@@ -415,6 +469,7 @@ public class Chat : MonoBehaviour
         {
             if (entryType != "Console")
             {
+                print("Create Entry RPC");
                 GameObject playerWhoMadeText = PhotonView.Find(WhoEnteredViewID).gameObject;
                 CreateEntry(name, text, entryType, playerWhoMadeText);
             }
@@ -424,11 +479,12 @@ public class Chat : MonoBehaviour
     
     public void CreateEntry(string name, string text, string entryType, GameObject WhoEntered)
     {
+        print("Create Entry");
         ChatEntry temp = Instantiate(ChatEntryPrefab, ScrollContentStartingPoint);
         if (entryType == "All")
         {
             EntryCount++;
-            temp.CreateMessege(name + ": " + text, AllChatColor, entryType, EntryCount, gameObject.name);
+            temp.CreateMessege(name + ": " + text, AllChatColor, entryType, EntryCount, gameObject);
             GlobalChatEntries.Enqueue(temp);
             EveryEntry.Enqueue(temp);
             if (EntryList != 0)
@@ -442,7 +498,7 @@ public class Chat : MonoBehaviour
             if (NP.GetTeamNum() == 1)
             {
                 EntryCount++;
-                temp.CreateMessege(name + ": " + text, TeamChatColor, entryType, EntryCount, gameObject.name);
+                temp.CreateMessege(name + ": " + text, TeamChatColor, entryType, EntryCount, gameObject);
                 TeamChatEntries.Enqueue(temp);
                 EveryEntry.Enqueue(temp);
                 if (EntryList != 1)
@@ -457,7 +513,7 @@ public class Chat : MonoBehaviour
             if (NP.GetTeamNum() == 2)
             {
                 EntryCount++;
-                temp.CreateMessege(name + ": " + text, TeamChatColor, entryType, EntryCount, gameObject.name);
+                temp.CreateMessege(name + ": " + text, TeamChatColor, entryType, EntryCount, gameObject);
                 TeamChatEntries.Enqueue(temp);
                 EveryEntry.Enqueue(temp);
                 if (EntryList != 2)
@@ -470,7 +526,7 @@ public class Chat : MonoBehaviour
         else if (entryType == "Console")
         {
             EntryCount++;
-            temp.CreateMessege(name + ": " + text, ConsoleColor, entryType, EntryCount, gameObject.name);
+            temp.CreateMessege(name + ": " + text, ConsoleColor, entryType, EntryCount, gameObject);
             ConsoleEntries.Enqueue(temp);
             if (EntryList != 3)
             {
@@ -505,6 +561,7 @@ public class Chat : MonoBehaviour
         else
         {
             DisableUI();
+            timerActive = true;
         }
         EnabledChat = !EnabledChat;
     }

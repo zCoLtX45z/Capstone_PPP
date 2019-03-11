@@ -7,15 +7,13 @@ public class PlayerSoundSettings : MonoBehaviour {
 
 
     public float musicVol;
-    public float hoverVol;
+    public float SoundFXVol;
 
 
     public Slider musicSlider;
     public Slider SoundFXSlider;
 
 
-    private musicMenu muse;
-    private HoverBoardSounds hov;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +23,6 @@ public class PlayerSoundSettings : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         musicVol = musicSlider.value;
-        hoverVol = SoundFXSlider.value;
+        SoundFXVol = SoundFXSlider.value;
 	}
 }
