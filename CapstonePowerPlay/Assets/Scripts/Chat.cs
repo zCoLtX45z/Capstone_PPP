@@ -209,12 +209,14 @@ public class Chat : MonoBehaviour
 
     public void CreateGlobalEntry(string text)
     {
+        print("Create Entry Global");
         //CmdCreateEntry(gameObject.name, text, "All", this.gameObject);
         PV.RPC("RPC_CreateEntry", RpcTarget.All, gameObject.name, text, "All", PV.ViewID);
     }
 
     public void CreateTeamEntry(string text)
     {
+        print("Create Entry Team");
         //CmdCreateEntry(gameObject.name, text, "Team" + NP.GetTeamNum(), this.gameObject);
         PV.RPC("RPC_CreateEntry", RpcTarget.All, gameObject.name, text, "Team" + NP.GetTeamNum(), PV.ViewID);
     }
@@ -415,6 +417,7 @@ public class Chat : MonoBehaviour
         {
             if (entryType != "Console")
             {
+                print("Create Entry RPC");
                 GameObject playerWhoMadeText = PhotonView.Find(WhoEnteredViewID).gameObject;
                 CreateEntry(name, text, entryType, playerWhoMadeText);
             }
@@ -424,6 +427,7 @@ public class Chat : MonoBehaviour
     
     public void CreateEntry(string name, string text, string entryType, GameObject WhoEntered)
     {
+        print("Create Entry");
         ChatEntry temp = Instantiate(ChatEntryPrefab, ScrollContentStartingPoint);
         if (entryType == "All")
         {

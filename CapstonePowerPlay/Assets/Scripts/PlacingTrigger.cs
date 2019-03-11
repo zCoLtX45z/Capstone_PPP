@@ -16,7 +16,7 @@ public class PlacingTrigger : MonoBehaviour {
     {
         if (other.gameObject.tag == "Ground" || other.gameObject.tag == "Player" || other.gameObject.tag == "Team 1" || other.gameObject.tag == "Team 2" || other.gameObject.tag == "Object" || other.gameObject.tag == "BoostPad")
         {
-            Debug.Log(other.gameObject.name + "P Hit - Trigger");
+            //Debug.Log(other.gameObject.name + "P Hit - Trigger");
             TriggerActive = true;
             if (other.gameObject.tag == "Ground")
             {
