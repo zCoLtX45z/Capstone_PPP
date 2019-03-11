@@ -181,25 +181,25 @@ public class Chat : MonoBehaviour
         if (type == LogType.Error)
         {
             if(!IgnoreErrors)
-                CreateConsoleEntry("Error", " -LogString- " + logString + " -StackTrace- ");
+                CreateConsoleEntry("Error", " -LogString- " + logString + " -StackTrace- " + stackTrace);
         }
         else if (type == LogType.Log)
         {
             if(!IgnoreLogs)
-                CreateConsoleEntry("Log", " -LogString- " + logString + " -StackTrace- ");
+                CreateConsoleEntry("Log", " -LogString- " + logString + " -StackTrace- " + stackTrace);
         }
         else if (type == LogType.Warning)
         {
             if (!IgnoreWarnings)
-                CreateConsoleEntry("Warning", " -LogString- " + logString + " -StackTrace- ");
+                CreateConsoleEntry("Warning", " -LogString- " + logString + " -StackTrace- " + stackTrace);
         }
         else if (type == LogType.Assert)
         {
-            CreateConsoleEntry("Assert", " -LogString- " + logString + " -StackTrace- ");
+            CreateConsoleEntry("Assert", " -LogString- " + logString + " -StackTrace- " + stackTrace);
         }
         else if (type == LogType.Exception)
         {
-            CreateConsoleEntry("Exception", " -LogString- " + logString + " -StackTrace- ");
+            CreateConsoleEntry("Exception", " -LogString- " + logString + " -StackTrace- " + stackTrace);
         }
     }
     public bool GetEnabled()
