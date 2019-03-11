@@ -6875,6 +6875,10 @@ Prefab:
       propertyPath: viewIdField
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1442297457559922, guid: 733075f808802c04dbb8d6c43813a540, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 733075f808802c04dbb8d6c43813a540, type: 2}
   m_IsPrefabParent: 0
@@ -7654,7 +7658,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicVol: 0
-  hoverVol: 0
+  SoundFXVol: 0
   musicSlider: {fileID: 1721535268}
   SoundFXSlider: {fileID: 1317583794}
 --- !u!1 &1832529749
