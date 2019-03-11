@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class InGameMenu : MonoBehaviour {
+public class InGameMenu : MonoBehaviourPunCallbacks {
 
     [SerializeField]
     private PhotonView PV;
@@ -12,10 +13,12 @@ public class InGameMenu : MonoBehaviour {
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(0);
     }
 
     private void OnApplicationQuit()
     {
         PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LeaveLobby();
     }
 }
