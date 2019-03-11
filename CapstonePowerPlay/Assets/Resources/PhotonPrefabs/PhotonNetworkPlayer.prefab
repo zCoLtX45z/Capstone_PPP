@@ -2270,8 +2270,14 @@ MonoBehaviour:
   ConsoleChatName: {fileID: 114227121339317768}
   PlayerNameBackground: {fileID: 114454413838282352}
   ScrollContentStartingPoint: {fileID: 224971541967302752}
-  UiObjectsToDisableAfterTime: []
-  UiObjectsToDisableOnExit: []
+  UiObjectsToDisableAfterTime:
+  - {fileID: 114680852758558640}
+  UiObjectsToDisableOnExit:
+  - {fileID: 114453188382946292}
+  - {fileID: 114904270485149426}
+  - {fileID: 114568384372791496}
+  - {fileID: 114454413838282352}
+  - {fileID: 114860532380733448}
   ChatParent: {fileID: 1664375528277818}
   NP: {fileID: 114648023564759556}
   TimeToDiableElements: 5
@@ -2895,7 +2901,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   viewIdField: 0
-  InstantiationId: 4
+  InstantiationId: 5
   isRuntimeInstantiated: 0
 --- !u!114 &114369447228376398
 MonoBehaviour:
