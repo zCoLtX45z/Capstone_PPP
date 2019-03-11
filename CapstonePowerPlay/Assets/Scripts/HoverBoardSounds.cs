@@ -18,7 +18,7 @@ public class HoverBoardSounds : MonoBehaviour {
         HV = GetComponent<hoverBoardScript>();
         Src = GetComponent<AudioSource>();
         PS = FindObjectOfType<PlayerSoundSettings>();
-        HovVol = PS.hoverVol;
+        HovVol = PS.SoundFXVol;
         
 	}
 	

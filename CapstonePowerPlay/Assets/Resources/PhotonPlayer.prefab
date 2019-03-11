@@ -1953,7 +1953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4139089029513530}
   - component: {fileID: 82269476206781652}
-  - component: {fileID: 114994177162319264}
+  - component: {fileID: 114016218178811884}
   m_Layer: 0
   m_Name: playermusic
   m_TagString: Untagged
@@ -8414,6 +8414,17 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
+--- !u!114 &114016218178811884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1533310855293558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a789f99bd7a4b41bdae18ccf325abc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114027717465583432
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9578,17 +9589,6 @@ MonoBehaviour:
   green: 0
   insureOneType: 1
   Opendoor: 0
---- !u!114 &114994177162319264
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1533310855293558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c755f0d01c304087d921256c583af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!124 &124887889504229076
 Behaviour:
   m_ObjectHideFlags: 1
