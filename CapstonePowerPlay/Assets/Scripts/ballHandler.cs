@@ -42,7 +42,7 @@ public class ballHandler : MonoBehaviour {
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("spawning ball");
+            //Debug.Log("spawning ball");
             PhotonNetwork.Instantiate("Prefabs/Ultra Ball", ballSpawn.position, ballSpawn.rotation);
         }
         

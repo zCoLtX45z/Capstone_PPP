@@ -84,10 +84,10 @@ public class GameSetup : MonoBehaviour {
             ReturnTransform = BlueSpawns[index].transform;
         if (ThisPlayer.GetTeamNum() == 2)
             ReturnTransform = RedSpawns[index].transform;
-        else
-        {
-            Debug.Log("No Spawn Selected");
-        }
+        //else
+        //{
+        //    Debug.Log("No Spawn Selected");
+        //}
         return ReturnTransform;
     }
 }

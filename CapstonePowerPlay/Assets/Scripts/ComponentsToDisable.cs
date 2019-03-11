@@ -15,7 +15,7 @@ public class ComponentsToDisable : MonoBehaviour {
     // Use this for initialization
     private void Start()
     {
-        Debug.Log("disbaling behaviors");
+        //Debug.Log("disbaling behaviors");
         ForcedStart1();
     }
     public void ForcedStart1()
