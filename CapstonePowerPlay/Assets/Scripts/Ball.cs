@@ -411,7 +411,7 @@ public class Ball : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!stolenInProgress)
+        if (!stolenInProgress && (other.tag == "Team 1" || other.tag == "Team 2"))
         {
             PV.RPC("RPC_OnTriggerExit", RpcTarget.All);
         }

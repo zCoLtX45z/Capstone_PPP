@@ -12,7 +12,7 @@ public class AutoRotation : MonoBehaviour {
 
     // Components
     [SerializeField]
-    private Camera Cam;
+    private Transform CamParent;
     [SerializeField]
     private Transform HelperPlayer;
     [SerializeField]
@@ -39,10 +39,10 @@ public class AutoRotation : MonoBehaviour {
         // If the players autorotation is active, rotatte
         if (IsActive && PlayerSetActive)
         {
-            DirectionCam = HelperPlayer.position - Cam.transform.position;
+            DirectionCam = HelperPlayer.position - CamParent.transform.position;
             DirectionHelper = HelperPlayer.position - HelperSpace.position;
-            HelperPlayer.LookAt(Cam.transform);
-            HelperSpace.LookAt(Cam.transform);
+            HelperPlayer.LookAt(CamParent.transform, CameraLookAtPos.position);
+            HelperSpace.LookAt(CamParent.transform, CameraLookAtPos.position);
         }
 	}
 }
