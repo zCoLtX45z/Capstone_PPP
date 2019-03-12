@@ -261,6 +261,7 @@ public class RoundManager : MonoBehaviour {
 
             Debug.Log("Destroy ball");
             PhotonNetwork.Destroy(ball.gameObject);
+            ball = null;
 
             bHandler.SpawnBall();
             ball = FindObjectOfType<Ball>().gameObject;
