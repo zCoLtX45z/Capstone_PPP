@@ -29,6 +29,8 @@ public class NetPlayer : MonoBehaviour {
     private Canvas StartingCanvas;
     [SerializeField]
     private Canvas LoadingCanvas;
+    [SerializeField]
+    private InGameMenu ArenaMenu;
 
     [HideInInspector]
     public bool ConfirmTeam = false;
@@ -235,6 +237,22 @@ public class NetPlayer : MonoBehaviour {
 
 
             }
+            else if (ArenaMenu.gameObject.activeSelf)
+            {
+
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+
+                if (HBS != null)
+                {
+                    HBS.BoardHasControl = false;
+                }
+
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    ArenaMenu.gameObject.SetActive(false);
+                }
+            }
             else
             {
                 if (PV.IsMine)
@@ -255,6 +273,11 @@ public class NetPlayer : MonoBehaviour {
                     else if (!ChatSystem.GetEnabled() && HBS != null)
                     {
                         HBS.BoardHasControl = true;
+                    }
+
+                    if (!ChatSystem.GetEnabled() && Input.GetKeyDown(KeyCode.Escape))
+                    {
+                        ArenaMenu.gameObject.SetActive(true);
                     }
 
                     // If the curser should be active or not
