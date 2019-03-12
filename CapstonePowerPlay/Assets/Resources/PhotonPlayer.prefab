@@ -3370,6 +3370,7 @@ GameObject:
   - component: {fileID: 114229342354487382}
   - component: {fileID: 114098889347664270}
   - component: {fileID: 114292387994990432}
+  - component: {fileID: 114255894230363410}
   m_Layer: 8
   m_Name: CrossHair
   m_TagString: Untagged
@@ -9611,6 +9612,32 @@ MonoBehaviour:
   isClamp: 1
   min: -12000
   max: 12000
+--- !u!114 &114255894230363410
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1790260921786148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 2800000, guid: 6893a45050f9b4a42841e281ccb34b5d, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!114 &114292387994990432
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9688,16 +9715,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc5aa1461f247447ac11a9acac22c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationSpeed: 10
+  RotationForce: 50
   GroundLayers:
     serializedVersion: 2
     m_Bits: 513
-  CamParent: {fileID: 4336794463905646}
+  HBS: {fileID: 114934221510051980}
   Cam: {fileID: 4440573273508166}
-  HelperPlayer: {fileID: 4424099377996526}
-  HelperSpace: {fileID: 4963764073536216}
   HelperSpaceCam: {fileID: 4661396914997780}
-  CameraLookAtPos: {fileID: 4369899622928880}
   IsActive: 1
 --- !u!114 &114345336956126368
 MonoBehaviour:

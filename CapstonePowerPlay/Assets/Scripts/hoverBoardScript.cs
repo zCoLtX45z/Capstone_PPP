@@ -376,9 +376,14 @@ public class hoverBoardScript : MonoBehaviour
             : 0.2f;
 
         if (!SpeedBoosted)
-            m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength * SpeedTurnAdjust);
+            RotateHoverBoard(m_currTurn * m_turnStrength * SpeedTurnAdjust);
         else
-            m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength * SpeedTurnAdjust * (100 + SpeedBoostTurnPercent) / 100);
+            RotateHoverBoard(m_currTurn * m_turnStrength * SpeedTurnAdjust * (100 + SpeedBoostTurnPercent) / 100);
+    }
+
+    public void RotateHoverBoard(float TurnAmount)
+    {
+        m_body.AddRelativeTorque(Vector3.up * TurnAmount);
     }
 
     void OnDrawGizmos()
