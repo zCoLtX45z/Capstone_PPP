@@ -16,6 +16,11 @@ public class InGameMenu : MonoBehaviourPunCallbacks {
         SceneManager.LoadScene(0);
     }
 
+    public void CloseGame()
+    {
+        Application.Quit();
+    }
+
     private void OnApplicationQuit()
     {
         PhotonNetwork.LeaveRoom();

@@ -1424,6 +1424,7 @@ GameObject:
   - component: {fileID: 65701550495349376}
   - component: {fileID: 65935491866525760}
   - component: {fileID: 65729241856322394}
+  - component: {fileID: 114750767401341670}
   m_Layer: 8
   m_Name: PhotonPlayer Offline
   m_TagString: Player
@@ -5677,7 +5678,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1341694463650034}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -31.68991, y: 0.5, z: 7.3154984}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4306036686766866}
@@ -8309,6 +8310,10 @@ MonoBehaviour:
   ParentPlayer: {fileID: 0}
   CD: {fileID: 114272984052675092}
   pSLPS: {fileID: 114457396979892804}
+  PV: {fileID: 0}
+  PlayerLocalSet: 0
+  SetLocalPlayerCalled: 0
+  ParentObject: {fileID: 0}
 --- !u!114 &114098401276760732
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8735,6 +8740,7 @@ MonoBehaviour:
   maxAngle: 0.1
   speedRot: 6
   hardLock: 0
+  handTransform: {fileID: 0}
 --- !u!114 &114495876876031370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8996,6 +9002,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114750767401341670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1341694463650034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc5aa1461f247447ac11a9acac22c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotationSpeed: 10
+  Cam: {fileID: 20035918909804630}
+  IsActive: 1
 --- !u!114 &114757220241512208
 MonoBehaviour:
   m_ObjectHideFlags: 1
