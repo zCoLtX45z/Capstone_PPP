@@ -13,11 +13,19 @@ public class AutoRotation : MonoBehaviour {
     // Components
     [SerializeField]
     private Camera Cam;
+    [SerializeField]
+    private Transform HelperPlayer;
+    [SerializeField]
+    private Transform HelperSpace;
+    [SerializeField]
+    private Transform CameraLookAtPos;
 
     // Hiddenn variables
     [HideInInspector]
     public bool IsActive = true;
     private bool PlayerSetActive = true;
+    private Vector3 DirectionHelper;
+    private Vector3 DirectionCam;
 	
 	// Update is called once per frame
 	void Update () {
@@ -31,7 +39,10 @@ public class AutoRotation : MonoBehaviour {
         // If the players autorotation is active, rotatte
         if (IsActive && PlayerSetActive)
         {
-
+            DirectionCam = HelperPlayer.position - Cam.transform.position;
+            DirectionHelper = HelperPlayer.position - HelperSpace.position;
+            HelperPlayer.LookAt(Cam.transform);
+            HelperSpace.LookAt(Cam.transform);
         }
 	}
 }
