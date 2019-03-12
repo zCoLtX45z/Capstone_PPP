@@ -177,10 +177,10 @@ public class RoundManager : MonoBehaviour {
             else
             {
                 //if (PhotonNetwork.IsMasterClient)
-                {
+                //{
                     NextRound();
                     allowTime = false;
-                }
+                //
             }
         }
         if(allowCountDown)
@@ -200,7 +200,7 @@ public class RoundManager : MonoBehaviour {
 
     public void NextRound()
     {
-        PV.RPC("RPC_ResetRound", RpcTarget.AllBuffered);
+        PV.RPC("RPC_ResetRound", RpcTarget.All);
     }
 
     [PunRPC]
@@ -233,7 +233,7 @@ public class RoundManager : MonoBehaviour {
                     objectGroup_Round3[i].SetActive(false);
                 }
             }
-
+            // round 3
             if (roundNumber == 2)
             {
                 for (int i = objectGroup_Round1.Length - 1; i >= 0; i--)
@@ -253,11 +253,11 @@ public class RoundManager : MonoBehaviour {
             }
 
 
-            // round 3
-            if (roundNumber == 2)
-            {
+            //// round 3
+            //if (roundNumber == 2)
+            //{
 
-            }
+            //}
 
             Debug.Log("Destroy ball");
             PhotonNetwork.Destroy(ball.gameObject);
