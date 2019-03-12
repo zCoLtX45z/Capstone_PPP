@@ -89,11 +89,41 @@ public class PlacingItemsTOTC : MonoBehaviour
             if (MaxSlots > 0)
             {
                 ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
-                PlacingScript.UpdatePlacement(ActiveItem, ActiveItem.transform.localScale.x);
-                if (ItemSlots[CurrentSlot].ItemHeld)
+                if (ActiveItem != null)
                 {
-                    //PlacingScript.SetMesh(ActiveItem.GetMesh());
-                    //PlacingTransform.localScale = ActiveItem.transform.localScale;
+                    PlacingScript.UpdatePlacement(ActiveItem, ActiveItem.transform.localScale.x);
+                    if (ItemSlots[CurrentSlot].ItemHeld)
+                    {
+                        //PlacingScript.SetMesh(ActiveItem.GetMesh());
+                        //PlacingTransform.localScale = ActiveItem.transform.localScale;
+                    }
+                    else
+                    {
+                        int initialInt = CurrentSlot;
+                        while (ItemSlots[CurrentSlot].ItemHeld == false)
+                        {
+                            CurrentSlot++;
+                            if (CurrentSlot == MaxSlots)
+                            {
+                                CurrentSlot = 0;
+                            }
+
+                            if (initialInt == CurrentSlot)
+                            {
+                                break;
+                            }
+                        }
+                        ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
+                        if (ItemSlots[CurrentSlot].ItemHeld)
+                        {
+                            //PlacingScript.SetMesh(ActiveItem.GetMesh());
+                            //PlacingTransform.localScale = ActiveItem.transform.localScale;
+                        }
+                    }
+                    if (!ItemSlots[CurrentSlot].ItemHeld)
+                    {
+                        PlacingItems = false;
+                    }
                 }
                 else
                 {
@@ -112,15 +142,6 @@ public class PlacingItemsTOTC : MonoBehaviour
                         }
                     }
                     ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
-                    if (ItemSlots[CurrentSlot].ItemHeld)
-                    {
-                        //PlacingScript.SetMesh(ActiveItem.GetMesh());
-                        //PlacingTransform.localScale = ActiveItem.transform.localScale;
-                    }
-                }
-                if (!ItemSlots[CurrentSlot].ItemHeld)
-                {
-                    PlacingItems = false;
                 }
             }
             if (Input.GetMouseButtonDown(1))

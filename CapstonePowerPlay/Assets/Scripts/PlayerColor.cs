@@ -34,6 +34,9 @@ public class PlayerColor : MonoBehaviourPun
     [SerializeField]
     private PlayerSoftlockPassSight pSLPS;
 
+    [SerializeField]
+    private ChangeTags CT;
+
     //photon variables
     [SerializeField]
     private PhotonView PV;
@@ -201,10 +204,12 @@ public class PlayerColor : MonoBehaviourPun
         if (TeamNum == 1)
         {
             transform.tag = "Team 1";
+            //CT.ChangeObjectTags("Team 1");
         }
         else if (TeamNum == 2)
         {
             transform.tag = "Team 2";
+            //CT.ChangeObjectTags("Team 2");
         }
         //
 
@@ -278,7 +283,7 @@ public class PlayerColor : MonoBehaviourPun
     public void RPC_UpdateTag(string ThisTag)
     {
         this.tag = ThisTag;
-
+        //CT.ChangeObjectTags(ThisTag);
     }
 
     public void SetBlueActive()
