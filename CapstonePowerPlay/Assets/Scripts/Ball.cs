@@ -495,23 +495,25 @@ public class Ball : MonoBehaviour
     [PunRPC]
     public void RPC_SetPass(bool Passing, int Target, float Force, Vector3 HandPos, int WhoThrew)
     {
+        transform.SetParent(null);
         Thrown = true;
-
         CanBeCaughtTimer = 0.15f;
         passedTarget = PhotonView.Find(Target).gameObject;
         //Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
-        transform.SetParent(null);
         //Handle.position = HandPos;
-        Handle.parent = null;
         isInPassing = true;
+        RB.useGravity = false;
+        RB.isKinematic = false;
+        RB.detectCollisions = true;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;
         RB.isKinematic = false;
         transform.position = HandPos;
         //Debug.Log("about to pass");
-        float distance = (transform.position - PhotonView.Find(Target).gameObject.transform.position).magnitude;
         transform.LookAt(PhotonView.Find(Target).gameObject.transform);
         RB.AddForce(Force * transform.forward, ForceMode.Impulse);
+        teamTag = tag;
+        gameObject.layer = 10;
         //RB.AddForce(transform.up * Force, ForceMode.Impulse);
         //Debug.Log("pass force applied");
         Held = false;
@@ -519,7 +521,6 @@ public class Ball : MonoBehaviour
         Hand = null;
         BH = null;
         HardCol.isTrigger = false;
-        RB.detectCollisions = true;
 
         //Debug.Log("can not hold pass");
         //MakeBallReapear();
