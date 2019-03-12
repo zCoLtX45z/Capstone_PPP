@@ -15,7 +15,10 @@ public class PlayerInGameMusic : MonoBehaviour {
 
         Src = GetComponent<AudioSource>();
         PS = FindObjectOfType<PlayerSoundSettings>();
-        MusicVol = PS.musicVol;
+        if (PS)
+            MusicVol = PS.musicVol;
+        else
+            MusicVol = 0.1f;
 	}
 	
 	// Update is called once per frame
