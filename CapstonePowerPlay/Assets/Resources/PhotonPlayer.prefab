@@ -3371,6 +3371,7 @@ GameObject:
   - component: {fileID: 114098889347664270}
   - component: {fileID: 114292387994990432}
   - component: {fileID: 114255894230363410}
+  - component: {fileID: 114896353134802608}
   m_Layer: 8
   m_Name: CrossHair
   m_TagString: Untagged
@@ -9377,7 +9378,7 @@ MonoBehaviour:
   - {fileID: 114981085440214258}
   - {fileID: 114359316240184688}
   - {fileID: 114559822743833478}
-  viewIdField: 0
+  viewIdField: 5
   InstantiationId: 5
   isRuntimeInstantiated: 0
 --- !u!114 &114097668274619616
@@ -10292,7 +10293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShootForce: 1200
-  PassForce: 700
+  PassForce: 500
   Cam: {fileID: 20854297743268884}
   softLockScript: {fileID: 114719974573292268}
   Hand: {fileID: 4411937708012688}
@@ -10346,7 +10347,7 @@ MonoBehaviour:
   DisabledComponents:
   - {fileID: 114934221510051980}
   - {fileID: 114422681214462564}
-  - {fileID: 114767167653150080}
+  - {fileID: 81597389121806548}
   - {fileID: 114422681214462564}
   - {fileID: 114986397399440550}
   - {fileID: 114986397399440550}
@@ -10360,7 +10361,6 @@ MonoBehaviour:
   - {fileID: 114963437477762288}
   - {fileID: 114953290712135024}
   - {fileID: 114917923771128530}
-  - {fileID: 81597389121806548}
   LocalPlayer: {fileID: 0}
   ParentPlayer: {fileID: 0}
   PV: {fileID: 114027717465583432}
@@ -10454,6 +10454,32 @@ MonoBehaviour:
   isClamp: 1
   min: -12000
   max: 12000
+--- !u!114 &114896353134802608
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1790260921786148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 2800000, guid: 6893a45050f9b4a42841e281ccb34b5d, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!114 &114901641797893094
 MonoBehaviour:
   m_ObjectHideFlags: 1
