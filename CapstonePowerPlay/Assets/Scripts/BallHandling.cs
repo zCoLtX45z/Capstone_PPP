@@ -183,7 +183,7 @@ public class BallHandling : MonoBehaviour {
                 }
             }
         }
-        else
+        else if (PC.LocalPlayer != PC.ParentPlayer)
         {
             if (FindBall == null)
             {
