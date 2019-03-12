@@ -165,7 +165,7 @@ public class Ball : MonoBehaviour
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
                 RB.velocity = Vector3.zero;
-                RB.AddForce(direction * KonstantForce, ForceMode.Acceleration);
+                RB.AddForce(direction * KonstantForce, ForceMode.Force);
 
             }
             else
@@ -173,7 +173,7 @@ public class Ball : MonoBehaviour
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
                 RB.velocity = Vector3.zero;
-                RB.AddForce(direction * KonstantForce / 2, ForceMode.Acceleration);
+                RB.AddForce(direction * KonstantForce / 2, ForceMode.Force);
             }
             //RB.velocity = (transform.forward * constantForce);
         }
@@ -505,22 +505,21 @@ public class Ball : MonoBehaviour
         RB.useGravity = false;
         RB.isKinematic = false;
         RB.detectCollisions = true;
-        RB.velocity = Vector3.zero;
-        RB.angularVelocity = Vector3.zero;
-        RB.isKinematic = false;
         transform.position = HandPos;
         //Debug.Log("about to pass");
+        Held = false;
+        WhoTossedTheBall = PhotonView.Find(WhoThrew).gameObject;
+        Hand = null;
+        BH = null;
+        HardCol.isTrigger = false;
+        RB.velocity = Vector3.zero;
+        RB.angularVelocity = Vector3.zero;
         transform.LookAt(PhotonView.Find(Target).gameObject.transform);
         RB.AddForce(Force * transform.forward, ForceMode.Impulse);
         teamTag = tag;
         gameObject.layer = 10;
         //RB.AddForce(transform.up * Force, ForceMode.Impulse);
         //Debug.Log("pass force applied");
-        Held = false;
-        WhoTossedTheBall = PhotonView.Find(WhoThrew).gameObject;
-        Hand = null;
-        BH = null;
-        HardCol.isTrigger = false;
 
         //Debug.Log("can not hold pass");
         //MakeBallReapear();
