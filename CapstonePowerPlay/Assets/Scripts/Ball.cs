@@ -213,6 +213,10 @@ public class Ball : MonoBehaviour
         }
     }
 
+    public void SlowDown(float Rate = 4)
+    {
+        RB.velocity = RB.velocity / Rate;
+    }
     public void SendData(string Func, string Indentifier)
     {
         // Sett Who picked Up The Ball
@@ -495,38 +499,35 @@ public class Ball : MonoBehaviour
     [PunRPC]
     public void RPC_SetPass(bool Passing, int Target, float Force, Vector3 HandPos, int WhoThrew)
     {
-        if (BH != null)
-        {
-            transform.SetParent(null);
-            Thrown = true;
-            CanBeCaughtTimer = 0.15f;
-            passedTarget = PhotonView.Find(Target).gameObject;
-            //Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
-            //Handle.position = HandPos;
-            isInPassing = true;
-            RB.useGravity = false;
-            RB.isKinematic = false;
-            RB.detectCollisions = true;
-            transform.position = HandPos;
-            //Debug.Log("about to pass");
-            Held = false;
-            WhoTossedTheBall = PhotonView.Find(WhoThrew).gameObject;
-            Hand = null;
-            BH = null;
-            HardCol.isTrigger = false;
-            RB.velocity = Vector3.zero;
-            RB.angularVelocity = Vector3.zero;
-            transform.LookAt(PhotonView.Find(Target).gameObject.transform);
-            RB.AddForce(Force * transform.forward, ForceMode.Impulse);
-            teamTag = tag;
-            gameObject.layer = 10;
-            //RB.AddForce(transform.up * Force, ForceMode.Impulse);
-            //Debug.Log("pass force applied");
+        transform.SetParent(null);
+        Thrown = true;
+        CanBeCaughtTimer = 0.15f;
+        passedTarget = PhotonView.Find(Target).gameObject;
+        //Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
+        //Handle.position = HandPos;
+        isInPassing = true;
+        RB.useGravity = false;
+        RB.isKinematic = false;
+        RB.detectCollisions = true;
+        transform.position = HandPos;
+        //Debug.Log("about to pass");
+        Held = false;
+        WhoTossedTheBall = PhotonView.Find(WhoThrew).gameObject;
+        Hand = null;
+        BH = null;
+        HardCol.isTrigger = false;
+        RB.velocity = Vector3.zero;
+        RB.angularVelocity = Vector3.zero;
+        transform.LookAt(PhotonView.Find(Target).gameObject.transform);
+        RB.AddForce(Force * transform.forward, ForceMode.Impulse);
+        teamTag = tag;
+        gameObject.layer = 10;
+        //RB.AddForce(transform.up * Force, ForceMode.Impulse);
+        //Debug.Log("pass force applied");
 
-            //Debug.Log("can not hold pass");
-            //MakeBallReapear();
-            //RBS.CmdSetPlayerHolding(null);
-        }
+        //Debug.Log("can not hold pass");
+        //MakeBallReapear();
+        //RBS.CmdSetPlayerHolding(null);
     }
 
 
