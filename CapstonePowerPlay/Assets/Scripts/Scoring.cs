@@ -18,15 +18,7 @@ public class Scoring : MonoBehaviour
     private float maxTimeUntilScoreReset;
     private float timeUntilScoreReset;
 
-    [SerializeField]
-    //private GameObject scoreUICanvas;
-    //[SerializeField]
-    //private Text textUiTeam1;
-    //[SerializeField]
-    //private Text textUiTeam2;
-
     private ScoreTracker sTracker;
-
 
     [SerializeField]
     private Transform localPlayer;
@@ -38,6 +30,7 @@ public class Scoring : MonoBehaviour
     public AudioClip Score;
 
     private PhotonView PV;
+    
     private void Start()
     {
         PV = GetComponent<PhotonView>();
@@ -46,92 +39,10 @@ public class Scoring : MonoBehaviour
         sTracker = GameObject.FindGameObjectWithTag("ScoreUI").GetComponent<ScoreTracker>();
         GoalEffects = GetComponentInChildren<ParticleSystem>();
 
-
-        if (!localPlayer)
+        if (localPlayer == null)
         {
-            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 1"))
-            {
-                if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
-                {
-                    Debug.Log(player.name + " is the local player");
-                    localPlayer = player.transform;
-
-                    if (player.GetComponent<PlayerColor>().TeamNum == 1)
-                    {
-                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
-                        {
-                            sTracker.t1Scoring[i].color = Color.blue;
-                            sTracker.t2Scoring[i].color = Color.red;
-                        }
-                    }
-                    else if (player.GetComponent<PlayerColor>().TeamNum == 2)
-                    {
-                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
-                        {
-                            sTracker.t1Scoring[i].color = Color.red;
-
-                            float tempX = sTracker.t1Scoring[i].rectTransform.position.x;
-
-                            sTracker.t1Scoring[i].rectTransform.position = sTracker.t2Scoring[i].rectTransform.position;
-
-                            sTracker.t2Scoring[i].color = Color.blue;
-
-                            sTracker.t2Scoring[i].rectTransform.position = new Vector3(tempX, sTracker.t1Scoring[i].rectTransform.position.y, sTracker.t1Scoring[i].rectTransform.position.z);
-
-
-
-                        }
-
-                        for (int i = 0; i < sTracker.t1Logo.Count; i++)
-                        {
-                            float tempX = sTracker.t1Logo[i].position.x;
-                            sTracker.t1Logo[i].position = sTracker.t2Logo[i].position;
-                            sTracker.t2Logo[i].position = new Vector3(sTracker.t2Logo[i].position.x, tempX, sTracker.t2Logo[i].position.z);
-                        }
-                    }
-                }
-            }
-
-            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 2"))
-            {
-                if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
-                {
-                    Debug.Log(player.name + " is the local player");
-                    localPlayer = player.transform;
-
-                    if (player.GetComponent<PlayerColor>().TeamNum == 1)
-                    {
-                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
-                        {
-                            sTracker.t1Scoring[i].color = Color.blue;
-                            sTracker.t2Scoring[i].color = Color.red;
-                        }
-                    }
-                    else if (player.GetComponent<PlayerColor>().TeamNum == 2)
-                    {
-                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
-                        {
-                            sTracker.t1Scoring[i].color = Color.red;
-
-                            float tempX = sTracker.t1Scoring[i].rectTransform.position.x;
-
-                            sTracker.t1Scoring[i].rectTransform.position = sTracker.t2Scoring[i].rectTransform.position;
-
-                            sTracker.t2Scoring[i].color = Color.blue;
-
-                            sTracker.t2Scoring[i].rectTransform.position = new Vector3(tempX, sTracker.t1Scoring[i].rectTransform.position.y, sTracker.t1Scoring[i].rectTransform.position.z);
-
-                        }
-                    }
-                }
-            }
+            SortScoreBoard();
         }
-
-
-
-        //scoreUICanvas = GameObject.FindGameObjectWithTag("ScoreUI");
-        //textUiTeam1 = scoreUICanvas.transform.GetChild(0).GetComponent<Text>();
-        //textUiTeam2 = scoreUICanvas.transform.GetChild(1).GetComponent<Text>();
 
         HandleScoreCanvas();
     }
@@ -140,7 +51,6 @@ public class Scoring : MonoBehaviour
 
     public void HandleScoreCanvas()
     {
-        //scoreDisplay.text = "Team1: " + team1Score + " | Team#2: " + team2Score;
         for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
         {
             sTracker.t1Scoring[i].text = team1Score.ToString();
@@ -151,18 +61,15 @@ public class Scoring : MonoBehaviour
     [PunRPC]
     public void RPC_Team1Score()
     {
-        //Debug.Log("Cmd team1");
         PlayGoaleffect();
         Team1Score();
     }
     
     public void Team1Score()
     {
-        //Debug.Log("add point to team 1");
         team1Score++;
         HandleScoreCanvas();
     }
-   //[ClientRpc]
    public void PlayGoaleffect()
     {
        GoalEffects.Play();
@@ -173,14 +80,12 @@ public class Scoring : MonoBehaviour
     [PunRPC]
     public void RPC_Team2Score()
     {
-        //Debug.Log("Cmd team2");
         PlayGoaleffect();
         Team2Score();
     }
     
     public void Team2Score()
     {
-        //Debug.Log("add point to team 2");
         team2Score++;
         HandleScoreCanvas();
     }
@@ -196,87 +101,72 @@ public class Scoring : MonoBehaviour
             }
         }
 
-        if (!localPlayer)
+        if (localPlayer == null)
         {
-            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 1"))
-            {
-                if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
-                {
-                    //Debug.Log(player.name + " is the local player");
-                    localPlayer = player.transform;
-
-                    if(player.GetComponent<PlayerColor>().TeamNum == 1)
-                    {
-                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
-                        {
-                            sTracker.t1Scoring[i].color = Color.blue;
-                            sTracker.t2Scoring[i].color = Color.red;
-                        }
-                    }
-                    else if (player.GetComponent<PlayerColor>().TeamNum == 2)
-                    {
-                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
-                        {
-                            sTracker.t1Scoring[i].color = Color.red;
-
-                            float tempX = sTracker.t1Scoring[i].rectTransform.position.x;
-
-                            sTracker.t1Scoring[i].rectTransform.position = sTracker.t2Scoring[i].rectTransform.position;
-
-                            sTracker.t2Scoring[i].color = Color.blue;
-
-                            sTracker.t2Scoring[i].rectTransform.position = new Vector3(tempX, sTracker.t1Scoring[i].rectTransform.position.y, sTracker.t1Scoring[i].rectTransform.position.z);
-                        }
-                    }
-
-
-                }
-            }
-
-            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 2"))
-            {
-                if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
-                {
-                    //Debug.Log(player.name + " is the local player");
-                    localPlayer = player.transform;
-
-
-                    if (player.GetComponent<PlayerColor>().TeamNum == 1)
-                    {
-                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
-                        {
-                            sTracker.t1Scoring[i].color = Color.blue;
-                            sTracker.t2Scoring[i].color = Color.red;
-                        }
-                    }
-                    else if (player.GetComponent<PlayerColor>().TeamNum == 2)
-                    {
-                        for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
-                        {
-                            sTracker.t1Scoring[i].color = Color.red;
-
-                            float tempX = sTracker.t1Scoring[i].rectTransform.position.x;
-
-                            sTracker.t1Scoring[i].rectTransform.position = sTracker.t2Scoring[i].rectTransform.position;
-
-                            sTracker.t2Scoring[i].color = Color.blue;
-
-                            sTracker.t2Scoring[i].rectTransform.position = new Vector3(tempX, sTracker.t1Scoring[i].rectTransform.position.y, sTracker.t1Scoring[i].rectTransform.position.z);
-                        }
-                    }
-
-
-                }
-            }
+            SortScoreBoard();
         }
     }
-    // not working
-    // 
+
+    private void SortScoreBoard()
+    {
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 1"))
+        {
+            if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
+            {
+                //Debug.Log(player.name + " is the local player");
+                localPlayer = player.transform;
+
+                if (player.GetComponent<PlayerColor>().TeamNum == 1)
+                {
+                    for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
+                    {
+                        sTracker.t1Scoring[i].color = Color.blue;
+                        sTracker.t2Scoring[i].color = Color.red;
+                    }
+                }
+                return;
+            }
+            
+        }
+        
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 2"))
+        {
+            if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
+            {
+                localPlayer = player.transform;
+                
+                if (player.GetComponent<PlayerColor>().TeamNum == 2)
+                {
+                    Debug.Log("TeamNum = 2");
+                    for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
+                    {
+                        sTracker.t1Scoring[i].color = Color.red;
+
+                        float tempX = sTracker.t1Scoring[i].rectTransform.position.x;
+
+                        sTracker.t1Scoring[i].rectTransform.position = sTracker.t2Scoring[i].rectTransform.position;
+
+                        sTracker.t2Scoring[i].color = Color.blue;
+
+                        sTracker.t2Scoring[i].rectTransform.position = new Vector3(tempX, sTracker.t1Scoring[i].rectTransform.position.y, sTracker.t1Scoring[i].rectTransform.position.z);
+                    }
+                    for (int i = 0; i < sTracker.t1Logo.Count; i++)
+                    {
+                        Debug.Log("stracker check n." + i);
+                        float tempX = sTracker.t1Logo[i].position.x;
+                        sTracker.t1Logo[i].position = sTracker.t2Logo[i].position;
+                        sTracker.t2Logo[i].position = new Vector3(tempX, sTracker.t2Logo[i].position.y, sTracker.t2Logo[i].position.z);
+                    }
+                }
+                return;
+            }
+        }
+
+    }
+
+
     private void OnTriggerEnter(Collider c)
     {
-
-        //Debug.Log("Net Triggered");
-
         if(c.gameObject.tag == "Ball_Score_Trigger" && !scored)
         {
             int teamScored = c.transform.parent.GetComponent<Ball>().WhoTossedTheBall.GetComponent<PlayerColor>().TeamNum;
