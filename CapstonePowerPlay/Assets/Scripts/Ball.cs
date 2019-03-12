@@ -164,16 +164,16 @@ public class Ball : MonoBehaviour
 
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
-                RB.velocity = Vector3.zero;
-                RB.AddForce(direction * KonstantForce, ForceMode.Force);
+                //RB.velocity = Vector3.zero;
+                RB.AddForce(direction * KonstantForce, ForceMode.Acceleration);
 
             }
             else
             {
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
-                RB.velocity = Vector3.zero;
-                RB.AddForce(direction * KonstantForce / 2, ForceMode.Force);
+                //RB.velocity = Vector3.zero;
+                RB.AddForce(direction * KonstantForce / 2, ForceMode.Acceleration);
             }
             //RB.velocity = (transform.forward * constantForce);
         }
