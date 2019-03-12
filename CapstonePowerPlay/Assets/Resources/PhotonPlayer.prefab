@@ -1161,7 +1161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4661396914997780}
   m_Layer: 8
-  m_Name: AutoRotattion Helper Space
+  m_Name: AutoRotattion Helper Space 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2555,6 +2555,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1617606448351774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4963764073536216}
+  m_Layer: 8
+  m_Name: AutoRotattion Helper Space
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1621555693362814
 GameObject:
   m_ObjectHideFlags: 1
@@ -3354,6 +3369,8 @@ GameObject:
   - component: {fileID: 222794847083592108}
   - component: {fileID: 114229342354487382}
   - component: {fileID: 114098889347664270}
+  - component: {fileID: 114292387994990432}
+  - component: {fileID: 114255894230363410}
   m_Layer: 8
   m_Name: CrossHair
   m_TagString: Untagged
@@ -6555,6 +6572,7 @@ Transform:
   - {fileID: 4644330970901598}
   - {fileID: 4139089029513530}
   - {fileID: 4424099377996526}
+  - {fileID: 4963764073536216}
   - {fileID: 4661396914997780}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -6784,11 +6802,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1300080979330790}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.031}
+  m_LocalPosition: {x: 1.4210855e-14, y: 0, z: 1.0310003}
   m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 4590535368016958}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4666416553917284
 Transform:
@@ -7807,6 +7825,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4076916181409170}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4963764073536216
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1617606448351774}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.031}
+  m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000005}
+  m_Children: []
+  m_Father: {fileID: 4590535368016958}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4965754985634782
 Transform:
@@ -9581,6 +9612,58 @@ MonoBehaviour:
   isClamp: 1
   min: -12000
   max: 12000
+--- !u!114 &114255894230363410
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1790260921786148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 2800000, guid: 6893a45050f9b4a42841e281ccb34b5d, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!114 &114292387994990432
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1790260921786148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 2800000, guid: 6893a45050f9b4a42841e281ccb34b5d, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!114 &114298006428898294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9632,14 +9715,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc5aa1461f247447ac11a9acac22c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationSpeed: 10
-  GroundLayers:
-    serializedVersion: 2
-    m_Bits: 513
-  CamParent: {fileID: 4336794463905646}
-  HelperPlayer: {fileID: 4424099377996526}
-  HelperSpace: {fileID: 4661396914997780}
-  CameraLookAtPos: {fileID: 4369899622928880}
+  RotationForce: 80
+  HBS: {fileID: 114934221510051980}
+  Cam: {fileID: 4440573273508166}
+  HelperSpaceCam: {fileID: 4661396914997780}
   IsActive: 1
 --- !u!114 &114345336956126368
 MonoBehaviour:

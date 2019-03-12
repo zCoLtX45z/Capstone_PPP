@@ -31,6 +31,7 @@ public class BallHandling : MonoBehaviour {
 
     public Ball ball;
     private Ball FindBall;
+    private float FindBallDistance = 10;
 
     // get from input manager
     private float PassShootAxis = 0;
@@ -162,6 +163,25 @@ public class BallHandling : MonoBehaviour {
                     canHold = true;
                 }
             }
+
+            if (FindBall == null)
+            {
+                FindBall = FindObjectOfType<Ball>();
+            }
+            else
+            {
+                if (!FindBall.Held)
+                {
+                    if (!FindBall.GetThrown())
+                    {
+                        FindBallDistance = (FindBall.transform.position - transform.position).magnitude;
+                        if (FindBallDistance <= FindBall.PickUpRadius)
+                        {
+                            FindBall.PickUp(gameObject);
+                        }
+                    }
+                }
+            }
         }
         else
         {
@@ -179,7 +199,6 @@ public class BallHandling : MonoBehaviour {
         return Hand;
     }
 
-    
     private void Pass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
         PV.RPC("RPC_PlayPassEffect", RpcTarget.All);
@@ -270,12 +289,6 @@ public class BallHandling : MonoBehaviour {
             }
         }
     }
-
-
-
-
-
-
     
     public void Steal(GameObject TargetHand, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {

@@ -24,7 +24,7 @@ public class Ball : MonoBehaviour
 
     [SerializeField]
     private bool isInPassing = false;
-
+    
 
     private GameObject passedTarget;
 
@@ -39,7 +39,7 @@ public class Ball : MonoBehaviour
 
     [SerializeField]
     private float KonstantForce = 900.0f;
-
+    public float PickUpRadius = 9;
 
     private float CanBeCaughtTimer = 1;
     private bool Thrown = false;
@@ -82,6 +82,7 @@ public class Ball : MonoBehaviour
 
         nSpawner = FindObjectOfType<netSpawner>();
         rTimerScript = FindObjectOfType<RoundManager>();
+        SoftCol.radius = PickUpRadius;
     }
 
     private void Update()
@@ -257,9 +258,6 @@ public class Ball : MonoBehaviour
         thiefTransform = null;
     }
 
-
-
-
     private void OnCollisionEnter(Collision c)
     {
         if (Thrown)
@@ -346,68 +344,85 @@ public class Ball : MonoBehaviour
             transform.SetParent(null);
         }
     }
-    private void OnTriggerEnter(Collider c)
+
+    public void PickUp(GameObject c)
     {
-        //Debug.Log("triged: " + c.name + " tag: " + c.tag);
-        if ((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
+        if (!hasBeenPickedUpBefore)
         {
-            //if(!PV.IsMine)
-            //{
-            //    PV.TransferOwnership(c.gameObject.GetPhotonView().ViewID);
-            //    Debug.Log("transfering ownership");
-            //}
-
-            if (!hasBeenPickedUpBefore)
-            {
-                //Debug.Log("has not been will be");
-
-
-
-
-                //if (PhotonNetwork.IsMasterClient)
-                //{
-                nSpawner.CallMoveNetUp();
-                rTimerScript.BeginCountdown();
-                //Debug.Log("IsMasterCilent");
-
-                // }
-            }
-
-
-            PV.RPC("RPC_OnTriggerEnter", RpcTarget.All);
-
-            //c.GetComponent<PhotonView>().TransferOwnership(GetComponent<PhotonView>()..ID);
-
-
-            // Set who has the the ball
-            PlayerColor pc = c.GetComponent<PlayerColor>();
-            // Every persons code has to be shared
-            string PlayerCode = pc.GetCode();
-            PV.RPC("RPC_SetPlayerBH", RpcTarget.AllViaServer, PlayerCode);
-            //transform.gameObject.layer = 2;
-
-            //if (BH.canHold )
-            //{
-            //    Debug.Log("BH can hold");
-            //    //MakeBallDisapear();
-            //    //Hand = BH.ReturnHand();
-            //    //UpdateHandTransform(BH.gameObject);
-            //    //PV.RPC("RPC_SetHand", RpcTarget.All);
-            //    //Handle.position = Hand.position;
-            //    //Handle.parent = Hand.parent;
-
-            //    //BH.SetBall(gameObject);
-            //    //RBS.CmdSetPlayerHolding(BH.gameObject);
-            //    //BH.TurnOnFakeBall(true);
-            //    //CmdTurnOnBall(false);
-            //}
-            //else
-            //{ 
-            //    BH = null;
-            //    Debug.Log("can not hold tag of team");
-            //}
+            nSpawner.CallMoveNetUp();
+            rTimerScript.BeginCountdown();
         }
+
+        PV.RPC("RPC_OnTriggerEnter", RpcTarget.All);
+
+        // Set who has the the ball
+        PlayerColor pc = c.GetComponent<PlayerColor>();
+        // Every persons code has to be shared
+        string PlayerCode = pc.GetCode();
+        PV.RPC("RPC_SetPlayerBH", RpcTarget.AllViaServer, PlayerCode);
     }
+    //private void OnTriggerEnter(Collider c)
+    //{
+    //    //Debug.Log("triged: " + c.name + " tag: " + c.tag);
+    //    if ((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
+    //    {
+    //        //if(!PV.IsMine)
+    //        //{
+    //        //    PV.TransferOwnership(c.gameObject.GetPhotonView().ViewID);
+    //        //    Debug.Log("transfering ownership");
+    //        //}
+
+    //        if (!hasBeenPickedUpBefore)
+    //        {
+    //            //Debug.Log("has not been will be");
+
+
+
+
+    //            //if (PhotonNetwork.IsMasterClient)
+    //            //{
+    //            nSpawner.CallMoveNetUp();
+    //            rTimerScript.BeginCountdown();
+    //            //Debug.Log("IsMasterCilent");
+
+    //            // }
+    //        }
+
+
+    //        PV.RPC("RPC_OnTriggerEnter", RpcTarget.All);
+
+    //        //c.GetComponent<PhotonView>().TransferOwnership(GetComponent<PhotonView>()..ID);
+
+
+    //        // Set who has the the ball
+    //        PlayerColor pc = c.GetComponent<PlayerColor>();
+    //        // Every persons code has to be shared
+    //        string PlayerCode = pc.GetCode();
+    //        PV.RPC("RPC_SetPlayerBH", RpcTarget.AllViaServer, PlayerCode);
+    //        //transform.gameObject.layer = 2;
+
+    //        //if (BH.canHold )
+    //        //{
+    //        //    Debug.Log("BH can hold");
+    //        //    //MakeBallDisapear();
+    //        //    //Hand = BH.ReturnHand();
+    //        //    //UpdateHandTransform(BH.gameObject);
+    //        //    //PV.RPC("RPC_SetHand", RpcTarget.All);
+    //        //    //Handle.position = Hand.position;
+    //        //    //Handle.parent = Hand.parent;
+
+    //        //    //BH.SetBall(gameObject);
+    //        //    //RBS.CmdSetPlayerHolding(BH.gameObject);
+    //        //    //BH.TurnOnFakeBall(true);
+    //        //    //CmdTurnOnBall(false);
+    //        //}
+    //        //else
+    //        //{ 
+    //        //    BH = null;
+    //        //    Debug.Log("can not hold tag of team");
+    //        //}
+    //    }
+    //}
 
     private void OnTriggerExit(Collider other)
     {
