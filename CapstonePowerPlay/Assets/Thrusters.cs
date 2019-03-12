@@ -26,24 +26,37 @@ public class Thrusters : MonoBehaviour
         thisSpeed = HBS.Speed;
         if(thisSpeed < 20)
         {
-            foreach(ParticleSystem PS in lowThrust)
-            {
-                PS.Play();
-            }
+            playLowThrust();
         }
         if(thisSpeed < 20 && thisSpeed < 30)
         {
-            foreach(ParticleSystem PS in midThrust)
-            {
-                PS.Play();
-            }
+            playMidThrust();
         }
         if(thisSpeed < 30)
         {
-            foreach(ParticleSystem PS in highThrust)
-            {
-                PS.Play();
-            }
+            playHighThrust();
         }
 	}
+
+    public void playLowThrust()
+    {
+        foreach (ParticleSystem PS in lowThrust)
+        {
+            PS.Play();
+        }
+    }
+    public void playMidThrust()
+    {
+        foreach (ParticleSystem PS in midThrust)
+        {
+            PS.Play();
+        }
+    }
+    public void playHighThrust()
+    {
+        foreach (ParticleSystem PS in highThrust)
+        {
+            PS.Play();
+        }
+    }
 }
