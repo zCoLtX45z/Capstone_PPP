@@ -183,9 +183,26 @@ public class BallHandling : MonoBehaviour {
                 }
             }
         }
-        else
+        else if (PC.LocalPlayer != PC.ParentPlayer)
         {
-            // nothing for now
+            if (FindBall == null)
+            {
+                FindBall = FindObjectOfType<Ball>();
+            }
+            else
+            {
+                if (!FindBall.Held)
+                {
+                    if (!FindBall.GetThrown())
+                    {
+                        FindBallDistance = (FindBall.transform.position - transform.position).magnitude;
+                        if (FindBallDistance <= FindBall.PickUpRadius)
+                        {
+                            FindBall.SlowDown();
+                        }
+                    }
+                }
+            }
         }
     }
 
