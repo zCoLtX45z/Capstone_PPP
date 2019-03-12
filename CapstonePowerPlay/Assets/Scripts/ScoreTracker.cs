@@ -13,6 +13,10 @@ public class ScoreTracker : MonoBehaviour {
     [SerializeField]
     public List<Text> t2Scoring = new List<Text>();
     [SerializeField]
+    public List<RectTransform> t1Logo = new List<RectTransform>();
+    [SerializeField]
+    public List<RectTransform> t2Logo = new List<RectTransform>();
+    [SerializeField]
     public GameObject[] scoreCanvases;
 
     // Use this for initialization
@@ -25,6 +29,8 @@ public class ScoreTracker : MonoBehaviour {
             //Debug.Log("i: " + i);
             t1Scoring.Add(scoreCanvases[i].transform.GetChild(0).GetComponent<Text>());
             t2Scoring.Add(scoreCanvases[i].transform.GetChild(1).GetComponent<Text>());
+            t1Logo.Add(scoreCanvases[i].transform.GetChild(2).GetComponent<RectTransform>());
+            t2Logo.Add(scoreCanvases[i].transform.GetChild(3).GetComponent<RectTransform>());
         }
 
         team1Score = 0;

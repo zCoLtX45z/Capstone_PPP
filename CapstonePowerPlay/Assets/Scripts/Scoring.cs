@@ -78,6 +78,15 @@ public class Scoring : MonoBehaviour
 
                             sTracker.t2Scoring[i].rectTransform.position = new Vector3(tempX, sTracker.t1Scoring[i].rectTransform.position.y, sTracker.t1Scoring[i].rectTransform.position.z);
 
+
+
+                        }
+
+                        for (int i = 0; i < sTracker.t1Logo.Count; i++)
+                        {
+                            float tempX = sTracker.t1Logo[i].position.x;
+                            sTracker.t1Logo[i].position = sTracker.t2Logo[i].position;
+                            sTracker.t2Logo[i].position = new Vector3(sTracker.t2Logo[i].position.x, tempX, sTracker.t2Logo[i].position.z);
                         }
                     }
                 }
