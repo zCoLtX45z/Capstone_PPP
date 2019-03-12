@@ -5,43 +5,61 @@ using UnityEngine.UI;
 
 public class SmoothUITransition : MonoBehaviour {
 
-    [SerializeField]
-    private RectTransform start;
+    //[SerializeField]
+    //private RectTransform start;
+
+    //[SerializeField]
+    //private RectTransform settings;
 
     [SerializeField]
-    private RectTransform settings;
+    private RectTransform[] buttonGroup;
+
 
     [SerializeField]
     private RectTransform selectedRect;
 
+    private Transform target;
+
     [SerializeField]
     private float acceleration;
 
-    private bool allow = false;
+    public bool allow = false;
     private bool set;
 
 
-    public void MovePosition(bool up)
+    public void SwitchSelected(Transform button)
     {
-        if (!allow)
-            allow = !allow;
-
-        set = up;
+        target = button;
     }
+
     private void FixedUpdate()
     {
-        if (allow)
-        {
-            if (set)
-            {
-                //Debug.Log("ON START");
-                selectedRect.localPosition += new Vector3(0, (start.localPosition.y - selectedRect.localPosition.y) / acceleration, 0);
-            }
-            else
-            {
-                //Debug.Log("ON Settings");
-                selectedRect.localPosition += new Vector3(0, (settings.localPosition.y - selectedRect.localPosition.y) / acceleration, 0);
-            }
-        }
+        if(target != null)
+            selectedRect.localPosition += new Vector3(0, (target.localPosition.y - selectedRect.localPosition.y) / acceleration, 0);
     }
+
+
+    //public void MovePosition(bool up)
+    //{
+    //    if (!allow)
+    //        allow = !allow;
+
+    //    set = up;
+    //}
+    //private void FixedUpdate()
+    //{
+    //    if (allow)
+    //    {
+    //        if (set)
+    //        {
+    //            //Debug.Log("ON START");
+    //            selectedRect.localPosition += new Vector3(0, (start.localPosition.y - selectedRect.localPosition.y) / acceleration, 0);
+    //        }
+    //        else
+    //        {
+    //            //Debug.Log("ON Settings");
+    //            selectedRect.localPosition += new Vector3(0, (settings.localPosition.y - selectedRect.localPosition.y) / acceleration, 0);
+    //        }
+    //    }
+    //}
 }
