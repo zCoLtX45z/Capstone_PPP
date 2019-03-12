@@ -211,7 +211,6 @@ public class Ball : MonoBehaviour
             }
 
         }
-
     }
 
     public void SendData(string Func, string Indentifier)
@@ -512,6 +511,7 @@ public class Ball : MonoBehaviour
         //Debug.Log("about to pass");
         float distance = (transform.position - PhotonView.Find(Target).gameObject.transform.position).magnitude;
         transform.LookAt(PhotonView.Find(Target).gameObject.transform);
+        RB.AddForce(Force * transform.forward, ForceMode.Impulse);
         //RB.AddForce(transform.up * Force, ForceMode.Impulse);
         //Debug.Log("pass force applied");
         Held = false;
