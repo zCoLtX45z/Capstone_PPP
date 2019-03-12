@@ -30,4 +30,10 @@ public class ChangeTags : MonoBehaviour {
             g.tag = tag;
         }
     }
+
+    public void ChangeObjectTags(GameObject g, string tag)
+    {
+         g.tag = tag;
+
+    }
 }
