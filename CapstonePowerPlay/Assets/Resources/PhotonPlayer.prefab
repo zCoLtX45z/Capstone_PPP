@@ -263,6 +263,8 @@ GameObject:
   - component: {fileID: 114927429058390114}
   - component: {fileID: 114179281380346986}
   - component: {fileID: 114552848471504864}
+  - component: {fileID: 114698898859575294}
+  - component: {fileID: 114308276019079144}
   - component: {fileID: 114638840785969522}
   - component: {fileID: 82282972615056390}
   - component: {fileID: 54945882387288580}
@@ -275,7 +277,6 @@ GameObject:
   - component: {fileID: 114559822743833478}
   - component: {fileID: 95954402950338354}
   - component: {fileID: 114359316240184688}
-  - component: {fileID: 114698898859575294}
   m_Layer: 8
   m_Name: PhotonPlayer
   m_TagString: Player
@@ -9286,7 +9287,7 @@ MonoBehaviour:
   - {fileID: 114359316240184688}
   - {fileID: 114559822743833478}
   viewIdField: 0
-  InstantiationId: 2
+  InstantiationId: 5
   isRuntimeInstantiated: 0
 --- !u!114 &114097668274619616
 MonoBehaviour:
@@ -9541,6 +9542,20 @@ MonoBehaviour:
   ItemHeld: 0
   NullSprite: {fileID: 2800000, guid: b8a71a265c78c2c4abb4ed5c203836ae, type: 3}
   ImageSlot: {fileID: 114399873769249740}
+--- !u!114 &114308276019079144
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1063158160534168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc5aa1461f247447ac11a9acac22c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotationSpeed: 10
+  Cam: {fileID: 20854297743268884}
+  IsActive: 1
 --- !u!114 &114345336956126368
 MonoBehaviour:
   m_ObjectHideFlags: 1
