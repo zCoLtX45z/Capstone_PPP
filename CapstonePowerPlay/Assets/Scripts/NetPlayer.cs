@@ -61,6 +61,9 @@ public class NetPlayer : MonoBehaviour {
     private GameSetup GS;
     private Transform SpawnPoint;
 
+    [SerializeField]
+    private CameraRotation cRotScript = null;
+
     // Use this for initialization
     void Start ()
     {
@@ -248,6 +251,11 @@ public class NetPlayer : MonoBehaviour {
                     HBS.BoardHasControl = false;
                 }
 
+                if (cRotScript != null)
+                    cRotScript.allow = false;
+                else
+                    PV.RPC("RPC_GetPlayerComponents", RpcTarget.AllBuffered);
+
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     ArenaMenu.gameObject.SetActive(false);
@@ -285,11 +293,19 @@ public class NetPlayer : MonoBehaviour {
                     {
                         Cursor.visible = true;
                         Cursor.lockState = CursorLockMode.None;
+                        if (cRotScript != null)
+                            cRotScript.allow = false;
+                        else
+                            PV.RPC("RPC_GetPlayerComponents", RpcTarget.AllBuffered);
                     }
                     else
                     {
                         Cursor.visible = false;
                         Cursor.lockState = CursorLockMode.Locked;
+                        if (cRotScript != null)
+                            cRotScript.allow = true;
+                        else
+                            PV.RPC("RPC_GetPlayerComponents", RpcTarget.AllBuffered); ;
                     }
                 }
             }
@@ -303,6 +319,7 @@ public class NetPlayer : MonoBehaviour {
         HBS = ChildPlayer.GetComponent<hoverBoardScript>();
         PC = ChildPlayer.GetComponent<PlayerColor>();
         ChildPlayer.transform.SetParent(this.transform);
+        cRotScript = ChildPlayer.GetComponentInChildren<CameraRotation>();
     }
 
     [PunRPC]
