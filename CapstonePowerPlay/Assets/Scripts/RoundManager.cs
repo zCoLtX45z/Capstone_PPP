@@ -253,12 +253,6 @@ public class RoundManager : MonoBehaviour {
             }
 
 
-            //// round 3
-            //if (roundNumber == 2)
-            //{
-
-            //}
-
             Debug.Log("Destroy ball");
             PhotonNetwork.Destroy(ball.gameObject);
             ball = null;
