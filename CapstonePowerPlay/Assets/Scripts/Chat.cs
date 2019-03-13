@@ -135,7 +135,7 @@ public class Chat : MonoBehaviour
                 }
             }
 
-            Application.logMessageReceived += LogCall;
+            //Application.logMessageReceived += LogCall;
         }
 
         // Limit the number of entries
