@@ -15,6 +15,15 @@ public class CreateRoom : MonoBehaviourPunCallbacks
 
     [SerializeField]
     private RoomLayoutGroup RLG;
+    private bool Detoir = false;
+
+    private void Update()
+    {
+        if (Detoir)
+        {
+            DetoirJoinRoom();
+        }
+    }
 
     public void CreatePhotonRoom()
     {
@@ -97,11 +106,30 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         print("Room Created.");
-        PhotonNetwork.JoinRoom(RoomIdentifier);
+        if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.InLobby)
+        {
+            print("Room Attempted. (OCR)");
+            PhotonNetwork.JoinRoom(RoomIdentifier);
+        }
+        else
+        {
+            print("Room Join Detoir.");
+            Detoir = true;
+        }
         //if (PhotonNetwork.GetCustomRoomList(TypedLobby.Default, ""))
         //{
         //    print("Finding Room Created.");
         //}
+    }
+
+    private void DetoirJoinRoom()
+    {
+        if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.InLobby)
+        {
+            Detoir = false;
+            print("Room Attempted. (DJR)");
+            PhotonNetwork.JoinRoom(RoomIdentifier);
+        }
     }
 
     //public override void OnRoomListUpdate(List<RoomInfo> roomList)

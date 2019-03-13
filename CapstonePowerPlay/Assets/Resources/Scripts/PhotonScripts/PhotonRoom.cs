@@ -70,12 +70,15 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
             {
                 Player P = RoomPlayerList[i];
 
-                // Set new custom properties for each player
-                ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-                hash.Add("Team", -1);
-                hash.Add("ReadyToPlay", false);
-                hash.Add("RoomIndentifier", PhotonNetwork.CurrentRoom.Name);
-                P.SetCustomProperties(hash);
+                if (P.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+                {
+                    // Set new custom properties for each player
+                    ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+                    hash.Add("Team", -1);
+                    hash.Add("ReadyToPlay", false);
+                    hash.Add("RoomIndentifier", PhotonNetwork.CurrentRoom.Name);
+                    P.SetCustomProperties(hash);
+                }
             }
         }
 
