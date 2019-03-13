@@ -49,6 +49,8 @@ public class PlayerColor : MonoBehaviourPun
     public bool SetLocalPlayerCalled = false;
     public GameObject ParentObject;
 
+
+
     [PunRPC]
     private void RPC_UpdateLocalSet(bool ready)
     {
@@ -220,6 +222,8 @@ public class PlayerColor : MonoBehaviourPun
             //
             pSLPS.enabled = true;
             pSLPS.teamTag = pSLPS.player.tag;
+            Debug.Log("call set changes");
+            pSLPS.SetChanges();
             //
         }
         else

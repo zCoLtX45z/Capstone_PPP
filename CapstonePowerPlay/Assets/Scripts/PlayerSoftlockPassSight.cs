@@ -59,16 +59,21 @@ public class PlayerSoftlockPassSight : MonoBehaviour
     [SerializeField]
     public GameObject player;
 
-    // Use this for initialization
-    void Awake()
-    {
+    private bool passed = false;
 
+    
+
+
+    public void SetChanges()
+    {
+        Debug.Log("changes setting");
         //set player object (parent object that this script is attached to)
         //player = transform.parent.gameObject;
 
         // get the tag of the player
         teamTag = player.tag;
-
+        //Debug.Log("teamTag = " + teamTag);
+        //Debug.Log("Player name: " + player.name);
         // set soft lock angle (to be removed)
         softLockAngle = 20f;
 
@@ -101,7 +106,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
             //child is your child transform
         }
 
-        
+
 
         // unchiled this gameObject
         //  transform.parent = null;
@@ -113,103 +118,127 @@ public class PlayerSoftlockPassSight : MonoBehaviour
         /// maxDistance = Mathf.Infinity;
         ///
 
+        passed = true;
     }
+
 
     // Update is called once per frame
     void Update()
     {
-
-        // problem the host sees itself as a teamate
-
-        //Debug.Log("listofteamates count: " + listOfTeamates.Count);
-        if (listOfTeamates.Count <= 0)
+        if (passed)
         {
-            //Debug.Log("no teamates");
-            // find all objects with the same tag as the player (used to see which is a temate, may change in future)
-            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
+            // problem the host sees itself as a teamate
+
+            //Debug.Log("listofteamates count: " + listOfTeamates.Count);
+            if (listOfTeamates.Count <= 0)
             {
-                if (playerObj != transform.gameObject)
+                //Debug.Log("no teamates");
+                // find all objects with the same tag as the player (used to see which is a temate, may change in future)
+                //Debug.Log("Team tag: " + teamTag);
+                foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
                 {
-                    listOfTeamates.Add(playerObj);
-                }
-            }
-
-            // find the player's gameObject and remove it from teamate list.
-            for (int i = listOfTeamates.Count - 1; i >= 0; --i)
-            {
-                if (listOfTeamates[i].gameObject == player)
-                {
-                    listOfTeamates.RemoveAt(i);
-                    listOfTeamates.TrimExcess();
-                    break;
-                }
-            }
-        }
-        else
-        {
-           // Debug.Log("has teamates");
-            // check every teamates within the list
-            for (int i = 0; i < listOfTeamates.Count; i++)
-            {
-                // find direction from player
-                directionFromPlayer = (listOfTeamates[i].transform.position +((new Vector3(listOfTeamates[i].transform.up.x, listOfTeamates[i].transform.up.y, listOfTeamates[i].transform.up.z) / 4) * 3)) - transform.position;
-                // get current angle between the current teamate and the player
-                angle = Vector3.Angle(directionFromPlayer, transform.forward);
-
-                // set distance to target
-                distanceToTarget = directionFromPlayer.magnitude;
-
-                // create RaycastHit
-                RaycastHit tempHit = new RaycastHit();
-
-                // send out raycast to the current teamate being referenced
-                if (Physics.Raycast(transform.position, directionFromPlayer, out tempHit, Mathf.Infinity))
-                {
-                    //Debug.Log("tempHit has hit: " + tempHit.transform.name + " tempHit should hit: " + listOfTeamates[i]);
-                    // if the raycast hits is target
-                    if (tempHit.transform.gameObject == listOfTeamates[i])
+                    if (playerObj != transform.gameObject)
                     {
-                        // if target is within angle
-                        if (angle < softLockAngle /*just added distance check->*/&& distanceToTarget < maxDistance)
+                        listOfTeamates.Add(playerObj);
+                    }
+                }
+
+                // find the player's gameObject and remove it from teamate list.
+                for (int i = listOfTeamates.Count - 1; i >= 0; --i)
+                {
+                    if (listOfTeamates[i].gameObject == player)
+                    {
+                        listOfTeamates.RemoveAt(i);
+                        listOfTeamates.TrimExcess();
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                // Debug.Log("has teamates");
+                // check every teamates within the list
+                for (int i = 0; i < listOfTeamates.Count; i++)
+                {
+                    // find direction from player
+                    directionFromPlayer = (listOfTeamates[i].transform.position + ((new Vector3(listOfTeamates[i].transform.up.x, listOfTeamates[i].transform.up.y, listOfTeamates[i].transform.up.z) / 4) * 3)) - transform.position;
+                    // get current angle between the current teamate and the player
+                    angle = Vector3.Angle(directionFromPlayer, transform.forward);
+
+                    // set distance to target
+                    distanceToTarget = directionFromPlayer.magnitude;
+
+                    // create RaycastHit
+                    RaycastHit tempHit = new RaycastHit();
+
+                    // send out raycast to the current teamate being referenced
+                    if (Physics.Raycast(transform.position, directionFromPlayer, out tempHit, Mathf.Infinity))
+                    {
+                        //Debug.Log("tempHit has hit: " + tempHit.transform.name + " tempHit should hit: " + listOfTeamates[i]);
+                        // if the raycast hits is target
+                        if (tempHit.transform.gameObject == listOfTeamates[i])
                         {
-                            // number of passes without succes of finding the current teammate being referenced from listOfTeamates
-                            int tempNumberOfCurrentAcceptedTargetPasses = 0;
-
-                            //Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), directionFromPlayer, Color.blue);
-
-                            // if the currentAcceptedTargets list have anyting in the list
-                            if (currentAcceptedTargets.Count > 0)
+                            // if target is within angle
+                            if (angle < softLockAngle /*just added distance check->*/&& distanceToTarget < maxDistance)
                             {
-                                // check every object in currentAcceptedTargets
-                                for (int j = 0; j < currentAcceptedTargets.Count; j++)
+                                // number of passes without succes of finding the current teammate being referenced from listOfTeamates
+                                int tempNumberOfCurrentAcceptedTargetPasses = 0;
+
+                                //Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), directionFromPlayer, Color.blue);
+
+                                // if the currentAcceptedTargets list have anyting in the list
+                                if (currentAcceptedTargets.Count > 0)
                                 {
-                                    // if it equals to the current teammate being referenced from listOfTeamates
-                                    if (currentAcceptedTargets[j] == listOfTeamates[i])
+                                    // check every object in currentAcceptedTargets
+                                    for (int j = 0; j < currentAcceptedTargets.Count; j++)
                                     {
-                                        break;
-                                    }
-                                    // if it does NOT equals to the current teammate being referenced from listOfTeamates
-                                    else
-                                    {
-                                        // add another pass
-                                        tempNumberOfCurrentAcceptedTargetPasses++;
-                                    }
-                                    // if there is no object in currentAcceptedTargets that equals the teammate being referenced from listOfTeamates
-                                    if (tempNumberOfCurrentAcceptedTargetPasses >= currentAcceptedTargets.Count)
-                                    {
-                                        // add the teammate being referenced from listOfTeamates to currentAcceptedTargets
-                                        currentAcceptedTargets.Add(listOfTeamates[i].gameObject);
+                                        // if it equals to the current teammate being referenced from listOfTeamates
+                                        if (currentAcceptedTargets[j] == listOfTeamates[i])
+                                        {
+                                            break;
+                                        }
+                                        // if it does NOT equals to the current teammate being referenced from listOfTeamates
+                                        else
+                                        {
+                                            // add another pass
+                                            tempNumberOfCurrentAcceptedTargetPasses++;
+                                        }
+                                        // if there is no object in currentAcceptedTargets that equals the teammate being referenced from listOfTeamates
+                                        if (tempNumberOfCurrentAcceptedTargetPasses >= currentAcceptedTargets.Count)
+                                        {
+                                            // add the teammate being referenced from listOfTeamates to currentAcceptedTargets
+                                            currentAcceptedTargets.Add(listOfTeamates[i].gameObject);
+                                        }
                                     }
                                 }
+                                // if there is noting in currentAccpeted target list
+                                else
+                                {
+                                    // add the teammate being referenced from listOfTeamates to currentAcceptedTargets
+                                    currentAcceptedTargets.Add(listOfTeamates[i].gameObject);
+                                }
                             }
-                            // if there is noting in currentAccpeted target list
+                            // if the target is NOT within angle
                             else
                             {
-                                // add the teammate being referenced from listOfTeamates to currentAcceptedTargets
-                                currentAcceptedTargets.Add(listOfTeamates[i].gameObject);
+                                // check every object within currentAcceptedTargets list
+                                for (int j = 0; j < currentAcceptedTargets.Count; j++)
+                                {
+                                    // if it equals to the gameObject referenced in listOfTeamates
+                                    if (currentAcceptedTargets[j] == listOfTeamates[i])
+                                    {
+                                        //Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by target not being in view of the angle");
+                                        // remove the gameObject referenced in listOfTeamates from currentAcceptedTargets
+                                        currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
+                                        currentAcceptedTargets.TrimExcess();
+                                        // just added...
+                                        break;
+                                    }
+                                }
+                                // Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
                             }
                         }
-                        // if the target is NOT within angle
+                        // if the raycast does not hit intended target
                         else
                         {
                             // check every object within currentAcceptedTargets list
@@ -218,7 +247,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                                 // if it equals to the gameObject referenced in listOfTeamates
                                 if (currentAcceptedTargets[j] == listOfTeamates[i])
                                 {
-                                    //Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by target not being in view of the angle");
+                                    // Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by raycast not connecting");
                                     // remove the gameObject referenced in listOfTeamates from currentAcceptedTargets
                                     currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
                                     currentAcceptedTargets.TrimExcess();
@@ -226,135 +255,116 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                                     break;
                                 }
                             }
-                           // Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
+                            //Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
                         }
                     }
-                    // if the raycast does not hit intended target
-                    else
+                }
+                // reset closest angle to the max of 360 degrees (may change later in favour of a localy instantiated value in update)
+                currentClossestAngle = 360;
+                // current target reset (may change later in favour of a localy instantiated value in update)
+                target = null;
+                targetPosition = Vector3.zero;
+
+                // check every object in currentAcceptedTargets, (eligable targets)
+                for (int i = 0; i < currentAcceptedTargets.Count; i++)
+                {
+
+                    Vector3 currentObjectDirection;
+                    // check the direction of the current checked object of currentAcceptedTargets list and the player
+                    currentObjectDirection = currentAcceptedTargets[i].transform.position - transform.position;
+                    // set the current angle between the current checked object of currentAcceptedTargets list and the player
+                    currentAngle = Vector3.Angle(currentObjectDirection, transform.forward);
+
+                    // if the currentClossestAngle variable is less than the currentAngle variable
+                    if (currentAngle <= currentClossestAngle)
                     {
-                        // check every object within currentAcceptedTargets list
-                        for (int j = 0; j < currentAcceptedTargets.Count; j++)
+                        // set currentClossestAngle as the  currentAngle;
+                        currentClossestAngle = currentAngle;
+                        // set the target as the currently checked gameObject in the currentAcceptedTargets list 
+                        target = currentAcceptedTargets[i].transform;
+                        //Debug.Log("Target set as: " + target);
+                        // set target position to center the players
+                        targetPosition = target.position + ((new Vector3(target.up.x, target.up.y, target.up.z) / 4) * 3);
+                    }
+                }
+                // if there is an elidgable target to pass too
+                if (target != null)
+                {
+                    // draw ray
+                    //Vector3 targetObjectDirection = target.transform.position - transform.position;
+                    //  Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), targetObjectDirection, Color.yellow);
+                }
+
+
+                //
+                // Section is to check for new players, who've joined after the awake 
+                //
+
+
+
+                // number of temate to check, minus because of player
+                int tempNumberCheck = -1;
+
+                // lsit of gathered obj
+                List<GameObject> newTeamateSearch = new List<GameObject>();
+
+                // check if a new teamate has entered the game
+                //Debug.Log("TeamTag: " + teamTag);
+                foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
+                {
+                    // add current playerObj into the newTeamateSearch list
+                    newTeamateSearch.Add(playerObj);
+                    // add one to tempNumberCheck
+                    tempNumberCheck++;
+                }
+
+                // if there is more gameObejcts with the same tag as the player that is not in the listOfTeamates list
+                if (tempNumberCheck > listOfTeamates.Count)
+                {
+                    //Debug.Log("tempNumberCheck > listOfTeamates");
+                    // for every object in newTeamateSearch
+                    for (int i = newTeamateSearch.Count - 1; i >= 0; --i)
+                    {
+                        // number of for loop passes for loop j
+                        int numberOfPasses = 0;
+                        // check every object in lisst of temates
+                        for (int j = listOfTeamates.Count - 1; j >= 0; --j)
                         {
-                            // if it equals to the gameObject referenced in listOfTeamates
-                            if (currentAcceptedTargets[j] == listOfTeamates[i])
+                            // changed
+                            // if the referenced gameObject of the listOfTeamates list,  does NOT equale the referenced object in newTeamateSearch list
+                            if (listOfTeamates[j] != newTeamateSearch[i])
                             {
-                               // Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by raycast not connecting");
-                                // remove the gameObject referenced in listOfTeamates from currentAcceptedTargets
-                                currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
-                                currentAcceptedTargets.TrimExcess();
-                                // just added...
+                                // add one to numberOfPasses
+                                numberOfPasses++;
+                            }
+                            // if the referenced gameObject of the listOfTeamates list,  does equale the referenced object in newTeamateSearch list
+                            else
+                            {
+                                // exit loop
                                 break;
                             }
+
+                            // if numberOfPasses surpass the number of objects in listOfTeamates and the current referenced object in newTeamateSearch list does not equal to the player
+                            // the new teamate has been found
+                            if (numberOfPasses >= listOfTeamates.Count && newTeamateSearch[i] != player)
+                            {
+                                // Debug.Log("added: " + newTeamateSearch[i].name);
+                                // add the newly discoverd teamate into the listOfTeamates list variable
+                                listOfTeamates.Add(newTeamateSearch[i]);
+                            }
                         }
-                        //Debug.DrawRay(transform.position, directionFromPlayer, Color.red);
+                        // Debug.Log("number of passes: " + numberOfPasses);
                     }
+
                 }
-            }
-            // reset closest angle to the max of 360 degrees (may change later in favour of a localy instantiated value in update)
-            currentClossestAngle = 360;
-            // current target reset (may change later in favour of a localy instantiated value in update)
-            target = null;
-            targetPosition = Vector3.zero;
-
-            // check every object in currentAcceptedTargets, (eligable targets)
-            for (int i = 0; i < currentAcceptedTargets.Count; i++)
-            {
-
-                Vector3 currentObjectDirection;
-                // check the direction of the current checked object of currentAcceptedTargets list and the player
-                currentObjectDirection = currentAcceptedTargets[i].transform.position - transform.position;
-                // set the current angle between the current checked object of currentAcceptedTargets list and the player
-                currentAngle = Vector3.Angle(currentObjectDirection, transform.forward);
-
-                // if the currentClossestAngle variable is less than the currentAngle variable
-                if (currentAngle <= currentClossestAngle)
+                for (int i = newTeamateSearch.Count - 1; i >= 0; i--)
                 {
-                    // set currentClossestAngle as the  currentAngle;
-                    currentClossestAngle = currentAngle;
-                    // set the target as the currently checked gameObject in the currentAcceptedTargets list 
-                    target = currentAcceptedTargets[i].transform;
-                    //Debug.Log("Target set as: " + target);
-                    // set target position to center the players
-                    targetPosition = target.position + ((new Vector3(target.up.x, target.up.y, target.up.z) / 4) * 3);
+                    newTeamateSearch[i] = null;
+                    newTeamateSearch.TrimExcess();
                 }
+
             }
-            // if there is an elidgable target to pass too
-            if (target != null)
-            {
-                // draw ray
-                //Vector3 targetObjectDirection = target.transform.position - transform.position;
-              //  Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), targetObjectDirection, Color.yellow);
-            }
-
-
-            //
-            // Section is to check for new players, who've joined after the awake 
-            //
-
-
-
-            // number of temate to check, minus because of player
-            int tempNumberCheck = -1;
-
-            // lsit of gathered obj
-            List<GameObject> newTeamateSearch = new List<GameObject>();
-
-            // check if a new teamate has entered the game
-            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag(teamTag))
-            {
-                // add current playerObj into the newTeamateSearch list
-                newTeamateSearch.Add(playerObj);
-                // add one to tempNumberCheck
-                tempNumberCheck++;
-            }
-
-            // if there is more gameObejcts with the same tag as the player that is not in the listOfTeamates list
-            if (tempNumberCheck > listOfTeamates.Count)
-            {
-                //Debug.Log("tempNumberCheck > listOfTeamates");
-                // for every object in newTeamateSearch
-                for (int i = newTeamateSearch.Count - 1; i >= 0; --i)
-                {
-                    // number of for loop passes for loop j
-                    int numberOfPasses = 0;
-                    // check every object in lisst of temates
-                    for (int j = listOfTeamates.Count - 1; j >= 0; --j)
-                    {
-                        // changed
-                        // if the referenced gameObject of the listOfTeamates list,  does NOT equale the referenced object in newTeamateSearch list
-                        if (listOfTeamates[j] != newTeamateSearch[i])
-                        {
-                            // add one to numberOfPasses
-                            numberOfPasses++;
-                        }
-                        // if the referenced gameObject of the listOfTeamates list,  does equale the referenced object in newTeamateSearch list
-                        else
-                        {
-                            // exit loop
-                            break;
-                        }
-
-                        // if numberOfPasses surpass the number of objects in listOfTeamates and the current referenced object in newTeamateSearch list does not equal to the player
-                        // the new teamate has been found
-                        if (numberOfPasses >= listOfTeamates.Count && newTeamateSearch[i] != player)
-                        {
-                           // Debug.Log("added: " + newTeamateSearch[i].name);
-                            // add the newly discoverd teamate into the listOfTeamates list variable
-                            listOfTeamates.Add(newTeamateSearch[i]);
-                        }
-                    }
-                   // Debug.Log("number of passes: " + numberOfPasses);
-                }
-                
-            }
-            for (int i = newTeamateSearch.Count - 1; i >= 0; i--)
-            {
-                newTeamateSearch[i] = null;
-                newTeamateSearch.TrimExcess();
-            }
-
         }
-
     }
 }
 
