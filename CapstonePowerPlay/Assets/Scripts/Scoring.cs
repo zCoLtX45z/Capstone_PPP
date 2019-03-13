@@ -28,13 +28,16 @@ public class Scoring : MonoBehaviour
 
     private AudioSource Src;
     public AudioClip Score;
+    private PlayerSoundSettings PS;
 
     private PhotonView PV;
     
     private void Start()
     {
+        PS = FindObjectOfType<PlayerSoundSettings>();
         PV = GetComponent<PhotonView>();
         Src = GetComponent<AudioSource>();
+        Src.volume = PS.VoiceVol;
 
         sTracker = GameObject.FindGameObjectWithTag("ScoreUI").GetComponent<ScoreTracker>();
         GoalEffects = GetComponentInChildren<ParticleSystem>();

@@ -8,10 +8,12 @@ public class PlayerSoundSettings : MonoBehaviour {
 
     public float musicVol;
     public float SoundFXVol;
+    public float VoiceVol;
 
 
     public Slider musicSlider;
     public Slider SoundFXSlider;
+    public Slider voiceSlider;
 
 
 
@@ -22,7 +24,12 @@ public class PlayerSoundSettings : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        musicVol = musicSlider.value;
-        SoundFXVol = SoundFXSlider.value;
+        if(musicSlider != null)
+        { musicVol = musicSlider.value; }
+        if (SoundFXSlider != null)
+        { SoundFXVol = SoundFXSlider.value; }
+        if(voiceSlider != null)
+        { VoiceVol = voiceSlider.value; }
+        
 	}
 }
