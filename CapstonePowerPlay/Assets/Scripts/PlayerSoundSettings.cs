@@ -24,8 +24,12 @@ public class PlayerSoundSettings : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        musicVol = musicSlider.value;
-        SoundFXVol = SoundFXSlider.value;
-        VoiceVol = voiceSlider.value;
+        if(musicSlider != null)
+        { musicVol = musicSlider.value; }
+        if (SoundFXSlider != null)
+        { SoundFXVol = SoundFXSlider.value; }
+        if(voiceSlider != null)
+        { VoiceVol = voiceSlider.value; }
+        
 	}
 }
