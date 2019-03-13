@@ -81,25 +81,25 @@ public class BallHandling : MonoBehaviour {
     void Update() {
         if (PC.LocalPlayer == PC.ParentPlayer && HasControl)
         {
-            if (ball != null)
-            {
-                if (ball.BH != this)
-                {
-                    //ball.MakeBallDisapear();
-                    ball.BH = this;
-                    ball.UpdateBH(this);
-                }
-                else if (ball.Hand != Hand)
-                {
-                    ball.Hand = Hand;
-                    ball.UpdateHand(this);
-                }
-                else
-                {
-                    ball.Held = true;
-                    ball.UpdateHeld(true);
-                }
-            }
+            //if (ball != null)
+            //{
+            //    if (ball.BH != this)
+            //    {
+            //        //ball.MakeBallDisapear();
+            //        ball.BH = this;
+            //        ball.UpdateBH(this);
+            //    }
+            //    else if (ball.Hand != Hand)
+            //    {
+            //        ball.Hand = Hand;
+            //        ball.UpdateHand(this);
+            //    }
+            //    else
+            //    {
+            //        ball.Held = true;
+            //        ball.UpdateHeld(true);
+            //    }
+            //}
 
 
             PassShootAxis = Input.GetAxis("PassShoot");
