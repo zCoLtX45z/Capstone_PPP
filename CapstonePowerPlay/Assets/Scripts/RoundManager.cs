@@ -167,6 +167,12 @@ public class RoundManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+
+        if(scoring == null)
+        {
+            scoring = FindObjectOfType<Scoring>();
+        }
+
 		if(allowTime)
         {
             if(roundTime > 0)
@@ -279,24 +285,32 @@ public class RoundManager : MonoBehaviour {
     {
         Debug.Log("End_RPC");
 
-        if(scoring.team1Score > scoring.team2Score)
+        if (scoring == null)
         {
-            ShowTheWinner(1);
-        }
-        else if (scoring.team1Score < scoring.team2Score)
-        {
-            ShowTheWinner(2);
-        }
-        else 
-        {
-            ShowTheWinner(0);
+            scoring = FindObjectOfType<Scoring>();
         }
 
+        if (scoring != null)
+        {
+            if (scoring.team1Score > scoring.team2Score)
+            {
+                ShowTheWinner(1);
+            }
+            else if (scoring.team1Score < scoring.team2Score)
+            {
+                ShowTheWinner(2);
+            }
+            else
+            {
+                ShowTheWinner(0);
+            }
+        }
         
     }
 
     public void ShowTheWinner(int teamNum)
     {
+        Debug.Log("show the winner");
         Transform localPlayer = null;
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 1"))
         {
@@ -341,8 +355,13 @@ public class RoundManager : MonoBehaviour {
 
     public void ReturnToMenu()
     {
-        PhotonNetwork.LeaveRoom();
+        Debug.Log("Return to Menu");
+        PhotonNetwork.Disconnect();
         PhotonNetwork.LoadLevel(0);
+
+        
+       // PhotonNetwork.l
+
     }
 
 
