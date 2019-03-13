@@ -15,7 +15,7 @@ public class HoverBoardSounds : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        HV = GetComponent<hoverBoardScript>();
+        HV = FindObjectOfType<hoverBoardScript>();
         Src = GetComponent<AudioSource>();
         PS = FindObjectOfType<PlayerSoundSettings>();
         if (PS)
