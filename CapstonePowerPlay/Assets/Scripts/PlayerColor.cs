@@ -222,6 +222,7 @@ public class PlayerColor : MonoBehaviourPun
             //
             pSLPS.enabled = true;
             pSLPS.teamTag = pSLPS.player.tag;
+            Debug.Log("call set changes");
             pSLPS.SetChanges();
             //
         }

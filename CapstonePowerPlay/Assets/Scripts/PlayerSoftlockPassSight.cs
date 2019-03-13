@@ -66,6 +66,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
 
     public void SetChanges()
     {
+        Debug.Log("changes setting");
         //set player object (parent object that this script is attached to)
         //player = transform.parent.gameObject;
 
