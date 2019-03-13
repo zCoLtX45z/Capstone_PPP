@@ -18,8 +18,12 @@ public class BallSoundManager : MonoBehaviour {
         PS = FindObjectOfType<PlayerSoundSettings>();
         audioSrc = GetComponent<AudioSource>();
 
-        audioSrc.volume = PS.SoundFXVol;
-	}
+        if (PS)
+            audioSrc.volume = PS.SoundFXVol;
+        else
+            audioSrc.volume = 0.1f;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

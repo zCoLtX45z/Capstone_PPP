@@ -31,6 +31,7 @@ public class BallHandling : MonoBehaviour {
 
     public Ball ball;
     private Ball FindBall;
+    private float FindBallDistance = 10;
 
     // get from input manager
     private float PassShootAxis = 0;
@@ -162,10 +163,46 @@ public class BallHandling : MonoBehaviour {
                     canHold = true;
                 }
             }
+
+            if (FindBall == null)
+            {
+                FindBall = FindObjectOfType<Ball>();
+            }
+            else
+            {
+                if (!FindBall.Held)
+                {
+                    if (!FindBall.GetThrown())
+                    {
+                        FindBallDistance = (FindBall.transform.position - transform.position).magnitude;
+                        if (FindBallDistance <= FindBall.PickUpRadius)
+                        {
+                            FindBall.PickUp(gameObject);
+                        }
+                    }
+                }
+            }
         }
-        else
+        else if (PC.LocalPlayer != PC.ParentPlayer)
         {
-            // nothing for now
+            if (FindBall == null)
+            {
+                FindBall = FindObjectOfType<Ball>();
+            }
+            else
+            {
+                if (!FindBall.Held)
+                {
+                    if (!FindBall.GetThrown())
+                    {
+                        FindBallDistance = (FindBall.transform.position - transform.position).magnitude;
+                        if (FindBallDistance <= FindBall.PickUpRadius)
+                        {
+                            FindBall.SlowDown();
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -179,15 +216,15 @@ public class BallHandling : MonoBehaviour {
         return Hand;
     }
 
-    
     private void Pass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
         PV.RPC("RPC_PlayPassEffect", RpcTarget.All);
         //RpcPass(Target, ballObject, HandPos, WhoThrew);
-        PV.RPC("RPC_Pass", RpcTarget.AllBuffered, Target.GetPhotonView().ViewID, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
+        RPC_Pass(Target.GetPhotonView().ViewID, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
+        //PV.RPC("RPC_Pass", RpcTarget.AllBuffered, Target.GetPhotonView().ViewID, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
     }
 
-    [PunRPC]
+    //[PunRPC]
     private void RPC_Pass(int Target, int ballObject, Vector3 HandPos, int WhoThrew)
     {
 
@@ -201,15 +238,15 @@ public class BallHandling : MonoBehaviour {
     {
         //TurnOnFakeBall(false);
         //PV.RPC("RPC_PlayPassEffect", RpcTarget.All);
-        //RPC_Shoot(Direction, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
+        RPC_Shoot(Direction, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
 
-        Debug.Log("Direction: " + Direction + " ballObject: " + ballObject + " HandPos: " + HandPos + " WhoThrew: " + WhoThrew);
-        Debug.Log("PV: " + PV);
+        //Debug.Log("Direction: " + Direction + " ballObject: " + ballObject + " HandPos: " + HandPos + " WhoThrew: " + WhoThrew);
+        //Debug.Log("PV: " + PV);
 
-        PV.RPC("RPC_Shoot", RpcTarget.All, Direction, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
+        //PV.RPC("RPC_Shoot", RpcTarget.All, Direction, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
     }
 
-    [PunRPC]
+    //[PunRPC]
     private void RPC_Shoot(Vector3 Direction, int ballObject, Vector3 HandPos, int WhoThrew)
     {
         Ball temp = PhotonView.Find(ballObject).gameObject.GetComponent<Ball>();
@@ -269,12 +306,6 @@ public class BallHandling : MonoBehaviour {
             }
         }
     }
-
-
-
-
-
-
     
     public void Steal(GameObject TargetHand, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {

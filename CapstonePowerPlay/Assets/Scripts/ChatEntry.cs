@@ -24,10 +24,10 @@ public class ChatEntry : MonoBehaviour {
     [HideInInspector]
     public int EntryNumber;
     [HideInInspector]
-    public string EntryPerson;
+    public GameObject EntryPerson;
 
 
-    public void CreateMessege(string text, Color TextColor, string type, int EntryNum, string WhoEntered)
+    public void CreateMessege(string text, Color TextColor, string type, int EntryNum, GameObject WhoEntered)
     {
         EntryText = text;
         MessegeText.text = text;
@@ -35,5 +35,7 @@ public class ChatEntry : MonoBehaviour {
         TextHeight = MessegeRectTransfrom.rect.height;
         TimeOfEntry = Time.time;
         EntryType = type;
+        EntryNumber = EntryNum;
+        EntryPerson = WhoEntered;
     }
 }

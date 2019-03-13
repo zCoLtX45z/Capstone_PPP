@@ -13,7 +13,7 @@ public class LookAtBall : MonoBehaviour
 
     public bool allow = false;
 
-    public List<Transform> players = new List<Transform>();
+    //public List<Transform> players = new List<Transform>();
 
 
     private CameraModeMedium cMM;
@@ -37,20 +37,20 @@ public class LookAtBall : MonoBehaviour
     {
         if (GameObject.FindGameObjectWithTag("Ball") != null)
             lookatBall = GameObject.FindGameObjectWithTag("Ball").transform;
-        if (lookatBall != null)
-        {
-            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 1"))
-            {
-                if (playerObj != thisPlayerBallHandling.transform)
-                    players.Add(playerObj.transform);
-            }
-            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 2"))
-            {
-                players.Add(playerObj.transform);
-            }
+        //if (lookatBall != null)
+        //{
+        //    foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 1"))
+        //    {
+        //        if (playerObj != thisPlayerBallHandling.transform)
+        //            players.Add(playerObj.transform);
+        //    }
+        //    foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Team 2"))
+        //    {
+        //        players.Add(playerObj.transform);
+        //    }
 
-            cMM = transform.GetComponent<CameraModeMedium>();
-        }
+        //    cMM = transform.GetComponent<CameraModeMedium>();
+        //}
 
     }
 
@@ -158,6 +158,11 @@ public class LookAtBall : MonoBehaviour
                 }
                 */
             }
+        }
+        else
+        {
+            if (GameObject.FindGameObjectWithTag("Ball") != null)
+                lookatBall = GameObject.FindGameObjectWithTag("Ball").transform;
         }
     }
 }

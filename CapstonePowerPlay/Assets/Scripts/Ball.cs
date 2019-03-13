@@ -24,7 +24,7 @@ public class Ball : MonoBehaviour
 
     [SerializeField]
     private bool isInPassing = false;
-
+    
 
     private GameObject passedTarget;
 
@@ -39,7 +39,7 @@ public class Ball : MonoBehaviour
 
     [SerializeField]
     private float KonstantForce = 900.0f;
-
+    public float PickUpRadius = 9;
 
     private float CanBeCaughtTimer = 1;
     private bool Thrown = false;
@@ -82,6 +82,7 @@ public class Ball : MonoBehaviour
 
         nSpawner = FindObjectOfType<netSpawner>();
         rTimerScript = FindObjectOfType<RoundManager>();
+        SoftCol.radius = PickUpRadius;
     }
 
     private void Update()
@@ -163,16 +164,16 @@ public class Ball : MonoBehaviour
 
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
-                RB.velocity = Vector3.zero;
-                RB.AddForce(direction * KonstantForce, ForceMode.Acceleration);
+                //RB.velocity = Vector3.zero;
+                RB.AddForce(direction * KonstantForce, ForceMode.Force);
 
             }
             else
             {
                 //transform.rotation = rotation;
                 //transform.LookAt(passedTarget);
-                RB.velocity = Vector3.zero;
-                RB.AddForce(direction * KonstantForce / 2, ForceMode.Acceleration);
+                //RB.velocity = Vector3.zero;
+                RB.AddForce(direction * KonstantForce / 2, ForceMode.Force);
             }
             //RB.velocity = (transform.forward * constantForce);
         }
@@ -210,9 +211,12 @@ public class Ball : MonoBehaviour
             }
 
         }
-
     }
 
+    public void SlowDown(float Rate = 4)
+    {
+        RB.velocity = RB.velocity / Rate;
+    }
     public void SendData(string Func, string Indentifier)
     {
         // Sett Who picked Up The Ball
@@ -256,9 +260,6 @@ public class Ball : MonoBehaviour
         stolenInProgress = false;
         thiefTransform = null;
     }
-
-
-
 
     private void OnCollisionEnter(Collision c)
     {
@@ -346,72 +347,89 @@ public class Ball : MonoBehaviour
             transform.SetParent(null);
         }
     }
-    private void OnTriggerEnter(Collider c)
+
+    public void PickUp(GameObject c)
     {
-        //Debug.Log("triged: " + c.name + " tag: " + c.tag);
-        if ((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
+        if (!hasBeenPickedUpBefore)
         {
-            //if(!PV.IsMine)
-            //{
-            //    PV.TransferOwnership(c.gameObject.GetPhotonView().ViewID);
-            //    Debug.Log("transfering ownership");
-            //}
-
-            if (!hasBeenPickedUpBefore)
-            {
-                //Debug.Log("has not been will be");
-
-
-
-
-                //if (PhotonNetwork.IsMasterClient)
-                //{
-                nSpawner.CallMoveNetUp();
-                rTimerScript.BeginCountdown();
-                //Debug.Log("IsMasterCilent");
-
-                // }
-            }
-
-
-            PV.RPC("RPC_OnTriggerEnter", RpcTarget.All);
-
-            //c.GetComponent<PhotonView>().TransferOwnership(GetComponent<PhotonView>()..ID);
-
-
-            // Set who has the the ball
-            PlayerColor pc = c.GetComponent<PlayerColor>();
-            // Every persons code has to be shared
-            string PlayerCode = pc.GetCode();
-            PV.RPC("RPC_SetPlayerBH", RpcTarget.AllViaServer, PlayerCode);
-            //transform.gameObject.layer = 2;
-
-            //if (BH.canHold )
-            //{
-            //    Debug.Log("BH can hold");
-            //    //MakeBallDisapear();
-            //    //Hand = BH.ReturnHand();
-            //    //UpdateHandTransform(BH.gameObject);
-            //    //PV.RPC("RPC_SetHand", RpcTarget.All);
-            //    //Handle.position = Hand.position;
-            //    //Handle.parent = Hand.parent;
-
-            //    //BH.SetBall(gameObject);
-            //    //RBS.CmdSetPlayerHolding(BH.gameObject);
-            //    //BH.TurnOnFakeBall(true);
-            //    //CmdTurnOnBall(false);
-            //}
-            //else
-            //{ 
-            //    BH = null;
-            //    Debug.Log("can not hold tag of team");
-            //}
+            nSpawner.CallMoveNetUp();
+            rTimerScript.BeginCountdown();
         }
+
+        PV.RPC("RPC_OnTriggerEnter", RpcTarget.All);
+
+        // Set who has the the ball
+        PlayerColor pc = c.GetComponent<PlayerColor>();
+        // Every persons code has to be shared
+        string PlayerCode = pc.GetCode();
+        PV.RPC("RPC_SetPlayerBH", RpcTarget.AllViaServer, PlayerCode);
     }
+    //private void OnTriggerEnter(Collider c)
+    //{
+    //    //Debug.Log("triged: " + c.name + " tag: " + c.tag);
+    //    if ((c.tag == "Team 1" || c.tag == "Team 2") && !Held && !Thrown)
+    //    {
+    //        //if(!PV.IsMine)
+    //        //{
+    //        //    PV.TransferOwnership(c.gameObject.GetPhotonView().ViewID);
+    //        //    Debug.Log("transfering ownership");
+    //        //}
+
+    //        if (!hasBeenPickedUpBefore)
+    //        {
+    //            //Debug.Log("has not been will be");
+
+
+
+
+    //            //if (PhotonNetwork.IsMasterClient)
+    //            //{
+    //            nSpawner.CallMoveNetUp();
+    //            rTimerScript.BeginCountdown();
+    //            //Debug.Log("IsMasterCilent");
+
+    //            // }
+    //        }
+
+
+    //        PV.RPC("RPC_OnTriggerEnter", RpcTarget.All);
+
+    //        //c.GetComponent<PhotonView>().TransferOwnership(GetComponent<PhotonView>()..ID);
+
+
+    //        // Set who has the the ball
+    //        PlayerColor pc = c.GetComponent<PlayerColor>();
+    //        // Every persons code has to be shared
+    //        string PlayerCode = pc.GetCode();
+    //        PV.RPC("RPC_SetPlayerBH", RpcTarget.AllViaServer, PlayerCode);
+    //        //transform.gameObject.layer = 2;
+
+    //        //if (BH.canHold )
+    //        //{
+    //        //    Debug.Log("BH can hold");
+    //        //    //MakeBallDisapear();
+    //        //    //Hand = BH.ReturnHand();
+    //        //    //UpdateHandTransform(BH.gameObject);
+    //        //    //PV.RPC("RPC_SetHand", RpcTarget.All);
+    //        //    //Handle.position = Hand.position;
+    //        //    //Handle.parent = Hand.parent;
+
+    //        //    //BH.SetBall(gameObject);
+    //        //    //RBS.CmdSetPlayerHolding(BH.gameObject);
+    //        //    //BH.TurnOnFakeBall(true);
+    //        //    //CmdTurnOnBall(false);
+    //        //}
+    //        //else
+    //        //{ 
+    //        //    BH = null;
+    //        //    Debug.Log("can not hold tag of team");
+    //        //}
+    //    }
+    //}
 
     private void OnTriggerExit(Collider other)
     {
-        if (!stolenInProgress)
+        if (!stolenInProgress && (other.tag == "Team 1" || other.tag == "Team 2"))
         {
             PV.RPC("RPC_OnTriggerExit", RpcTarget.All);
         }
@@ -481,30 +499,31 @@ public class Ball : MonoBehaviour
     [PunRPC]
     public void RPC_SetPass(bool Passing, int Target, float Force, Vector3 HandPos, int WhoThrew)
     {
+        transform.SetParent(null);
         Thrown = true;
-
         CanBeCaughtTimer = 0.15f;
         passedTarget = PhotonView.Find(Target).gameObject;
         //Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
-        transform.SetParent(null);
         //Handle.position = HandPos;
-        Handle.parent = null;
         isInPassing = true;
-        RB.velocity = Vector3.zero;
-        RB.angularVelocity = Vector3.zero;
+        RB.useGravity = false;
         RB.isKinematic = false;
+        RB.detectCollisions = true;
         transform.position = HandPos;
         //Debug.Log("about to pass");
-        float distance = (transform.position - PhotonView.Find(Target).gameObject.transform.position).magnitude;
-        transform.LookAt(PhotonView.Find(Target).gameObject.transform);
-        //RB.AddForce(transform.up * Force, ForceMode.Impulse);
-        //Debug.Log("pass force applied");
         Held = false;
         WhoTossedTheBall = PhotonView.Find(WhoThrew).gameObject;
         Hand = null;
         BH = null;
         HardCol.isTrigger = false;
-        RB.detectCollisions = true;
+        RB.velocity = Vector3.zero;
+        RB.angularVelocity = Vector3.zero;
+        transform.LookAt(PhotonView.Find(Target).gameObject.transform);
+        RB.AddForce(Force * transform.forward, ForceMode.Impulse);
+        teamTag = tag;
+        gameObject.layer = 10;
+        //RB.AddForce(transform.up * Force, ForceMode.Impulse);
+        //Debug.Log("pass force applied");
 
         //Debug.Log("can not hold pass");
         //MakeBallReapear();

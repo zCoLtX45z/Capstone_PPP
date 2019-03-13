@@ -87,6 +87,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
             if (listOfTeamates[i].gameObject == player.transform.gameObject)
             {
                 listOfTeamates.RemoveAt(i);
+                listOfTeamates.TrimExcess();
                 break;
             }
         }
@@ -139,6 +140,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                 if (listOfTeamates[i].gameObject == player)
                 {
                     listOfTeamates.RemoveAt(i);
+                    listOfTeamates.TrimExcess();
                     break;
                 }
             }
@@ -219,6 +221,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                                     //Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by target not being in view of the angle");
                                     // remove the gameObject referenced in listOfTeamates from currentAcceptedTargets
                                     currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
+                                    currentAcceptedTargets.TrimExcess();
                                     // just added...
                                     break;
                                 }
@@ -238,6 +241,7 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                                // Debug.Log("removing: " + currentAcceptedTargets[j] + " from acceptableTargets by raycast not connecting");
                                 // remove the gameObject referenced in listOfTeamates from currentAcceptedTargets
                                 currentAcceptedTargets.Remove(currentAcceptedTargets[j]);
+                                currentAcceptedTargets.TrimExcess();
                                 // just added...
                                 break;
                             }
@@ -341,8 +345,14 @@ public class PlayerSoftlockPassSight : MonoBehaviour
                     }
                    // Debug.Log("number of passes: " + numberOfPasses);
                 }
-
+                
             }
+            for (int i = newTeamateSearch.Count - 1; i >= 0; i--)
+            {
+                newTeamateSearch[i] = null;
+                newTeamateSearch.TrimExcess();
+            }
+
         }
 
     }

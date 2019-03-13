@@ -34,6 +34,9 @@ public class PlayerColor : MonoBehaviourPun
     [SerializeField]
     private PlayerSoftlockPassSight pSLPS;
 
+    [SerializeField]
+    private ChangeTags CT;
+
     //photon variables
     [SerializeField]
     private PhotonView PV;
@@ -201,16 +204,18 @@ public class PlayerColor : MonoBehaviourPun
         if (TeamNum == 1)
         {
             transform.tag = "Team 1";
+            //CT.ChangeObjectTags("Team 1");
         }
         else if (TeamNum == 2)
         {
             transform.tag = "Team 2";
+            //CT.ChangeObjectTags("Team 2");
         }
         //
 
         if (LocalPlayer == ParentPlayer)
         {
-            print("Set Blue Avatar - Local = Parent");
+            //print("Set Blue Avatar - Local = Parent");
             SetBlueActive();
             //
             pSLPS.enabled = true;
@@ -221,12 +226,12 @@ public class PlayerColor : MonoBehaviourPun
         {
             if (LocalPlayer.GetTeamNum() == TeamNum)
             {
-                print("Set Blue Avatar - Local != Parent");
+                //print("Set Blue Avatar - Local != Parent");
                 SetBlueActive();
             }
             else
             {
-                print("Set Red Avatar - Local != Parent");
+                //print("Set Red Avatar - Local != Parent");
                 SetRedActive();
             }
         }
@@ -278,7 +283,7 @@ public class PlayerColor : MonoBehaviourPun
     public void RPC_UpdateTag(string ThisTag)
     {
         this.tag = ThisTag;
-
+        //CT.ChangeObjectTags(ThisTag);
     }
 
     public void SetBlueActive()

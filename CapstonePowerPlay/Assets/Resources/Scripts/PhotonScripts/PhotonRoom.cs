@@ -219,7 +219,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
         }
         else
         {
-            Debug.Log("Scene " + scene + " Loaded");
+            //Debug.Log("Scene " + scene + " Loaded");
             PhotonNetwork.LoadLevel(scene);
         }
     }
