@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SmoothUITransition : MonoBehaviour {
+public class SmoothHoverSelectorUITransition : MonoBehaviour {
 
     //[SerializeField]
     //private RectTransform start;
