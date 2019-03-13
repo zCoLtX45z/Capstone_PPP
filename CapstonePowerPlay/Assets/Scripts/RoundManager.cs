@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class RoundManager : MonoBehaviour {
 
@@ -355,15 +356,19 @@ public class RoundManager : MonoBehaviour {
 
     public void ReturnToMenu()
     {
-        Debug.Log("Return to Menu");
-        PhotonNetwork.Disconnect();
-        PhotonNetwork.LoadLevel(0);
-
-        
-       // PhotonNetwork.l
-
+        //Debug.Log("Return to Menu");
+        //PhotonNetwork.Disconnect();
+        //PhotonNetwork.LoadLevel(0);
+        StartCoroutine(DisconnectAndLoad());
     }
 
+    IEnumerator DisconnectAndLoad()
+    {
+        PhotonNetwork.Disconnect();
+        while (PhotonNetwork.IsConnected)
+            yield return null;
+        SceneManager.LoadScene(0);
+    }
 
     //[SerializeField]
     private List<Transform> team1Players = new List<Transform>();
