@@ -172,25 +172,28 @@ public class Scoring : MonoBehaviour
     {
         if(c.gameObject.tag == "Ball_Score_Trigger" && !scored)
         {
-            int teamScored = c.transform.parent.GetComponent<Ball>().WhoTossedTheBall.GetComponent<PlayerColor>().TeamNum;
-            //Debug.Log("Ball has triggered the net");
-            if(teamScored == 1)
+            if (c.transform.parent.GetComponent<Ball>().WhoTossedTheBall != null)
             {
-                Src.PlayOneShot(Score, 1f);
-                //Debug.Log("Team1 Scored!");
-                //CmdTeam1Score();
-                PV.RPC("RPC_Team1Score", RpcTarget.AllBuffered);
-                timeUntilScoreReset = maxTimeUntilScoreReset;
-                scored = true;
-            }
-            else if (teamScored == 2)
-            {
-                Src.PlayOneShot(Score, 1f);
-                //Debug.Log("Team2 Scored!");
-                //CmdTeam2Score();
-                PV.RPC("RPC_Team2Score", RpcTarget.AllBuffered);
-                timeUntilScoreReset = maxTimeUntilScoreReset;
-                scored = true;
+                int teamScored = c.transform.parent.GetComponent<Ball>().WhoTossedTheBall.GetComponent<PlayerColor>().TeamNum;
+                //Debug.Log("Ball has triggered the net");
+                if (teamScored == 1)
+                {
+                    Src.PlayOneShot(Score, 1f);
+                    //Debug.Log("Team1 Scored!");
+                    //CmdTeam1Score();
+                    PV.RPC("RPC_Team1Score", RpcTarget.AllBuffered);
+                    timeUntilScoreReset = maxTimeUntilScoreReset;
+                    scored = true;
+                }
+                else if (teamScored == 2)
+                {
+                    Src.PlayOneShot(Score, 1f);
+                    //Debug.Log("Team2 Scored!");
+                    //CmdTeam2Score();
+                    PV.RPC("RPC_Team2Score", RpcTarget.AllBuffered);
+                    timeUntilScoreReset = maxTimeUntilScoreReset;
+                    scored = true;
+                }
             }
         }
     }
