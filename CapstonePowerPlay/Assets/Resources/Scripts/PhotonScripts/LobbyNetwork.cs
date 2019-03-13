@@ -49,7 +49,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
     public override void OnJoinedLobby()
     {
         print("Connected to Lobby.");
-        print("Lobby: " + PhotonNetwork.CurrentLobby);
+        print(PhotonNetwork.CurrentLobby);
     }
 
     public override void OnLeftLobby()
@@ -104,7 +104,10 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IInRoomCallbacks {
     public void LeavePhotonRoom()
     {
         if (PhotonNetwork.InRoom)
+        {
             PhotonNetwork.LeaveRoom();
+            PhotonNetwork.JoinLobby();
+        }
     }
 
     private void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)

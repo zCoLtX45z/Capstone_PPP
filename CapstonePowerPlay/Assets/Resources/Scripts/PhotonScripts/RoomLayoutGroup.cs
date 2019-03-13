@@ -16,11 +16,34 @@ public class RoomLayoutGroup : MonoBehaviourPunCallbacks
     private List<RoomListing> RoomListings = new List<RoomListing>();
     private List<RoomInfo> RoomList = new List<RoomInfo>();
 
+    private bool Detoir = false;
+
+    private void Update()
+    {
+        if (Detoir)
+        {
+            if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.InLobby)
+            {
+                print("RefreshRoomlist Called, " + PhotonNetwork.CountOfRooms + " Room Count, Players: " + PhotonNetwork.CountOfPlayersOnMaster);
+                OnRecievedRoomListUpdate();
+                OnRoomListUpdate(RoomList);
+                Detoir = false;
+            }
+        }
+    }
+
     public void RefreshRoomlist()
     {
-        print("RefreshRoomlist Called, " + PhotonNetwork.CountOfRooms + " Room Count, Players: " + PhotonNetwork.CountOfPlayersOnMaster );
-        OnRecievedRoomListUpdate();
-        OnRoomListUpdate(RoomList);
+        if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.InLobby)
+        {
+            print("RefreshRoomlist Called, " + PhotonNetwork.CountOfRooms + " Room Count, Players: " + PhotonNetwork.CountOfPlayersOnMaster);
+            OnRecievedRoomListUpdate();
+            OnRoomListUpdate(RoomList);
+        }
+        else
+        {
+            Detoir = true;
+        }
     }
     public void OnRecievedRoomListUpdate()
     {
