@@ -13,11 +13,14 @@ public class netSpawner : MonoBehaviour
 
     private GameObject net;
 
+    [SerializeField]
     private bool moveNetUp = false;
     [SerializeField]
     private float netHeight;
     [SerializeField]
     private float acceleration;
+
+    private float releaseNetTime;
 
 	// Use this for initialization
 	void Start ()
@@ -57,20 +60,25 @@ public class netSpawner : MonoBehaviour
         if (PhotonNetwork.IsMasterClient)
         {
             moveNetUp = true;
+            releaseNetTime = 2;
         }
     }
     private void Update()
     {
         if (moveNetUp)
         {
-
-            net.transform.position += new Vector3(0, (netHeight - net.transform.position.y) / acceleration, 0);
-
-
-            //net.transform.position = new Vector3(net.transform.position.x, 67, net.transform.position.z);
-            if (net.transform.position.y >= 67)
+            if (releaseNetTime <= 0)
             {
-                moveNetUp = false;
+                net.transform.position += new Vector3(0, (netHeight - net.transform.position.y) / acceleration, 0);
+
+                if (net.transform.position.y >= 67)
+                {
+                    moveNetUp = false;
+                }
+            }
+            else
+            {
+                releaseNetTime -= Time.deltaTime;
             }
         }
 
