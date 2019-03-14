@@ -377,7 +377,11 @@ public class NetPlayer : MonoBehaviour {
             //PV.RPC("RPC_UpdateReady", RpcTarget.AllBuffered, ReadyToSetPlayer);
             // Set Components
             PV.RPC("RPC_GetPlayerComponents", RpcTarget.AllBuffered);
+            ChildPlayer.GetComponentInChildren<LookAtPostionFollow>().UnParent();
         }
+
+       
+
     }
 
     [PunRPC]
