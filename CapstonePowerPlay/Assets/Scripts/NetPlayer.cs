@@ -64,6 +64,9 @@ public class NetPlayer : MonoBehaviour {
     [SerializeField]
     private CameraRotation cRotScript = null;
 
+    [SerializeField]
+    private CameraModeMedium cmm;
+
     // Use this for initialization
     void Start ()
     {
@@ -253,6 +256,12 @@ public class NetPlayer : MonoBehaviour {
                     HBS.BoardHasControl = false;
                 }
 
+                if(cmm != null)
+                    cmm.changeIsAllowed = false;
+
+                if (cmm != null)
+                    cmm.changeIsAllowed = false;
+
                 if (cRotScript != null)
                     cRotScript.allow = false;
                 else
@@ -295,6 +304,10 @@ public class NetPlayer : MonoBehaviour {
                     {
                         Cursor.visible = true;
                         Cursor.lockState = CursorLockMode.None;
+
+                        if (cmm != null)
+                            cmm.changeIsAllowed = false;
+
                         if (cRotScript != null)
                             cRotScript.allow = false;
                         else
@@ -304,8 +317,15 @@ public class NetPlayer : MonoBehaviour {
                     {
                         Cursor.visible = false;
                         Cursor.lockState = CursorLockMode.Locked;
+
+                        if (cmm != null)
+                            cmm.changeIsAllowed = true;
+
                         if (cRotScript != null)
+                        {
+                            if (cmm.isFreeCam == true)
                             cRotScript.allow = true;
+                        }
                         else
                             PV.RPC("RPC_GetPlayerComponents", RpcTarget.AllBuffered); ;
                     }
@@ -328,6 +348,7 @@ public class NetPlayer : MonoBehaviour {
         PC = ChildPlayer.GetComponent<PlayerColor>();
         ChildPlayer.transform.SetParent(this.transform);
         cRotScript = ChildPlayer.GetComponentInChildren<CameraRotation>();
+        cmm = ChildPlayer.GetComponentInChildren<CameraModeMedium>();
     }
 
     [PunRPC]
@@ -364,7 +385,11 @@ public class NetPlayer : MonoBehaviour {
             //PV.RPC("RPC_UpdateReady", RpcTarget.AllBuffered, ReadyToSetPlayer);
             // Set Components
             PV.RPC("RPC_GetPlayerComponents", RpcTarget.AllBuffered);
+            ChildPlayer.GetComponentInChildren<LookAtPostionFollow>().UnParent();
         }
+
+       
+
     }
 
     [PunRPC]

@@ -6609,7 +6609,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1063158160534168}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: -0, y: 0.7276615, z: -0, w: -0.68593645}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -6624,7 +6624,7 @@ Transform:
   - {fileID: 4661396914997780}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 266.619, z: 0}
 --- !u!4 &4595197576634790
 Transform:
   m_ObjectHideFlags: 1
@@ -9151,7 +9151,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8283786cec05e93469c071a3150199a8, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5261d23f317bdd84c9a5ebb09cdc2544, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.8
   m_Pitch: 1
@@ -9522,7 +9522,7 @@ MonoBehaviour:
   - {fileID: 114981085440214258}
   - {fileID: 114359316240184688}
   - {fileID: 114559822743833478}
-  viewIdField: 0
+  viewIdField: 4
   InstantiationId: 4
   isRuntimeInstantiated: 0
 --- !u!114 &114097668274619616
@@ -9581,6 +9581,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lookAtBall: {fileID: 0}
   cameraRotation: {fileID: 0}
+  isFreeCam: 0
+  changeIsAllowed: 0
 --- !u!114 &114162789325832588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10495,6 +10497,9 @@ MonoBehaviour:
   - {fileID: 114963437477762288}
   - {fileID: 114953290712135024}
   - {fileID: 114917923771128530}
+  - {fileID: 223514122236481520}
+  - {fileID: 114861138183220302}
+  - {fileID: 114305946182988612}
   LocalPlayer: {fileID: 0}
   ParentPlayer: {fileID: 0}
   PV: {fileID: 114027717465583432}
@@ -10697,6 +10702,7 @@ MonoBehaviour:
   lookatPoint: {fileID: 4333147825657086}
   player: {fileID: 4590535368016958}
   layerMask: Ground
+  ckp: {fileID: 114953290712135024}
 --- !u!114 &114927429058390114
 MonoBehaviour:
   m_ObjectHideFlags: 1
