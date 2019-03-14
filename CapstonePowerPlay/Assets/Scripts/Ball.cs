@@ -72,6 +72,11 @@ public class Ball : MonoBehaviour
 
     private RoundManager rTimerScript;
 
+    [SerializeField]
+    private bool inPlay = false;
+
+    [SerializeField]
+    private Animation animFloat = null;
 
     // Use this for initialization
     void Start()
@@ -83,6 +88,8 @@ public class Ball : MonoBehaviour
         nSpawner = FindObjectOfType<netSpawner>();
         rTimerScript = FindObjectOfType<RoundManager>();
         SoftCol.radius = PickUpRadius;
+
+        animFloat = transform.GetChild(0).GetComponent<Animation>();
     }
 
     private void Update()
@@ -185,7 +192,8 @@ public class Ball : MonoBehaviour
                 if (!isInPassing)
                 {
                     gameObject.layer = 10;
-                    RB.useGravity = true;
+                    if(inPlay)
+                        RB.useGravity = true;
                 }
             }
         }
@@ -263,6 +271,12 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter(Collision c)
     {
+        if (!inPlay)
+        {
+            inPlay = true;
+            animFloat.enabled = false;
+            transform.GetChild(0).transform.localPosition = Vector3.zero;
+        }
         if (Thrown)
         {
             if (c.gameObject.tag == "Default" || c.gameObject.tag == "Ground")
@@ -276,6 +290,12 @@ public class Ball : MonoBehaviour
     [PunRPC]
     private void RPC_OnTriggerEnter()
     {
+        if(!inPlay)
+        {
+            inPlay = true;
+            animFloat.enabled = false;
+            transform.GetChild(0).transform.localPosition = Vector3.zero;
+        }
         //Debug.Log("PLAYER HAS ENTERED THE AREA!!!");
         gameObject.layer = 2;
         HardCol.isTrigger = true;
@@ -438,6 +458,12 @@ public class Ball : MonoBehaviour
     [PunRPC]
     private void RPC_OnTriggerExit()
     {
+        if (!inPlay)
+        {
+            inPlay = true;
+            animFloat.enabled = false;
+            transform.GetChild(0).transform.localPosition = Vector3.zero;
+        }
         //Debug.Log("PLAYER HAS LEFT THE AREA!!!");
         HardCol.isTrigger = false;
         timer = 1;
