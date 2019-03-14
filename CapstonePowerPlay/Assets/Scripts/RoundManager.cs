@@ -91,7 +91,7 @@ public class RoundManager : MonoBehaviour {
     [SerializeField]
     private Text roundCallText;
 
-
+    [SerializeField]
     private hoverBoardScript HBS;
 
     private void Start()
