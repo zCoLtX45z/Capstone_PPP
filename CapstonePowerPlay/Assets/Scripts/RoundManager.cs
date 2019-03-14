@@ -91,6 +91,9 @@ public class RoundManager : MonoBehaviour {
     [SerializeField]
     private Text roundCallText;
 
+
+    private hoverBoardScript HBS;
+
     private void Start()
     {
         PV = GetComponent<PhotonView>();
@@ -230,9 +233,18 @@ public class RoundManager : MonoBehaviour {
         }
         else
         {
+            // stop all players from moving //
+            if(HBS == null)
+            {
+                HBS = FindObjectOfType<hoverBoardScript>();
+            }
+
+            if (HBS != null)
+            {
+                // gbs disable ability to move
+                HBS.SetContolAvailability(false);
+            }
             roundCallText.text = "Round " + (roundNumber + 1);
-
-
             // round 2
             if (roundNumber == 1)
             {
@@ -450,6 +462,16 @@ public class RoundManager : MonoBehaviour {
     {
         roundCallText.text = "GO!";
         // free players
+        if (HBS == null)
+        {
+            HBS = FindObjectOfType<hoverBoardScript>();
+        }
+
+        if (HBS != null)
+        {
+            // hbs enable ability to move
+            HBS.SetContolAvailability(true);
+        }
 
         Invoke("EraseRoundCall", 1);
     }
