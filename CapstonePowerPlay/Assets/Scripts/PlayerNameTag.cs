@@ -13,6 +13,8 @@ public class PlayerNameTag : MonoBehaviour {
     private TextMesh TM;
     [SerializeField]
     private PhotonView PV;
+    [SerializeField]
+    private bool KeepScale = false;
 
     private Transform LocalPlayerObject;
     private bool Started = false;
@@ -20,7 +22,7 @@ public class PlayerNameTag : MonoBehaviour {
     private float distance;
     private float scale;
 
-    private void ForceStart()
+    public void ForceStart()
     {
         if (PV.IsMine)
         {
@@ -36,10 +38,14 @@ public class PlayerNameTag : MonoBehaviour {
     {
         if (Started)
         {
-            distance = (LocalPlayerObject.position - transform.position).magnitude;
-            scale = OneTimeScaleDistance / distance;
-            transform.localScale = new Vector3(scale, scale, scale);
-            transform.LookAt(LocalPlayerObject);
+            if (KeepScale)
+            {
+                distance = (LocalPlayerObject.position - transform.position).magnitude;
+                scale = distance > OneTimeScaleDistance ? distance / OneTimeScaleDistance
+                    : 1;
+                transform.localScale = new Vector3(scale, scale, scale);
+            }
+            transform.LookAt(-LocalPlayerObject.position);
         }
     }
 

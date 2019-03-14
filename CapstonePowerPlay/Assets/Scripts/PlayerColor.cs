@@ -23,6 +23,8 @@ public class PlayerColor : MonoBehaviourPun
     private GameObject BlueFakeBall;
     [SerializeField]
     private TextMesh TextName;
+    [SerializeField]
+    private PlayerNameTag PNT;
 
     public int TeamNum = 0;
     public NetPlayer LocalPlayer;
@@ -136,6 +138,7 @@ public class PlayerColor : MonoBehaviourPun
         //    LocalPlayer = ParentPlayer.LocalPlayer;
         //SetTeamNum(TeamNum);
         TextName.text = displayName;
+        PNT.ForceStart();
         if (LocalPlayer == ParentPlayer)
         {
             TextName.gameObject.SetActive(false);
@@ -165,6 +168,7 @@ public class PlayerColor : MonoBehaviourPun
         if (DisplayName == "")
             DisplayName = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
         TextName.text = DisplayName;
+        PNT.ForceStart();
         if (LocalPlayer == ParentPlayer)
         {
             TextName.gameObject.SetActive(false);
