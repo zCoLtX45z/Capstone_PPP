@@ -275,6 +275,7 @@ public class Ball : MonoBehaviour
         {
             inPlay = true;
             animFloat.enabled = false;
+            transform.GetChild(0).transform.localPosition = Vector3.zero;
         }
         if (Thrown)
         {
@@ -293,6 +294,7 @@ public class Ball : MonoBehaviour
         {
             inPlay = true;
             animFloat.enabled = false;
+            transform.GetChild(0).transform.localPosition = Vector3.zero;
         }
         //Debug.Log("PLAYER HAS ENTERED THE AREA!!!");
         gameObject.layer = 2;
@@ -460,6 +462,7 @@ public class Ball : MonoBehaviour
         {
             inPlay = true;
             animFloat.enabled = false;
+            transform.GetChild(0).transform.localPosition = Vector3.zero;
         }
         //Debug.Log("PLAYER HAS LEFT THE AREA!!!");
         HardCol.isTrigger = false;
