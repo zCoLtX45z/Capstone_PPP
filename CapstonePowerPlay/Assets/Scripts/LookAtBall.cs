@@ -51,7 +51,7 @@ public class LookAtBall : MonoBehaviour
 
         //    cMM = transform.GetComponent<CameraModeMedium>();
         //}
-
+        cMM = transform.GetComponent<CameraModeMedium>();
     }
 
     // Update is called once per frame
@@ -83,6 +83,7 @@ public class LookAtBall : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log("Swip");
                     cMM.ChangeCameraMode();
                 }
                 /*
