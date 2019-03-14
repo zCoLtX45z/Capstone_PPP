@@ -88,6 +88,8 @@ public class RoundManager : MonoBehaviour {
 
     private Transform localPlayer;
 
+    [SerializeField]
+    private Text roundCallText;
 
     private void Start()
     {
@@ -113,7 +115,9 @@ public class RoundManager : MonoBehaviour {
             objectGroup_Round3[i].SetActive(false);
         }
 
+        roundCallText.text = "Round " + (roundNumber + 1);
 
+        Invoke("GO", 2);
     }
 
     public void AllowTime(bool allow)
@@ -210,20 +214,27 @@ public class RoundManager : MonoBehaviour {
         PV.RPC("RPC_ResetRound", RpcTarget.All);
     }
 
+   
+    /* One end 
+     * one repositioning*/
+
     [PunRPC]
     public void RPC_ResetRound()
     {
-        Debug.Log("Reseting round");
+       // Debug.Log("Reseting round");
         roundNumber++;
         if(roundNumber >= maxRoundNumber)
         {
-            Debug.Log("End");
+           // Debug.Log("End");
             PV.RPC("RPC_End", RpcTarget.All);
         }
         else
         {
+            roundCallText.text = "Round " + (roundNumber + 1);
+
+
             // round 2
-            if(roundNumber == 1)
+            if (roundNumber == 1)
             {
                 for (int i = objectGroup_Round1.Length - 1; i >= 0; i--)
                 {
@@ -260,7 +271,7 @@ public class RoundManager : MonoBehaviour {
             }
 
 
-            Debug.Log("Destroy ball");
+           // Debug.Log("Destroy ball");
             PhotonNetwork.Destroy(ball.gameObject);
             ball = null;
 
@@ -271,7 +282,7 @@ public class RoundManager : MonoBehaviour {
             nSPawner.CallMoveNetDown();
             textTime.text = "";
 
-            Debug.Log("ResetPos");
+           // Debug.Log("ResetPos");
 
 
             if(PhotonNetwork.IsMasterClient)
@@ -284,7 +295,7 @@ public class RoundManager : MonoBehaviour {
     [PunRPC]
     public void RPC_End()
     {
-        Debug.Log("End_RPC");
+       // Debug.Log("End_RPC");
 
         if (scoring == null)
         {
@@ -311,13 +322,13 @@ public class RoundManager : MonoBehaviour {
 
     public void ShowTheWinner(int teamNum)
     {
-        Debug.Log("show the winner");
+      //  Debug.Log("show the winner");
         Transform localPlayer = null;
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 1"))
         {
             if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
             {
-                Debug.Log(player.name + " is the local player");
+              //  Debug.Log(player.name + " is the local player");
                 localPlayer = player.transform;
             }
         }
@@ -327,7 +338,7 @@ public class RoundManager : MonoBehaviour {
             {
                 if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
                 {
-                    Debug.Log(player.name + " is the local player");
+                   // Debug.Log(player.name + " is the local player");
                     localPlayer = player.transform;
                 }
             }
@@ -431,7 +442,21 @@ public class RoundManager : MonoBehaviour {
             team2Players.RemoveAt(i);
         }
 
-       
+        Invoke("GO", 2);
+    }
+
+
+    private void GO()
+    {
+        roundCallText.text = "GO!";
+        // free players
+
+        Invoke("EraseRoundCall", 1);
+    }
+
+    private void EraseRoundCall()
+    {
+        roundCallText.text = "";
     }
 
 }
