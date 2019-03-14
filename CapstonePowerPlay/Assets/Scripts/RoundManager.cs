@@ -91,7 +91,7 @@ public class RoundManager : MonoBehaviour {
     [SerializeField]
     private Text roundCallText;
 
-
+    [SerializeField]
     private hoverBoardScript HBS;
 
     private void Start()
@@ -209,6 +209,26 @@ public class RoundManager : MonoBehaviour {
                 textCountDown.text = "";
             }
         }
+
+        //if (HBS == null)
+        //{
+        //    Debug.Log("HBS = null");
+        //    hoverBoardScript[] hbsArray = FindObjectsOfType(typeof(hoverBoardScript)) as hoverBoardScript[];
+        //    for (int i = 0; i < hbsArray.Length; i++)   
+        //    {
+        //        if (hbsArray[i].enabled)
+        //        {
+        //            Debug.Log("found one hbs");
+        //            HBS = hbsArray[i];
+
+        //            if (HBS != null)
+        //            {
+        //                Debug.Log("hbs has con is false");
+        //                HBS.roundStarted = false;
+        //            }
+        //        }
+        //    }
+        //}        
     }
 
 
@@ -233,16 +253,30 @@ public class RoundManager : MonoBehaviour {
         }
         else
         {
-            // stop all players from moving //
-            if(HBS == null)
+            if (HBS == null)
             {
-                HBS = FindObjectOfType<hoverBoardScript>();
-            }
+                Debug.Log("HBS = null");
+                hoverBoardScript[] hbsArray = FindObjectsOfType(typeof(hoverBoardScript)) as hoverBoardScript[];
+                for (int i = 0; i < hbsArray.Length; i++)
+                {
+                    if (hbsArray[i].enabled)
+                    {
+                        Debug.Log("found one hbs");
+                        HBS = hbsArray[i];
 
-            if (HBS != null)
+                        if (HBS != null)
+                        {
+                            Debug.Log("hbs has con is false");
+                            HBS.roundStarted = false;
+                        }
+                    }
+                }
+            }
+            else
             {
                 // gbs disable ability to move
-                HBS.SetContolAvailability(false);
+                Debug.Log("disallow board move");
+                HBS.roundStarted = false;
             }
             roundCallText.text = "Round " + (roundNumber + 1);
             // round 2
@@ -464,13 +498,29 @@ public class RoundManager : MonoBehaviour {
         // free players
         if (HBS == null)
         {
-            HBS = FindObjectOfType<hoverBoardScript>();
+            Debug.Log("HBS = null");
+            hoverBoardScript[] hbsArray = FindObjectsOfType(typeof(hoverBoardScript)) as hoverBoardScript[];
+            for (int i = 0; i < hbsArray.Length; i++)
+            {
+                if (hbsArray[i].enabled)
+                {
+                    Debug.Log("found one hbs");
+                    HBS = hbsArray[i];
+
+                    if (HBS != null)
+                    {
+                        Debug.Log("hbs has con is true");
+                        HBS.roundStarted = true;
+                    }
+                }
+            }
         }
 
-        if (HBS != null)
+        else
         {
             // hbs enable ability to move
-            HBS.SetContolAvailability(true);
+            Debug.Log("allow board move");
+            HBS.roundStarted = true;
         }
 
         Invoke("EraseRoundCall", 1);
