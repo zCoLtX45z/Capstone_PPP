@@ -5,7 +5,8 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PlayerRoomUI : MonoBehaviour {
+public class PlayerRoomUI : MonoBehaviourPun
+{
 
     [SerializeField]
     private Text NameText;
@@ -13,6 +14,8 @@ public class PlayerRoomUI : MonoBehaviour {
     private InputField DisplayNameIF;
 
     private string DisplayName = "";
+    private string DisplayNameInitial = "";
+    bool SetDisplayNameBool = false;
 
     private string PlayerName;
     public string PlayerIdentifier
@@ -27,6 +30,12 @@ public class PlayerRoomUI : MonoBehaviour {
         }
     }
 
+    private void Start()
+    {
+        DisplayName = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
+        DisplayNameInitial = DisplayName;
+    }
+
     private void Update()
     {
         if (DisplayNameIF.isFocused)
@@ -35,6 +44,16 @@ public class PlayerRoomUI : MonoBehaviour {
         }
         else
         {
+            //if (SetDisplayNameBool && DisplayNameInitial != DisplayName)
+            //{
+            //    SetDisplayNameBool = false;
+            //    Debug.Log("Set Name " + DisplayName);
+            //    ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+            //    hash = PhotonNetwork.LocalPlayer.CustomProperties;
+            //    hash.Remove("DisplayName");
+            //    hash.Add("DisplayName", DisplayName);
+            //    PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+            //}
             DisplayNameIF.image.color = Color.clear;
         }
     }
@@ -53,6 +72,7 @@ public class PlayerRoomUI : MonoBehaviour {
     {
         DisplayNameIF.text = "";
     }
+
     public void SetName()
     {
         if (DisplayName == "")
@@ -63,15 +83,15 @@ public class PlayerRoomUI : MonoBehaviour {
 
     public void SetDisplayName(string name)
     {
-        DisplayNameIF.image.color = Color.clear;
         DisplayName = name;
+        Debug.Log("Set DisplayName " + DisplayName);
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
         hash = PhotonNetwork.LocalPlayer.CustomProperties;
         hash.Remove("DisplayName");
         hash.Add("DisplayName", DisplayName);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-        PhotonRoom temp = FindObjectOfType<PhotonRoom>();
-        temp.SetUpdateDisplayName();
+        Debug.Log("Set DisplayName (Hash)" + (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"]);
+        //SetDisplayNameBool = true;
     }
 
     public string GetDisplayName()

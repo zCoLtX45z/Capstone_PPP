@@ -39,7 +39,7 @@ public class NetPlayer : MonoBehaviour {
     //[HideInInspector]
 
     public string CodeNumbers = "";
-
+    public string DisplayName = "";
     public string PlayerCode = "";
 
     // Player Child Components
@@ -67,6 +67,7 @@ public class NetPlayer : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        DisplayName = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
         GS = FindObjectOfType<GameSetup>();
         if (!PV)
             PV = GetComponent<PhotonView>();

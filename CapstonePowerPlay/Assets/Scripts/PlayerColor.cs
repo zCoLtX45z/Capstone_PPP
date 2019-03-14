@@ -48,8 +48,12 @@ public class PlayerColor : MonoBehaviourPun
     [HideInInspector]
     public bool SetLocalPlayerCalled = false;
     public GameObject ParentObject;
+    public string DisplayName = "";
 
-
+    private void Start()
+    {
+        DisplayName = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
+    }
 
     [PunRPC]
     private void RPC_UpdateLocalSet(bool ready)
@@ -131,7 +135,9 @@ public class PlayerColor : MonoBehaviourPun
         //if (LocalPlayer == null && ParentPlayer.LocalPlayer != null)
         //    LocalPlayer = ParentPlayer.LocalPlayer;
         //SetTeamNum(TeamNum);
-        TextName.text = ParentPlayer.name;
+        if (DisplayName == "")
+            DisplayName = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
+        TextName.text = DisplayName;
         if (LocalPlayer == ParentPlayer)
         {
             TextName.gameObject.SetActive(false);
@@ -158,7 +164,9 @@ public class PlayerColor : MonoBehaviourPun
         //PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
         //SetTeamNum(TeamNum);
 
-        TextName.text = ParentPlayer.name;
+        if (DisplayName == "")
+            DisplayName = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
+        TextName.text = DisplayName;
         if (LocalPlayer == ParentPlayer)
         {
             TextName.gameObject.SetActive(false);

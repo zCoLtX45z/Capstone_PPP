@@ -97,9 +97,9 @@ public class Chat : MonoBehaviour
 
     void Start()
     {
-        AllChatName.text = gameObject.name;
-        TeamChatName.text = gameObject.name;
-        ConsoleChatName.text = gameObject.name;
+        AllChatName.text = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
+        TeamChatName.text = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
+        ConsoleChatName.text = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
     }
 	// Update is called once per frame
 	void Update () {

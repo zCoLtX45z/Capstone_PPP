@@ -41,6 +41,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
 
     private Player[] RoomPlayerList;
 
+    // Local player variables
     private bool ChangedTeam = false;
     private bool ChangedReady = false;
     private bool ChangedDisplayName = false;
@@ -48,6 +49,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
     private int TeamNumOld = -1;
     private bool IsReady = false;
     private bool IsReadyOld = false;
+    private string DisplayName = "";
+    private string DisplayNameOld = "";
     // Game starts to play
     private bool StartGame = false;
     private bool StartedGame = false;
@@ -78,7 +81,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                     hash.Add("Team", -1);
                     hash.Add("ReadyToPlay", false);
                     hash.Add("RoomIndentifier", PhotonNetwork.CurrentRoom.Name);
-                    hash.Add("DisplayName", "Player" + P.ActorNumber);
+                    DisplayName = "Player " + P.ActorNumber;
+                    DisplayNameOld = DisplayName;
+                    hash.Add("DisplayName", DisplayName);
                     P.SetCustomProperties(hash);
                 }
             }
@@ -103,7 +108,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                 stream.SendNext(TeamNum);
                 stream.SendNext(IsReady);
                 stream.SendNext(PhotonNetwork.LocalPlayer.ActorNumber);
-                stream.SendNext((string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"]);
+                stream.SendNext(DisplayName);
             }
             
         }
@@ -135,7 +140,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                 hash.Add("ReadyToPlay", ChangedReady);
                 hash.Add("DisplayName", ChangedDisplayName);
                 ChangedPlayer.SetCustomProperties(hash);
-                print("Changed Player " + ChangedActor);
+                print("Changed Player (Team / ActorNum / DisplayName): (" + ChangedNum + " / " + ChangedActor + " / " + ChangedDisplayName + ")");
             }
         }
     }
@@ -303,6 +308,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
 
     public void SetUpdateDisplayName()
     {
+        Debug.Log("Set Display name " + (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"]);
         ChangedDisplayName = true;
     }
 
@@ -317,8 +323,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                 int Team = (int)RoomPlayerList[i - 1].CustomProperties["Team"];
                 RectTransform rt = temp.GetComponent<RectTransform>();
                 temp.PlayerIdentifier ="Player " + RoomPlayerList[i - 1].ActorNumber;
-                temp.SetDisplayName((string)RoomPlayerList[i - 1].CustomProperties["DisplayName"]);
-                temp.SetName();
+                temp.SetName(DisplayName);
                 if (Team == -1)
                 {
                     rt.SetParent(QueueContent, false);
@@ -341,8 +346,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                 temp.PlayerIdentifier = "Player " + RoomPlayerList[i - 1].ActorNumber;
                 if (!ChangedDisplayName || RoomPlayerList[i - 1].ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
                 {
-                    temp.SetDisplayName((string)RoomPlayerList[i - 1].CustomProperties["DisplayName"]);
-                    temp.SetName();
+                    temp.SetName((string)RoomPlayerList[i - 1].CustomProperties["DisplayName"]);
                 }
                 if (RoomPlayerList[i - 1].ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
                     temp.ActivateIF();
@@ -409,6 +413,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
         TeamNum = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
         IsReadyOld = IsReady;
         IsReady = (bool)PhotonNetwork.LocalPlayer.CustomProperties["ReadyToPlay"];
+        DisplayNameOld = DisplayName;
+        DisplayName = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
         if (TeamNum != TeamNumOld)
         {
             ChangedTeam = true;
@@ -417,6 +423,11 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
         else if (IsReady != IsReadyOld)
         {
             ChangedReady = true;
+            PV.TransferOwnership(PhotonNetwork.LocalPlayer.ActorNumber);
+        }
+        else if (DisplayName != DisplayNameOld)
+        {
+            ChangedDisplayName = true;
             PV.TransferOwnership(PhotonNetwork.LocalPlayer.ActorNumber);
         }
     }
