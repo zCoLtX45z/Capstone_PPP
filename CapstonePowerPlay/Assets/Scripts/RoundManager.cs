@@ -242,6 +242,7 @@ public class RoundManager : MonoBehaviour {
             if (HBS != null)
             {
                 // gbs disable ability to move
+                Debug.Log("disallow board move");
                 HBS.BoardHasControl = false;
             }
             roundCallText.text = "Round " + (roundNumber + 1);
@@ -470,6 +471,7 @@ public class RoundManager : MonoBehaviour {
         if (HBS != null)
         {
             // hbs enable ability to move
+            Debug.Log("allow board move");
             HBS.BoardHasControl = true;
         }
 
