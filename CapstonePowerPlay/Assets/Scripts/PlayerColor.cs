@@ -118,12 +118,12 @@ public class PlayerColor : MonoBehaviourPun
     //    }
     //}
 
-    public void FinalPlayerSet(int ParentIndex)
+    public void FinalPlayerSet(int ParentIndex, string displayName)
     {
-        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered, ParentIndex);
+        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered, ParentIndex, displayName);
     }
     [PunRPC]
-    private void RPC_SetUpPlayer(int ParentIndex)
+    private void RPC_SetUpPlayer(int ParentIndex, string displayName)
     {
         //Debug.LogError("Dummy Error");
         ParentObject = PhotonView.Find(ParentIndex).gameObject;
@@ -135,9 +135,7 @@ public class PlayerColor : MonoBehaviourPun
         //if (LocalPlayer == null && ParentPlayer.LocalPlayer != null)
         //    LocalPlayer = ParentPlayer.LocalPlayer;
         //SetTeamNum(TeamNum);
-        if (DisplayName == "")
-            DisplayName = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
-        TextName.text = DisplayName;
+        TextName.text = displayName;
         if (LocalPlayer == ParentPlayer)
         {
             TextName.gameObject.SetActive(false);
