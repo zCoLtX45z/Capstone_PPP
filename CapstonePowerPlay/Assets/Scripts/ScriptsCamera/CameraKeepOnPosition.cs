@@ -18,22 +18,31 @@ public class CameraKeepOnPosition : MonoBehaviour {
     [SerializeField]
     private float acceleration;
 
-	// Use this for initialization
-	void Start () {
+	//// Use this for initialization
+	//void Start () {
+       
+ //   }
+	
+    public void UnParent()
+    {
         cameraLookAtPosition = transform.parent;
         transform.parent = null;
     }
-	
+
+
 	// Update is called once per frame
 	void Update () {
-        transform.position = cameraLookAtPosition.position;
+        if (transform.parent == null)
+        {
+            transform.position = cameraLookAtPosition.position;
 
-        float angle = Quaternion.Angle(transform.rotation, cameraLookAtPosition.rotation);
+            float angle = Quaternion.Angle(transform.rotation, cameraLookAtPosition.rotation);
 
-        currentRotSpeed = angle * acceleration;
+            currentRotSpeed = angle * acceleration;
 
-        rotStep = currentRotSpeed * Time.deltaTime;
+            rotStep = currentRotSpeed * Time.deltaTime;
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, cameraLookAtPosition.rotation, rotStep);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, cameraLookAtPosition.rotation, rotStep);
+        }
     }
 }

@@ -9,7 +9,9 @@ public class CameraModeMedium : MonoBehaviour {
     [SerializeField]
     private CameraRotation cameraRotation = null;
 
-    private bool isFreeCam = false;
+    public bool isFreeCam = false;
+
+    public bool changeIsAllowed = false;
 
 	// Use this for initialization
 	void Start () {
@@ -18,13 +20,17 @@ public class CameraModeMedium : MonoBehaviour {
         isFreeCam = true;
         lookAtBall.allow = false;
         cameraRotation.allow = true;
+        changeIsAllowed = true;
     }
 	
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.C))
         {
-            ChangeCameraMode();
+            if (changeIsAllowed)
+            {
+                ChangeCameraMode();
+            }
         }
 	}
 
