@@ -26,17 +26,17 @@ public class ballHandler : MonoBehaviour {
         
     }
 	
-	// Update is called once per frame
-	void Update ()
-    {
+	//// Update is called once per frame
+	//void Update ()
+ //   {
         
-        if(Input.GetKeyDown(KeyCode.J))
-        {
+ //       //if(Input.GetKeyDown(KeyCode.J))
+ //       //{
             
-            SpawnBall();
+ //       //    SpawnBall();
             
-        }
-	}
+ //       //}
+	//}
    
     public void SpawnBall()
     {

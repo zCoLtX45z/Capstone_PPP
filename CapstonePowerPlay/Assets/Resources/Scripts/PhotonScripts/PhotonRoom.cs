@@ -172,7 +172,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                         {
                             StartedGame = true;
                             // Start The Game
-                            PV.RPC("RPC_UpdateStartGameTimer", RpcTarget.All, "Start");
+                            PV.RPC("RPC_UpdateStartGameTimer", RpcTarget.All, "Loading");
 
                             // Update Room Started Bool
                             PV.RPC("RPC_SetRoomProperty", RpcTarget.All, "StartedGame", true);
