@@ -8,6 +8,8 @@ public class BallSoundManager : MonoBehaviour {
 
     public AudioClip bounce;
 
+    public float bounceVol;
+
     private PlayerSoundSettings PS;
 
     //private float minVol = 0.2f;
@@ -19,7 +21,7 @@ public class BallSoundManager : MonoBehaviour {
         audioSrc = GetComponent<AudioSource>();
 
         if (PS)
-            audioSrc.volume = PS.SoundFXVol;
+            bounceVol = PS.SoundFXVol;
         else
             audioSrc.volume = 0.1f;
 
@@ -27,13 +29,13 @@ public class BallSoundManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        audioSrc.volume = bounceVol;
 	}
 
     private void OnCollisionEnter(Collision coll)
     {
         //float vol = Random.Range(minVol, maxVol);
-        audioSrc.PlayOneShot(bounce, audioSrc.volume);
+        audioSrc.PlayOneShot(bounce, bounceVol);
         
     }
 }

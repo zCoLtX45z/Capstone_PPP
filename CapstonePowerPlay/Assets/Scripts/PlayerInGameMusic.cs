@@ -7,7 +7,7 @@ public class PlayerInGameMusic : MonoBehaviour {
     private PlayerSoundSettings PS;
     private AudioSource Src;
 
-    private float MusicVol;
+    public float MusicVol;
 
 
 	// Use this for initialization
