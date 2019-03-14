@@ -28,6 +28,7 @@ public class LookAtPostionFollow : MonoBehaviour {
     public void UnParent()
     {
         transform.parent = null;
+        transform.eulerAngles = player.eulerAngles;
         ckp.UnParent();
     }
 
