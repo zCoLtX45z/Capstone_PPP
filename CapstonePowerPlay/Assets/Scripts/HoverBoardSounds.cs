@@ -9,7 +9,7 @@ public class HoverBoardSounds : MonoBehaviour {
     private hoverBoardScript HV;
     private PlayerSoundSettings PS;
 
-    private float HovVol = 0.3f;
+    public float HovVol = 0.3f;
     private float minPitch = 1f;
     private float maxPitch = 2f;
 

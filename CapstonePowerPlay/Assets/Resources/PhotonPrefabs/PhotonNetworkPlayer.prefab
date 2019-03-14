@@ -1927,6 +1927,7 @@ GameObject:
   - component: {fileID: 114395445339144496}
   - component: {fileID: 114405416575349484}
   - component: {fileID: 114002295692306866}
+  - component: {fileID: 114102108107173410}
   m_Layer: 0
   m_Name: Menu
   m_TagString: Untagged
@@ -2882,6 +2883,23 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &114102108107173410
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1861004680143274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 997d8ebcda6e5324884e3dd914dc2da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicVol: 0
+  SoundFXVol: 0
+  VoiceVol: 0
+  musicSlider: {fileID: 114328947833723470}
+  SoundFXSlider: {fileID: 114619569124611498}
+  voiceSlider: {fileID: 114932516383545114}
 --- !u!114 &114105101337893784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4281,7 +4299,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   viewIdField: 0
-  InstantiationId: 4
+  InstantiationId: 5
   isRuntimeInstantiated: 0
 --- !u!114 &114369447228376398
 MonoBehaviour:
