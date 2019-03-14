@@ -9611,7 +9611,7 @@ MonoBehaviour:
   LookDirection: {fileID: 4440573273508166}
   LookDirectionOffset: {fileID: 4187935981253030}
   ItemLookDirection: {fileID: 4231611549865676}
-  PlaceDistance: 15
+  PlaceDistance: 30
   PlaceLayers:
     serializedVersion: 2
     m_Bits: 513
@@ -10059,7 +10059,6 @@ MonoBehaviour:
   rotSpeed: 3
   yaw: 0
   pit: 0
-  objectToCopy: {fileID: 4369899622928880}
   allow: 0
 --- !u!114 &114422681214462564
 MonoBehaviour:
@@ -10620,6 +10619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hover: {fileID: 8300000, guid: ff3bb15106c9e2a4b823606e833c7e5c, type: 3}
+  HovVol: 0.3
 --- !u!114 &114896353134802608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10782,6 +10782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2a789f99bd7a4b41bdae18ccf325abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MusicVol: 0
 --- !u!114 &114952097488344022
 MonoBehaviour:
   m_ObjectHideFlags: 1

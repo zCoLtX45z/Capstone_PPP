@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33962151473147230}
   - component: {fileID: 23613614733589786}
   - component: {fileID: 65720151980223336}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4414161543581924}
   - component: {fileID: 114266259789242758}
   - component: {fileID: 114230793305054906}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ Transform:
   m_GameObject: {fileID: 1265916906259964}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 20, y: 20, z: 3}
   m_Children: []
   m_Father: {fileID: 4414161543581924}
   m_RootOrder: 0
@@ -143,9 +143,10 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 0
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   viewIdField: 0
-  InstantiationId: 4
+  InstantiationId: 5
   isRuntimeInstantiated: 0
 --- !u!114 &114266259789242758
 MonoBehaviour:
@@ -162,11 +163,10 @@ MonoBehaviour:
   ItemSprite: {fileID: 2800000, guid: 07a9a62e617c1c747b4e3aa1f725d989, type: 3}
   DisableBehaviours: []
   DisableObjects: []
-  DisableColliders:
-  - {fileID: 65720151980223336}
+  DisableColliders: []
   MeshRenderers:
   - {fileID: 23613614733589786}
   PlacingCollider: {fileID: 65720151980223336}
-  BoxSize: {x: 0, y: 0, z: 0}
-  BoxOffset: {x: 0, y: 0, z: 0}
+  BoxSize: {x: 0, y: 0.1, z: 0}
+  BoxOffset: {x: 10, y: 0.49, z: 1.5}
   ItemID: Wall
