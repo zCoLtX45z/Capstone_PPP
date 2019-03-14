@@ -49,6 +49,8 @@ public class PlayerRoomUI : MonoBehaviour {
     {
         DisplayName = name;
         PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"] = DisplayName;
+        PhotonRoom temp = FindObjectOfType<PhotonRoom>();
+        temp.SetUpdateDisplayName();
     }
 
     public string GetDisplayName()

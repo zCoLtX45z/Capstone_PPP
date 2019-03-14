@@ -300,6 +300,11 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
 
+    public void SetUpdateDisplayName()
+    {
+        SetUpdateDisplayName();
+    }
+
     private void UpdateLists()
     {
         List<PlayerRoomUI> NewPlayerRoomUIList = new List<PlayerRoomUI>();
