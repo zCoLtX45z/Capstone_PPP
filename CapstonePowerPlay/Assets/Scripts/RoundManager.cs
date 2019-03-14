@@ -85,8 +85,8 @@ public class RoundManager : MonoBehaviour {
     [SerializeField]
     private GameObject[] objectGroup_Round3;
 
-   
 
+    private Transform localPlayer;
 
 
     private void Start()
@@ -385,13 +385,23 @@ public class RoundManager : MonoBehaviour {
 
         foreach (GameObject team2 in GameObject.FindGameObjectsWithTag("Team 2"))
         {
-            team1Players.Add(team2.transform);
+            team2Players.Add(team2.transform);
         }
 
         for (int i = 0; i < team1Players.Count; i++)
         {
             team1Players[i].position = spawnLocationsTeam1[i].position;
             team1Players[i].rotation = spawnLocationsTeam1[i].rotation;
+
+            if(localPlayer == null)
+            {
+                localPlayer = GameObject.FindObjectOfType<CameraModeMedium>().transform;
+            }
+            if(team1Players[i].GetComponent<PhotonView>().IsMine)
+            {
+                Debug.Log("ALeratatatatatat");
+                localPlayer.eulerAngles = Vector3.zero;
+            }
         }
         for (int i = team1Players.Count - 1; i >= 0; i--)
         {
@@ -402,12 +412,24 @@ public class RoundManager : MonoBehaviour {
         {
             team2Players[i].position = spawnLocationsTeam2[i].position;
             team2Players[i].rotation = spawnLocationsTeam2[i].rotation;
+
+            if (localPlayer == null)
+            {
+                localPlayer = GameObject.FindObjectOfType<CameraModeMedium>().transform;
+            }
+            if (team2Players[i].GetComponent<PhotonView>().IsMine)
+            {
+                Debug.Log("ALeratatatatatat");
+                localPlayer.eulerAngles = new Vector3(0, 180, 0);
+            }
         }
 
         for (int i = team2Players.Count - 1; i >= 0; i--)
         {
             team2Players.RemoveAt(i);
         }
+
+       
     }
 
 }
