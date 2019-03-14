@@ -101,7 +101,7 @@ public class hoverBoardScript : MonoBehaviour
     private float PreviousTurnSpeed;
     private float TurnSpeed;
 
-
+    public bool roundStarted = false;
 
 	// Use this for initialization
 	void Start ()
@@ -132,57 +132,60 @@ public class hoverBoardScript : MonoBehaviour
 
         if (BoardHasControl)
         {
-            // Previous Turn Direction
-            PreviousTurnSpeed = TurnSpeed;
-            //main thrust
-            m_currThrust = 0.0f;
-            float aclAxis = Input.GetAxis("Vertical");
-            if (aclAxis > m_deadZone)
+            if (roundStarted)
             {
-                m_currThrust = aclAxis * m_forwardAcl;
-            }
-            else if (aclAxis < -m_deadZone)
-            {
-                m_currThrust = aclAxis * m_backwardAcl;
-            }
-            Speed = m_body.velocity.magnitude;
+                // Previous Turn Direction
+                PreviousTurnSpeed = TurnSpeed;
+                //main thrust
+                m_currThrust = 0.0f;
+                float aclAxis = Input.GetAxis("Vertical");
+                if (aclAxis > m_deadZone)
+                {
+                    m_currThrust = aclAxis * m_forwardAcl;
+                }
+                else if (aclAxis < -m_deadZone)
+                {
+                    m_currThrust = aclAxis * m_backwardAcl;
+                }
+                Speed = m_body.velocity.magnitude;
 
-            //turning
-            m_currTurn = 0.0f;
-            float turnAxis = Input.GetAxis("Horizontal");
-            if (Mathf.Abs(turnAxis) > m_deadZone)
-            {
-                m_currTurn = turnAxis * 4;
-            }
-            // Turning Accelerationn
-            if (PreviousTurnSpeed * m_currTurn <= 0)
-            {
-                //Debug.Log("Set Turn Acceleration to Base");
-                AccelerationAmount = 100;
-            }
-            else if (PreviousTurnSpeed > m_currTurn && AccelerationAmount > 100)
-            {
-                //Debug.Log("Lower Turn Acceleration");
-                AccelerationAmount -= Time.deltaTime * TurnPercentAcceleration;
-            }
-            if (AccelerationAmount < MaxTurnPercentAcceleration)
-            {
-                //Debug.Log("Raise Turn Acceleration");
-                AccelerationAmount += Time.deltaTime * TurnPercentAcceleration;
-            }
-            else
-            {
-                //Debug.Log("Set Turn Acceleration to Max");
-                AccelerationAmount = MaxTurnPercentAcceleration;
-            }
-            TurnSpeed = m_currTurn;
-            m_currTurn *= AccelerationAmount / 100;
+                //turning
+                m_currTurn = 0.0f;
+                float turnAxis = Input.GetAxis("Horizontal");
+                if (Mathf.Abs(turnAxis) > m_deadZone)
+                {
+                    m_currTurn = turnAxis * 4;
+                }
+                // Turning Accelerationn
+                if (PreviousTurnSpeed * m_currTurn <= 0)
+                {
+                    //Debug.Log("Set Turn Acceleration to Base");
+                    AccelerationAmount = 100;
+                }
+                else if (PreviousTurnSpeed > m_currTurn && AccelerationAmount > 100)
+                {
+                    //Debug.Log("Lower Turn Acceleration");
+                    AccelerationAmount -= Time.deltaTime * TurnPercentAcceleration;
+                }
+                if (AccelerationAmount < MaxTurnPercentAcceleration)
+                {
+                    //Debug.Log("Raise Turn Acceleration");
+                    AccelerationAmount += Time.deltaTime * TurnPercentAcceleration;
+                }
+                else
+                {
+                    //Debug.Log("Set Turn Acceleration to Max");
+                    AccelerationAmount = MaxTurnPercentAcceleration;
+                }
+                TurnSpeed = m_currTurn;
+                m_currTurn *= AccelerationAmount / 100;
 
 
-            // Adjust turning height adjustment
-            CurrentAdjust = Speed < SpeedDeadZone ? 0.0f
-                : Speed < MaxSpeed ? m_hoverHeight * MaxTurnAdjustPercent * (Speed - SpeedDeadZone) / ((MaxSpeed - SpeedDeadZone) * 100f)
-                : m_hoverHeight * MaxTurnAdjustPercent / (100f);
+                // Adjust turning height adjustment
+                CurrentAdjust = Speed < SpeedDeadZone ? 0.0f
+                    : Speed < MaxSpeed ? m_hoverHeight * MaxTurnAdjustPercent * (Speed - SpeedDeadZone) / ((MaxSpeed - SpeedDeadZone) * 100f)
+                    : m_hoverHeight * MaxTurnAdjustPercent / (100f);
+            }
         }
         else
         {

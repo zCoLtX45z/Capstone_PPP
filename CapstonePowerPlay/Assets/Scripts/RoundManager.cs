@@ -209,6 +209,24 @@ public class RoundManager : MonoBehaviour {
                 textCountDown.text = "";
             }
         }
+
+        if (HBS == null)
+        {
+            Debug.Log("HBS = null");
+            if(FindObjectOfType<hoverBoardScript>() != null)
+            {
+                Debug.Log("found one hbs");
+                HBS = FindObjectOfType<hoverBoardScript>();
+
+                if (HBS != null)
+                {
+                    Debug.Log("hbs has con is false");
+                    HBS.roundStarted = false;
+                }
+            }
+        }
+
+        
     }
 
 
@@ -243,7 +261,7 @@ public class RoundManager : MonoBehaviour {
             {
                 // gbs disable ability to move
                 Debug.Log("disallow board move");
-                HBS.BoardHasControl = false;
+                HBS.roundStarted = false;
             }
             roundCallText.text = "Round " + (roundNumber + 1);
             // round 2
@@ -472,7 +490,7 @@ public class RoundManager : MonoBehaviour {
         {
             // hbs enable ability to move
             Debug.Log("allow board move");
-            HBS.BoardHasControl = true;
+            HBS.roundStarted = true;
         }
 
         Invoke("EraseRoundCall", 1);
