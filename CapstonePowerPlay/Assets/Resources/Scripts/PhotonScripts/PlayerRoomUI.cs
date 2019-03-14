@@ -9,6 +9,10 @@ public class PlayerRoomUI : MonoBehaviour {
 
     [SerializeField]
     private Text NameText;
+    [SerializeField]
+    private GameObject DisplayNameIF;
+
+    private string DisplayName = "";
 
     private string PlayerName;
     public string PlayerIdentifier
@@ -23,13 +27,32 @@ public class PlayerRoomUI : MonoBehaviour {
         }
     }
 
+    public void ActivateIF()
+    {
+        DisplayNameIF.SetActive(true);
+    }
+
     public void SetName(string Name)
     {
-        NameText.text = Name;
+         NameText.text = Name;
     }
 
     public void SetName()
     {
-        NameText.text = PlayerName;
+        if (DisplayName == "")
+            NameText.text = PlayerName;
+        else
+            NameText.text = DisplayName;
+    }
+
+    public void SetDisplayName(string name)
+    {
+        DisplayName = name;
+        PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"] = DisplayName;
+    }
+
+    public string GetDisplayName()
+    {
+        return DisplayName;
     }
 }
