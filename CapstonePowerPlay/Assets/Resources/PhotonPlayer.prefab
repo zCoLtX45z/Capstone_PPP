@@ -9580,6 +9580,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lookAtBall: {fileID: 0}
   cameraRotation: {fileID: 0}
+  isFreeCam: 0
+  changeIsAllowed: 0
 --- !u!114 &114162789325832588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10492,6 +10494,9 @@ MonoBehaviour:
   - {fileID: 114963437477762288}
   - {fileID: 114953290712135024}
   - {fileID: 114917923771128530}
+  - {fileID: 223514122236481520}
+  - {fileID: 114861138183220302}
+  - {fileID: 114305946182988612}
   LocalPlayer: {fileID: 0}
   ParentPlayer: {fileID: 0}
   PV: {fileID: 114027717465583432}
