@@ -29,8 +29,11 @@ public class InGameSoundSettings : MonoBehaviour {
         HV = FindObjectOfType<HoverBoardSounds>();
         BS = FindObjectOfType<BallSoundManager>();
         musicVol = PS.musicVol;
+        musicSlider.value = musicVol;
         SoundFXVol = PS.SoundFXVol;
+        SoundFXSlider.value = SoundFXVol;
         VoiceVol = PS.VoiceVol;
+        voiceSlider.value = VoiceVol;
     }
 
     // Update is called once per frame
