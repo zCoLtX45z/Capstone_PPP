@@ -101,6 +101,9 @@ public class hoverBoardScript : MonoBehaviour
     private float PreviousTurnSpeed;
     private float TurnSpeed;
 
+    private bool allowBoardControl = false;
+
+
 	// Use this for initialization
 	void Start ()
     {
@@ -127,116 +130,119 @@ public class hoverBoardScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (BoardHasControl)
+        if (allowBoardControl)
         {
-            // Previous Turn Direction
-            PreviousTurnSpeed = TurnSpeed;
-            //main thrust
-            m_currThrust = 0.0f;
-            float aclAxis = Input.GetAxis("Vertical");
-            if (aclAxis > m_deadZone)
+            if (BoardHasControl)
             {
-                m_currThrust = aclAxis * m_forwardAcl;
-            }
-            else if (aclAxis < -m_deadZone)
-            {
-                m_currThrust = aclAxis * m_backwardAcl;
-            }
-            Speed = m_body.velocity.magnitude;
+                // Previous Turn Direction
+                PreviousTurnSpeed = TurnSpeed;
+                //main thrust
+                m_currThrust = 0.0f;
+                float aclAxis = Input.GetAxis("Vertical");
+                if (aclAxis > m_deadZone)
+                {
+                    m_currThrust = aclAxis * m_forwardAcl;
+                }
+                else if (aclAxis < -m_deadZone)
+                {
+                    m_currThrust = aclAxis * m_backwardAcl;
+                }
+                Speed = m_body.velocity.magnitude;
 
-            //turning
-            m_currTurn = 0.0f;
-            float turnAxis = Input.GetAxis("Horizontal");
-            if (Mathf.Abs(turnAxis) > m_deadZone)
-            {
-                m_currTurn = turnAxis * 4;
-            }
-            // Turning Accelerationn
-            if (PreviousTurnSpeed * m_currTurn <= 0)
-            {
-                //Debug.Log("Set Turn Acceleration to Base");
-                AccelerationAmount = 100;
-            }
-            else if (PreviousTurnSpeed > m_currTurn && AccelerationAmount > 100)
-            {
-                //Debug.Log("Lower Turn Acceleration");
-                AccelerationAmount -= Time.deltaTime * TurnPercentAcceleration;
-            }
-            if (AccelerationAmount < MaxTurnPercentAcceleration)
-            {
-                //Debug.Log("Raise Turn Acceleration");
-                AccelerationAmount += Time.deltaTime * TurnPercentAcceleration;
+                //turning
+                m_currTurn = 0.0f;
+                float turnAxis = Input.GetAxis("Horizontal");
+                if (Mathf.Abs(turnAxis) > m_deadZone)
+                {
+                    m_currTurn = turnAxis * 4;
+                }
+                // Turning Accelerationn
+                if (PreviousTurnSpeed * m_currTurn <= 0)
+                {
+                    //Debug.Log("Set Turn Acceleration to Base");
+                    AccelerationAmount = 100;
+                }
+                else if (PreviousTurnSpeed > m_currTurn && AccelerationAmount > 100)
+                {
+                    //Debug.Log("Lower Turn Acceleration");
+                    AccelerationAmount -= Time.deltaTime * TurnPercentAcceleration;
+                }
+                if (AccelerationAmount < MaxTurnPercentAcceleration)
+                {
+                    //Debug.Log("Raise Turn Acceleration");
+                    AccelerationAmount += Time.deltaTime * TurnPercentAcceleration;
+                }
+                else
+                {
+                    //Debug.Log("Set Turn Acceleration to Max");
+                    AccelerationAmount = MaxTurnPercentAcceleration;
+                }
+                TurnSpeed = m_currTurn;
+                m_currTurn *= AccelerationAmount / 100;
+
+
+                // Adjust turning height adjustment
+                CurrentAdjust = Speed < SpeedDeadZone ? 0.0f
+                    : Speed < MaxSpeed ? m_hoverHeight * MaxTurnAdjustPercent * (Speed - SpeedDeadZone) / ((MaxSpeed - SpeedDeadZone) * 100f)
+                    : m_hoverHeight * MaxTurnAdjustPercent / (100f);
             }
             else
             {
-                //Debug.Log("Set Turn Acceleration to Max");
-                AccelerationAmount = MaxTurnPercentAcceleration;
+                m_currTurn = 0;
+                m_currThrust = 0;
             }
-            TurnSpeed = m_currTurn;
-            m_currTurn *= AccelerationAmount / 100;
 
-
-            // Adjust turning height adjustment
-            CurrentAdjust = Speed < SpeedDeadZone ? 0.0f
-                : Speed < MaxSpeed ? m_hoverHeight * MaxTurnAdjustPercent * (Speed - SpeedDeadZone) / ((MaxSpeed - SpeedDeadZone) * 100f)
-                : m_hoverHeight * MaxTurnAdjustPercent / (100f);
-        }
-        else
-        {
-            m_currTurn = 0;
-            m_currThrust = 0;
-        }
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            sprintMultiplier = 1 + (SprintBoostLinearPercent / 100) + BoostPaddBoostLinearPercent;
-        }
-        else
-        {
-            sprintMultiplier = 1 + BoostPaddBoostLinearPercent;
-        }
-
-        if (BoardHasControl)
-        {
-            if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                CanStick = false;
-                if (Input.GetKeyDown(KeyCode.Space) && OnGround)
-                {
-                    Jump();
-                    OnGround = false;
-                }
-
-                if (Input.GetKey(KeyCode.LeftControl))
-                {
-                    Flipping = true;
-                    FlipCharacter();
-                }
+                sprintMultiplier = 1 + (SprintBoostLinearPercent / 100) + BoostPaddBoostLinearPercent;
             }
             else
             {
-                CanStick = true;
-                Flipping = false;
+                sprintMultiplier = 1 + BoostPaddBoostLinearPercent;
             }
+
+            if (BoardHasControl)
+            {
+                if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.Space))
+                {
+                    CanStick = false;
+                    if (Input.GetKeyDown(KeyCode.Space) && OnGround)
+                    {
+                        Jump();
+                        OnGround = false;
+                    }
+
+                    if (Input.GetKey(KeyCode.LeftControl))
+                    {
+                        Flipping = true;
+                        FlipCharacter();
+                    }
+                }
+                else
+                {
+                    CanStick = true;
+                    Flipping = false;
+                }
+            }
+
+            // Update animator
+            CurrentSpeedRatio = Mathf.Abs(Speed / MaxSpeed);
+
+            if (LastSpeedRatio <= 0.01f && CurrentSpeedRatio >= 0.01)
+                AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+            else if (LastSpeedRatio <= 0.75f && CurrentSpeedRatio >= 0.75)
+                AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+            else if (LastSpeedRatio >= 0.75f && CurrentSpeedRatio <= 0.75)
+                AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+            else if (LastSpeedRatio >= 0.01f && CurrentSpeedRatio <= 0.01)
+                AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+
+            if (LastTimeOnGround != OnGround)
+                AnimationControl.UpdateGrounded1(OnGround);
+
+            LastSpeedRatio = CurrentSpeedRatio;
+            LastTimeOnGround = OnGround;
         }
-
-        // Update animator
-        CurrentSpeedRatio = Mathf.Abs(Speed / MaxSpeed);
-
-        if (LastSpeedRatio <= 0.01f && CurrentSpeedRatio >= 0.01)
-            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
-        else if (LastSpeedRatio <= 0.75f && CurrentSpeedRatio >= 0.75)
-            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
-        else if (LastSpeedRatio >= 0.75f && CurrentSpeedRatio <= 0.75)
-            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
-        else if (LastSpeedRatio >= 0.01f && CurrentSpeedRatio <= 0.01)
-            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
-
-        if (LastTimeOnGround != OnGround)
-            AnimationControl.UpdateGrounded1(OnGround);
-
-        LastSpeedRatio = CurrentSpeedRatio;
-        LastTimeOnGround = OnGround;
     }
 
     void FixedUpdate()
@@ -520,4 +526,10 @@ public class hoverBoardScript : MonoBehaviour
     {
         return MaxSpeed;
     }
+
+    public void SetContolAvailability(bool activate)
+    {
+        allowBoardControl = activate;
+    }
+
 }

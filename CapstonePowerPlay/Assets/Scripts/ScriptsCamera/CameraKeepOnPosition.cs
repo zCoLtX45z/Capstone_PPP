@@ -18,6 +18,9 @@ public class CameraKeepOnPosition : MonoBehaviour {
     [SerializeField]
     private float acceleration;
 
+    [SerializeField]
+    private CameraRotation camRot;
+
 	//// Use this for initialization
 	//void Start () {
        
@@ -27,6 +30,7 @@ public class CameraKeepOnPosition : MonoBehaviour {
     {
         cameraLookAtPosition = transform.parent;
         transform.parent = null;
+        camRot.GrabRot();
     }
 
 
