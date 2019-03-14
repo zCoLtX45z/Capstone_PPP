@@ -75,6 +75,9 @@ public class Ball : MonoBehaviour
     [SerializeField]
     private bool inPlay = false;
 
+    [SerializeField]
+    private Animation animFloat = null;
+
     // Use this for initialization
     void Start()
     {
@@ -85,6 +88,8 @@ public class Ball : MonoBehaviour
         nSpawner = FindObjectOfType<netSpawner>();
         rTimerScript = FindObjectOfType<RoundManager>();
         SoftCol.radius = PickUpRadius;
+
+        animFloat = transform.GetChild(0).GetComponent<Animation>();
     }
 
     private void Update()
@@ -269,6 +274,8 @@ public class Ball : MonoBehaviour
         if (!inPlay)
         {
             inPlay = true;
+            animFloat.enabled = false;
+            transform.GetChild(0).transform.localPosition = Vector3.zero;
         }
         if (Thrown)
         {
@@ -286,6 +293,8 @@ public class Ball : MonoBehaviour
         if(!inPlay)
         {
             inPlay = true;
+            animFloat.enabled = false;
+            transform.GetChild(0).transform.localPosition = Vector3.zero;
         }
         //Debug.Log("PLAYER HAS ENTERED THE AREA!!!");
         gameObject.layer = 2;
@@ -452,6 +461,8 @@ public class Ball : MonoBehaviour
         if (!inPlay)
         {
             inPlay = true;
+            animFloat.enabled = false;
+            transform.GetChild(0).transform.localPosition = Vector3.zero;
         }
         //Debug.Log("PLAYER HAS LEFT THE AREA!!!");
         HardCol.isTrigger = false;
