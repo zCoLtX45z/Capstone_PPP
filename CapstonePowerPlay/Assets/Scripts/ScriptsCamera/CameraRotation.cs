@@ -13,9 +13,6 @@ public class CameraRotation : MonoBehaviour {
     [HideInInspector]
     public float pit;
 
-    [SerializeField]
-    private Transform objectToCopy;
-
     private Vector3 rotRef;
 
     public bool allow = false;

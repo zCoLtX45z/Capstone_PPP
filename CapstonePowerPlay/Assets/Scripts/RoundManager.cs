@@ -85,9 +85,14 @@ public class RoundManager : MonoBehaviour {
     [SerializeField]
     private GameObject[] objectGroup_Round3;
 
-   
+
+    private Transform localPlayer;
+
+    [SerializeField]
+    private Text roundCallText;
 
 
+    private hoverBoardScript HBS;
 
     private void Start()
     {
@@ -113,7 +118,9 @@ public class RoundManager : MonoBehaviour {
             objectGroup_Round3[i].SetActive(false);
         }
 
+        roundCallText.text = "Round " + (roundNumber + 1);
 
+        Invoke("GO", 2);
     }
 
     public void AllowTime(bool allow)
@@ -210,20 +217,36 @@ public class RoundManager : MonoBehaviour {
         PV.RPC("RPC_ResetRound", RpcTarget.All);
     }
 
+   
+    /* One end 
+     * one repositioning*/
+
     [PunRPC]
     public void RPC_ResetRound()
     {
-        Debug.Log("Reseting round");
+       // Debug.Log("Reseting round");
         roundNumber++;
         if(roundNumber >= maxRoundNumber)
         {
-            Debug.Log("End");
+           // Debug.Log("End");
             PV.RPC("RPC_End", RpcTarget.All);
         }
         else
         {
+            // stop all players from moving //
+            if(HBS == null)
+            {
+                HBS = FindObjectOfType<hoverBoardScript>();
+            }
+
+            if (HBS != null)
+            {
+                // gbs disable ability to move
+                HBS.SetContolAvailability(false);
+            }
+            roundCallText.text = "Round " + (roundNumber + 1);
             // round 2
-            if(roundNumber == 1)
+            if (roundNumber == 1)
             {
                 for (int i = objectGroup_Round1.Length - 1; i >= 0; i--)
                 {
@@ -260,7 +283,7 @@ public class RoundManager : MonoBehaviour {
             }
 
 
-            Debug.Log("Destroy ball");
+           // Debug.Log("Destroy ball");
             PhotonNetwork.Destroy(ball.gameObject);
             ball = null;
 
@@ -271,7 +294,7 @@ public class RoundManager : MonoBehaviour {
             nSPawner.CallMoveNetDown();
             textTime.text = "";
 
-            Debug.Log("ResetPos");
+           // Debug.Log("ResetPos");
 
 
             if(PhotonNetwork.IsMasterClient)
@@ -284,7 +307,7 @@ public class RoundManager : MonoBehaviour {
     [PunRPC]
     public void RPC_End()
     {
-        Debug.Log("End_RPC");
+       // Debug.Log("End_RPC");
 
         if (scoring == null)
         {
@@ -311,13 +334,13 @@ public class RoundManager : MonoBehaviour {
 
     public void ShowTheWinner(int teamNum)
     {
-        Debug.Log("show the winner");
+      //  Debug.Log("show the winner");
         Transform localPlayer = null;
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Team 1"))
         {
             if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
             {
-                Debug.Log(player.name + " is the local player");
+              //  Debug.Log(player.name + " is the local player");
                 localPlayer = player.transform;
             }
         }
@@ -327,7 +350,7 @@ public class RoundManager : MonoBehaviour {
             {
                 if (player.GetComponent<hoverBoardScript>().isActiveAndEnabled)
                 {
-                    Debug.Log(player.name + " is the local player");
+                   // Debug.Log(player.name + " is the local player");
                     localPlayer = player.transform;
                 }
             }
@@ -385,13 +408,24 @@ public class RoundManager : MonoBehaviour {
 
         foreach (GameObject team2 in GameObject.FindGameObjectsWithTag("Team 2"))
         {
-            team1Players.Add(team2.transform);
+            team2Players.Add(team2.transform);
         }
 
         for (int i = 0; i < team1Players.Count; i++)
         {
             team1Players[i].position = spawnLocationsTeam1[i].position;
             team1Players[i].rotation = spawnLocationsTeam1[i].rotation;
+
+            if(localPlayer == null)
+            {
+                localPlayer = GameObject.FindObjectOfType<CameraModeMedium>().transform;
+            }
+            if(team1Players[i].GetComponent<PhotonView>().IsMine)
+            {
+                //Debug.Log("ALeratatatatatat");
+                localPlayer.eulerAngles = Vector3.zero;
+                localPlayer.GetComponent<CameraRotation>().GrabRot();
+            }
         }
         for (int i = team1Players.Count - 1; i >= 0; i--)
         {
@@ -402,12 +436,49 @@ public class RoundManager : MonoBehaviour {
         {
             team2Players[i].position = spawnLocationsTeam2[i].position;
             team2Players[i].rotation = spawnLocationsTeam2[i].rotation;
+
+            if (localPlayer == null)
+            {
+                localPlayer = GameObject.FindObjectOfType<CameraModeMedium>().transform;
+            }
+            if (team2Players[i].GetComponent<PhotonView>().IsMine)
+            {
+               // Debug.Log("ALeratatatatatat");
+                localPlayer.eulerAngles = new Vector3(0, 180, 0);
+                localPlayer.GetComponent<CameraRotation>().GrabRot();
+            }
         }
 
         for (int i = team2Players.Count - 1; i >= 0; i--)
         {
             team2Players.RemoveAt(i);
         }
+
+        Invoke("GO", 2);
+    }
+
+
+    private void GO()
+    {
+        roundCallText.text = "GO!";
+        // free players
+        if (HBS == null)
+        {
+            HBS = FindObjectOfType<hoverBoardScript>();
+        }
+
+        if (HBS != null)
+        {
+            // hbs enable ability to move
+            HBS.SetContolAvailability(true);
+        }
+
+        Invoke("EraseRoundCall", 1);
+    }
+
+    private void EraseRoundCall()
+    {
+        roundCallText.text = "";
     }
 
 }
