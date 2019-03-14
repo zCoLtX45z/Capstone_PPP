@@ -41,12 +41,16 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
 
     private Player[] RoomPlayerList;
 
+    // Local player variables
     private bool ChangedTeam = false;
     private bool ChangedReady = false;
+    private bool ChangedDisplayName = false;
     private int TeamNum = -1;
     private int TeamNumOld = -1;
     private bool IsReady = false;
     private bool IsReadyOld = false;
+    private string DisplayName = "";
+    private string DisplayNameOld = "";
     // Game starts to play
     private bool StartGame = false;
     private bool StartedGame = false;
@@ -77,6 +81,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                     hash.Add("Team", -1);
                     hash.Add("ReadyToPlay", false);
                     hash.Add("RoomIndentifier", PhotonNetwork.CurrentRoom.Name);
+                    DisplayName = "Player " + P.ActorNumber;
+                    DisplayNameOld = DisplayName;
+                    hash.Add("DisplayName", DisplayName);
                     P.SetCustomProperties(hash);
                 }
             }
@@ -93,13 +100,15 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
         if (stream.IsWriting)
         {
             // If new Data, send
-            if (ChangedTeam || ChangedReady)
+            if (ChangedTeam || ChangedReady || ChangedDisplayName)
             {
                 ChangedTeam = false;
                 ChangedReady = false;
+                ChangedDisplayName = false;
                 stream.SendNext(TeamNum);
                 stream.SendNext(IsReady);
                 stream.SendNext(PhotonNetwork.LocalPlayer.ActorNumber);
+                stream.SendNext(DisplayName);
             }
             
         }
@@ -109,6 +118,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
             int ChangedNum = (int)stream.ReceiveNext();
             bool ChangedReady = (bool)stream.ReceiveNext();
             int ChangedActor = (int)stream.ReceiveNext();
+            string ChangedDisplayName = (string)stream.ReceiveNext();
 
             Player ChangedPlayer = null;
             foreach(Player P in RoomPlayerList)
@@ -125,10 +135,12 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                 ExitGames.Client.Photon.Hashtable hash = ChangedPlayer.CustomProperties;
                 hash.Remove("Team");
                 hash.Remove("ReadyToPlay");
+                hash.Remove("DisplayName");
                 hash.Add("Team", ChangedNum);
                 hash.Add("ReadyToPlay", ChangedReady);
+                hash.Add("DisplayName", ChangedDisplayName);
                 ChangedPlayer.SetCustomProperties(hash);
-                print("Changed Player " + ChangedActor);
+                print("Changed Player (Team / ActorNum / DisplayName): (" + ChangedNum + " / " + ChangedActor + " / " + ChangedDisplayName + ")");
             }
         }
     }
@@ -170,6 +182,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                     {
                         if (!StartedGame)
                         {
+                            PhotonNetwork.CurrentRoom.IsVisible = false;
                             StartedGame = true;
                             // Start The Game
                             PV.RPC("RPC_UpdateStartGameTimer", RpcTarget.All, "Loading");
@@ -293,6 +306,12 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
 
+    public void SetUpdateDisplayName()
+    {
+        Debug.Log("Set Display name " + (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"]);
+        ChangedDisplayName = true;
+    }
+
     private void UpdateLists()
     {
         List<PlayerRoomUI> NewPlayerRoomUIList = new List<PlayerRoomUI>();
@@ -304,7 +323,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                 int Team = (int)RoomPlayerList[i - 1].CustomProperties["Team"];
                 RectTransform rt = temp.GetComponent<RectTransform>();
                 temp.PlayerIdentifier ="Player " + RoomPlayerList[i - 1].ActorNumber;
-                temp.SetName();
+                temp.SetName(DisplayName);
                 if (Team == -1)
                 {
                     rt.SetParent(QueueContent, false);
@@ -325,7 +344,12 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                 int Team = (int)RoomPlayerList[i - 1].CustomProperties["Team"];
                 RectTransform rt = temp.GetComponent<RectTransform>();
                 temp.PlayerIdentifier = "Player " + RoomPlayerList[i - 1].ActorNumber;
-                temp.SetName();
+                if (!ChangedDisplayName || RoomPlayerList[i - 1].ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+                {
+                    temp.SetName((string)RoomPlayerList[i - 1].CustomProperties["DisplayName"]);
+                }
+                if (RoomPlayerList[i - 1].ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+                    temp.ActivateIF();
                 if (Team == -1)
                 {
                     rt.SetParent(QueueContent, false);
@@ -389,6 +413,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
         TeamNum = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
         IsReadyOld = IsReady;
         IsReady = (bool)PhotonNetwork.LocalPlayer.CustomProperties["ReadyToPlay"];
+        DisplayNameOld = DisplayName;
+        DisplayName = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
         if (TeamNum != TeamNumOld)
         {
             ChangedTeam = true;
@@ -397,6 +423,11 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
         else if (IsReady != IsReadyOld)
         {
             ChangedReady = true;
+            PV.TransferOwnership(PhotonNetwork.LocalPlayer.ActorNumber);
+        }
+        else if (DisplayName != DisplayNameOld)
+        {
+            ChangedDisplayName = true;
             PV.TransferOwnership(PhotonNetwork.LocalPlayer.ActorNumber);
         }
     }

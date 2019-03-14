@@ -39,7 +39,7 @@ public class NetPlayer : MonoBehaviour {
     //[HideInInspector]
 
     public string CodeNumbers = "";
-
+    public string DisplayName = "";
     public string PlayerCode = "";
 
     // Player Child Components
@@ -75,6 +75,8 @@ public class NetPlayer : MonoBehaviour {
             PV = GetComponent<PhotonView>();
         if (PV.IsMine)
         {
+            DisplayName = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
+            PV.RPC("RPC_UpdateDisplayName", RpcTarget.AllBuffered, DisplayName);
             gameObject.name = PhotonNetwork.LocalPlayer.NickName;
             CodeNumbers = "#" + gameObject.name.Split('#')[1];
             PV.RPC("RPC_UpdateCode", RpcTarget.AllBuffered, CodeNumbers);
@@ -204,7 +206,7 @@ public class NetPlayer : MonoBehaviour {
                         if (FinalSetPlayers)
                         {
                             //Debug.Log("Final Set Players Do");
-                            PC.FinalPlayerSet(PV.ViewID);
+                            PC.FinalPlayerSet(PV.ViewID, DisplayName);
                             SetPlayerBool = true;
                             foreach (PlayerColor P in PlayerColorList)
                             {
@@ -330,6 +332,12 @@ public class NetPlayer : MonoBehaviour {
                 }
             }
         }
+    }
+
+    [PunRPC]
+    public void RPC_UpdateDisplayName(string name)
+    {
+        DisplayName = name;
     }
 
     [PunRPC]

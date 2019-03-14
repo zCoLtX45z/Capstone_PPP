@@ -15,6 +15,8 @@ public class Item : MonoBehaviour {
     [SerializeField]
     private GameObject[] DisableObjects;
     [SerializeField]
+    private Collider[] DisableColliders;
+    [SerializeField]
     private MeshRenderer[] MeshRenderers;
     [SerializeField]
     private BoxCollider PlacingCollider;
@@ -61,6 +63,10 @@ public class Item : MonoBehaviour {
         foreach (GameObject g in DisableObjects)
         {
             g.SetActive(false);
+        }
+        foreach (Collider c in DisableColliders)
+        {
+            c.enabled = false;
         }
     }
 

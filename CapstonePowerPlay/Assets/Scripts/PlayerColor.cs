@@ -23,6 +23,8 @@ public class PlayerColor : MonoBehaviourPun
     private GameObject BlueFakeBall;
     [SerializeField]
     private TextMesh TextName;
+    [SerializeField]
+    private PlayerNameTag PNT;
 
     public int TeamNum = 0;
     public NetPlayer LocalPlayer;
@@ -48,8 +50,12 @@ public class PlayerColor : MonoBehaviourPun
     [HideInInspector]
     public bool SetLocalPlayerCalled = false;
     public GameObject ParentObject;
+    public string DisplayName = "";
 
-
+    private void Start()
+    {
+        DisplayName = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
+    }
 
     [PunRPC]
     private void RPC_UpdateLocalSet(bool ready)
@@ -114,12 +120,12 @@ public class PlayerColor : MonoBehaviourPun
     //    }
     //}
 
-    public void FinalPlayerSet(int ParentIndex)
+    public void FinalPlayerSet(int ParentIndex, string displayName)
     {
-        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered, ParentIndex);
+        PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered, ParentIndex, displayName);
     }
     [PunRPC]
-    private void RPC_SetUpPlayer(int ParentIndex)
+    private void RPC_SetUpPlayer(int ParentIndex, string displayName)
     {
         //Debug.LogError("Dummy Error");
         ParentObject = PhotonView.Find(ParentIndex).gameObject;
@@ -131,7 +137,8 @@ public class PlayerColor : MonoBehaviourPun
         //if (LocalPlayer == null && ParentPlayer.LocalPlayer != null)
         //    LocalPlayer = ParentPlayer.LocalPlayer;
         //SetTeamNum(TeamNum);
-        TextName.text = ParentPlayer.name;
+        TextName.text = displayName;
+        PNT.ForceStart();
         if (LocalPlayer == ParentPlayer)
         {
             TextName.gameObject.SetActive(false);
@@ -158,7 +165,10 @@ public class PlayerColor : MonoBehaviourPun
         //PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
         //SetTeamNum(TeamNum);
 
-        TextName.text = ParentPlayer.name;
+        if (DisplayName == "")
+            DisplayName = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
+        TextName.text = DisplayName;
+        PNT.ForceStart();
         if (LocalPlayer == ParentPlayer)
         {
             TextName.gameObject.SetActive(false);
