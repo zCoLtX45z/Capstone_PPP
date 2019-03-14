@@ -212,19 +212,19 @@ public class Chat : MonoBehaviour
     {
         //print("Create Entry Global");
         //CmdCreateEntry(gameObject.name, text, "All", this.gameObject);
-        PV.RPC("RPC_CreateEntry", RpcTarget.All, gameObject.name, text, "All", PV.ViewID);
+        PV.RPC("RPC_CreateEntry", RpcTarget.All, NP.DisplayName, text, "All", PV.ViewID);
     }
 
     public void CreateTeamEntry(string text)
     {
         //print("Create Entry Team");
         //CmdCreateEntry(gameObject.name, text, "Team" + NP.GetTeamNum(), this.gameObject);
-        PV.RPC("RPC_CreateEntry", RpcTarget.All, gameObject.name, text, "Team" + NP.GetTeamNum(), PV.ViewID);
+        PV.RPC("RPC_CreateEntry", RpcTarget.All, NP.DisplayName, text, "Team" + NP.GetTeamNum(), PV.ViewID);
     }
 
     public void CreateConsoleEntry(string text)
     {
-        CreateConsoleEntry(gameObject.name, text);
+        CreateConsoleEntry(NP.DisplayName, text);
     }
 
     public void EnterEntry(ChatEntry Entry)

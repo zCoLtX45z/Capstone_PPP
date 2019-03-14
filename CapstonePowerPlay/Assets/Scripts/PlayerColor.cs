@@ -123,6 +123,7 @@ public class PlayerColor : MonoBehaviourPun
     public void FinalPlayerSet(int ParentIndex, string displayName)
     {
         PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered, ParentIndex, displayName);
+        PNT.ForceStart();
     }
     [PunRPC]
     private void RPC_SetUpPlayer(int ParentIndex, string displayName)
@@ -168,7 +169,6 @@ public class PlayerColor : MonoBehaviourPun
         if (DisplayName == "")
             DisplayName = (string)PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"];
         TextName.text = DisplayName;
-        PNT.ForceStart();
         if (LocalPlayer == ParentPlayer)
         {
             TextName.gameObject.SetActive(false);
