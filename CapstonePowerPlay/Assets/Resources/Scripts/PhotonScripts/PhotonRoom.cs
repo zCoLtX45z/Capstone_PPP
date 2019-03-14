@@ -177,6 +177,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                     {
                         if (!StartedGame)
                         {
+                            PhotonNetwork.CurrentRoom.IsVisible = false;
                             StartedGame = true;
                             // Start The Game
                             PV.RPC("RPC_UpdateStartGameTimer", RpcTarget.All, "Start");
@@ -338,8 +339,11 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                 int Team = (int)RoomPlayerList[i - 1].CustomProperties["Team"];
                 RectTransform rt = temp.GetComponent<RectTransform>();
                 temp.PlayerIdentifier = "Player " + RoomPlayerList[i - 1].ActorNumber;
-                temp.SetDisplayName((string)RoomPlayerList[i - 1].CustomProperties["DisplayName"]);
-                temp.SetName();
+                if (!ChangedDisplayName || RoomPlayerList[i - 1].ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+                {
+                    temp.SetDisplayName((string)RoomPlayerList[i - 1].CustomProperties["DisplayName"]);
+                    temp.SetName();
+                }
                 if (RoomPlayerList[i - 1].ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
                     temp.ActivateIF();
                 if (Team == -1)

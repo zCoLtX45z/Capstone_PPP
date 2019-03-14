@@ -27,6 +27,18 @@ public class PlayerRoomUI : MonoBehaviour {
         }
     }
 
+    private void Update()
+    {
+        if (DisplayNameIF.isFocused)
+        {
+            DisplayNameIF.image.color = Color.black;
+        }
+        else
+        {
+            DisplayNameIF.image.color = Color.clear;
+        }
+    }
+
     public void ActivateIF()
     {
         DisplayNameIF.gameObject.SetActive(true);
@@ -37,6 +49,10 @@ public class PlayerRoomUI : MonoBehaviour {
          NameText.text = Name;
     }
 
+    public void MakeIFBlank()
+    {
+        DisplayNameIF.text = "";
+    }
     public void SetName()
     {
         if (DisplayName == "")
@@ -47,8 +63,13 @@ public class PlayerRoomUI : MonoBehaviour {
 
     public void SetDisplayName(string name)
     {
+        DisplayNameIF.image.color = Color.clear;
         DisplayName = name;
-        PhotonNetwork.LocalPlayer.CustomProperties["DisplayName"] = DisplayName;
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash = PhotonNetwork.LocalPlayer.CustomProperties;
+        hash.Remove("DisplayName");
+        hash.Add("DisplayName", DisplayName);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
         PhotonRoom temp = FindObjectOfType<PhotonRoom>();
         temp.SetUpdateDisplayName();
     }
@@ -60,6 +81,6 @@ public class PlayerRoomUI : MonoBehaviour {
 
     public void MakeNameBlank()
     {
-        NameText.text = "";
+        DisplayNameIF.image.color = Color.black;
     }
 }
