@@ -302,7 +302,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
 
     public void SetUpdateDisplayName()
     {
-        SetUpdateDisplayName();
+        ChangedDisplayName = true;
     }
 
     private void UpdateLists()

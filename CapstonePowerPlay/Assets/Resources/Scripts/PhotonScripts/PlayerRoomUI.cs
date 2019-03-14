@@ -10,7 +10,7 @@ public class PlayerRoomUI : MonoBehaviour {
     [SerializeField]
     private Text NameText;
     [SerializeField]
-    private GameObject DisplayNameIF;
+    private InputField DisplayNameIF;
 
     private string DisplayName = "";
 
@@ -29,7 +29,7 @@ public class PlayerRoomUI : MonoBehaviour {
 
     public void ActivateIF()
     {
-        DisplayNameIF.SetActive(true);
+        DisplayNameIF.gameObject.SetActive(true);
     }
 
     public void SetName(string Name)
@@ -56,5 +56,10 @@ public class PlayerRoomUI : MonoBehaviour {
     public string GetDisplayName()
     {
         return DisplayName;
+    }
+
+    public void MakeNameBlank()
+    {
+        NameText.text = "";
     }
 }
