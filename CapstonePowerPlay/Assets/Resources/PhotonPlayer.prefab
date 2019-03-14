@@ -4297,6 +4297,7 @@ GameObject:
   - component: {fileID: 4644330970901598}
   - component: {fileID: 23734857571438146}
   - component: {fileID: 102215971111697398}
+  - component: {fileID: 114822820963488024}
   m_Layer: 0
   m_Name: Name
   m_TagString: Untagged
@@ -10513,6 +10514,20 @@ MonoBehaviour:
   isClamp: 1
   min: -12000
   max: 12000
+--- !u!114 &114822820963488024
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1994846187859806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf14f22c3c33d544e83cc57de8c39c6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OneTimeScaleDistance: 5
+  TM: {fileID: 102215971111697398}
+  PV: {fileID: 114027717465583432}
 --- !u!114 &114833258111468764
 MonoBehaviour:
   m_ObjectHideFlags: 1
