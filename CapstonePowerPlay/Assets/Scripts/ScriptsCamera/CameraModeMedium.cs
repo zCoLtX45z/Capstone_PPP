@@ -11,6 +11,8 @@ public class CameraModeMedium : MonoBehaviour {
 
     private bool isFreeCam = false;
 
+    //public bool ch
+
 	// Use this for initialization
 	void Start () {
         lookAtBall = transform.GetComponent<LookAtBall>();
