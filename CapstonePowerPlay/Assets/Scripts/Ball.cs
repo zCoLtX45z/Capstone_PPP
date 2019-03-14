@@ -72,6 +72,8 @@ public class Ball : MonoBehaviour
 
     private RoundManager rTimerScript;
 
+    [SerializeField]
+    private bool inPlay = false;
 
     // Use this for initialization
     void Start()
@@ -185,7 +187,8 @@ public class Ball : MonoBehaviour
                 if (!isInPassing)
                 {
                     gameObject.layer = 10;
-                    RB.useGravity = true;
+                    if(inPlay)
+                        RB.useGravity = true;
                 }
             }
         }
@@ -263,6 +266,10 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter(Collision c)
     {
+        if (!inPlay)
+        {
+            inPlay = true;
+        }
         if (Thrown)
         {
             if (c.gameObject.tag == "Default" || c.gameObject.tag == "Ground")
@@ -276,6 +283,10 @@ public class Ball : MonoBehaviour
     [PunRPC]
     private void RPC_OnTriggerEnter()
     {
+        if(!inPlay)
+        {
+            inPlay = true;
+        }
         //Debug.Log("PLAYER HAS ENTERED THE AREA!!!");
         gameObject.layer = 2;
         HardCol.isTrigger = true;
@@ -438,6 +449,10 @@ public class Ball : MonoBehaviour
     [PunRPC]
     private void RPC_OnTriggerExit()
     {
+        if (!inPlay)
+        {
+            inPlay = true;
+        }
         //Debug.Log("PLAYER HAS LEFT THE AREA!!!");
         HardCol.isTrigger = false;
         timer = 1;
