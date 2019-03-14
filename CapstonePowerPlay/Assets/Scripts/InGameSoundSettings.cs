@@ -19,6 +19,8 @@ public class InGameSoundSettings : MonoBehaviour {
     private HoverBoardSounds HV;
     private BallSoundManager BS;
 
+    private float stuff;
+
 
 
     // Use this for initialization
