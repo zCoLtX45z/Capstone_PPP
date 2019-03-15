@@ -266,8 +266,14 @@ public class RoundManager : MonoBehaviour {
 
                         if (HBS != null)
                         {
-                            Debug.Log("hbs has con is false");
+                            Debug.Log("hbs has con is false"); 
                             HBS.roundStarted = false;
+
+                            //HBS.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                            //HBS.Speed = 0;
+                            //HBS.m_currThrust = 0;
+                            //HBS.m_currTurn = 0;
+
                         }
                     }
                 }
@@ -277,6 +283,9 @@ public class RoundManager : MonoBehaviour {
                 // gbs disable ability to move
                 Debug.Log("disallow board move");
                 HBS.roundStarted = false;
+                HBS.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                HBS.Speed = 0;
+                HBS.m_currThrust = 0;
             }
             roundCallText.text = "Round " + (roundNumber + 1);
             // round 2

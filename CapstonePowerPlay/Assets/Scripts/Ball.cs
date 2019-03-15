@@ -396,7 +396,7 @@ public class Ball : MonoBehaviour
     {
         if (!hasBeenPickedUpBefore)
         {
-            nSpawner.CallMoveNetUp();
+            //nSpawner.CallMoveNetUp();
             rTimerScript.BeginCountdown();
         }
 
