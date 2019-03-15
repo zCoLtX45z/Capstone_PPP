@@ -177,6 +177,7 @@ public class hoverBoardScript : MonoBehaviour
                     //Debug.Log("Set Turn Acceleration to Max");
                     AccelerationAmount = MaxTurnPercentAcceleration;
                 }
+
                 TurnSpeed = m_currTurn;
                 m_currTurn *= AccelerationAmount / 100;
 
@@ -185,6 +186,15 @@ public class hoverBoardScript : MonoBehaviour
                 CurrentAdjust = Speed < SpeedDeadZone ? 0.0f
                     : Speed < MaxSpeed ? m_hoverHeight * MaxTurnAdjustPercent * (Speed - SpeedDeadZone) / ((MaxSpeed - SpeedDeadZone) * 100f)
                     : m_hoverHeight * MaxTurnAdjustPercent / (100f);
+            }
+            else
+            {
+                transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                Speed = 0;
+                m_currThrust = 0;
+                m_currTurn = 0;
+                AccelerationAmount = 0;
+                PreviousTurnSpeed = 0;
             }
         }
         else

@@ -94,6 +94,7 @@ public class netSpawner : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            moveNetUp = false;
             net.transform.position = new Vector3(net.transform.position.x, 45, net.transform.position.z);
         }
     }
