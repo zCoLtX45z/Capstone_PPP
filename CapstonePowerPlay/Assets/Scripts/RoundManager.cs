@@ -94,12 +94,15 @@ public class RoundManager : MonoBehaviour {
     [SerializeField]
     private hoverBoardScript HBS;
 
+    private DietySound DS;
+
     private void Start()
     {
         PV = GetComponent<PhotonView>();
         nSPawner = FindObjectOfType<netSpawner>();
         bHandler = FindObjectOfType<ballHandler>();
         scoring = FindObjectOfType<Scoring>();
+        DS = FindObjectOfType<DietySound>();
 
 
         // set round 1 level layout
@@ -158,6 +161,7 @@ public class RoundManager : MonoBehaviour {
         ResetIntroTimer();
         ResetTime();
         allowCountDown = true;
+        DS.PlayDietyNetSpawn();
     }
 
     private void BeginMatch()
@@ -503,6 +507,7 @@ public class RoundManager : MonoBehaviour {
 
     private void GO()
     {
+        DS.PlayDietyWelcome();
         roundCallText.text = "GO!";
         // free players
         if (HBS == null)

@@ -18,8 +18,7 @@ public class InGameSoundSettings : MonoBehaviour {
     private PlayerInGameMusic PGM;
     private HoverBoardSounds HV;
     private BallSoundManager BS;
-
-    private float stuff;
+    private DietySound DS;
 
 
 
@@ -30,6 +29,7 @@ public class InGameSoundSettings : MonoBehaviour {
         PGM = FindObjectOfType<PlayerInGameMusic>();
         HV = FindObjectOfType<HoverBoardSounds>();
         BS = FindObjectOfType<BallSoundManager>();
+        DS = FindObjectOfType<DietySound>();
         musicVol = PS.musicVol;
         musicSlider.value = musicVol;
         SoundFXVol = PS.SoundFXVol;
@@ -56,6 +56,7 @@ public class InGameSoundSettings : MonoBehaviour {
         if (voiceSlider != null)
         {
             VoiceVol = voiceSlider.value;
+            DS.dietyVol = VoiceVol;
 
         }
 
