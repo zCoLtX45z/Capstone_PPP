@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class BallHandling : MonoBehaviour {
 
+    private PlayerVoiceLine PVL;
+
     // Set Shoot force
     [SerializeField]
     public float ShootForce = 200;
@@ -72,6 +74,7 @@ public class BallHandling : MonoBehaviour {
     private PhotonView PV;
     // Use this for initialization
     void Start() {
+        PVL = FindObjectOfType<PlayerVoiceLine>();
         canHold = true;
         playerTag = transform.root.tag;
         PV = GetComponent<PhotonView>();
@@ -177,6 +180,7 @@ public class BallHandling : MonoBehaviour {
                         FindBallDistance = (FindBall.transform.position - transform.position).magnitude;
                         if (FindBallDistance <= FindBall.PickUpRadius)
                         {
+                            PVL.PlayBallPickup();
                             FindBall.PickUp(gameObject);
                         }
                     }
