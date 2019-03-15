@@ -50,6 +50,8 @@ public class BallSteal : MonoBehaviour
     [SerializeField]
     private Transform playerHandTransform;
 
+    private BallHandling bH;
+
     // Use this for initialization
     void Start()
     {
@@ -58,8 +60,9 @@ public class BallSteal : MonoBehaviour
 
         teamNum = player.GetComponent<PlayerColor>().TeamNum;
 
+        bH = transform.GetComponent<BallHandling>();
 
-       if(ballTransform == null)
+       if (ballTransform == null)
        {
             if (GameObject.FindGameObjectWithTag("Ball") != null)
             {
@@ -109,13 +112,13 @@ public class BallSteal : MonoBehaviour
                         //Debug.Log("BH");
                         if (ballScript.BH.gameObject != null)
                         {
-                           // Debug.Log("BH.gameObject");
+                            // Debug.Log("BH.gameObject");
                             if (ballScript.BH.gameObject.GetComponent<PlayerColor>() != null)
                             {
-                              //  Debug.Log("BH.gameObject.GET<PlayerColor>");
+                                //  Debug.Log("BH.gameObject.GET<PlayerColor>");
                                 if (ballScript.BH.gameObject.GetComponent<PlayerColor>().TeamNum != teamNum)
                                 {
-                                   // Debug.Log("BH.gameObject.GET<PlayerColor>(). teamNum");
+                                    // Debug.Log("BH.gameObject.GET<PlayerColor>(). teamNum");
                                     target = ballScript.BH.gameObject;
                                 }
                             }
@@ -126,42 +129,36 @@ public class BallSteal : MonoBehaviour
                 {
                     target = null;
                 }
-
-                if(target != null)
+               // Debug.Log("TeamNum: " + teamNum);
+                if (bH.ball == null)
                 {
-                   // Debug.Log("Target has been selected");
-                    directionFromPlayer = target.transform.position - transform.position;
-                    distanceToTarget = directionFromPlayer.magnitude;
-                    angle = Vector3.Angle(directionFromPlayer, transform.forward);
-
-                    if(distanceToTarget < maxDistance && angle < stealMaxAngle)
+                    //Debug.Log("Can steal");
+                    if (target != null)
                     {
-                        //Debug.Log("In range and in view");
+                        // Debug.Log("Target has been selected");
+                        directionFromPlayer = target.transform.position - transform.position;
+                        distanceToTarget = directionFromPlayer.magnitude;
+                        angle = Vector3.Angle(directionFromPlayer, transform.forward);
 
-                        //steal
-                        if (Input.GetMouseButtonDown(2))
+                        if (distanceToTarget < maxDistance && angle < stealMaxAngle)
                         {
-                            Debug.Log("playerHandTransform: " + playerHandTransform);
-                            Debug.Log("playerHandTransform.gameObject: " + playerHandTransform.gameObject);
-                            //Debug.Log("ballTransform: " + ballTransform);
-                            //Debug.Log("target: " + target);
-                            target.GetComponent<BallHandling>().Steal(player.gameObject, ballTransform.gameObject, playerHandTransform.position, target);
+                            //Debug.Log("In range and in view");
+
+                            //steal
+                            if (Input.GetMouseButtonDown(0))
+                            {
+                                target.GetComponent<BallHandling>().Steal(player.gameObject, ballTransform.gameObject, playerHandTransform.position, target);
+                            }
+
+
                         }
-
-
+                      
                     }
-                    //if (distanceToTarget > maxDistance)
-                    //{
-                    //    Debug.Log("out of range");
-                    //}
-                    //if(angle > stealMaxAngle)
-                    //{
-                    //    Debug.Log("out of view");
-                    //}
-
-
                 }
-
+                else
+                {
+                    Debug.Log("Cannot Steal");
+                }
                 //Debug.Log("target: " + target);
 
             }
