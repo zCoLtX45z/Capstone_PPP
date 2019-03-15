@@ -8,6 +8,8 @@ public class DietySound : MonoBehaviour {
 
     public AudioClip[] NetSpawn;
 
+    public AudioClip[] Loose;
+
     private AudioSource Src;
 
     public float dietyVol;
@@ -35,7 +37,7 @@ public class DietySound : MonoBehaviour {
 
     public void PlayDietyWelcome()
     {
-        Debug.Log("playmusicisCalled");
+        
         Src.clip = welcome[Random.Range(0, welcome.Length)];
         Src.Play();
         
@@ -43,9 +45,15 @@ public class DietySound : MonoBehaviour {
 
     public void PlayDietyNetSpawn()
     {
-        Debug.Log("playmusicisCalled");
+        
         Src.clip = NetSpawn[Random.Range(0, NetSpawn.Length)];
         Src.Play();
 
+    }
+
+    public void PlaydietyLoose()
+    {
+        Src.clip = Loose[Random.Range(0, Loose.Length)];
+        Src.Play();
     }
 }

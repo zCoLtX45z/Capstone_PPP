@@ -806,6 +806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4102635821369452}
   - component: {fileID: 82742359730231626}
+  - component: {fileID: 114651151491305356}
   m_Layer: 0
   m_Name: voice
   m_TagString: Untagged
@@ -9330,7 +9331,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -9340,7 +9341,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 2
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -9375,7 +9376,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -9605,7 +9606,7 @@ MonoBehaviour:
   - {fileID: 114981085440214258}
   - {fileID: 114359316240184688}
   - {fileID: 114559822743833478}
-  viewIdField: 0
+  viewIdField: 4
   InstantiationId: 4
   isRuntimeInstantiated: 0
 --- !u!114 &114067324652028470
@@ -10419,6 +10420,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114651151491305356
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1201677672478570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdbc5431c58fb434dabf21fe6467131d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ballPickup:
+  - {fileID: 8300000, guid: 1b259d78e8659c84889cc1e9d3102724, type: 3}
+  - {fileID: 8300000, guid: 9ad6c52377b37834ab4483fdf5baf717, type: 3}
+  ability:
+  - {fileID: 8300000, guid: 586a3d14c11115444bdcac97db765420, type: 3}
+  - {fileID: 8300000, guid: 80d5de58dfb598949a6ecfd424f67e7d, type: 3}
+  - {fileID: 8300000, guid: de2656e482bcb54418db781f6295e3fb, type: 3}
+  win:
+  - {fileID: 8300000, guid: 98b76ab70d509d448bcef022443ab95d, type: 3}
+  - {fileID: 8300000, guid: 58a6b38b9df3d8e408f76d7652cc733a, type: 3}
+  - {fileID: 8300000, guid: 1e4e034373805164bb9601e77ff0261a, type: 3}
+  - {fileID: 8300000, guid: 074e9515917309b4eb01998bb936357e, type: 3}
+  dietyloose:
+  - {fileID: 8300000, guid: 8aac720996bf3cb4087db5369f088bad, type: 3}
+  - {fileID: 8300000, guid: b8d2b36db4a1e5549b796fe93a96c191, type: 3}
+  - {fileID: 8300000, guid: be03d949da4cae54e9175504b36f87e1, type: 3}
+  voiceVol: 0
 --- !u!114 &114654241860846234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10805,7 +10834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3305e8c35ab763459b2cb5fe5afc276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hover: {fileID: 8300000, guid: ff3bb15106c9e2a4b823606e833c7e5c, type: 3}
+  Hover: {fileID: 8300000, guid: 0adc881c146dd45438db59f2bd159cb4, type: 3}
   HovVol: 0.3
 --- !u!114 &114896353134802608
 MonoBehaviour:
