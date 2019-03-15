@@ -44,7 +44,7 @@ public class Rune : MonoBehaviour {
     [PunRPC]
     void RPC_TurnOffRune()
     {
-        parentRuneSpawn.CallReActivateRune();
         gameObject.SetActive(false);
+        parentRuneSpawn.CallAcivateRandomRune();
     }
 }
