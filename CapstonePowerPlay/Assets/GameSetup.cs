@@ -78,6 +78,10 @@ public class GameSetup : MonoBehaviour {
         }
         // All the players should be sorted
         int index = TeamPlayersByViewID.IndexOf(ThisPlayer);
+        if (index == -1)
+        {
+            index = Random.Range(0, 3);
+        }
 
         // Set the return transform
         if (ThisPlayer.GetTeamNum() == 1)
