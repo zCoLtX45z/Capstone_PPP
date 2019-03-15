@@ -70,6 +70,7 @@ public class Scoring : MonoBehaviour
     
     public void Team1Score()
     {
+        Debug.Log("scored 1");
         team1Score++;
         HandleScoreCanvas();
     }
@@ -83,6 +84,7 @@ public class Scoring : MonoBehaviour
     [PunRPC]
     public void RPC_Team2Score()
     {
+        Debug.Log("scored 2");
         PlayGoaleffect();
         Team2Score();
     }
