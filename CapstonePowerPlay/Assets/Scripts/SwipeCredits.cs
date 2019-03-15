@@ -87,7 +87,7 @@ public class SwipeCredits : MonoBehaviour {
 
 
 
-        slide.localPosition += new Vector3(((xTarget - slide.localPosition.x) / acceleration), slide.localPosition.y , 0);
+        slide.localPosition += new Vector3(((xTarget - slide.localPosition.x) / acceleration), 0, 0);
 
         //selectedRect.localPosition += new Vector3(0, (target.localPosition.y - selectedRect.localPosition.y) / acceleration, 0);
     }
