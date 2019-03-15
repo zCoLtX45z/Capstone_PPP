@@ -10,13 +10,20 @@ public class RuneSpawnQueue : MonoBehaviour {
     [HideInInspector]
     public Queue<Rune> SpawnedRunes = new Queue<Rune>();
 
+    private GameObject currentSpawnedRune;
+
+    private bool runeDisabled;
+
     public void SpawnRune()
     {
-        GameObject GO = PhotonNetwork.Instantiate(RunePrefab.GetRuneID(), transform.position, transform.rotation);
-        Rune temp = GO.GetComponent<Rune>();
+        currentSpawnedRune = PhotonNetwork.Instantiate(RunePrefab.GetRuneID(), transform.position, transform.rotation);
+        Rune temp = currentSpawnedRune.GetComponent<Rune>();
+        temp.parentRuneSpawn = this;
         SpawnedRunes.Enqueue(temp);
+        runeDisabled = false;
     }
 
+    // not being called
     public void ResetQueue()
     {
         Rune temp = SpawnedRunes.Dequeue();
@@ -30,4 +37,15 @@ public class RuneSpawnQueue : MonoBehaviour {
             SpawnedRunes.Enqueue(temp);
         }
     }
+
+    public void CallReActivateRune()
+    {
+        Invoke("ReActivateSpawnedRune", 7);
+    }
+
+   public void ReActivateSpawnedRune()
+    {
+        currentSpawnedRune.SetActive(true);
+    }
+
 }
