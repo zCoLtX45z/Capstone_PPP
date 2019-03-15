@@ -12,6 +12,8 @@ public class Rune : MonoBehaviour {
     [SerializeField]
     private string RuneID;
 
+    public RuneSpawnQueue parentRuneSpawn;
+
     public string GetRuneID()
     {
         return RuneID;
@@ -42,6 +44,7 @@ public class Rune : MonoBehaviour {
     [PunRPC]
     void RPC_TurnOffRune()
     {
+        parentRuneSpawn.CallReActivateRune();
         gameObject.SetActive(false);
     }
 }
