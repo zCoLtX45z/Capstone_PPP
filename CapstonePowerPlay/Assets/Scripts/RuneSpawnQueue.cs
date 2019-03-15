@@ -6,17 +6,38 @@ using Photon.Pun;
 public class RuneSpawnQueue : MonoBehaviour {
 
     [SerializeField]
-    private Rune RunePrefab;
+    private Rune[] RunePrefabs;
     [HideInInspector]
-    public Queue<Rune> SpawnedRunes = new Queue<Rune>();
+    public List<Rune> SpawnedRunes = new List<Rune>();
+
+    private GameObject currentSpawnedRune;
+
+    private bool runeDisabled;
+
+  
 
     public void SpawnRune()
     {
-        GameObject GO = PhotonNetwork.Instantiate(RunePrefab.GetRuneID(), transform.position, transform.rotation);
-        Rune temp = GO.GetComponent<Rune>();
+        /*
+        currentSpawnedRune = PhotonNetwork.Instantiate(RunePrefab.GetRuneID(), transform.position, transform.rotation);
+        Rune temp = currentSpawnedRune.GetComponent<Rune>();
+        temp.parentRuneSpawn = this;
         SpawnedRunes.Enqueue(temp);
+        runeDisabled = false;
+        */
+        for (int i = 0; i < RunePrefabs.Length; i++)
+        {
+            SpawnedRunes.Add(PhotonNetwork.Instantiate(RunePrefabs[i].GetRuneID(), transform.position, transform.rotation).GetComponent<Rune>());
+            SpawnedRunes[i].GetComponent<Rune>().parentRuneSpawn = this;
+            SpawnedRunes[i].gameObject.SetActive(false);
+        }
+        AcivateRandomRune();
     }
 
+    
+
+    /*
+    // not being called
     public void ResetQueue()
     {
         Rune temp = SpawnedRunes.Dequeue();
@@ -29,5 +50,20 @@ public class RuneSpawnQueue : MonoBehaviour {
         {
             SpawnedRunes.Enqueue(temp);
         }
+    }
+    */
+
+    public void CallAcivateRandomRune()
+    {
+        Invoke("AcivateRandomRune", 7);
+    }
+
+
+    public void AcivateRandomRune()
+    {
+        //Debug.Log("activate");
+        int rng = Random.Range(0, SpawnedRunes.Count);
+        //Debug.Log("rng: " + rng);
+        SpawnedRunes[rng].gameObject.SetActive(true);
     }
 }

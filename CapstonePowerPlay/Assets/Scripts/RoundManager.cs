@@ -123,7 +123,7 @@ public class RoundManager : MonoBehaviour {
             objectGroup_Round3[i].SetActive(false);
         }
 
-        roundCallText.text = "Round " + (roundNumber + 1);
+        roundCallText.text = /*"Round " + (roundNumber + 1)*/ "Ready";
 
         Invoke("GO", 2);
     }

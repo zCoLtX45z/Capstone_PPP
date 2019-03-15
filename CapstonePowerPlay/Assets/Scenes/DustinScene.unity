@@ -91,7 +91,7 @@ LightmapSettings:
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 112000002, guid: 222fa2b608b50fa478801271f326c26f,
     type: 2}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -811,7 +811,7 @@ GameObject:
   - component: {fileID: 345298867}
   - component: {fileID: 345298866}
   m_Layer: 0
-  m_Name: RuneSpawn Type 2
+  m_Name: RuneSpawn Type 2_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -828,8 +828,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa17353359c9fa478a142aacc28d734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RunePrefab: {fileID: 114950713453564978, guid: bb90db143ac30d84497f6314f3fa7345,
-    type: 2}
+  RunePrefabs:
+  - {fileID: 114985482286840866, guid: 7c16d8264d54d4245828d2fea68f9540, type: 2}
+  - {fileID: 114950713453564978, guid: bb90db143ac30d84497f6314f3fa7345, type: 2}
+  - {fileID: 114903983299505148, guid: b9ff540df4a973e4abf90a1a7eb648b5, type: 2}
+  SpawnedRunes: []
 --- !u!4 &345298867
 Transform:
   m_ObjectHideFlags: 0
@@ -841,7 +844,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &460270937
 Prefab:
@@ -1533,6 +1536,51 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3efdcb5d4d6a2044d99acf6c33eca2d3, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &860764431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 860764433}
+  - component: {fileID: 860764432}
+  m_Layer: 0
+  m_Name: RuneSpawn Type 1_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &860764432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 860764431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa17353359c9fa478a142aacc28d734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RunePrefabs:
+  - {fileID: 114985482286840866, guid: 7c16d8264d54d4245828d2fea68f9540, type: 2}
+  - {fileID: 114950713453564978, guid: bb90db143ac30d84497f6314f3fa7345, type: 2}
+  - {fileID: 114903983299505148, guid: b9ff540df4a973e4abf90a1a7eb648b5, type: 2}
+  SpawnedRunes: []
+--- !u!4 &860764433
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 860764431}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 209.9, y: 92.86, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 26
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &865705677
 GameObject:
   m_ObjectHideFlags: 0
@@ -1856,6 +1904,51 @@ Transform:
   m_Father: {fileID: 807251374}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &1002627993
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1002627995}
+  - component: {fileID: 1002627994}
+  m_Layer: 0
+  m_Name: RuneSpawn Type 3_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1002627994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1002627993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa17353359c9fa478a142aacc28d734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RunePrefabs:
+  - {fileID: 114985482286840866, guid: 7c16d8264d54d4245828d2fea68f9540, type: 2}
+  - {fileID: 114950713453564978, guid: bb90db143ac30d84497f6314f3fa7345, type: 2}
+  - {fileID: 114903983299505148, guid: b9ff540df4a973e4abf90a1a7eb648b5, type: 2}
+  SpawnedRunes: []
+--- !u!4 &1002627995
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1002627993}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.0000002533197}
+  m_LocalPosition: {x: 202.19998, y: 54.89, z: 18.050009}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 30
+  m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
 --- !u!1001 &1050133512
 Prefab:
   m_ObjectHideFlags: 0
@@ -1893,7 +1986,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4905000802469154, guid: 2f48a3dd7c18f334d9c0aff6f79a4eea, type: 2}
       propertyPath: m_RootOrder
-      value: 28
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 114437269489542750, guid: 2f48a3dd7c18f334d9c0aff6f79a4eea,
         type: 2}
@@ -3594,6 +3687,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1376801831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1376801833}
+  - component: {fileID: 1376801832}
+  m_Layer: 0
+  m_Name: RuneSpawn Type 2_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1376801832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1376801831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa17353359c9fa478a142aacc28d734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RunePrefabs:
+  - {fileID: 114985482286840866, guid: 7c16d8264d54d4245828d2fea68f9540, type: 2}
+  - {fileID: 114950713453564978, guid: bb90db143ac30d84497f6314f3fa7345, type: 2}
+  - {fileID: 114903983299505148, guid: b9ff540df4a973e4abf90a1a7eb648b5, type: 2}
+  SpawnedRunes: []
+--- !u!4 &1376801833
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1376801831}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.0000002533197}
+  m_LocalPosition: {x: 202.20001, y: 54.89, z: -45.40001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 28
+  m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
 --- !u!1 &1551102637
 GameObject:
   m_ObjectHideFlags: 0
@@ -3664,6 +3802,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114810860235432932, guid: 0e075f3fc4f4a614aa64bdb336ff688b,
+        type: 2}
+      propertyPath: RuneSpawns.Array.size
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4075484650696162, guid: 0e075f3fc4f4a614aa64bdb336ff688b, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1.0812819
@@ -3705,17 +3848,32 @@ Prefab:
         type: 2}
       propertyPath: RuneSpawns.Array.data[1]
       value: 
-      objectReference: {fileID: 345298866}
+      objectReference: {fileID: 860764432}
     - target: {fileID: 114810860235432932, guid: 0e075f3fc4f4a614aa64bdb336ff688b,
         type: 2}
       propertyPath: RuneSpawns.Array.data[2]
       value: 
-      objectReference: {fileID: 2128488283}
+      objectReference: {fileID: 345298866}
     - target: {fileID: 114692783534194876, guid: 0e075f3fc4f4a614aa64bdb336ff688b,
         type: 2}
       propertyPath: ballSpawn
       value: 
       objectReference: {fileID: 694137901}
+    - target: {fileID: 114810860235432932, guid: 0e075f3fc4f4a614aa64bdb336ff688b,
+        type: 2}
+      propertyPath: RuneSpawns.Array.data[3]
+      value: 
+      objectReference: {fileID: 1376801832}
+    - target: {fileID: 114810860235432932, guid: 0e075f3fc4f4a614aa64bdb336ff688b,
+        type: 2}
+      propertyPath: RuneSpawns.Array.data[4]
+      value: 
+      objectReference: {fileID: 2128488283}
+    - target: {fileID: 114810860235432932, guid: 0e075f3fc4f4a614aa64bdb336ff688b,
+        type: 2}
+      propertyPath: RuneSpawns.Array.data[5]
+      value: 
+      objectReference: {fileID: 1002627994}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e075f3fc4f4a614aa64bdb336ff688b, type: 2}
   m_IsPrefabParent: 0
@@ -3947,7 +4105,7 @@ GameObject:
   - component: {fileID: 1749525840}
   - component: {fileID: 1749525841}
   m_Layer: 0
-  m_Name: RuneSpawn Type 1
+  m_Name: RuneSpawn Type 1_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3960,7 +4118,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1749525839}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 170.9, y: 92.86, z: 0.03}
+  m_LocalPosition: {x: 138.8, y: 92.86, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3977,8 +4135,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa17353359c9fa478a142aacc28d734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RunePrefab: {fileID: 114985482286840866, guid: 7c16d8264d54d4245828d2fea68f9540,
-    type: 2}
+  RunePrefabs:
+  - {fileID: 114985482286840866, guid: 7c16d8264d54d4245828d2fea68f9540, type: 2}
+  - {fileID: 114950713453564978, guid: bb90db143ac30d84497f6314f3fa7345, type: 2}
+  - {fileID: 114903983299505148, guid: b9ff540df4a973e4abf90a1a7eb648b5, type: 2}
+  SpawnedRunes: []
 --- !u!1 &1773276316
 GameObject:
   m_ObjectHideFlags: 0
@@ -4599,6 +4760,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c15104ee760a1004293db4035fd7054f, type: 3}
   - {fileID: 8300000, guid: d86235c5e3ebfcb428402d93aac1671e, type: 3}
   - {fileID: 8300000, guid: c2abbfbb7edcb5d4096ea17d88dc0d7a, type: 3}
+  dietyVol: 0
 --- !u!82 &1936621513
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4705,7 +4867,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2017484806
 GameObject:
@@ -4911,7 +5073,7 @@ GameObject:
   - component: {fileID: 2128488284}
   - component: {fileID: 2128488283}
   m_Layer: 0
-  m_Name: RuneSpawn Type 3
+  m_Name: RuneSpawn Type 3_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4928,8 +5090,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa17353359c9fa478a142aacc28d734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RunePrefab: {fileID: 114903983299505148, guid: b9ff540df4a973e4abf90a1a7eb648b5,
-    type: 2}
+  RunePrefabs:
+  - {fileID: 114985482286840866, guid: 7c16d8264d54d4245828d2fea68f9540, type: 2}
+  - {fileID: 114950713453564978, guid: bb90db143ac30d84497f6314f3fa7345, type: 2}
+  - {fileID: 114903983299505148, guid: b9ff540df4a973e4abf90a1a7eb648b5, type: 2}
+  SpawnedRunes: []
 --- !u!4 &2128488284
 Transform:
   m_ObjectHideFlags: 0
@@ -4937,9 +5102,9 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2128488282}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 172.18, y: 54.89, z: -45.4}
+  m_LocalPosition: {x: 148.69, y: 54.89, z: -45.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
