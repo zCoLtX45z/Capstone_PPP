@@ -95,6 +95,7 @@ public class RoundManager : MonoBehaviour {
     private hoverBoardScript HBS;
 
     private DietySound DS;
+    private PlayerVoiceLine PVL;
 
     private void Start()
     {
@@ -103,6 +104,7 @@ public class RoundManager : MonoBehaviour {
         bHandler = FindObjectOfType<ballHandler>();
         scoring = FindObjectOfType<Scoring>();
         DS = FindObjectOfType<DietySound>();
+        PVL = FindObjectOfType<PlayerVoiceLine>();
 
 
         // set round 1 level layout
@@ -411,11 +413,13 @@ public class RoundManager : MonoBehaviour {
         else if (localPlayer.GetComponent<PlayerColor>().TeamNum == teamNum)
         {
             // win
+            PVL.PlayWin();
             winGameText.SetActive(true);
         }
         else
         {
             // lose
+            PVL.PlaydietyLoose();
             loseGameText.SetActive(true);
         }
 
