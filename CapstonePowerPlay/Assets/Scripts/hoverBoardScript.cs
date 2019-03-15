@@ -101,8 +101,7 @@ public class hoverBoardScript : MonoBehaviour
     private float PreviousTurnSpeed;
     private float TurnSpeed;
 
-    private bool allowBoardControl = false;
-
+    public bool roundStarted = false;
 
 	// Use this for initialization
 	void Start ()
@@ -127,12 +126,13 @@ public class hoverBoardScript : MonoBehaviour
         }
     }
 
-	// Update is called once per frame
-	void Update ()
+    // Update is called once per frame
+    void Update()
     {
-        if (allowBoardControl)
+
+        if (BoardHasControl)
         {
-            if (BoardHasControl)
+            if (roundStarted)
             {
                 // Previous Turn Direction
                 PreviousTurnSpeed = TurnSpeed;
@@ -186,63 +186,64 @@ public class hoverBoardScript : MonoBehaviour
                     : Speed < MaxSpeed ? m_hoverHeight * MaxTurnAdjustPercent * (Speed - SpeedDeadZone) / ((MaxSpeed - SpeedDeadZone) * 100f)
                     : m_hoverHeight * MaxTurnAdjustPercent / (100f);
             }
-            else
-            {
-                m_currTurn = 0;
-                m_currThrust = 0;
-            }
-
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                sprintMultiplier = 1 + (SprintBoostLinearPercent / 100) + BoostPaddBoostLinearPercent;
-            }
-            else
-            {
-                sprintMultiplier = 1 + BoostPaddBoostLinearPercent;
-            }
-
-            if (BoardHasControl)
-            {
-                if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.Space))
-                {
-                    CanStick = false;
-                    if (Input.GetKeyDown(KeyCode.Space) && OnGround)
-                    {
-                        Jump();
-                        OnGround = false;
-                    }
-
-                    if (Input.GetKey(KeyCode.LeftControl))
-                    {
-                        Flipping = true;
-                        FlipCharacter();
-                    }
-                }
-                else
-                {
-                    CanStick = true;
-                    Flipping = false;
-                }
-            }
-
-            // Update animator
-            CurrentSpeedRatio = Mathf.Abs(Speed / MaxSpeed);
-
-            if (LastSpeedRatio <= 0.01f && CurrentSpeedRatio >= 0.01)
-                AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
-            else if (LastSpeedRatio <= 0.75f && CurrentSpeedRatio >= 0.75)
-                AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
-            else if (LastSpeedRatio >= 0.75f && CurrentSpeedRatio <= 0.75)
-                AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
-            else if (LastSpeedRatio >= 0.01f && CurrentSpeedRatio <= 0.01)
-                AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
-
-            if (LastTimeOnGround != OnGround)
-                AnimationControl.UpdateGrounded1(OnGround);
-
-            LastSpeedRatio = CurrentSpeedRatio;
-            LastTimeOnGround = OnGround;
         }
+        else
+        {
+            m_currTurn = 0;
+            m_currThrust = 0;
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            sprintMultiplier = 1 + (SprintBoostLinearPercent / 100) + BoostPaddBoostLinearPercent;
+        }
+        else
+        {
+            sprintMultiplier = 1 + BoostPaddBoostLinearPercent;
+        }
+
+        if (BoardHasControl)
+        {
+            if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.Space))
+            {
+                CanStick = false;
+                if (Input.GetKeyDown(KeyCode.Space) && OnGround)
+                {
+                    Jump();
+                    OnGround = false;
+                }
+
+                if (Input.GetKey(KeyCode.LeftControl))
+                {
+                    Flipping = true;
+                    FlipCharacter();
+                }
+            }
+            else
+            {
+                CanStick = true;
+                Flipping = false;
+            }
+        }
+
+        // Update animator
+        CurrentSpeedRatio = Mathf.Abs(Speed / MaxSpeed);
+
+        if (LastSpeedRatio <= 0.01f && CurrentSpeedRatio >= 0.01)
+            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+        else if (LastSpeedRatio <= 0.75f && CurrentSpeedRatio >= 0.75)
+            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+        else if (LastSpeedRatio >= 0.75f && CurrentSpeedRatio <= 0.75)
+            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+        else if (LastSpeedRatio >= 0.01f && CurrentSpeedRatio <= 0.01)
+            AnimationControl.UpdateSpeedRatio(LastSpeedRatio);
+
+        if (LastTimeOnGround != OnGround)
+            AnimationControl.UpdateGrounded1(OnGround);
+
+        LastSpeedRatio = CurrentSpeedRatio;
+        LastTimeOnGround = OnGround;
+
     }
 
     void FixedUpdate()
@@ -527,9 +528,5 @@ public class hoverBoardScript : MonoBehaviour
         return MaxSpeed;
     }
 
-    public void SetContolAvailability(bool activate)
-    {
-        allowBoardControl = activate;
-    }
-
+   
 }

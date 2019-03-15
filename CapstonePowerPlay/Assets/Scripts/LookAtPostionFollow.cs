@@ -20,6 +20,9 @@ public class LookAtPostionFollow : MonoBehaviour {
     [SerializeField]
     CameraKeepOnPosition ckp;
 
+    //[SerializeField]
+    private PlayerColor playerColour;
+
 	//void Start () {
  //       //UnParent();
 
@@ -27,9 +30,14 @@ public class LookAtPostionFollow : MonoBehaviour {
 	
     public void UnParent()
     {
+        Debug.Log("Unparent 1: LookAtPositionFollow");
+
+
+        playerColour = gameObject.GetComponentInParent<PlayerColor>();
+
         transform.parent = null;
-        transform.eulerAngles = player.eulerAngles;
-        ckp.UnParent();
+        
+        ckp.UnParent(playerColour.TeamNum);
     }
 
 	// Update is called once per frame

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraKeepOnPosition : MonoBehaviour {
 
-    //[SerializeField]
+    [SerializeField]
     private Transform cameraLookAtPosition;
 
     [SerializeField]
@@ -26,11 +26,20 @@ public class CameraKeepOnPosition : MonoBehaviour {
        
  //   }
 	
-    public void UnParent()
+    public void UnParent(int teamNumber)
     {
-        cameraLookAtPosition = transform.parent;
+        //cameraLookAtPosition = transform.parent;
         transform.parent = null;
-        camRot.GrabRot();
+        Debug.Log("team Num: " + teamNumber);
+        if (teamNumber == 2)
+        {
+            Debug.Log("Alert");
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+
+        Debug.Log("UnParent 2: cameraKeepOnPosition");
+        Debug.Log(transform.GetChild(0).eulerAngles);
+        //camRot.GrabRot();
     }
 
 

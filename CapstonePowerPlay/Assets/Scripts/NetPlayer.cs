@@ -237,13 +237,10 @@ public class NetPlayer : MonoBehaviour {
                     //    Debug.Log("Spawn Point Selected(Team 1): " + SpawnPoint.name);
                     //else if (TeamNum == 2)
                     //    Debug.Log("Spawn Point Selected(Team 2): " + SpawnPoint.name);
-
                 }
 
                 // spawn ball
                 FindObjectOfType<ballHandler>().SpawnBall();
-
-
             }
             else if (ArenaMenu.gameObject.activeSelf)
             {
@@ -276,6 +273,10 @@ public class NetPlayer : MonoBehaviour {
             {
                 if (PV.IsMine)
                 {
+                    if (!PC.SetPlayerTag)
+                    {
+                        PC.ResetPNT();
+                    }
                     // Turn Loading Screen Off
                     if (LoadingCanvas.gameObject.activeSelf)
                         LoadingCanvas.gameObject.SetActive(false);
@@ -385,7 +386,7 @@ public class NetPlayer : MonoBehaviour {
             //PV.RPC("RPC_UpdateReady", RpcTarget.AllBuffered, ReadyToSetPlayer);
             // Set Components
             PV.RPC("RPC_GetPlayerComponents", RpcTarget.AllBuffered);
-            ChildPlayer.GetComponentInChildren<LookAtPostionFollow>().UnParent();
+           
         }
 
        

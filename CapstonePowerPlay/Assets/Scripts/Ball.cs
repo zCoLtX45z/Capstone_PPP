@@ -78,12 +78,18 @@ public class Ball : MonoBehaviour
     [SerializeField]
     private Animation animFloat = null;
 
+    private float maxMass;
+    [SerializeField]
+    private float maxIncreaseAcceleration = 1;
+
     // Use this for initialization
     void Start()
     {
         PV = GetComponent<PhotonView>();
         Handle = GetComponent<Transform>();
         RB = GetComponent<Rigidbody>();
+
+        maxMass = RB.mass;
 
         nSpawner = FindObjectOfType<netSpawner>();
         rTimerScript = FindObjectOfType<RoundManager>();
@@ -102,8 +108,21 @@ public class Ball : MonoBehaviour
             Held = false;
         }
 
+        if (RB.mass < maxMass)
+        {
+            RB.mass += Time.deltaTime / maxIncreaseAcceleration;
+        }
+        else if (RB.mass > maxMass)
+        {
+            RB.mass = maxMass;
+        }
+
         if (Thrown)
         {
+
+            
+
+
             if (BH != null || Hand != null || Held)
                 ResetBall();
             CanBeCaughtTimer -= Time.deltaTime;
@@ -202,6 +221,11 @@ public class Ball : MonoBehaviour
         {
             transform.localPosition = Vector3.zero;
             RB.useGravity = false;
+
+            if(RB.mass != maxMass)
+            {
+                RB.mass = maxMass;
+            }
             //if (Hand != null)
             //    UiCanvas.position = Hand.transform.position;
         }
@@ -489,6 +513,7 @@ public class Ball : MonoBehaviour
         //Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
         //Debug.Log("Hand: " + Hand);
         //transform.GetComponentInParent<BallHandling>().ReturnHand().DetachChildren();
+        RB.mass = 5;
         //Hand.DetachChildren();
         transform.SetParent(null);
         Thrown = true;
