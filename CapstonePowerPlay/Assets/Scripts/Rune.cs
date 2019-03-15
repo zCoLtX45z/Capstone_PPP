@@ -27,14 +27,7 @@ public class Rune : MonoBehaviour {
     public void DestroyRune()
     {
         PhotonNetwork.Destroy(PV);
-        //PV.RPC("RPC_DestroyRune", RpcTarget.All);
     }
-
-    //[PunRPC]
-    //void RPC_DestroyRune()
-    //{
-    //    Destroy(this.gameObject);
-    //}
 
     public void TurnOffRune()
     {
