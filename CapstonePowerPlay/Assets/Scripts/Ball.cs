@@ -221,6 +221,11 @@ public class Ball : MonoBehaviour
         {
             transform.localPosition = Vector3.zero;
             RB.useGravity = false;
+
+            if(RB.mass < maxMass || RB.mass > maxMass)
+            {
+                RB.mass = maxMass;
+            }
             //if (Hand != null)
             //    UiCanvas.position = Hand.transform.position;
         }
