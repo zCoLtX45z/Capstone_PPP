@@ -123,7 +123,7 @@ public class Scoring : MonoBehaviour
                 {
                     for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
                     {
-                        sTracker.t1Scoring[i].color = Color.blue;
+                        sTracker.t1Scoring[i].color = Color.green;
                         sTracker.t2Scoring[i].color = Color.red;
                     }
                 }
@@ -149,7 +149,7 @@ public class Scoring : MonoBehaviour
 
                         sTracker.t1Scoring[i].rectTransform.position = sTracker.t2Scoring[i].rectTransform.position;
 
-                        sTracker.t2Scoring[i].color = Color.blue;
+                        sTracker.t2Scoring[i].color = Color.green;
 
                         sTracker.t2Scoring[i].rectTransform.position = new Vector3(tempX, sTracker.t1Scoring[i].rectTransform.position.y, sTracker.t1Scoring[i].rectTransform.position.z);
                     }
