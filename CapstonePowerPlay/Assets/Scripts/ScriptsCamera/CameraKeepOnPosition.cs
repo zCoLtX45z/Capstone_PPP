@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraKeepOnPosition : MonoBehaviour {
 
-    //[SerializeField]
+    [SerializeField]
     private Transform cameraLookAtPosition;
 
     [SerializeField]
@@ -28,8 +28,9 @@ public class CameraKeepOnPosition : MonoBehaviour {
 	
     public void UnParent()
     {
-        cameraLookAtPosition = transform.parent;
+        //cameraLookAtPosition = transform.parent;
         transform.parent = null;
+        Debug.Log("UnParent 2: cameraKeepOnPosition");
         camRot.GrabRot();
     }
 
