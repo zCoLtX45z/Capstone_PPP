@@ -459,16 +459,16 @@ public class RoundManager : MonoBehaviour {
             team1Players[i].position = spawnLocationsTeam1[i].position;
             team1Players[i].rotation = spawnLocationsTeam1[i].rotation;
 
-            if(localPlayer == null)
-            {
-                localPlayer = GameObject.FindObjectOfType<CameraModeMedium>().transform;
-            }
-            if(team1Players[i].GetComponent<PhotonView>().IsMine)
-            {
-                //Debug.Log("ALeratatatatatat");
-                localPlayer.eulerAngles = Vector3.zero;
-                localPlayer.GetComponent<CameraRotation>().GrabRot();
-            }
+            //if(localPlayer == null)
+            //{
+            //    localPlayer = GameObject.FindObjectOfType<CameraModeMedium>().transform;
+            //}
+            //if(team1Players[i].GetComponent<PhotonView>().IsMine)
+            //{
+            //    //Debug.Log("ALeratatatatatat");
+            //    localPlayer.eulerAngles = Vector3.zero;
+            //    localPlayer.GetComponent<CameraRotation>().GrabRot();
+            //}
         }
         for (int i = team1Players.Count - 1; i >= 0; i--)
         {
@@ -480,16 +480,16 @@ public class RoundManager : MonoBehaviour {
             team2Players[i].position = spawnLocationsTeam2[i].position;
             team2Players[i].rotation = spawnLocationsTeam2[i].rotation;
 
-            if (localPlayer == null)
-            {
-                localPlayer = GameObject.FindObjectOfType<CameraModeMedium>().transform;
-            }
-            if (team2Players[i].GetComponent<PhotonView>().IsMine)
-            {
-               // Debug.Log("ALeratatatatatat");
-                localPlayer.eulerAngles = new Vector3(0, 180, 0);
-                localPlayer.GetComponent<CameraRotation>().GrabRot();
-            }
+            //if (localPlayer == null)
+            //{
+            //    localPlayer = GameObject.FindObjectOfType<CameraModeMedium>().transform;
+            //}
+            //if (team2Players[i].GetComponent<PhotonView>().IsMine)
+            //{
+            //   // Debug.Log("ALeratatatatatat");
+            //    localPlayer.eulerAngles = new Vector3(0, 180, 0);
+            //    localPlayer.GetComponent<CameraRotation>().GrabRot();
+            //}
         }
 
         for (int i = team2Players.Count - 1; i >= 0; i--)

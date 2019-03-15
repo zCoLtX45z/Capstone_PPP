@@ -39,7 +39,7 @@ public class CameraKeepOnPosition : MonoBehaviour {
 
         Debug.Log("UnParent 2: cameraKeepOnPosition");
         Debug.Log(transform.GetChild(0).eulerAngles);
-        //camRot.GrabRot();
+        camRot.GrabRot();
     }
 
 
