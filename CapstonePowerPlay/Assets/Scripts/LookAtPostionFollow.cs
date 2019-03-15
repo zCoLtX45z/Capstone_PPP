@@ -37,40 +37,43 @@ public class LookAtPostionFollow : MonoBehaviour {
 
         transform.parent = null;
         
-        ckp.UnParent(playerColour.TeamNum);
+        ckp.UnParent();
     }
 
 	// Update is called once per frame
 	void Update () {
         if (transform.parent == null)
         {
-            float distance = (lookatPoint.position - transform.position).magnitude;
-
-
-            transform.position = lookatPoint.position;
-
-            //transform.position = Vector3.MoveTowards(transform.position, lookatPoint.position, speedTransation * distance);
-
-            //Debug.Log("layerMask: " + layerMask);
-
-            RaycastHit hit;
-
-            if (Physics.Raycast(player.position, player.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
+            if (transform.childCount == 0)
             {
-                // Debug.DrawRay(player.position, player.TransformDirection(Vector3.down));
-                if (hit.transform.gameObject.layer == LayerMask.NameToLayer(layerMask))
+                float distance = (lookatPoint.position - transform.position).magnitude;
+
+
+                transform.position = lookatPoint.position;
+
+                //transform.position = Vector3.MoveTowards(transform.position, lookatPoint.position, speedTransation * distance);
+
+                //Debug.Log("layerMask: " + layerMask);
+
+                RaycastHit hit;
+
+                if (Physics.Raycast(player.position, player.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
                 {
-                    //// Debug.Log("Hit object with same layer");
-                    Vector3 inverseTPoint = transform.InverseTransformPoint(transform.position + hit.normal);
-                    float angleX = Mathf.Atan2(inverseTPoint.z, inverseTPoint.y) * Mathf.Rad2Deg;
-                    transform.Rotate(angleX, 0, 0);
+                    // Debug.DrawRay(player.position, player.TransformDirection(Vector3.down));
+                    if (hit.transform.gameObject.layer == LayerMask.NameToLayer(layerMask))
+                    {
+                        //// Debug.Log("Hit object with same layer");
+                        Vector3 inverseTPoint = transform.InverseTransformPoint(transform.position + hit.normal);
+                        float angleX = Mathf.Atan2(inverseTPoint.z, inverseTPoint.y) * Mathf.Rad2Deg;
+                        transform.Rotate(angleX, 0, 0);
 
-                    inverseTPoint = transform.InverseTransformPoint(transform.position + hit.normal);
+                        inverseTPoint = transform.InverseTransformPoint(transform.position + hit.normal);
 
-                    float angleZ = -Mathf.Atan2(inverseTPoint.x, inverseTPoint.y) * Mathf.Rad2Deg;
-                    transform.Rotate(0, 0, angleZ);
+                        float angleZ = -Mathf.Atan2(inverseTPoint.x, inverseTPoint.y) * Mathf.Rad2Deg;
+                        transform.Rotate(0, 0, angleZ);
+                    }
+
                 }
-
             }
         }
     }

@@ -26,19 +26,19 @@ public class CameraKeepOnPosition : MonoBehaviour {
        
  //   }
 	
-    public void UnParent(int teamNumber)
+    public void UnParent()
     {
         //cameraLookAtPosition = transform.parent;
         transform.parent = null;
-        Debug.Log("team Num: " + teamNumber);
-        if (teamNumber == 2)
-        {
-            Debug.Log("Alert");
-            transform.eulerAngles = new Vector3(0, 180, 0);
-        }
+        //Debug.Log("team Num: " + teamNumber);
+        //if (teamNumber == 2)
+        //{
+        //    Debug.Log("Alert");
+        //    transform.eulerAngles = new Vector3(0, 180, 0);
+        //}
 
-        Debug.Log("UnParent 2: cameraKeepOnPosition");
-        Debug.Log(transform.GetChild(0).eulerAngles);
+        //Debug.Log("UnParent 2: cameraKeepOnPosition");
+        //Debug.Log(transform.GetChild(0).eulerAngles);
         //camRot.GrabRot();
     }
 
