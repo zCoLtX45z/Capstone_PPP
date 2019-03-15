@@ -129,9 +129,10 @@ public class BallSteal : MonoBehaviour
                 {
                     target = null;
                 }
+               // Debug.Log("TeamNum: " + teamNum);
                 if (bH.ball == null)
                 {
-                    Debug.Log("Can steal");
+                    //Debug.Log("Can steal");
                     if (target != null)
                     {
                         // Debug.Log("Target has been selected");
@@ -146,25 +147,12 @@ public class BallSteal : MonoBehaviour
                             //steal
                             if (Input.GetMouseButtonDown(0))
                             {
-                                Debug.Log("playerHandTransform: " + playerHandTransform);
-                                Debug.Log("playerHandTransform.gameObject: " + playerHandTransform.gameObject);
-                                //Debug.Log("ballTransform: " + ballTransform);
-                                //Debug.Log("target: " + target);
                                 target.GetComponent<BallHandling>().Steal(player.gameObject, ballTransform.gameObject, playerHandTransform.position, target);
                             }
 
 
                         }
-                        //if (distanceToTarget > maxDistance)
-                        //{
-                        //    Debug.Log("out of range");
-                        //}
-                        //if(angle > stealMaxAngle)
-                        //{
-                        //    Debug.Log("out of view");
-                        //}
-
-
+                      
                     }
                 }
                 else
