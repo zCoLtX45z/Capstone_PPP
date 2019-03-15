@@ -169,6 +169,7 @@ public class PlayerColor : MonoBehaviourPun
         UpdateName(gameObject.name);
         PV.RPC("RPC_UpdateCode", RpcTarget.All, Code);
         TeamNum = ParentPlayer.GetTeamNum();
+        transform.GetComponentInChildren<LookAtPostionFollow>().UnParent();
         PV.RPC("RPC_UpdateTeamNum", RpcTarget.All, TeamNum);
         //PV.RPC("RPC_SetUpPlayer", RpcTarget.AllBuffered);
         //SetTeamNum(TeamNum);

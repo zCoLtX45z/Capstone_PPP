@@ -37,15 +37,7 @@ public class LookAtPostionFollow : MonoBehaviour {
 
         transform.parent = null;
         
-        if(playerColour.TeamNum == 2)
-        {
-            Debug.Log("Alert");
-            transform.eulerAngles = new Vector3(0, 180, 0);
-        }
-
-        //transform.eulerAngles = player.eulerAngles;
-        Debug.Log(transform.eulerAngles);
-        ckp.UnParent();
+        ckp.UnParent(playerColour.TeamNum);
     }
 
 	// Update is called once per frame
