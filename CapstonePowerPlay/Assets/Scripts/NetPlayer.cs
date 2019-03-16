@@ -67,6 +67,8 @@ public class NetPlayer : MonoBehaviour {
     [SerializeField]
     private CameraModeMedium cmm;
 
+    private BallSteal BS;
+
     // Use this for initialization
     void Start ()
     {
@@ -268,6 +270,13 @@ public class NetPlayer : MonoBehaviour {
                 {
                     if(!BH.isPaused)
                         BH.isPaused = true;
+
+                }
+                if (BS != null)
+                {
+                    if (!BS.isPaused)
+                        BS.isPaused = true;
+
                 }
 
                 if (Input.GetKeyDown(KeyCode.Escape))
@@ -284,6 +293,12 @@ public class NetPlayer : MonoBehaviour {
                     {
                         if(BH.isPaused)
                             BH.isPaused = false;
+                    }
+
+                    if (BS != null)
+                    {
+                        if (BS.isPaused)
+                            BS.isPaused = false;
                     }
 
                     if (!PC.SetPlayerTag)
@@ -358,6 +373,7 @@ public class NetPlayer : MonoBehaviour {
     private void RPC_GetPlayerComponents()
     {
         BH = ChildPlayer.GetComponent<BallHandling>();
+        BS = ChildPlayer.GetComponent<BallSteal>();
         HBS = ChildPlayer.GetComponent<hoverBoardScript>();
         PC = ChildPlayer.GetComponent<PlayerColor>();
         ChildPlayer.transform.SetParent(this.transform);
@@ -419,6 +435,7 @@ public class NetPlayer : MonoBehaviour {
         PC.SetUpPlayer1(this);
         HBS = spawningObject.GetComponent<hoverBoardScript>();
         BH = spawningObject.GetComponent<BallHandling>();
+        BS = spawningObject.GetComponent<BallSteal>();
         Debug.Log("finished setting up player");
     }
 

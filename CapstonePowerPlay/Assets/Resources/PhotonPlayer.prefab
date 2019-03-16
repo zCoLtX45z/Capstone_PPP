@@ -9702,7 +9702,7 @@ MonoBehaviour:
   - {fileID: 114981085440214258}
   - {fileID: 114359316240184688}
   - {fileID: 114559822743833478}
-  viewIdField: 4
+  viewIdField: 0
   InstantiationId: 4
   isRuntimeInstantiated: 0
 --- !u!114 &114067324652028470
@@ -10543,7 +10543,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8aac720996bf3cb4087db5369f088bad, type: 3}
   - {fileID: 8300000, guid: b8d2b36db4a1e5549b796fe93a96c191, type: 3}
   - {fileID: 8300000, guid: be03d949da4cae54e9175504b36f87e1, type: 3}
-  Ball: {fileID: 8300000, guid: a72d2152ca7afa5469b8180d7ffffccc, type: 3}
+  Ball: {fileID: 0}
   voiceVol: 0
 --- !u!114 &114654241860846234
 MonoBehaviour:
@@ -10797,9 +10797,9 @@ MonoBehaviour:
   - {fileID: 114934221510051980}
   - {fileID: 114422681214462564}
   - {fileID: 81597389121806548}
-  - {fileID: 114422681214462564}
+  - {fileID: 114953290712135024}
   - {fileID: 114986397399440550}
-  - {fileID: 114986397399440550}
+  - {fileID: 114953290712135024}
   - {fileID: 114422681214462564}
   - {fileID: 114719974573292268}
   - {fileID: 114915270498987932}
@@ -10904,6 +10904,7 @@ MonoBehaviour:
   ballScript: {fileID: 0}
   player: {fileID: 0}
   playerHandTransform: {fileID: 4411937708012688}
+  isPaused: 0
 --- !u!114 &114869427704492812
 MonoBehaviour:
   m_ObjectHideFlags: 1
