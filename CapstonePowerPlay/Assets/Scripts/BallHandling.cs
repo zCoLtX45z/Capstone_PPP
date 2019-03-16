@@ -249,8 +249,9 @@ public class BallHandling : MonoBehaviour {
         return Hand;
     }
 
-    private void Pass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    public void Pass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
+        
         PVL.PlayShoot();
         PV.RPC("RPC_PlayPassEffect", RpcTarget.All);
         //RpcPass(Target, ballObject, HandPos, WhoThrew);
@@ -264,6 +265,7 @@ public class BallHandling : MonoBehaviour {
 
         Ball temp = PhotonView.Find(ballObject).gameObject.GetComponent<Ball>();
         temp.SetPass(true, PhotonView.Find(Target).gameObject, PassForce, HandPos, PhotonView.Find(WhoThrew).gameObject);
+       
         //TurnOnFakeBall(false);
     }
 

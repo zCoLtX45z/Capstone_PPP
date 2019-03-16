@@ -24,7 +24,7 @@ public class Ball : MonoBehaviour
 
     [SerializeField]
     private bool isInPassing = false;
-    
+
 
     private GameObject passedTarget;
 
@@ -101,7 +101,7 @@ public class Ball : MonoBehaviour
     private void Update()
     {
         Debug.Log("parent of ball: " + transform.parent);
-      
+
         //if (PhotonNetwork.IsMasterClient)
         //{
         if (timer > 0)
@@ -122,7 +122,7 @@ public class Ball : MonoBehaviour
         if (Thrown)
         {
 
-            
+
 
 
             if (BH != null || Hand != null || Held)
@@ -213,7 +213,7 @@ public class Ball : MonoBehaviour
                 if (!isInPassing)
                 {
                     gameObject.layer = 10;
-                    if(inPlay)
+                    if (inPlay)
                         RB.useGravity = true;
                 }
             }
@@ -224,7 +224,7 @@ public class Ball : MonoBehaviour
             transform.localPosition = Vector3.zero;
             RB.useGravity = false;
 
-            if(RB.mass != maxMass)
+            if (RB.mass != maxMass)
             {
                 RB.mass = maxMass;
             }
@@ -316,7 +316,7 @@ public class Ball : MonoBehaviour
     [PunRPC]
     private void RPC_OnTriggerEnter()
     {
-        if(!inPlay)
+        if (!inPlay)
         {
             inPlay = true;
             animFloat.enabled = false;
@@ -335,7 +335,7 @@ public class Ball : MonoBehaviour
         Debug.Log("PC: " + pc.name);
         BH = pc.GetComponent<BallHandling>();
         //SetBallHandling(BH.gameObject);
-       
+
         //Debug.Log("BH: " + BH);
         if (BH.canHold)
         {
@@ -364,7 +364,7 @@ public class Ball : MonoBehaviour
 
 
     }
-    
+
     /*
     [PunRPC]
     private void RPC_SetHand(bool set = true)
@@ -639,40 +639,6 @@ public class Ball : MonoBehaviour
     }
 
 
-    //public void MakeBallDisapear()
-    //{
-    //    Debug.Log("MakeDisapear");
-    //    //RpcMakeBallDisapear();
-    //    //PV.RPC("RPC_MakeBallDisapear", RpcTarget.All);
-    //}
-
-    //[PunRPC]
-    //public void RPC_MakeBallDisapear()
-    //{
-    //    Debug.Log("RPC_Disapear");
-    //    ChildObject.SetActive(false);
-    //    HardCol.enabled = false;
-    //    SoftCol.enabled = false;
-    //    RB.useGravity = false;
-    //    RB.isKinematic = true;
-    //}
-
-
-    //public void MakeBallReapear()
-    //{
-    //    //RpcMakeBallReapear();
-    //    //PV.RPC("RPC_MakeBallReapear", RpcTarget.All);
-    //}
-
-    //[PunRPC]
-    //public void RPC_MakeBallReapear()
-    //{
-    //    HardCol.enabled = true;
-    //    SoftCol.enabled = true;
-    //    //RB.useGravity = true;
-    //    RB.isKinematic = false;
-    //    ChildObject.SetActive(true);
-    //}
 
 
     private void UpdateHandTransform(GameObject HandParent)
@@ -780,4 +746,31 @@ public class Ball : MonoBehaviour
         Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
         transform.SetParent(null);
     }
+
+    /*
+    public void DropBall()
+    {
+        PV.RPC("RPC_DropBall", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RPC_DropBall()
+    {
+        transform.SetParent(null);
+        CanBeCaughtTimer = 0.15f;
+       
+        RB.useGravity = true;
+        RB.isKinematic = false;
+        RB.detectCollisions = true;
+
+        Held = false;
+        Hand = null;
+        BH = null;
+        HardCol.isTrigger = false;
+        teamTag = "Ball";
+        gameObject.layer = 10;
+
+
+    }
+    */
 }
