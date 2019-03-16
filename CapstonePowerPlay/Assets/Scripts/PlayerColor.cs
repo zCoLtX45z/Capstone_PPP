@@ -53,6 +53,10 @@ public class PlayerColor : MonoBehaviourPun
     public bool SetLocalPlayerCalled = false;
     public GameObject ParentObject;
     public string DisplayName = "";
+
+    // Pick if your team is blue and enemy is red OR is your team color is set with team number
+    [SerializeField]
+    private bool SetColorByTeamNum = true;
     
     private void Start()
     {
@@ -233,20 +237,9 @@ public class PlayerColor : MonoBehaviourPun
         }
         //
 
-        if (LocalPlayer == ParentPlayer)
+        if (SetColorByTeamNum)
         {
-            //print("Set Blue Avatar - Local = Parent");
-            SetBlueActive();
-            //
-            pSLPS.enabled = true;
-            pSLPS.teamTag = pSLPS.player.tag;
-           // Debug.Log("call set changes");
-            pSLPS.SetChanges();
-            //
-        }
-        else
-        {
-            if (LocalPlayer.GetTeamNum() == TeamNum)
+            if (LocalPlayer.GetTeamNum() == 1)
             {
                 //print("Set Blue Avatar - Local != Parent");
                 SetBlueActive();
@@ -257,7 +250,33 @@ public class PlayerColor : MonoBehaviourPun
                 SetRedActive();
             }
         }
-
+        else
+        {
+            if (LocalPlayer == ParentPlayer)
+            {
+                //print("Set Blue Avatar - Local = Parent");
+                SetBlueActive();
+                //
+                pSLPS.enabled = true;
+                pSLPS.teamTag = pSLPS.player.tag;
+                // Debug.Log("call set changes");
+                pSLPS.SetChanges();
+                //
+            }
+            else
+            {
+                if (LocalPlayer.GetTeamNum() == TeamNum)
+                {
+                    //print("Set Blue Avatar - Local != Parent");
+                    SetBlueActive();
+                }
+                else
+                {
+                    //print("Set Red Avatar - Local != Parent");
+                    SetRedActive();
+                }
+            }
+        }
         PV.RPC("RPC_UpdateTag", RpcTarget.All, gameObject.tag);
 
 
