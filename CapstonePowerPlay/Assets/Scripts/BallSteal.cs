@@ -147,7 +147,7 @@ public class BallSteal : MonoBehaviour
                             //steal
                             if (Input.GetMouseButtonDown(0))
                             {
-                                target.GetComponent<BallHandling>().Steal(player.gameObject, ballTransform.gameObject, playerHandTransform.position, target);
+                                target.GetComponent<BallHandling>().Pass(player.gameObject, ballTransform.gameObject, playerHandTransform.position, target);
                             }
 
 

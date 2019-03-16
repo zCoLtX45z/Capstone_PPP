@@ -249,7 +249,7 @@ public class BallHandling : MonoBehaviour {
         return Hand;
     }
 
-    private void Pass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
+    public void Pass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
         PV.RPC("RPC_PlayPassEffect", RpcTarget.All);
         //RpcPass(Target, ballObject, HandPos, WhoThrew);
