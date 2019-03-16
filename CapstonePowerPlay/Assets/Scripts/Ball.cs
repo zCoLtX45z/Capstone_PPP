@@ -63,7 +63,7 @@ public class Ball : MonoBehaviour
     //PHOTON VARIABLES
     private PhotonView PV;
 
-
+    
     // Net Spawner Script
     private netSpawner nSpawner;
 
