@@ -182,6 +182,11 @@ public class RoundManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
+        if(!PVL)
+        {
+            PVL = FindObjectOfType<PlayerVoiceLine>();
+        }
+
         if(scoring == null)
         {
             scoring = FindObjectOfType<Scoring>();
@@ -395,13 +400,21 @@ public class RoundManager : MonoBehaviour {
         else if (localPlayer.GetComponent<PlayerColor>().TeamNum == teamNum)
         {
             // win
-            PVL.PlayWin();
+            if(PVL)
+            {
+                PVL.PlayWin();
+            }
+            
             winGameText.SetActive(true);
         }
         else
         {
             // lose
-            PVL.PlaydietyLoose();
+            if(PVL)
+            {
+                PVL.PlaydietyLoose();
+            }
+           
             loseGameText.SetActive(true);
         }
 

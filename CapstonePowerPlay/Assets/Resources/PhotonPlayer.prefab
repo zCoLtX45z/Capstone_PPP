@@ -9607,7 +9607,7 @@ MonoBehaviour:
   - {fileID: 114359316240184688}
   - {fileID: 114559822743833478}
   viewIdField: 0
-  InstantiationId: 6
+  InstantiationId: 4
   isRuntimeInstantiated: 0
 --- !u!114 &114067324652028470
 MonoBehaviour:
@@ -10432,14 +10432,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballPickup:
+  - {fileID: 8300000, guid: 1b259d78e8659c84889cc1e9d3102724, type: 3}
+  - {fileID: 8300000, guid: 9ad6c52377b37834ab4483fdf5baf717, type: 3}
+  ability:
   - {fileID: 8300000, guid: 586a3d14c11115444bdcac97db765420, type: 3}
   - {fileID: 8300000, guid: 80d5de58dfb598949a6ecfd424f67e7d, type: 3}
   - {fileID: 8300000, guid: de2656e482bcb54418db781f6295e3fb, type: 3}
-  ability:
+  win:
   - {fileID: 8300000, guid: 98b76ab70d509d448bcef022443ab95d, type: 3}
   - {fileID: 8300000, guid: 58a6b38b9df3d8e408f76d7652cc733a, type: 3}
   - {fileID: 8300000, guid: 1e4e034373805164bb9601e77ff0261a, type: 3}
-  win:
   - {fileID: 8300000, guid: 074e9515917309b4eb01998bb936357e, type: 3}
   dietyloose:
   - {fileID: 8300000, guid: 8aac720996bf3cb4087db5369f088bad, type: 3}
@@ -10632,7 +10634,6 @@ MonoBehaviour:
   HasControl: 1
   PassEffectBlue: {fileID: 198494404321400284}
   PassEffectRed: {fileID: 198001374028282512}
-  isPaused: 0
 --- !u!114 &114772980712441944
 MonoBehaviour:
   m_ObjectHideFlags: 1

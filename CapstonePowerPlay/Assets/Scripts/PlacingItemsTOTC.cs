@@ -22,6 +22,7 @@ public class PlacingItemsTOTC : MonoBehaviour
     private RunePickups RP;
     [SerializeField]
     private PlayerColor PC;
+    private PlayerVoiceLine PVL;
 
     // Item Slots
     [SerializeField]
@@ -42,6 +43,7 @@ public class PlacingItemsTOTC : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        PVL = FindObjectOfType<PlayerVoiceLine>();
         PV = GetComponent<PhotonView>();
         MaxSlots = ItemSlots.Length;
         foreach (ItemSlot IS in ItemSlots)
@@ -181,6 +183,7 @@ public class PlacingItemsTOTC : MonoBehaviour
                 bool canPlace = PlacingScript.UpdatePlacement(ActiveItem, ActiveItem.transform.localScale.x);
                 if (canPlace)
                 {
+                    PVL.PlayAbility();
                     PlacingItems = false;
                     PlacingScript.PlaceItem();
                     //ActiveItem.transform.parent = null;
