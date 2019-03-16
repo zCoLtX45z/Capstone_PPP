@@ -100,6 +100,8 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log("parent of ball: " + transform.parent);
+      
         //if (PhotonNetwork.IsMasterClient)
         //{
         if (timer > 0)
@@ -320,50 +322,50 @@ public class Ball : MonoBehaviour
             animFloat.enabled = false;
             transform.GetChild(0).transform.localPosition = Vector3.zero;
         }
-        //Debug.Log("PLAYER HAS ENTERED THE AREA!!!");
         gameObject.layer = 2;
         HardCol.isTrigger = true;
         Held = true;
     }
 
     [PunRPC]
-    private void RPC_SetPlayerBH(string Code)
+    private void RPC_SetPlayerBH(int Code)
     {
         //Debug.Log("RPC_SetPlayer Called");
-        PlayerColor[] Players = FindObjectsOfType<PlayerColor>();
-        foreach (PlayerColor pc in Players)
+        GameObject pc = PhotonView.Find(Code).gameObject;
+        Debug.Log("PC: " + pc.name);
+        BH = pc.GetComponent<BallHandling>();
+        //SetBallHandling(BH.gameObject);
+       
+        //Debug.Log("BH: " + BH);
+        if (BH.canHold)
         {
-            if (pc.GetCode() == Code)
-            {
-                BH = pc.GetComponent<BallHandling>();
-                //SetBallHandling(BH.gameObject);
-                BH.ball = this;
-                //Debug.Log("BH: " + BH);
-                if (BH.canHold)
-                {
-                    //Debug.Log("BH Can Hold");
-                    Hand = BH.ReturnHand();
-                    transform.SetParent(Hand);
-                    //Debug.Log("the parent is: " + transform.parent);
-                    transform.localPosition = Vector3.zero;
-                    BH.canHold = false;
-                    Held = true;
-                    RB.useGravity = false;
-                    RB.isKinematic = true;
-                    RB.detectCollisions = false;
-                    HardCol.isTrigger = true;
-                }
-                else
-                {
-                    //Hand = null;
-                    //Held = false;
-                    //BH = null;
-                    //Debug.Log("BH Can't Hold");
-                }
-                break;
-            }
+            BH.ball = this;
+            //Debug.Log("BH Can Hold");
+            Hand = BH.ReturnHand();
+            transform.SetParent(Hand);
+            Debug.Log("the parent is: " + transform.parent);
+            transform.localPosition = Vector3.zero;
+            BH.canHold = false;
+            BH.canHoldTimer = 1;
+            Held = true;
+            RB.useGravity = false;
+            RB.isKinematic = true;
+            RB.detectCollisions = false;
+            HardCol.isTrigger = true;
         }
+        else
+        {
+            Debug.Log("Cannot hold");
+            //Hand = null;
+            //Held = false;
+            //BH = null;
+            //Debug.Log("BH Can't Hold");
+        }
+
+
     }
+    
+    /*
     [PunRPC]
     private void RPC_SetHand(bool set = true)
     {
@@ -376,22 +378,23 @@ public class Ball : MonoBehaviour
                 RB.detectCollisions = false;
                 //Debug.Log("Hand Set");
                 transform.SetParent(BH.ReturnHand());
-                //Debug.Log("the parent is: " + transform.parent);
+                Debug.Log("the parent is: " + transform.parent);
                 BH.SetBall(this.gameObject);
             }
             else
             {
-                //Debug.Log("Hand UnSet");
+                Debug.Log("Hand UnSet");
                 transform.SetParent(null);
                 BH.SetBall(null);
             }
         }
         else
         {
+            Debug.Log("no BH");
             transform.SetParent(null);
         }
     }
-
+    */
     public void PickUp(GameObject c)
     {
         if (!hasBeenPickedUpBefore)
@@ -405,8 +408,8 @@ public class Ball : MonoBehaviour
         // Set who has the the ball
         PlayerColor pc = c.GetComponent<PlayerColor>();
         // Every persons code has to be shared
-        string PlayerCode = pc.GetCode();
-        PV.RPC("RPC_SetPlayerBH", RpcTarget.AllViaServer, PlayerCode);
+        //string PlayerCode = pc.GetCode();
+        PV.RPC("RPC_SetPlayerBH", RpcTarget.AllViaServer, c.GetPhotonView().ViewID);
     }
     //private void OnTriggerEnter(Collider c)
     //{
@@ -774,7 +777,7 @@ public class Ball : MonoBehaviour
         BH = null;
         Hand = null;
         transform.parent = null;
-        //Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
+        Debug.Log("unParetning Ball shoot. old parent: " + transform.parent);
         transform.SetParent(null);
     }
 }

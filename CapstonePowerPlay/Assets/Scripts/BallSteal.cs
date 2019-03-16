@@ -115,7 +115,7 @@ public class BallSteal : MonoBehaviour
                             // Debug.Log("BH.gameObject");
                             if (ballScript.BH.gameObject.GetComponent<PlayerColor>() != null)
                             {
-                                //  Debug.Log("BH.gameObject.GET<PlayerColor>");
+                                // Debug.Log("BH.gameObject.GET<PlayerColor>");
                                 if (ballScript.BH.gameObject.GetComponent<PlayerColor>().TeamNum != teamNum)
                                 {
                                     // Debug.Log("BH.gameObject.GET<PlayerColor>(). teamNum");
@@ -157,7 +157,7 @@ public class BallSteal : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Cannot Steal");
+                    //Debug.Log("Cannot Steal");
                 }
                 //Debug.Log("target: " + target);
 
