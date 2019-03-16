@@ -70,7 +70,7 @@ public class Scoring : MonoBehaviour
     
     public void Team1Score()
     {
-        Debug.Log("scored 1");
+        //Debug.Log("scored 1");
         team1Score++;
         HandleScoreCanvas();
     }
@@ -84,7 +84,7 @@ public class Scoring : MonoBehaviour
     [PunRPC]
     public void RPC_Team2Score()
     {
-        Debug.Log("scored 2");
+       // Debug.Log("scored 2");
         PlayGoaleffect();
         Team2Score();
     }
@@ -142,7 +142,7 @@ public class Scoring : MonoBehaviour
                 
                 if (player.GetComponent<PlayerColor>().TeamNum == 2)
                 {
-                    Debug.Log("TeamNum = 2");
+                    //Debug.Log("TeamNum = 2");
                     for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
                     {
                         sTracker.t1Scoring[i].color = Color.red;
@@ -157,7 +157,7 @@ public class Scoring : MonoBehaviour
                     }
                     for (int i = 0; i < sTracker.t1Logo.Count; i++)
                     {
-                        Debug.Log("stracker check n." + i);
+                       // Debug.Log("stracker check n." + i);
                         float tempX = sTracker.t1Logo[i].position.x;
                         sTracker.t1Logo[i].position = sTracker.t2Logo[i].position;
                         sTracker.t2Logo[i].position = new Vector3(tempX, sTracker.t2Logo[i].position.y, sTracker.t2Logo[i].position.z);

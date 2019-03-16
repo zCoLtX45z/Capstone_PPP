@@ -264,6 +264,12 @@ public class NetPlayer : MonoBehaviour {
                 else
                     PV.RPC("RPC_GetPlayerComponents", RpcTarget.AllBuffered);
 
+                if(BH != null)
+                {
+                    if(!BH.isPaused)
+                        BH.isPaused = true;
+                }
+
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     ArenaMenu.gameObject.SetActive(false);
@@ -273,6 +279,13 @@ public class NetPlayer : MonoBehaviour {
             {
                 if (PV.IsMine)
                 {
+
+                    if (BH != null)
+                    {
+                        if(BH.isPaused)
+                            BH.isPaused = false;
+                    }
+
                     if (!PC.SetPlayerTag)
                     {
                         PC.ResetPNT();

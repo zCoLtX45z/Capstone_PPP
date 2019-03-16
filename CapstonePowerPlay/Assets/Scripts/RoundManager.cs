@@ -221,25 +221,7 @@ public class RoundManager : MonoBehaviour {
             }
         }
 
-        //if (HBS == null)
-        //{
-        //    Debug.Log("HBS = null");
-        //    hoverBoardScript[] hbsArray = FindObjectsOfType(typeof(hoverBoardScript)) as hoverBoardScript[];
-        //    for (int i = 0; i < hbsArray.Length; i++)   
-        //    {
-        //        if (hbsArray[i].enabled)
-        //        {
-        //            Debug.Log("found one hbs");
-        //            HBS = hbsArray[i];
-
-        //            if (HBS != null)
-        //            {
-        //                Debug.Log("hbs has con is false");
-        //                HBS.roundStarted = false;
-        //            }
-        //        }
-        //    }
-        //}        
+       
     }
 
 
@@ -266,7 +248,7 @@ public class RoundManager : MonoBehaviour {
         {
             if (HBS == null)
             {
-                Debug.Log("HBS = null");
+                //Debug.Log("HBS = null");
                 hoverBoardScript[] hbsArray = FindObjectsOfType(typeof(hoverBoardScript)) as hoverBoardScript[];
                 for (int i = 0; i < hbsArray.Length; i++)
                 {
@@ -529,18 +511,18 @@ public class RoundManager : MonoBehaviour {
         // free players
         if (HBS == null)
         {
-            Debug.Log("HBS = null");
+          //  Debug.Log("HBS = null");
             hoverBoardScript[] hbsArray = FindObjectsOfType(typeof(hoverBoardScript)) as hoverBoardScript[];
             for (int i = 0; i < hbsArray.Length; i++)
             {
                 if (hbsArray[i].enabled)
                 {
-                    Debug.Log("found one hbs");
+                   // Debug.Log("found one hbs");
                     HBS = hbsArray[i];
 
                     if (HBS != null)
                     {
-                        Debug.Log("hbs has con is true");
+                       //Debug.Log("hbs has con is true");
                         HBS.roundStarted = true;
                     }
                 }
@@ -550,7 +532,7 @@ public class RoundManager : MonoBehaviour {
         else
         {
             // hbs enable ability to move
-            Debug.Log("allow board move");
+            //Debug.Log("allow board move");
             HBS.roundStarted = true;
         }
 
