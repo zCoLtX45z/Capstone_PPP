@@ -10,6 +10,7 @@ public class PlayerVoiceLine : MonoBehaviour {
     public AudioClip[] ability;
     public AudioClip[] win;
     public AudioClip[] dietyloose;
+    public AudioClip Ball;
     public float voiceVol;
 
 	// Use this for initialization
@@ -46,6 +47,12 @@ public class PlayerVoiceLine : MonoBehaviour {
     public void PlayWin()
     {
         Src.clip = win[Random.Range(0, win.Length)];
+        Src.Play();
+    }
+
+    public void PlayShoot()
+    {
+        Src.clip = Ball;
         Src.Play();
     }
 }

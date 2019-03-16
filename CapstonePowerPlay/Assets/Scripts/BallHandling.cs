@@ -251,6 +251,7 @@ public class BallHandling : MonoBehaviour {
 
     private void Pass(GameObject Target, GameObject ballObject, Vector3 HandPos, GameObject WhoThrew)
     {
+        PVL.PlayShoot();
         PV.RPC("RPC_PlayPassEffect", RpcTarget.All);
         //RpcPass(Target, ballObject, HandPos, WhoThrew);
         RPC_Pass(Target.GetPhotonView().ViewID, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
@@ -269,6 +270,7 @@ public class BallHandling : MonoBehaviour {
     
     private void Shoot(GameObject ballObject, Vector3 HandPos, Vector3 Direction, GameObject WhoThrew)
     {
+        PVL.PlayShoot();
         //TurnOnFakeBall(false);
         //PV.RPC("RPC_PlayPassEffect", RpcTarget.All);
         RPC_Shoot(Direction, ballObject.GetPhotonView().ViewID, HandPos, WhoThrew.GetPhotonView().ViewID);
