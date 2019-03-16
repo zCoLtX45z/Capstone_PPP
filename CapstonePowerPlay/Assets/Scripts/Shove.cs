@@ -109,7 +109,7 @@ public class Shove : MonoBehaviour {
 
     public void ShovePlayer(Shove OtherPlayer, Vector3 Direction)
     {
-        Debug.Log("Shove with player");
+        //Debug.Log("Shove with player");
         if (PC.LocalPlayer == PC.ParentPlayer)
         {
             Debug.Log("PC.LocalPlayer == PC.ParentPlayer = " + (PC.LocalPlayer == PC.ParentPlayer));
@@ -148,7 +148,7 @@ public class Shove : MonoBehaviour {
     
     private void ShovePlayer(GameObject player, Vector3 Direction)
     {
-        Debug.Log("CmdShovePlayer Called");
+        //Debug.Log("CmdShovePlayer Called");
         //RpcShovePlayer(player, Direction);
         if (PhotonNetwork.InRoom)
             PV.RPC("RPC_ShovePlayer", RpcTarget.All, player.GetPhotonView().ViewID, Direction);
@@ -157,7 +157,7 @@ public class Shove : MonoBehaviour {
     [PunRPC]
     private void RPC_ShovePlayer(int player, Vector3 Direction)
     {
-        Debug.Log("RpcShovePlayer Called");
+       // Debug.Log("RpcShovePlayer Called");
         Shove shove = PhotonView.Find(player).GetComponent<Shove>();
         
         shove.LaunchPlayer(MaxShoveForce, Direction);
@@ -168,7 +168,7 @@ public class Shove : MonoBehaviour {
 
     public void LaunchPlayer(float Force, Vector3 Direction)
     {
-        Debug.Log("Launch Player called");
+       // Debug.Log("Launch Player called");
         PlayerRigidBody.AddForce(Force * Direction, ForceMode.Impulse);
     }
 }

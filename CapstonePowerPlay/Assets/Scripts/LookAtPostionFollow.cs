@@ -30,7 +30,7 @@ public class LookAtPostionFollow : MonoBehaviour {
 	
     public void UnParent()
     {
-        Debug.Log("Unparent 1: LookAtPositionFollow");
+       // Debug.Log("Unparent 1: LookAtPositionFollow");
 
 
         playerColour = gameObject.GetComponentInParent<PlayerColor>();

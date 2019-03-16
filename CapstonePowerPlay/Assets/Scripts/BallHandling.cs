@@ -70,6 +70,10 @@ public class BallHandling : MonoBehaviour {
 
     //photon variables
     private PhotonView PV;
+
+    public bool isPaused;
+
+
     // Use this for initialization
     void Start() {
         canHold = true;
@@ -78,9 +82,12 @@ public class BallHandling : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
+
         if (PC.LocalPlayer == PC.ParentPlayer && HasControl)
         {
+
             //if (ball != null)
             //{
             //    if (ball.BH != this)
@@ -108,48 +115,51 @@ public class BallHandling : MonoBehaviour {
             //Debug.Log("ball = " + ball);
             if (ball != null)
             {
-                if (!ball.GetThrown())
+                if (!isPaused)
                 {
-                    if (PassShootAxis < -0.1)
+                    if (!ball.GetThrown())
                     {
-                        // PASS
-                        // Get Target from Targeting Script
-                        if (softLockScript.target != null)
-                            Target = softLockScript.target.gameObject;
-                        //Debug.Log("target: " + Target);
-                        //TargetPosition = softLockScript.targetPosition;
-                        if (Target != null)
+                        if (PassShootAxis < -0.1)
                         {
-                            //Debug.Log("jadaadadadadadad");
-                            //Debug.Log(gameObject.name + " Passes");
-                            //  Debug.Log("target: " + Target.name);
-                            Pass(Target, ball.gameObject, Hand.position, this.gameObject);
+                            // PASS
+                            // Get Target from Targeting Script
+                            if (softLockScript.target != null)
+                                Target = softLockScript.target.gameObject;
+                            //Debug.Log("target: " + Target);
+                            //TargetPosition = softLockScript.targetPosition;
+                            if (Target != null)
+                            {
+                                //Debug.Log("jadaadadadadadad");
+                                //Debug.Log(gameObject.name + " Passes");
+                                //  Debug.Log("target: " + Target.name);
+                                Pass(Target, ball.gameObject, Hand.position, this.gameObject);
+                                AnimationControl.PassAnimation();
+                                ball = null;
+                            }
+                        }
+                        else if (PassShootAxis > 0.1)
+                        {
+                            // SHOOT
+                            //Debug.Log(gameObject.name + " Shoots");
+                            //RaycastHit RH;
+                            Vector3 direction = Cam.transform.position + Cam.transform.forward * 100 - Hand.position;
+                            //if(Physics.Raycast(Cam.transform.position, Cam.transform.forward, out RH, 100, HitLayer))
+                            //{
+                            //    direction = RH.collider.
+                            //}
+                            //else
+                            //{
+
+                            //}
+                            //Debug.DrawLine(Cam.transform.position + Cam.transform.forward * 100, Hand.position, Color.blue, 6f);
+                            //Debug.DrawRay(Hand.position, Cam.transform.position + Cam.transform.forward * 100 - Hand.position, Color.red, 3.75f);
+                            Shoot(ball.gameObject, Hand.position, direction.normalized * ShootForce, this.gameObject);
                             AnimationControl.PassAnimation();
                             ball = null;
                         }
+
+
                     }
-                    else if (PassShootAxis > 0.1)
-                    {
-                        // SHOOT
-                        //Debug.Log(gameObject.name + " Shoots");
-                        //RaycastHit RH;
-                        Vector3 direction = Cam.transform.position + Cam.transform.forward * 100 - Hand.position;
-                        //if(Physics.Raycast(Cam.transform.position, Cam.transform.forward, out RH, 100, HitLayer))
-                        //{
-                        //    direction = RH.collider.
-                        //}
-                        //else
-                        //{
-
-                        //}
-                        //Debug.DrawLine(Cam.transform.position + Cam.transform.forward * 100, Hand.position, Color.blue, 6f);
-                        //Debug.DrawRay(Hand.position, Cam.transform.position + Cam.transform.forward * 100 - Hand.position, Color.red, 3.75f);
-                        Shoot(ball.gameObject, Hand.position, direction.normalized * ShootForce, this.gameObject);
-                        AnimationControl.PassAnimation();
-                        ball = null;
-                    }
-
-
                 }
             }
 
@@ -185,6 +195,18 @@ public class BallHandling : MonoBehaviour {
         }
         else if (PC.LocalPlayer != PC.ParentPlayer)
         {
+            if (!canHold)
+            {
+                if (canHoldTimer > 0)
+                    canHoldTimer -= Time.deltaTime;
+                else if (canHoldTimer <= 0)
+                {
+                    canHoldTimer = 1;
+                    canHold = true;
+                }
+            }
+
+
             if (FindBall == null)
             {
                 FindBall = FindObjectOfType<Ball>();
@@ -205,6 +227,13 @@ public class BallHandling : MonoBehaviour {
             }
         }
     }
+    
+    //[PunRPC]
+    //public void RPC_ResetTime(int id)
+    //{
+    //    canHoldTimer
+    //}
+
 
     public void SetHand(Transform T)
     {
