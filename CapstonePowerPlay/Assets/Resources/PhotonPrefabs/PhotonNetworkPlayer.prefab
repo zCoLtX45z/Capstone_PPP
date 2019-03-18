@@ -1463,7 +1463,7 @@ GameObject:
   - component: {fileID: 222740460955754158}
   - component: {fileID: 114164894286473144}
   m_Layer: 5
-  m_Name: RawImage
+  m_Name: Header
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2217,7 +2217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224439287577414114}
   - component: {fileID: 222296403133014562}
-  - component: {fileID: 114589158142466560}
+  - component: {fileID: 114026363932377532}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -2669,6 +2669,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pname: player
   playerColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &114026363932377532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1985966488865982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 2800000, guid: 45b957d8f47ce7b499a1c3b9fc012369, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!114 &114034689273224014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4299,7 +4325,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   viewIdField: 0
-  InstantiationId: 5
+  InstantiationId: 4
   isRuntimeInstantiated: 0
 --- !u!114 &114369447228376398
 MonoBehaviour:
@@ -5513,39 +5539,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Scrollbar+ScrollEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114589158142466560
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1985966488865982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.8962264, g: 0.8962264, b: 0.8962264, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: b195f7ca1b4b6d4418cdabc077328ec7, type: 3}
-    m_FontSize: 165
-    m_FontStyle: 1
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 165
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: Loading...
 --- !u!114 &114597639834463448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8147,14 +8140,14 @@ RectTransform:
   m_GameObject: {fileID: 1683570939679604}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.0998197, y: 0.9428006, z: 0.5141902}
+  m_LocalScale: {x: 4.344199, y: 0.9989983, z: 0.5448396}
   m_Children: []
   m_Father: {fileID: 224777317495812628}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6120598, y: 17.400017}
+  m_AnchoredPosition: {x: -2.7677, y: 17.543}
   m_SizeDelta: {x: 100, y: 88.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224057561744950372
@@ -9073,7 +9066,7 @@ RectTransform:
   m_GameObject: {fileID: 1985966488865982}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.27, y: 1, z: 1}
+  m_LocalScale: {x: 0.5780349, y: 0.4551456, z: 0.4551456}
   m_Children: []
   m_Father: {fileID: 224830024963233846}
   m_RootOrder: 0
@@ -9978,7 +9971,7 @@ RectTransform:
   m_GameObject: {fileID: 1994580334017388}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4812296, y: 0.4812296, z: 0.4812296}
+  m_LocalScale: {x: 0.50991446, y: 0.50991434, z: 0.50991434}
   m_Children:
   - {fileID: 224439287577414114}
   m_Father: {fileID: 224777317495812628}
