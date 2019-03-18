@@ -15,6 +15,7 @@ public class PlayerVoiceLine : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        //Src = GetComponents<AudioSource>();
         Src = GetComponent<AudioSource>();
         PS = FindObjectOfType<PlayerSoundSettings>();
 
@@ -26,11 +27,16 @@ public class PlayerVoiceLine : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //foreach(AudioSource src in Src)
+        //{
+        //    src.volume = voiceVol;
+        //}
         Src.volume = voiceVol;
 	}
 
     public void PlaydietyLoose()
     {
+        
         Src.clip = dietyloose[Random.Range(0, dietyloose.Length)];
         Src.Play();
     }
