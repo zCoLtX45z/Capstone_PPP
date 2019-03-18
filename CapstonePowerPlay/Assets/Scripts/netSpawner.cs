@@ -65,20 +65,23 @@ public class netSpawner : MonoBehaviour
     }
     private void Update()
     {
-        if (moveNetUp)
+        if (net != null)
         {
-            if (releaseNetTime <= 0)
+            if (moveNetUp)
             {
-                net.transform.position += new Vector3(0, (netHeight - net.transform.position.y) / acceleration, 0);
-
-                if (net.transform.position.y >= 67)
+                if (releaseNetTime <= 0)
                 {
-                    moveNetUp = false;
+                    net.transform.position += new Vector3(0, (netHeight - net.transform.position.y) / acceleration, 0);
+
+                    if (net.transform.position.y >= 67)
+                    {
+                        moveNetUp = false;
+                    }
                 }
-            }
-            else
-            {
-                releaseNetTime -= Time.deltaTime;
+                else
+                {
+                    releaseNetTime -= Time.deltaTime;
+                }
             }
         }
 
