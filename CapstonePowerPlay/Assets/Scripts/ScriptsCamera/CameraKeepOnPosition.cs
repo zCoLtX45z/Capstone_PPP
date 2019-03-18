@@ -10,6 +10,8 @@ public class CameraKeepOnPosition : MonoBehaviour {
     [SerializeField]
     private float maxRotSpeed = 1;
 
+    [SerializeField]
+    private Transform player;
 
     private float currentRotSpeed;
 
@@ -20,26 +22,14 @@ public class CameraKeepOnPosition : MonoBehaviour {
 
     [SerializeField]
     private CameraRotation camRot;
-
-	//// Use this for initialization
-	//void Start () {
-       
- //   }
 	
     public void UnParent()
     {
-        //cameraLookAtPosition = transform.parent;
         transform.parent = null;
-        //Debug.Log("team Num: " + teamNumber);
-        //if (teamNumber == 2)
-        //{
-        //    Debug.Log("Alert");
-        //    transform.eulerAngles = new Vector3(0, 180, 0);
-        //}
-
-        //Debug.Log("UnParent 2: cameraKeepOnPosition");
-        //Debug.Log(transform.GetChild(0).eulerAngles);
-        //camRot.GrabRot();
+        if (player.GetComponent<PlayerColor>().TeamNum == 2)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
     }
 
 
