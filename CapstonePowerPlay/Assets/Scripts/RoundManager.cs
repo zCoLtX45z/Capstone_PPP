@@ -163,7 +163,7 @@ public class RoundManager : MonoBehaviour {
         ResetIntroTimer();
         ResetTime();
         allowCountDown = true;
-        DS.PlayDietyNetSpawn();
+        //DS.PlayDietyNetSpawn();
     }
 
     private void BeginMatch()
@@ -215,6 +215,7 @@ public class RoundManager : MonoBehaviour {
 
             if(introTimer <= 0)
             {
+                DS.PlayDietyNetSpawn();
                 allowCountDown = false;
                 BeginMatch();
                 textCountDown.text = "";
