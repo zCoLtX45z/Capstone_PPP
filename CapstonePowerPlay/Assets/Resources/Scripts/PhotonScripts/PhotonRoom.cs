@@ -61,6 +61,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
     // Photon
     [SerializeField]
     private PhotonView PV;
+    [SerializeField]
+    private MenuSoundFXs MSF;
 
     [SerializeField]
     private GameObject loadingImage;
@@ -251,9 +253,16 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
 
+    [PunRPC]
+    private void RPC_PlayStartSound()
+    {
+        MSF.PlayStart();
+    }
+
     public void ToggleStartGame()
     {
         StartGame = !StartGame;
+        PV.RPC("RPC_PlayStartSound", RpcTarget.All);
     }
 
     private bool CheckIfReady()
