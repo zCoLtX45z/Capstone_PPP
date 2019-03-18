@@ -27,6 +27,19 @@ public class Item : MonoBehaviour {
     [SerializeField]
     private string ItemID;
 
+    public int ItemType = -1;
+
+    public bool isPlacing = true;
+
+    private void Update()
+    {
+        if (!isPlacing)
+        {
+            FindObjectOfType<ItemManager>().AddItemToList(ItemType);
+            isPlacing = true;
+        }
+    }
+
     public string GetITemID()
     {
         return ItemID;

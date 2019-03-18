@@ -40,6 +40,8 @@ public class PlacingItemsTOTC : MonoBehaviour
     //photon variables
     private PhotonView PV;
 
+    private ItemManager IM;
+
     // Use this for initialization
     void Start ()
     {
@@ -50,6 +52,7 @@ public class PlacingItemsTOTC : MonoBehaviour
         {
             IS.SetImage();
         }
+        IM = FindObjectOfType<ItemManager>();
     }
 	
 	// Update is called once per frame
@@ -221,8 +224,11 @@ public class PlacingItemsTOTC : MonoBehaviour
         //temp.transform.rotation = Rotation;
 
         //if (temp != null)
-            //NetworkServer.Spawn(item);
-            PhotonNetwork.Instantiate(itemID, Pos, Rotation, 0, null);
+        //NetworkServer.Spawn(item);
+        GameObject temp = (PhotonNetwork.Instantiate(itemID, Pos, Rotation, 0, null));
+
+        temp.GetComponent<Item>().isPlacing = false;
+        //IM.AddItemToList(.GetComponent<Item>().ItemType);
     }
 
     private void OnTriggerEnter(Collider other)

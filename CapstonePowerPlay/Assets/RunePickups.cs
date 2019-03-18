@@ -26,27 +26,27 @@ public class RunePickups : MonoBehaviour {
         Door = FindObjectOfType<DoorScript>();
 	}
 
-    // Update is called once per frame
-    void Update() {
+ //   // Update is called once per frame
+ //   void Update() {
 
-        pickupTimer -= Time.deltaTime;
+ //       pickupTimer -= Time.deltaTime;
 
-        if (red >= 3 || blue >= 3 ||green >= 3)
-        {
-            if(gameObject.tag == "Team 1")
-            {
-                Debug.Log("team1door");
-                Opendoor = true;
-                Door.CmdOpenDoor();
-            }
-            if(gameObject.tag == "Team 2")
-            {
-                Debug.Log("team2door");
-                Opendoor = true;
-                Door.CmdOpenDoor();
-            }
-        }
-	}
+ //       if (red >= 3 || blue >= 3 ||green >= 3)
+ //       {
+ //           if(gameObject.tag == "Team 1")
+ //           {
+ //               Debug.Log("team1door");
+ //               Opendoor = true;
+ //               Door.CmdOpenDoor();
+ //           }
+ //           if(gameObject.tag == "Team 2")
+ //           {
+ //               Debug.Log("team2door");
+ //               Opendoor = true;
+ //               Door.CmdOpenDoor();
+ //           }
+ //       }
+	//}
 
     private void OnTriggerEnter(Collider r)
     {

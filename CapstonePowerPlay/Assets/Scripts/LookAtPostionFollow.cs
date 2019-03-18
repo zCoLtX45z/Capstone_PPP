@@ -42,7 +42,7 @@ public class LookAtPostionFollow : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (transform.parent == null)
+        if (transform.parent == null && lookatPoint != null)
         {
             if (transform.childCount == 0)
             {
