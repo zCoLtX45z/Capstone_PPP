@@ -180,7 +180,7 @@ public class PlacingItemsTOTC : MonoBehaviour
                     PlacingTransform.localScale = ActiveItem.transform.localScale;
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.Q))
+            else if (Input.GetKeyDown(KeyCode.Z))
             {
                 // place item
                 bool canPlace = PlacingScript.UpdatePlacement(ActiveItem, ActiveItem.transform.localScale.x);

@@ -62,6 +62,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
     [SerializeField]
     private PhotonView PV;
 
+    [SerializeField]
+    private GameObject loadingImage;
+
     private void Awake()
     {
         if (PhotonNetwork.InRoom)
@@ -185,7 +188,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                             PhotonNetwork.CurrentRoom.IsVisible = false;
                             StartedGame = true;
                             // Start The Game
-                            PV.RPC("RPC_UpdateStartGameTimer", RpcTarget.All, "Loading");
+                            PV.RPC("RPC_UpdateStartGameTimer", RpcTarget.All, "");
+
+                            PV.RPC("RPC_ActivateLoading", RpcTarget.All);
 
                             // Update Room Started Bool
                             PV.RPC("RPC_SetRoomProperty", RpcTarget.All, "StartedGame", true);
@@ -218,6 +223,12 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IPunObservable {
                 }
             }
         }
+    }
+
+    [PunRPC]
+    private void RPC_ActivateLoading()
+    {
+        loadingImage.SetActive(true);
     }
 
     [PunRPC]
