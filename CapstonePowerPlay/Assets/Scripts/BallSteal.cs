@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,9 +53,17 @@ public class BallSteal : MonoBehaviour
 
     private BallHandling bH;
 
+    private PhotonView PV;
+
+    private PlayerColor PC;
+
+    public bool isPaused;
+
     // Use this for initialization
     void Start()
     {
+        PC = GetComponent<PlayerColor>();
+        PV = GetComponent<PhotonView>();
 
         player = gameObject;
 
@@ -100,68 +109,97 @@ public class BallSteal : MonoBehaviour
                     ballTransform = GameObject.FindGameObjectWithTag("Ball").transform;
                 if (ballTransform != null)
                 {
-                    ballScript = ballTransform.GetComponent<Ball>();
+                    if (ballScript == null)
+                    {
+                        ballScript = ballTransform.GetComponent<Ball>();
+                    }
                 }
             }
-            if (ballTransform != null)
+
+            if (ballScript == null)
             {
-                if (ballScript.Hand && target == null)
+                if (FindObjectOfType<Ball>())
+                    ballScript = FindObjectOfType<Ball>();
+                if (ballScript != null)
                 {
-                    if (ballScript.BH != null)
+                    if (ballTransform == null)
                     {
-                        //Debug.Log("BH");
-                        if (ballScript.BH.gameObject != null)
+                        ballTransform = ballScript.transform;
+                    }
+                }
+            }
+            if (PC.LocalPlayer == PC.ParentPlayer)
+            {
+                if (ballTransform != null)
+                {
+                    if (ballScript.Hand && target == null)
+                    {
+                        if (ballScript.BH != null)
                         {
-                            // Debug.Log("BH.gameObject");
-                            if (ballScript.BH.gameObject.GetComponent<PlayerColor>() != null)
+                            //Debug.Log("BH");
+                            if (ballScript.BH.gameObject != null)
                             {
-                                // Debug.Log("BH.gameObject.GET<PlayerColor>");
-                                if (ballScript.BH.gameObject.GetComponent<PlayerColor>().TeamNum != teamNum)
+                                // Debug.Log("BH.gameObject");
+                                if (ballScript.BH.gameObject.GetComponent<PlayerColor>() != null)
                                 {
-                                    // Debug.Log("BH.gameObject.GET<PlayerColor>(). teamNum");
-                                    target = ballScript.BH.gameObject;
+                                    // Debug.Log("BH.gameObject.GET<PlayerColor>");
+                                    if (ballScript.BH.gameObject.GetComponent<PlayerColor>().TeamNum != teamNum)
+                                    {
+                                        // Debug.Log("BH.gameObject.GET<PlayerColor>(). teamNum");
+                                        target = ballScript.BH.gameObject;
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                if (ballScript.Hand == false)
-                {
-                    target = null;
-                }
-               // Debug.Log("TeamNum: " + teamNum);
-                if (bH.ball == null)
-                {
-                    //Debug.Log("Can steal");
-                    if (target != null)
+                    if (ballScript.Hand == false)
                     {
-                        // Debug.Log("Target has been selected");
-                        directionFromPlayer = target.transform.position - transform.position;
-                        distanceToTarget = directionFromPlayer.magnitude;
-                        angle = Vector3.Angle(directionFromPlayer, transform.forward);
-
-                        if (distanceToTarget < maxDistance && angle < stealMaxAngle)
+                        target = null;
+                    }
+                    // Debug.Log("TeamNum: " + teamNum);
+                    if (bH.ball == null)
+                    {
+                        //Debug.Log("Can steal");
+                        if (target != null)
                         {
-                            //Debug.Log("In range and in view");
+                            // Debug.Log("Target has been selected");
+                            directionFromPlayer = target.transform.position - transform.position;
+                            distanceToTarget = directionFromPlayer.magnitude;
+                            angle = Vector3.Angle(directionFromPlayer, transform.forward);
 
-                            //steal
-                            if (Input.GetMouseButtonDown(0))
+                            if (distanceToTarget < maxDistance && angle < stealMaxAngle)
                             {
-                                target.GetComponent<BallHandling>().Steal(player.gameObject, ballTransform.gameObject, playerHandTransform.position, target);
+                                //Debug.Log("In range and in view");
+
+                                //steal
+                                if (Input.GetMouseButtonDown(0) && !isPaused)
+                                {
+
+                                    // ballScript.DropBall();
+                                    BallHandling BH = target.GetComponent<BallHandling>();
+                                    Debug.Log("BH.tag: " + target.tag);
+                                    BH.Pass(player.gameObject, ballTransform.gameObject, playerHandTransform.position, target);
+                                    PV.RPC("RPC_DisableBallOfTarget", RpcTarget.AllBuffered, target.GetPhotonView().ViewID);
+                                }
+
+
                             }
 
-
                         }
-                      
                     }
-                }
-                else
-                {
-                    //Debug.Log("Cannot Steal");
-                }
-                //Debug.Log("target: " + target);
+                    
 
+                }
             }
+
+            
+
         }
+    }
+    [PunRPC]
+    public void RPC_DisableBallOfTarget(int viewId)
+    {
+        BallHandling BH = PhotonView.Find(viewId).GetComponent<BallHandling>();
+        BH.ball = null;
     }
 }

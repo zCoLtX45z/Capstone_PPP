@@ -125,8 +125,8 @@ public class Scoring : MonoBehaviour
                 {
                     for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
                     {
-                        sTracker.t1Scoring[i].color = Color.green;
-                        sTracker.t2Scoring[i].color = Color.red;
+                       // sTracker.t1Scoring[i].color = Color.green;
+                        //sTracker.t2Scoring[i].color = Color.red;
                     }
                 }
                 return;
@@ -145,13 +145,13 @@ public class Scoring : MonoBehaviour
                     //Debug.Log("TeamNum = 2");
                     for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
                     {
-                        sTracker.t1Scoring[i].color = Color.red;
+                        //sTracker.t1Scoring[i].color = Color.red;
 
                         float tempX = sTracker.t1Scoring[i].rectTransform.position.x;
 
                         sTracker.t1Scoring[i].rectTransform.position = sTracker.t2Scoring[i].rectTransform.position;
 
-                        sTracker.t2Scoring[i].color = Color.green;
+                        //sTracker.t2Scoring[i].color = Color.green;
 
                         sTracker.t2Scoring[i].rectTransform.position = new Vector3(tempX, sTracker.t1Scoring[i].rectTransform.position.y, sTracker.t1Scoring[i].rectTransform.position.z);
                     }
