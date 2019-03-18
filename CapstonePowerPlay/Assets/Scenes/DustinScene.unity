@@ -261,65 +261,6 @@ Prefab:
       propertyPath: viewIdField
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114970048215623626, guid: ad84ef93c3accba44867e281fe18c750,
-        type: 2}
-      propertyPath: maxRoundTime
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114970048215623626, guid: ad84ef93c3accba44867e281fe18c750,
-        type: 2}
-      propertyPath: maxRoundNumber
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1365958926919616, guid: ad84ef93c3accba44867e281fe18c750, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224235329158074928, guid: ad84ef93c3accba44867e281fe18c750,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 224331251813873760, guid: ad84ef93c3accba44867e281fe18c750,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 224228537821157540, guid: ad84ef93c3accba44867e281fe18c750,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 114056061461123910, guid: ad84ef93c3accba44867e281fe18c750,
-        type: 2}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114056061461123910, guid: ad84ef93c3accba44867e281fe18c750,
-        type: 2}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114056061461123910, guid: ad84ef93c3accba44867e281fe18c750,
-        type: 2}
-      propertyPath: m_Color.b
-      value: 0.74770117
-      objectReference: {fileID: 0}
-    - target: {fileID: 114975781285234540, guid: ad84ef93c3accba44867e281fe18c750,
-        type: 2}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114975781285234540, guid: ad84ef93c3accba44867e281fe18c750,
-        type: 2}
-      propertyPath: m_Color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114975781285234540, guid: ad84ef93c3accba44867e281fe18c750,
-        type: 2}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad84ef93c3accba44867e281fe18c750, type: 2}
   m_IsPrefabParent: 0
@@ -3851,11 +3792,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114810860235432932, guid: 0e075f3fc4f4a614aa64bdb336ff688b,
-        type: 2}
-      propertyPath: RuneSpawns.Array.size
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 4075484650696162, guid: 0e075f3fc4f4a614aa64bdb336ff688b, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1.0812819
@@ -3903,11 +3839,6 @@ Prefab:
       propertyPath: RuneSpawns.Array.data[2]
       value: 
       objectReference: {fileID: 345298866}
-    - target: {fileID: 114692783534194876, guid: 0e075f3fc4f4a614aa64bdb336ff688b,
-        type: 2}
-      propertyPath: ballSpawn
-      value: 
-      objectReference: {fileID: 694137901}
     - target: {fileID: 114810860235432932, guid: 0e075f3fc4f4a614aa64bdb336ff688b,
         type: 2}
       propertyPath: RuneSpawns.Array.data[3]
@@ -3923,6 +3854,16 @@ Prefab:
       propertyPath: RuneSpawns.Array.data[5]
       value: 
       objectReference: {fileID: 1002627994}
+    - target: {fileID: 114692783534194876, guid: 0e075f3fc4f4a614aa64bdb336ff688b,
+        type: 2}
+      propertyPath: ballSpawn
+      value: 
+      objectReference: {fileID: 694137901}
+    - target: {fileID: 114216132983615238, guid: 0e075f3fc4f4a614aa64bdb336ff688b,
+        type: 2}
+      propertyPath: viewIdField
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e075f3fc4f4a614aa64bdb336ff688b, type: 2}
   m_IsPrefabParent: 0
