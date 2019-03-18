@@ -89,7 +89,10 @@ public class RoundManager : MonoBehaviour {
     private Transform localPlayer;
 
     [SerializeField]
-    private Text roundCallText;
+    private GameObject readyObject;
+
+    [SerializeField]
+    private GameObject goObject; 
 
     [SerializeField]
     private hoverBoardScript HBS;
@@ -123,8 +126,7 @@ public class RoundManager : MonoBehaviour {
             objectGroup_Round3[i].SetActive(false);
         }
 
-        roundCallText.text = /*"Round " + (roundNumber + 1)*/ "Ready";
-
+        readyObject.SetActive(true);
         Invoke("GO", 2);
     }
 
@@ -280,7 +282,7 @@ public class RoundManager : MonoBehaviour {
                 HBS.Speed = 0;
                 HBS.m_currThrust = 0;
             }
-            roundCallText.text = "Round " + (roundNumber + 1);
+            //roundCallText.text = "Round " + (roundNumber + 1);
             // round 2
             if (roundNumber == 1)
             {
@@ -507,7 +509,8 @@ public class RoundManager : MonoBehaviour {
     private void GO()
     {
         DS.PlayDietyWelcome();
-        roundCallText.text = "GO!";
+        readyObject.SetActive(false);
+        goObject.SetActive(true);
         // free players
         if (HBS == null)
         {
@@ -541,7 +544,7 @@ public class RoundManager : MonoBehaviour {
 
     private void EraseRoundCall()
     {
-        roundCallText.text = "";
+        goObject.SetActive(false);
     }
 
 }

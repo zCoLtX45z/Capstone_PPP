@@ -149,7 +149,7 @@ public class PlacingItemsTOTC : MonoBehaviour
                     ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
                 }
             }
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 // Switch Item
                 CurrentSlot++;
@@ -180,7 +180,7 @@ public class PlacingItemsTOTC : MonoBehaviour
                     PlacingTransform.localScale = ActiveItem.transform.localScale;
                 }
             }
-            else if (Input.GetMouseButtonDown(0))
+            else if (Input.GetKeyDown(KeyCode.Q))
             {
                 // place item
                 bool canPlace = PlacingScript.UpdatePlacement(ActiveItem, ActiveItem.transform.localScale.x);
