@@ -30,7 +30,7 @@ public class AutoRotation : MonoBehaviour {
     void Update () {
 		
         // Set if the player wants autorotation on
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             PlayerSetActive = !PlayerSetActive;
         }

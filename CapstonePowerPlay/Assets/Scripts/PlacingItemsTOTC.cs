@@ -149,37 +149,37 @@ public class PlacingItemsTOTC : MonoBehaviour
                     ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
                 }
             }
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                // Switch Item
-                CurrentSlot++;
-                if (CurrentSlot == MaxSlots)
-                {
-                    CurrentSlot = 0;
-                }
-                if (ItemSlots[CurrentSlot].ItemHeld == false)
-                {
-                    int initialInt = CurrentSlot;
-                    while (ItemSlots[CurrentSlot].ItemHeld == false)
-                    {
-                        CurrentSlot++;
-                        if (CurrentSlot == MaxSlots)
-                        {
-                            CurrentSlot = 0;
-                        }
-                        if (initialInt == CurrentSlot)
-                        {
-                            break;
-                        }
-                    }
-                }
-                if (MaxSlots > 0)
-                {
-                    ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
-                    PlacingScript.SetMesh(ActiveItem.GetMesh());
-                    PlacingTransform.localScale = ActiveItem.transform.localScale;
-                }
-            }
+            //if (Input.GetKeyDown(KeyCode.E))
+            //{
+            //    // Switch Item
+            //    CurrentSlot++;
+            //    if (CurrentSlot == MaxSlots)
+            //    {
+            //        CurrentSlot = 0;
+            //    }
+            //    if (ItemSlots[CurrentSlot].ItemHeld == false)
+            //    {
+            //        int initialInt = CurrentSlot;
+            //        while (ItemSlots[CurrentSlot].ItemHeld == false)
+            //        {
+            //            CurrentSlot++;
+            //            if (CurrentSlot == MaxSlots)
+            //            {
+            //                CurrentSlot = 0;
+            //            }
+            //            if (initialInt == CurrentSlot)
+            //            {
+            //                break;
+            //            }
+            //        }
+            //    }
+            //    if (MaxSlots > 0)
+            //    {
+            //        ActiveItem = ItemSlots[CurrentSlot].GetItemRef();
+            //        PlacingScript.SetMesh(ActiveItem.GetMesh());
+            //        PlacingTransform.localScale = ActiveItem.transform.localScale;
+            //    }
+            //}
             else if (Input.GetKeyDown(KeyCode.Q))
             {
                 // place item
