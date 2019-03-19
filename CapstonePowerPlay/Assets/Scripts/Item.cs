@@ -38,7 +38,6 @@ public class Item : MonoBehaviour {
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                Debug.Log("!isPlacing");
                 FindObjectOfType<ItemManager>().AddItemToList(ItemType);
             }
             isPlacing = true;

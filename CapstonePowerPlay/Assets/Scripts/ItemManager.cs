@@ -35,26 +35,23 @@ public class ItemManager : MonoBehaviour {
     void Update () {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("count of dSpeed: " + SpeedStripItemDestroyQueue.Count);
-            Debug.Log("count of dWall: " + WallItemDestroyQueue.Count);
             if (SpeedStripItemDestroyQueue.Count != 0)
             {
                 if (SpeedStripTimeOut < MaxSpeedStripTimeOut)
                 {
                     SpeedStripTimeOut += Time.deltaTime;
-                    Debug.Log("TickClock");
                 }
                 else
                 {
                     SpeedStripTimeOut = 0;
                     GameObject TempPV = SpeedStripItemDestroyQueue.Dequeue();
                     //PhotonView.Destroy(TempPV.gameObject);
-                    Debug.Log("TempPV = " + TempPV);
+                    
                     PV.RPC("RPC_Destroy", RpcTarget.All, TempPV.GetComponent<PhotonView>().ViewID);
-                    if (TempPV != null)
-                    {
-                        SpeedStripItemDestroyQueue.Enqueue(TempPV);
-                    }
+                    //if (TempPV != null)
+                    //{
+                    //    SpeedStripItemDestroyQueue.Enqueue(TempPV);
+                    //}
                 }
             }
 
@@ -68,13 +65,7 @@ public class ItemManager : MonoBehaviour {
                 {
                     WallTimeOut = 0;
                     GameObject TempPV = WallItemDestroyQueue.Dequeue();
-                    //PhotonView.Destroy(TempPV.gameObject);
-                    Debug.Log("TempPV = " + TempPV);
                     PV.RPC("RPC_Destroy", RpcTarget.All, TempPV.GetComponent<PhotonView>().ViewID);
-                    if (TempPV != null)
-                    {
-                        WallItemDestroyQueue.Enqueue(TempPV);
-                    }
                 }
             }
         }
@@ -88,8 +79,6 @@ public class ItemManager : MonoBehaviour {
     [PunRPC]
     private void RPC_AddItemToList(int ItemID)
     {
-        Debug.Log("RPC_AddItem");
-        // find items 
         Item[] TempArray = FindObjectsOfType<Item>();
         List<Item> DesiredItem = new List<Item>();
 
@@ -126,7 +115,6 @@ public class ItemManager : MonoBehaviour {
         {
             if (SpeedStripItemQueue.Count > MaxSpeedStripItemCount)
             {
-                Debug.Log("Destroy speed queue added");
                 SpeedStripItemDestroyQueue.Enqueue(SpeedStripItemQueue.Dequeue());
             }
         }
@@ -134,7 +122,6 @@ public class ItemManager : MonoBehaviour {
         {
             if (WallItemQueue.Count > MaxWallItemCount)
             {
-                Debug.Log("Destroy wall queue added");
                 WallItemDestroyQueue.Enqueue(WallItemQueue.Dequeue());
             }
         }
@@ -144,7 +131,6 @@ public class ItemManager : MonoBehaviour {
     [PunRPC]
     private void RPC_Destroy(int ItemID)
     {
-        Debug.Log("Destroyed Entered");
         Destroy(PhotonView.Find(ItemID).gameObject);
     }
       
