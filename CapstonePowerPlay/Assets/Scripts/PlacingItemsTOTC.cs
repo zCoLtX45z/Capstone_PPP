@@ -194,7 +194,7 @@ public class PlacingItemsTOTC : MonoBehaviour
                     //ActiveItem.transform.up = PlacingScript.ObjectNormal;
                     //ActiveItem.transform.forward = PlacingScript.OffsetDirection;
                     //CmdSpawnItem(ActiveItem.GetITemID(), PlacingScript.ItemWorldPosition, PlacingScript.ItemWorldRotation);
-                    PV.RPC("RPC_SpawnItem", RpcTarget.All, ActiveItem.GetITemID(), PlacingScript.ItemWorldPosition, PlacingScript.ItemWorldRotation);
+                    PV.RPC("RPC_SpawnItem", RpcTarget.MasterClient, ActiveItem.GetITemID(), PlacingScript.ItemWorldPosition, PlacingScript.ItemWorldRotation);
                     ItemSlots[CurrentSlot].RemoveItem();
                 }
             }

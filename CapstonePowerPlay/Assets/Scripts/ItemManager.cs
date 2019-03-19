@@ -42,6 +42,7 @@ public class ItemManager : MonoBehaviour {
                 if (SpeedStripTimeOut < MaxSpeedStripTimeOut)
                 {
                     SpeedStripTimeOut += Time.deltaTime;
+                    Debug.Log("TickClock");
                 }
                 else
                 {
