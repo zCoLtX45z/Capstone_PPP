@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,7 +36,11 @@ public class Item : MonoBehaviour {
     {
         if (!isPlacing)
         {
-            FindObjectOfType<ItemManager>().AddItemToList(ItemType);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Debug.Log("!isPlacing");
+                FindObjectOfType<ItemManager>().AddItemToList(ItemType);
+            }
             isPlacing = true;
         }
     }
