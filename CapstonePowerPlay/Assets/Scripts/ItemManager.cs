@@ -33,42 +33,47 @@ public class ItemManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
-
-        Debug.Log("count of dSpeed: " + SpeedStripItemDestroyQueue.Count);
-        Debug.Log("count of dWall: " + WallItemDestroyQueue.Count);
-        if (SpeedStripItemDestroyQueue.Count != 0)
+        if (PhotonNetwork.IsMasterClient)
         {
-            if(SpeedStripTimeOut < MaxSpeedStripTimeOut)
+            Debug.Log("count of dSpeed: " + SpeedStripItemDestroyQueue.Count);
+            Debug.Log("count of dWall: " + WallItemDestroyQueue.Count);
+            if (SpeedStripItemDestroyQueue.Count != 0)
             {
-                SpeedStripTimeOut += Time.deltaTime;
-            }
-            else
-            {
-                SpeedStripTimeOut = 0;
-                GameObject TempPV = SpeedStripItemDestroyQueue.Dequeue();
-                PhotonView.Destroy(TempPV.gameObject);
-                if (TempPV != null)
+                if (SpeedStripTimeOut < MaxSpeedStripTimeOut)
                 {
-                    SpeedStripItemDestroyQueue.Enqueue(TempPV);
+                    SpeedStripTimeOut += Time.deltaTime;
+                }
+                else
+                {
+                    SpeedStripTimeOut = 0;
+                    GameObject TempPV = SpeedStripItemDestroyQueue.Dequeue();
+                    //PhotonView.Destroy(TempPV.gameObject);
+                    Debug.Log("TempPV = " + TempPV);
+                    PV.RPC("RPC_Destroy", RpcTarget.All, TempPV.GetComponent<PhotonView>().ViewID);
+                    if (TempPV != null)
+                    {
+                        SpeedStripItemDestroyQueue.Enqueue(TempPV);
+                    }
                 }
             }
-        }
 
-        if (WallItemDestroyQueue.Count != 0)
-        {
-            if (WallTimeOut < MaxWallTimeOut)
+            if (WallItemDestroyQueue.Count != 0)
             {
-                WallTimeOut += Time.deltaTime;
-            }
-            else
-            {
-                WallTimeOut = 0;
-                GameObject TempPV = WallItemDestroyQueue.Dequeue();
-                PhotonView.Destroy(TempPV.gameObject);
-                if (TempPV != null)
+                if (WallTimeOut < MaxWallTimeOut)
                 {
-                    WallItemDestroyQueue.Enqueue(TempPV);
+                    WallTimeOut += Time.deltaTime;
+                }
+                else
+                {
+                    WallTimeOut = 0;
+                    GameObject TempPV = WallItemDestroyQueue.Dequeue();
+                    //PhotonView.Destroy(TempPV.gameObject);
+                    Debug.Log("TempPV = " + TempPV);
+                    PV.RPC("RPC_Destroy", RpcTarget.All, TempPV.GetComponent<PhotonView>().ViewID);
+                    if (TempPV != null)
+                    {
+                        WallItemDestroyQueue.Enqueue(TempPV);
+                    }
                 }
             }
         }
@@ -134,4 +139,12 @@ public class ItemManager : MonoBehaviour {
         }
     }
 
+
+    [PunRPC]
+    private void RPC_Destroy(int ItemID)
+    {
+        Debug.Log("Destroyed Entered");
+        Destroy(PhotonView.Find(ItemID).gameObject);
+    }
+      
 }

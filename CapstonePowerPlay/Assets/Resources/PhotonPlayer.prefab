@@ -10900,9 +10900,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minDistance: 4
-  maxDistance: 43.73
-  smoothTransitionSpeed: 4.93
-  distanceMultiplier: 7.94
+  maxDistance: 49
+  smoothTransitionSpeed: 10
+  distanceMultiplier: 9
   dollyDirAdjusted: {x: 0, y: 0, z: 0}
   distance: 0
   layerMask:
@@ -11072,7 +11072,8 @@ MonoBehaviour:
   maxAngle: 0.1
   speedRot: 6
   hardLock: 0
-  handTransform: {fileID: 4411937708012688}
+  blueHandTransform: {fileID: 4411937708012688}
+  redHandTransform: {fileID: 4335146127330138}
 --- !u!114 &114972583121775586
 MonoBehaviour:
   m_ObjectHideFlags: 1

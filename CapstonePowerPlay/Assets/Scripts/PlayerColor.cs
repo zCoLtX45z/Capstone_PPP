@@ -229,14 +229,17 @@ public class PlayerColor : MonoBehaviourPun
         {
             transform.tag = "Team 1";
             //CT.ChangeObjectTags("Team 1");
+            pSLPS.enabled = true;
+            pSLPS.SetChanges();
         }
         else if (TeamNum == 2)
         {
             transform.tag = "Team 2";
             //CT.ChangeObjectTags("Team 2");
+            pSLPS.enabled = true;
+            pSLPS.SetChanges();
         }
         //
-
         if (SetColorByTeamNum)
         {
             if (LocalPlayer.GetTeamNum() == 1)
@@ -257,10 +260,10 @@ public class PlayerColor : MonoBehaviourPun
                 //print("Set Blue Avatar - Local = Parent");
                 SetBlueActive();
                 //
-                pSLPS.enabled = true;
-                pSLPS.teamTag = pSLPS.player.tag;
+                
+                
                 // Debug.Log("call set changes");
-                pSLPS.SetChanges();
+                
                 //
             }
             else

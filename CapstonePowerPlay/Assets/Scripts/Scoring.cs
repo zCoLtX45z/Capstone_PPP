@@ -121,14 +121,14 @@ public class Scoring : MonoBehaviour
                 //Debug.Log(player.name + " is the local player");
                 localPlayer = player.transform;
 
-                if (player.GetComponent<PlayerColor>().TeamNum == 1)
-                {
-                    for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
-                    {
-                       // sTracker.t1Scoring[i].color = Color.green;
-                        //sTracker.t2Scoring[i].color = Color.red;
-                    }
-                }
+                //if (player.GetComponent<PlayerColor>().TeamNum == 1)
+                //{
+                //    for (int i = 0; i < sTracker.scoreCanvases.Length; i++)
+                //    {
+                //       // sTracker.t1Scoring[i].color = Color.green;
+                //        //sTracker.t2Scoring[i].color = Color.red;
+                //    }
+                //}
                 return;
             }
             
@@ -172,29 +172,32 @@ public class Scoring : MonoBehaviour
 
     private void OnTriggerEnter(Collider c)
     {
-        if(c.gameObject.tag == "Ball_Score_Trigger" && !scored)
+        if (PhotonNetwork.IsMasterClient)
         {
-            if (c.transform.parent.GetComponent<Ball>().WhoTossedTheBall != null)
+            if (c.gameObject.tag == "Ball_Score_Trigger" && !scored)
             {
-                int teamScored = c.transform.parent.GetComponent<Ball>().WhoTossedTheBall.GetComponent<PlayerColor>().TeamNum;
-                //Debug.Log("Ball has triggered the net");
-                if (teamScored == 1)
+                if (c.transform.parent.GetComponent<Ball>().WhoTossedTheBall != null)
                 {
-                    Src.PlayOneShot(Score, 1f);
-                    //Debug.Log("Team1 Scored!");
-                    //CmdTeam1Score();
-                    PV.RPC("RPC_Team1Score", RpcTarget.AllBuffered);
-                    timeUntilScoreReset = maxTimeUntilScoreReset;
-                    scored = true;
-                }
-                else if (teamScored == 2)
-                {
-                    Src.PlayOneShot(Score, 1f);
-                    //Debug.Log("Team2 Scored!");
-                    //CmdTeam2Score();
-                    PV.RPC("RPC_Team2Score", RpcTarget.AllBuffered);
-                    timeUntilScoreReset = maxTimeUntilScoreReset;
-                    scored = true;
+                    int teamScored = c.transform.parent.GetComponent<Ball>().WhoTossedTheBall.GetComponent<PlayerColor>().TeamNum;
+                    //Debug.Log("Ball has triggered the net");
+                    if (teamScored == 1)
+                    {
+                        Src.PlayOneShot(Score, 1f);
+                        //Debug.Log("Team1 Scored!");
+                        //CmdTeam1Score();
+                        PV.RPC("RPC_Team1Score", RpcTarget.AllBuffered);
+                        timeUntilScoreReset = maxTimeUntilScoreReset;
+                        scored = true;
+                    }
+                    else if (teamScored == 2)
+                    {
+                        Src.PlayOneShot(Score, 1f);
+                        //Debug.Log("Team2 Scored!");
+                        //CmdTeam2Score();
+                        PV.RPC("RPC_Team2Score", RpcTarget.AllBuffered);
+                        timeUntilScoreReset = maxTimeUntilScoreReset;
+                        scored = true;
+                    }
                 }
             }
         }
