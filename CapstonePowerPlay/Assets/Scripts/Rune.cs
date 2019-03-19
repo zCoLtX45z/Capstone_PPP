@@ -7,8 +7,8 @@ public class Rune : MonoBehaviour {
 
     [SerializeField]
     private Item ItemPrefab;
-    [SerializeField]
-    private PhotonView PV;
+    //[SerializeField]
+    public PhotonView PV;
     [SerializeField]
     private string RuneID;
 
